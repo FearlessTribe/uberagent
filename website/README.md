@@ -25,7 +25,7 @@ From the **repository root** (recommended):
 | Build command | `npm run build` |
 | **Deploy command** | `npm run deploy` |
 | Build output directory | `website/dist` |
-| Node.js version | `20` (env var `NODE_VERSION=20`) |
+| Node.js version | `22` (env var `NODE_VERSION=22`) |
 
 **Important:** Do not use `npx wrangler deploy` — this is a static Pages site. Use `npm run deploy` (`wrangler pages deploy`) instead.
 
