@@ -39,14 +39,14 @@ export function Navigation() {
           >
             <span className={styles.logoIcon} aria-hidden="true">
               <img
-                src="/logo-white.jpg"
+                src="/logowhite.svg"
                 alt=""
                 className={`${styles.logo} ${onDarkNav ? styles.logoVisible : styles.logoHidden}`}
                 width={36}
                 height={36}
               />
               <img
-                src="/logo-black.jpg"
+                src="/logoblack.svg"
                 alt=""
                 className={`${styles.logo} ${onDarkNav ? styles.logoHidden : styles.logoVisible}`}
                 width={36}
@@ -102,7 +102,7 @@ export function Navigation() {
       >
         <div className={styles.offCanvasInner}>
           <div className={styles.offCanvasBrand}>
-            <img src="/logo-black.jpg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
+            <img src="/logoblack.svg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
             <span className={styles.logoTextDark}>überagent</span>
           </div>
           <ul className={styles.offCanvasLinks} role="list">

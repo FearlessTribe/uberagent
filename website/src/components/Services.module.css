@@ -27,6 +27,7 @@
   display: grid;
   gap: var(--space-gap);
   position: relative;
+  margin-bottom: var(--space-section-start);
 }
 
 @media (min-width: 640px) {

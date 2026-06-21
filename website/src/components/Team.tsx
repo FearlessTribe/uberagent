@@ -15,8 +15,8 @@ export function Team() {
     <section id="team" className={`section ${styles.team}`} aria-labelledby="team-heading">
       <div className="container">
         <ScrollReveal className={styles.grid}>
-          <div className={`sectionStart ${styles.left}`}>
-            <span className="eyebrow">Team</span>
+          <div className={styles.left}>
+            <span className={`eyebrow ${styles.teamEyebrow}`}>Team</span>
             <h2 id="team-heading" className={`display-md ${styles.headline}`}>
               Gebündelte Kompetenz, um intelligente Lösungen zu schaffen.
             </h2>

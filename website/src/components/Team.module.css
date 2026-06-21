@@ -1,11 +1,17 @@
 .team {
-  background: linear-gradient(180deg, var(--color-background) 0%, #FAFAFA 100%);
+  background: linear-gradient(180deg, #F8F6F4 0%, #FAFAFA 55%, #F8F6F4 100%);
+  overflow: hidden;
+}
+
+.teamEyebrow {
+  margin-top: var(--space-section-start);
 }
 
 .grid {
   display: grid;
   gap: 48px;
   align-items: center;
+  margin-bottom: var(--space-section-start);
 }
 
 @media (min-width: 768px) {

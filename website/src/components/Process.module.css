@@ -16,9 +16,7 @@
 }
 
 .header {
-  margin-top: 0;
   margin-bottom: clamp(40px, 6vw, 56px);
-  padding-top: 0;
   position: relative;
 }
 

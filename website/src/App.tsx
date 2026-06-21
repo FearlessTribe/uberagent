@@ -8,7 +8,6 @@ import { Services } from "./components/Services";
 import { Projects } from "./components/Projects";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
-import { GrowthStatement } from "./components/GrowthStatement";
 import { ServiceModal } from "./components/ServiceModal";
 
 export default function App() {
@@ -35,7 +34,6 @@ export default function App() {
         <Projects />
         <Team />
       </main>
-      <GrowthStatement />
       <ContactFooter onOpenService={(id) => handleOpenService(id)} />
 
       <ServiceModal

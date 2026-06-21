@@ -6,6 +6,7 @@ export type CtaSurface = "on-dark" | "on-dark-ghost" | "on-light" | "on-light-gh
 interface CtaButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
+  href?: string;
   size?: CtaSize;
   surface?: CtaSurface;
   fullWidth?: boolean;
@@ -22,24 +23,23 @@ const surfaceClass: Record<CtaSurface, string> = {
 export function CtaButton({
   children,
   onClick,
+  href,
   size = "md",
   surface = "on-light",
   fullWidth = false,
   type = "button",
 }: CtaButtonProps) {
-  return (
-    <button
-      type={type}
-      className={[
-        styles.btn,
-        styles[size],
-        surfaceClass[surface],
-        fullWidth ? styles.fullWidth : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      onClick={onClick}
-    >
+  const className = [
+    styles.btn,
+    styles[size],
+    surfaceClass[surface],
+    fullWidth ? styles.fullWidth : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const content = (
+    <>
       <span className={styles.label}>{children}</span>
       <svg className={styles.arrow} viewBox="0 0 18 18" fill="none" aria-hidden="true">
         <path
@@ -50,6 +50,25 @@ export function CtaButton({
           strokeLinejoin="round"
         />
       </svg>
+    </>
+  );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <button type={type} className={className} onClick={onClick}>
+      {content}
     </button>
   );
 }

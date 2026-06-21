@@ -11,43 +11,33 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
   return (
     <footer id="contact" className={styles.footer} role="contentinfo">
       <div className="container">
-        <ScrollReveal className={styles.top}>
+        <ScrollReveal className={styles.hero}>
           <div className={`sectionStart ${styles.intro}`}>
             <span className="eyebrow">Ihr Ansprechpartner</span>
             <h2 className="display-md">
               Wir sind für dich da, um dir zu helfen.
             </h2>
+            <CtaButton
+              size="lg"
+              surface="on-dark"
+              href="https://calendly.com/supraflow/30min"
+            >
+              Kostenloses Erstgespräch
+            </CtaButton>
           </div>
 
-          <div className={styles.profile}>
+          <div className={styles.profileColumn}>
             <img
               src="/laurens.jpg"
               alt="Laurens Lang, CEO von überagent"
               className={styles.profileImage}
               loading="lazy"
-              width={200}
-              height={206}
+              width={320}
+              height={330}
             />
             <div className={styles.profileInfo}>
               <p className={styles.profileName}>Laurens Lang, M.Sc. MBA</p>
               <p className={styles.profileRole}>CEO · überagent</p>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal className={styles.calendly}>
-          <div className={styles.calendlyPlaceholder} aria-label="Terminbuchung">
-            <div className={styles.calendlyInner}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <rect x="4" y="6" width="24" height="22" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M4 12h24M10 4v4M22 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              <p className={styles.calendlyText}>
-                Calendly-Terminbuchung wird hier eingebettet.
-              </p>
-              <CtaButton size="md" surface="on-dark" onClick={() => { window.location.href = "mailto:hello@ueberagent.com"; }}>
-                E-Mail schreiben
-              </CtaButton>
             </div>
           </div>
         </ScrollReveal>
@@ -87,7 +77,7 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
         </ScrollReveal>
 
         <div className={styles.bottom}>
-          <img src="/logo-white.jpg" alt="" className={styles.footerLogo} width={100} height={28} aria-hidden="true" />
+          <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
           <p className={styles.copyright}>© überagent. 2026</p>
         </div>
       </div>

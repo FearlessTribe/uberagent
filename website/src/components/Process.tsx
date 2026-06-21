@@ -33,7 +33,7 @@ export function Process() {
     <section className={`section ${styles.process}`} aria-labelledby="process-heading">
       <div className={styles.gradientBg} aria-hidden="true" />
       <div className="container">
-        <ScrollReveal className={styles.header}>
+        <ScrollReveal className={`sectionStart ${styles.header}`}>
           <span className="eyebrow">End-to-End: Vom Use Case zum produktiven System</span>
           <h2 id="process-heading" className="display-md">
             Unser bewährter Prozess
