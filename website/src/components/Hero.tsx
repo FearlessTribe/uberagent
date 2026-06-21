@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { HeroParticles } from "./HeroParticles";
+import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { CtaButton } from "./CtaButton";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import styles from "./Hero.module.css";
@@ -40,9 +40,10 @@ export function Hero() {
 
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-heading">
-      <div className={styles.bgBase} aria-hidden="true" />
-      <HeroParticles />
-      <div className={styles.bgGlow} aria-hidden="true" />
+      <div className={styles.smokeLayer} aria-hidden="true">
+        <SmokeBackground />
+      </div>
+      <div className={styles.bgOverlay} aria-hidden="true" />
       <div className={styles.bottomFade} aria-hidden="true" />
 
       <div className={`container ${styles.layout}`} ref={contentRef}>

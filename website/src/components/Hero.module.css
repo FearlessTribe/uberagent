@@ -9,24 +9,24 @@
   padding-top: var(--nav-height);
   padding-bottom: clamp(48px, 6vw, 72px);
   overflow: hidden;
-  background: #0c0d10;
+  background: var(--color-surface);
 }
 
-.bgBase {
-  position: absolute;
-  inset: 0;
-  background: #0c0d10;
-  z-index: 0;
-}
-
-.bgGlow {
+.smokeLayer {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 55% 45% at 70% 45%, rgba(204, 128, 102, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 35% at 20% 70%, rgba(51, 65, 85, 0.08) 0%, transparent 50%);
+  overflow: hidden;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.55) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 35%, transparent 0%, rgba(25, 28, 33, 0.45) 100%);
 }
 
 .bottomFade {
@@ -35,9 +35,9 @@
   left: 0;
   right: 0;
   height: 80px;
-  background: linear-gradient(to top, rgba(12, 13, 16, 0.85) 0%, transparent 100%);
+  background: linear-gradient(to top, var(--color-surface) 0%, transparent 100%);
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .layout {
@@ -64,15 +64,15 @@
   gap: 8px;
   width: fit-content;
   padding: 7px 16px 7px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(8px);
 }
 
@@ -104,8 +104,8 @@
   background: linear-gradient(
     135deg,
     var(--color-secondary) 0%,
-    var(--color-primary-light) 55%,
-    var(--color-primary) 100%
+    var(--color-primary-light) 40%,
+    var(--color-primary) 85%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -137,7 +137,7 @@
 .subline {
   font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.62);
   max-width: 46ch;
   font-weight: 400;
   margin: 0;
@@ -264,7 +264,7 @@
 .featureDesc {
   font-size: 0.6875rem;
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.52);
   margin-top: 2px;
 }
 
