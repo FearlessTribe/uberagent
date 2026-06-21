@@ -1,5 +1,4 @@
 import { ScrollReveal } from "./ScrollReveal";
-import { GrowthBanner } from "./GrowthBanner";
 import styles from "./Intro.module.css";
 
 export function Intro() {
@@ -27,10 +26,6 @@ export function Intro() {
             Tool-Anbindung bis zu AI GTM Engineering mit klaren Guardrails und
             messbaren Ergebnissen.
           </p>
-        </ScrollReveal>
-
-        <ScrollReveal className={styles.bannerWrap}>
-          <GrowthBanner />
         </ScrollReveal>
       </div>
     </section>

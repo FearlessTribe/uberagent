@@ -100,6 +100,12 @@ export function Navigation() {
         className={`${styles.offCanvas} ${menuOpen ? styles.offCanvasOpen : ""}`}
         aria-hidden={!menuOpen}
       >
+        <button
+          className={styles.offCanvasBackdrop}
+          onClick={() => setMenuOpen(false)}
+          aria-label="Menü schließen"
+          tabIndex={menuOpen ? 0 : -1}
+        />
         <div className={styles.offCanvasInner}>
           <div className={styles.offCanvasBrand}>
             <img src="/logoblack.svg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
@@ -124,12 +130,6 @@ export function Navigation() {
             Erstgespräch vereinbaren
           </CtaButton>
         </div>
-        <button
-          className={styles.offCanvasBackdrop}
-          onClick={() => setMenuOpen(false)}
-          aria-label="Menü schließen"
-          tabIndex={menuOpen ? 0 : -1}
-        />
       </div>
     </>
   );

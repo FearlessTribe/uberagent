@@ -1,3 +1,4 @@
+import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { services } from "../data/services";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
@@ -10,7 +11,13 @@ interface ContactFooterProps {
 export function ContactFooter({ onOpenService }: ContactFooterProps) {
   return (
     <footer id="contact" className={styles.footer} role="contentinfo">
-      <div className="container">
+      <div className={styles.smokeLayer} aria-hidden="true">
+        <SmokeBackground />
+      </div>
+      <div className={styles.bgOverlay} aria-hidden="true" />
+
+      <div className={styles.footerContent}>
+        <div className="container">
         <ScrollReveal className={styles.hero}>
           <div className={`sectionStart ${styles.intro}`}>
             <span className="eyebrow">Ihr Ansprechpartner</span>
@@ -79,6 +86,7 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
         <div className={styles.bottom}>
           <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
           <p className={styles.copyright}>© überagent. 2026</p>
+        </div>
         </div>
       </div>
     </footer>

@@ -9,13 +9,13 @@ import { Projects } from "./components/Projects";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
 import { ServiceModal } from "./components/ServiceModal";
+import { useServiceRoute } from "./hooks/useServiceRoute";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [openServiceId, setOpenServiceId] = useState<string | null>(null);
+  const { openServiceId, setOpenServiceId } = useServiceRoute();
 
   const handleLoadingComplete = useCallback(() => setLoading(false), []);
-  const handleOpenService = useCallback((id: string | null) => setOpenServiceId(id), []);
 
   return (
     <>
@@ -29,16 +29,16 @@ export default function App() {
       <main>
         <Hero />
         <Intro />
+        <Services onOpenService={setOpenServiceId} />
         <Process />
-        <Services onOpenService={(id) => handleOpenService(id)} />
         <Projects />
         <Team />
       </main>
-      <ContactFooter onOpenService={(id) => handleOpenService(id)} />
+      <ContactFooter onOpenService={setOpenServiceId} />
 
       <ServiceModal
         serviceId={openServiceId}
-        onClose={() => handleOpenService(null)}
+        onClose={() => setOpenServiceId(null)}
       />
     </>
   );

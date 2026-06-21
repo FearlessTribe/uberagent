@@ -1,7 +1,6 @@
-export interface ServiceStat {
-  value: string;
-  label: string;
-}
+import { services, type ServiceStat } from "./services";
+
+export type { ServiceStat };
 
 export interface ImpactRow {
   before: string;
@@ -16,52 +15,18 @@ export interface ServiceModalContent {
   ctaLabel: string;
 }
 
-export const serviceModalMeta: Record<string, ServiceModalContent> = {
-  "gtm-engineering": {
-    eyebrow: "Go-to-Market",
-    bannerTag: "Von fragmentierten Daten zu skalierbarer Pipeline",
-    lead: "Für RevOps, Marketing und Sales, die aus CRM, Signalen und Outreach endlich ein System machen wollen — nicht noch ein Tool.",
-    stats: [
-      { value: "6–8 Wo.", label: "Time-to-Value" },
-      { value: "ICP + Signale", label: "Priorisierung" },
-      { value: "QA + Governance", label: "Produktionsreif" },
-    ],
-    ctaLabel: "GTM-System besprechen",
-  },
-  mcp: {
-    eyebrow: "Model Context Protocol",
-    bannerTag: "Ihre Systeme, bereit für AI Agents",
-    lead: "Wir entwickeln sichere MCP-Server und Integrationen, damit AI Agents strukturiert auf Ihre Unternehmensdaten und Workflows zugreifen können.",
-    stats: [
-      { value: "CRM · ERP · CMS", label: "Anbindungen" },
-      { value: "Read + Write", label: "Kontrolliert" },
-      { value: "OAuth + Audit", label: "Enterprise-ready" },
-    ],
-    ctaLabel: "MCP-Potenzial prüfen",
-  },
-  "workflow-agents": {
-    eyebrow: "AI Workflow Agents",
-    bannerTag: "Agenten, die handeln — nicht nur antworten",
-    lead: "Digitale Mitarbeitende für konkrete Prozesse: Informationen sammeln, Entscheidungen im definierten Rahmen treffen und Aufgaben in Ihren Systemen ausführen.",
-    stats: [
-      { value: "Human-in-the-loop", label: "Kontrolle" },
-      { value: "CRM · Tickets · Mail", label: "Integration" },
-      { value: "Messbar", label: "Skalierung" },
-    ],
-    ctaLabel: "Workflow-Agent konzipieren",
-  },
-  "business-models": {
-    eyebrow: "Business Validation",
-    bannerTag: "Validieren, bevor Sie Budget verbrennen",
-    lead: "Neue Geschäftsmodelle sind teuer und riskant. Wir helfen Ihnen, Ideen strukturiert zu testen — mit klaren Hypothesen, schnellen Experimenten und messbaren Ergebnissen.",
-    stats: [
-      { value: "↓ Risiko", label: "Vor Investition" },
-      { value: "↑ Klarheit", label: "Durch Daten" },
-      { value: "→ Go/No-Go", label: "Entscheidung" },
-    ],
-    ctaLabel: "Geschäftsmodell validieren",
-  },
-};
+export const serviceModalMeta: Record<string, ServiceModalContent> = Object.fromEntries(
+  services.map((s) => [
+    s.id,
+    {
+      eyebrow: s.eyebrow,
+      bannerTag: s.bannerTag,
+      lead: s.lead,
+      stats: s.stats,
+      ctaLabel: s.ctaLabel,
+    },
+  ]),
+);
 
 export const gtmBenefits = [
   "Sauberere ICP-, TAM- und Signalmodelle für bessere Priorisierung",

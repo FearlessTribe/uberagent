@@ -3,7 +3,7 @@
   background: linear-gradient(180deg, #FAFAFA 0%, var(--color-background) 50%, #F8F6F4 100%);
   overflow: hidden;
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: 140px;
 }
 
 .gradientBg {
@@ -92,6 +92,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 6px;
+  margin-bottom:140px;
   margin-top: 20px;
 }
 
@@ -144,9 +145,4 @@
 
 .tabActive .tabLabel {
   color: rgba(255, 255, 255, 0.75);
-}
-
-.bannerWrap {
-  margin-top: clamp(64px, 10vw, 96px);
-  margin-bottom: 0;
 }

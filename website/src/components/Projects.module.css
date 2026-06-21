@@ -5,17 +5,29 @@
   overflow: hidden;
 }
 
-.projects::before {
-  content: "";
+.smokeLayer {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(204, 128, 102, 0.1) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(51, 65, 85, 0.12) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.5) 100%),
+    radial-gradient(ellipse 70% 55% at 65% 40%, rgba(204, 128, 102, 0.1) 0%, transparent 60%);
+}
+
+.projectsContent {
+  position: relative;
+  z-index: 2;
 }
 
 .header {
+  margin-top: 140px;
   margin-bottom: clamp(48px, 8vw, 72px);
   position: relative;
 }

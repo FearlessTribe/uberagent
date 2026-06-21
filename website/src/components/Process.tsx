@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { processSteps } from "../data/content";
 import { ScrollReveal } from "./ScrollReveal";
-import { GrowthBanner } from "./GrowthBanner";
 import styles from "./Process.module.css";
 
 const AUTO_INTERVAL = 8000;
@@ -92,10 +91,6 @@ export function Process() {
               ))}
             </div>
           </div>
-        </ScrollReveal>
-
-        <ScrollReveal className={styles.bannerWrap}>
-          <GrowthBanner />
         </ScrollReveal>
       </div>
     </section>
