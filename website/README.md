@@ -13,7 +13,7 @@ npm run dev
 npm run build
 ```
 
-Output: `dist/`
+Output: `website/dist/`
 
 ## Cloudflare Pages
 
@@ -23,11 +23,13 @@ From the **repository root** (recommended):
 |---------|-------|
 | Root directory | *(leave empty / repo root)* |
 | Build command | `npm run build` |
-| **Deploy command** | `npm run deploy` |
+| **Deploy command** | **leave empty** |
 | Build output directory | `website/dist` |
-| Node.js version | `22` (env var `NODE_VERSION=22`) |
+| Node.js version | `22` (optional env var `NODE_VERSION=22`) |
 
-**Important:** Do not use `npx wrangler deploy` — this is a static Pages site. Use `npm run deploy` (`wrangler pages deploy`) instead.
+Cloudflare Pages uploads `website/dist` automatically after a successful build. **Do not** set a deploy command (`npm run deploy`, `npx wrangler deploy`, etc.) — that requires a separate API token and is not needed for static sites.
+
+Remove `CLOUDFLARE_API_TOKEN` from the project environment variables unless you deploy manually with Wrangler.
 
 Alternative — root directory `website`:
 
@@ -35,7 +37,12 @@ Alternative — root directory `website`:
 |---------|-------|
 | Root directory | `website` |
 | Build command | `npm run build` |
-| Deploy command | *(leave empty — Pages uploads `dist` automatically)* |
+| Deploy command | *(leave empty)* |
 | Build output directory | `dist` |
 
-The repo includes `wrangler.toml` with `pages_build_output_dir = "website/dist"`.
+Manual deploy (optional, local only):
+
+```bash
+npm run build
+npx wrangler pages deploy website/dist --project-name=uberagent
+```

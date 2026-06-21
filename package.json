@@ -3,13 +3,9 @@
   "private": true,
   "scripts": {
     "build": "npm ci --prefix website && npm run build --prefix website",
-    "deploy": "wrangler pages deploy website/dist --project-name=uberagent",
     "dev": "npm run dev --prefix website"
   },
   "engines": {
-    "node": ">=22"
-  },
-  "devDependencies": {
-    "wrangler": "^4.86.0"
+    "node": ">=20"
   }
 }
