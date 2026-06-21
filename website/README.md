@@ -17,32 +17,25 @@ Output: `website/dist/`
 
 ## Cloudflare Pages
 
-From the **repository root** (recommended):
+From the **repository root**:
 
 | Setting | Value |
 |---------|-------|
 | Root directory | *(leave empty / repo root)* |
 | Build command | `npm run build` |
-| **Deploy command** | **leave empty** |
+| **Deploy command** | `npm run deploy` |
 | Build output directory | `website/dist` |
-| Node.js version | `22` (optional env var `NODE_VERSION=22`) |
+| Node.js version | `22` (`NODE_VERSION=22`) |
 
-Cloudflare Pages uploads `website/dist` automatically after a successful build. **Do not** set a deploy command (`npm run deploy`, `npx wrangler deploy`, etc.) — that requires a separate API token and is not needed for static sites.
+### Auth error 10000?
 
-Remove `CLOUDFLARE_API_TOKEN` from the project environment variables unless you deploy manually with Wrangler.
+If deploy fails with `Authentication error [code: 10000]`, **delete** the `CLOUDFLARE_API_TOKEN` environment variable from the Cloudflare project settings. A custom token with wrong permissions blocks Cloudflare's built-in Pages CI auth. The deploy script also unsets it automatically when present.
 
-Alternative — root directory `website`:
-
-| Setting | Value |
-|---------|-------|
-| Root directory | `website` |
-| Build command | `npm run build` |
-| Deploy command | *(leave empty)* |
-| Build output directory | `dist` |
-
-Manual deploy (optional, local only):
+The API token is only needed for manual deploys from your machine:
 
 ```bash
 npm run build
-npx wrangler pages deploy website/dist --project-name=uberagent
+CLOUDFLARE_API_TOKEN=your_token npm run deploy
 ```
+
+For manual deploys, create a token with **Cloudflare Pages → Edit** permission at https://dash.cloudflare.com/profile/api-tokens

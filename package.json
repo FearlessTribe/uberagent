@@ -3,9 +3,13 @@
   "private": true,
   "scripts": {
     "build": "npm ci --prefix website && npm run build --prefix website",
+    "deploy": "bash scripts/pages-deploy.sh",
     "dev": "npm run dev --prefix website"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "wrangler": "^4.86.0"
   }
 }
