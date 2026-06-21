@@ -3,11 +3,12 @@
 ## Local development
 
 ```bash
-npm install
-npm run dev
+cd website && npm install && npm run dev
 ```
 
 ## Production build
+
+From repo root:
 
 ```bash
 npm run build
@@ -15,27 +16,33 @@ npm run build
 
 Output: `website/dist/`
 
-## Cloudflare Pages
+## Cloudflare Workers (static assets)
 
-From the **repository root**:
+This project deploys as a **Worker with static assets** (not `wrangler pages deploy`).
 
 | Setting | Value |
 |---------|-------|
-| Root directory | *(leave empty / repo root)* |
+| Root directory | *(repo root)* |
 | Build command | `npm run build` |
 | **Deploy command** | `npm run deploy` |
-| Build output directory | `website/dist` |
 | Node.js version | `22` (`NODE_VERSION=22`) |
 
-### Auth error 10000?
+`wrangler.toml` points assets at `./website/dist` with SPA fallback.
 
-If deploy fails with `Authentication error [code: 10000]`, **delete** the `CLOUDFLARE_API_TOKEN` environment variable from the Cloudflare project settings. A custom token with wrong permissions blocks Cloudflare's built-in Pages CI auth. The deploy script also unsets it automatically when present.
+### API token
 
-The API token is only needed for manual deploys from your machine:
+Set `CLOUDFLARE_API_TOKEN` in Cloudflare project environment variables with:
+
+- **Workers Scripts → Edit**
+- **Account → Read** (optional but recommended)
+
+Do **not** use a Pages-only token — deploy uses `wrangler deploy`, not `pages deploy`.
+
+Create token: https://dash.cloudflare.com/profile/api-tokens → **Edit Cloudflare Workers** template.
+
+### Manual deploy
 
 ```bash
 npm run build
 CLOUDFLARE_API_TOKEN=your_token npm run deploy
 ```
-
-For manual deploys, create a token with **Cloudflare Pages → Edit** permission at https://dash.cloudflare.com/profile/api-tokens
