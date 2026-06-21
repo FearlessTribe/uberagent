@@ -6,6 +6,7 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   eyebrow?: string;
+  headerBanner?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
   variant?: "default" | "dark-header";
@@ -16,6 +17,7 @@ export function Modal({
   onClose,
   title,
   eyebrow,
+  headerBanner,
   children,
   footer,
   variant = "dark-header",
@@ -84,6 +86,8 @@ export function Modal({
             </svg>
           </button>
         </div>
+
+        {headerBanner && <div className={styles.headerBanner}>{headerBanner}</div>}
 
         <div className={styles.body}>{children}</div>
 

@@ -1,5 +1,6 @@
 export interface Project {
   id: string;
+  slug: string;
   title: string;
   shortDescription: string;
   tags: string[];
@@ -8,10 +9,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "ai-sales-agent",
-    title: "AI Sales Agent für führende Digitalagentur in der Schweiz",
+    slug: "sales-ai-agent",
+    title: "AI Sales Agent für führende Digitalagentur der Schweiz",
     shortDescription:
-      "Vollautomatische, personalisierte Verkaufschancen aus rohen Kundendaten — in Minuten statt Wochen.",
-    tags: ["Strategy", "AI Sales Agent", "n8n", "Claude", "Salesforce"],
+      "Vollautomatische, personalisierte Verkaufsstrategie aus digitalem Potenzial durch elaborierte Kundenanalyse und massgeschneiderte Lösungen.",
+    tags: ["Strategy", "AI Sales Agent", "Salesforce"],
   },
 ];
 

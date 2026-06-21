@@ -118,6 +118,14 @@
   border-color: rgba(255, 255, 255, 0.15);
 }
 
+.headerBanner {
+  position: relative;
+  flex-shrink: 0;
+  height: 120px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 .body {
   position: relative;
   padding: 28px;

@@ -1,16 +1,13 @@
-import { useState } from "react";
-import { projects, projectDetails } from "../data/projects";
+import { projects } from "../data/projects";
 import { useCardGlow } from "../hooks/useScrollReveal";
+import { useCaseRoute } from "../hooks/useCaseRoute";
 import { ScrollReveal } from "./ScrollReveal";
-import { Modal } from "./Modal";
-import { ModalContactFooter } from "./ModalContactFooter";
+import { ProjectModal } from "./ProjectModal";
 import styles from "./Projects.module.css";
 
 export function Projects() {
-  const [openId, setOpenId] = useState<string | null>(null);
+  const { openProjectId, setOpenProjectId } = useCaseRoute();
   const { handleMouseMove } = useCardGlow();
-  const project = projects.find((p) => p.id === openId);
-  const details = openId ? projectDetails[openId as keyof typeof projectDetails] : null;
 
   return (
     <section id="projects" className={`section ${styles.projects}`} aria-labelledby="projects-heading">
@@ -27,12 +24,12 @@ export function Projects() {
             <button
               key={p.id}
               className={`card card-dark ${styles.projectCard}`}
-              onClick={() => setOpenId(p.id)}
+              onClick={() => setOpenProjectId(p.id)}
               onMouseMove={handleMouseMove}
               aria-haspopup="dialog"
             >
               <div className={styles.tags}>
-                {p.tags.slice(0, 3).map((tag) => (
+                {p.tags.map((tag) => (
                   <span key={tag} className={styles.tag}>{tag}</span>
                 ))}
               </div>
@@ -49,57 +46,10 @@ export function Projects() {
         </ScrollReveal>
       </div>
 
-      {project && details && (
-        <Modal
-          isOpen={!!openId}
-          onClose={() => setOpenId(null)}
-          title={project.title}
-          eyebrow="Success Story"
-          footer={<ModalContactFooter onClose={() => setOpenId(null)} label="Get in touch" />}
-        >
-          <div className={styles.modalContent}>
-            <section>
-              <h3 className={styles.modalHeading}>Die Ausgangslage</h3>
-              <p className="body">{details.situation}</p>
-            </section>
-            <section>
-              <h3 className={styles.modalHeading}>Die Lösung: ein KI-Sales-Agent</h3>
-              <p className="body">{details.solution}</p>
-            </section>
-            <section>
-              <h3 className={styles.modalHeading}>Das Prinzip dahinter</h3>
-              <p className="body">{details.principle}</p>
-            </section>
-            <section>
-              <h3 className={styles.modalHeading}>Die Wirkung</h3>
-              <p className="body">{details.impact}</p>
-            </section>
-
-            <div className={styles.metaGrid}>
-              <div>
-                <h4 className={styles.metaLabel}>Phasen</h4>
-                <ul className={styles.metaList}>
-                  {details.phases.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className={styles.metaLabel}>Tech Stack</h4>
-                <div className={styles.tags}>
-                  {details.tech.map((t) => (
-                    <span key={t} className={styles.tag}>{t}</span>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h4 className={styles.metaLabel}>Client</h4>
-                <p className="body">{details.client}</p>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
+      <ProjectModal
+        isOpen={openProjectId === "ai-sales-agent"}
+        onClose={() => setOpenProjectId(null)}
+      />
     </section>
   );
 }
