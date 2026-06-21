@@ -9,26 +9,30 @@ npm install
 npm run dev
 ```
 
-## Cloudflare Pages (empfohlen — am einfachsten)
-
-**Wichtig:** Nutze **Pages**, nicht **Workers**. Bei Workers brauchst du Deploy-Commands, API-Tokens und Wrangler — unnötig für eine statische Site.
-
-1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-2. Repo `uberagent` wählen
-3. Nur diese Einstellungen:
+## Cloudflare Workers (dein aktuelles Setup)
 
 | Feld | Wert |
 |------|------|
-| Production branch | `main` |
+| Project name | `uberagent` |
 | **Root directory** | `website` |
 | **Build command** | `npm run build` |
-| **Build output directory** | `dist` |
+| **Deploy command** | `npx wrangler deploy` |
+| Node.js | `22` (Env: `NODE_VERSION=22`) |
 
-Kein Deploy command. Kein API-Token. Kein Wrangler.
+**Build token:** Von Cloudflare automatisch gesetzt, wenn du GitHub verbindest — **nicht** manuell einfügen. Den JSON-Wert aus dem Dashboard nicht kopieren oder committen.
 
-4. Save and Deploy
+`wrangler.toml` liegt in `website/` und zeigt auf `dist/`.
 
-Falls du bereits ein **Workers**-Projekt hast: neues **Pages**-Projekt anlegen (oder in den Build-Einstellungen von Workers auf Pages wechseln, falls möglich).
+## Cloudflare Pages (einfacher, falls du wechseln willst)
+
+| Feld | Wert |
+|------|------|
+| Root directory | `website` |
+| Build command | `npm run build` |
+| Build output | `dist` |
+| Deploy command | *(leer)* |
+
+Kein Wrangler, kein Token.
 
 ## Manuell bauen
 
