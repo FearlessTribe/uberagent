@@ -1,48 +1,40 @@
-# überagent.com Website
+# überagent Website
 
-## Local development
+Vite + React. Alles in diesem Ordner.
 
-```bash
-cd website && npm install && npm run dev
-```
-
-## Production build
-
-From repo root:
+## Lokal
 
 ```bash
-npm run build
+npm install
+npm run dev
 ```
 
-Output: `website/dist/`
+## Cloudflare Pages (empfohlen — am einfachsten)
 
-## Cloudflare Workers (static assets)
+**Wichtig:** Nutze **Pages**, nicht **Workers**. Bei Workers brauchst du Deploy-Commands, API-Tokens und Wrangler — unnötig für eine statische Site.
 
-This project deploys as a **Worker with static assets** (not `wrangler pages deploy`).
+1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+2. Repo `uberagent` wählen
+3. Nur diese Einstellungen:
 
-| Setting | Value |
-|---------|-------|
-| Root directory | *(repo root)* |
-| Build command | `npm run build` |
-| **Deploy command** | `npm run deploy` |
-| Node.js version | `22` (`NODE_VERSION=22`) |
+| Feld | Wert |
+|------|------|
+| Production branch | `main` |
+| **Root directory** | `website` |
+| **Build command** | `npm run build` |
+| **Build output directory** | `dist` |
 
-`wrangler.toml` points assets at `./website/dist` with SPA fallback.
+Kein Deploy command. Kein API-Token. Kein Wrangler.
 
-### API token
+4. Save and Deploy
 
-Set `CLOUDFLARE_API_TOKEN` in Cloudflare project environment variables with:
+Falls du bereits ein **Workers**-Projekt hast: neues **Pages**-Projekt anlegen (oder in den Build-Einstellungen von Workers auf Pages wechseln, falls möglich).
 
-- **Workers Scripts → Edit**
-- **Account → Read** (optional but recommended)
-
-Do **not** use a Pages-only token — deploy uses `wrangler deploy`, not `pages deploy`.
-
-Create token: https://dash.cloudflare.com/profile/api-tokens → **Edit Cloudflare Workers** template.
-
-### Manual deploy
+## Manuell bauen
 
 ```bash
 npm run build
-CLOUDFLARE_API_TOKEN=your_token npm run deploy
+npm run preview
 ```
+
+Output liegt in `dist/`.
