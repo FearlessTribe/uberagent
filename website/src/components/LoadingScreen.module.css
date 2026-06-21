@@ -1,0 +1,38 @@
+.loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  animation: fade-in 0.4s ease;
+  transition: opacity 0.5s var(--ease-out-expo), visibility 0.5s;
+}
+
+.fadeOut {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  animation: fade-up 0.8s var(--ease-out-expo);
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+.text {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}

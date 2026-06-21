@@ -1,0 +1,18 @@
+.footerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 28px;
+  flex-wrap: wrap;
+  background: #FAFAFA;
+}
+
+.footerText {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+}
+
+.footerInner button {
+  min-height: 56px;
+}

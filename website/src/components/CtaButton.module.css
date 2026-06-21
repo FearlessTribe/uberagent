@@ -1,0 +1,132 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    transform var(--duration-normal) var(--ease-out-expo),
+    box-shadow var(--duration-normal) var(--ease-out-expo),
+    border-color var(--duration-normal),
+    background var(--duration-normal);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Sizes */
+.sm {
+  padding: 7px 16px;
+  font-size: 0.6875rem;
+}
+
+.sm .arrow {
+  width: 12px;
+  height: 12px;
+}
+
+.md {
+  padding: 10px 20px;
+  font-size: 0.75rem;
+}
+
+.md .arrow {
+  width: 13px;
+  height: 13px;
+}
+
+.lg {
+  padding: 12px 24px;
+  font-size: 0.8125rem;
+}
+
+.lg .arrow {
+  width: 14px;
+  height: 14px;
+}
+
+.label {
+  line-height: 1.2;
+}
+
+.arrow {
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition:
+    transform var(--duration-normal) var(--ease-out-expo),
+    opacity var(--duration-normal);
+}
+
+.btn:hover .arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.fullWidth {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Surfaces — dark backgrounds (Hero, Growth, Projects) */
+.onDark {
+  background: var(--color-secondary);
+  color: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
+}
+
+.onDark:hover {
+  box-shadow: 0 12px 48px rgba(204, 128, 102, 0.28), 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.onDarkGhost {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none;
+}
+
+.onDarkGhost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(204, 128, 102, 0.35);
+  color: var(--color-secondary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Surfaces — light backgrounds (Intro, Process, Services, Modals) */
+.onLight {
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  border: 1px solid var(--color-surface);
+  box-shadow: 0 4px 24px rgba(25, 28, 33, 0.12);
+}
+
+.onLight:hover {
+  box-shadow: 0 8px 40px rgba(204, 128, 102, 0.22), 0 4px 20px rgba(25, 28, 33, 0.15);
+}
+
+.onLightGhost {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: none;
+}
+
+.onLightGhost:hover {
+  border-color: rgba(204, 128, 102, 0.45);
+  box-shadow: 0 4px 24px rgba(204, 128, 102, 0.12);
+}

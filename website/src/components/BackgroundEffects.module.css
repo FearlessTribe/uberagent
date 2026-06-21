@@ -1,0 +1,36 @@
+.wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.gradientBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(252, 248, 246, 1) 25%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(245, 247, 250, 1) 75%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 16s ease infinite;
+}
+
+.orb1 {
+  top: -10%;
+  right: 10%;
+}
+
+.orb2 {
+  bottom: 10%;
+  left: -5%;
+}
+
+.orb3 {
+  top: 40%;
+  right: -5%;
+}

@@ -1,0 +1,298 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding-top: var(--nav-height);
+  padding-bottom: clamp(48px, 6vw, 72px);
+  overflow: hidden;
+  background: #0c0d10;
+}
+
+.bgBase {
+  position: absolute;
+  inset: 0;
+  background: #0c0d10;
+  z-index: 0;
+}
+
+.bgGlow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 70% 45%, rgba(204, 128, 102, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 20% 70%, rgba(51, 65, 85, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(12, 13, 16, 0.85) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.layout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 40px);
+  will-change: transform, opacity;
+  width: 100%;
+}
+
+.heroHeader {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.5vw, 24px);
+  animation: fade-up 0.9s var(--ease-out-expo) 0.1s both;
+  margin-bottom: clamp(16px, 3vw, 24px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 7px 16px 7px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary-glow);
+  animation: pulse 2.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.headline {
+  font-size: clamp(2.125rem, 5vw + 0.25rem, 3.75rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--color-secondary);
+  width: 100%;
+  max-width: none;
+}
+
+.headlineAccent {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-primary-light) 55%,
+    var(--color-primary) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 4vw, 32px);
+  align-items: center;
+  animation: fade-up 0.9s var(--ease-out-expo) 0.25s both;
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+@media (min-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 4fr 1fr;
+    gap: clamp(32px, 5vw, 56px);
+  }
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 28px);
+}
+
+.subline {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
+  max-width: 46ch;
+  font-weight: 400;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.featureCards {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 200px;
+  justify-self: end;
+}
+
+.featureCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.04) 35%,
+      rgba(204, 128, 102, 0.07) 65%,
+      rgba(51, 65, 85, 0.12) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 12px 40px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.featureCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 45%
+  );
+  pointer-events: none;
+}
+
+.featureCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.featureGlow {
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(204, 128, 102, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity var(--duration-normal);
+  opacity: 0.6;
+}
+
+.featureCard:hover {
+  border-color: rgba(204, 128, 102, 0.32);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    0 16px 48px rgba(204, 128, 102, 0.18),
+    0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.featureCard:hover .featureGlow {
+  opacity: 1;
+}
+
+.featureNum {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.featureContent {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.featureTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.featureDesc {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.42);
+  margin-top: 2px;
+}
+
+@media (max-width: 899px) {
+  .featureCards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .featureCard {
+    flex: 1 1 calc(50% - 3px);
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 640px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .featureCard {
+    flex: 1 1 100%;
+  }
+}
