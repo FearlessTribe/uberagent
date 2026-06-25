@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useActiveSection, useScrollProgress, scrollToSection } from "../hooks/useScrollReveal";
 import { useOverlay } from "../context/OverlayContext";
 import { CtaButton } from "./CtaButton";
-import { menuContainer, menuItem, offCanvasPanel, transitions } from "../motion";
+import { menuContainer, menuItem, mobilePanel, modalOverlay, transitions } from "../motion";
 import styles from "./Navigation.module.css";
 
 const navLinks = [
@@ -21,8 +21,8 @@ export function Navigation() {
   const reduce = useReducedMotion();
 
   const handleNav = (id: string) => {
-    closeAll();
     scrollToSection(id);
+    closeAll();
   };
 
   const toggleMenuSafe = () => {
@@ -111,10 +111,10 @@ export function Navigation() {
             id="mobile-menu"
             className={styles.offCanvas}
             aria-hidden={false}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={transitions.fast}
+            variants={reduce ? undefined : modalOverlay}
+            initial={reduce ? false : "hidden"}
+            animate="visible"
+            exit="exit"
           >
             <div className={styles.offCanvasLayout}>
               <motion.button
@@ -124,11 +124,11 @@ export function Navigation() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={transitions.normal}
+                transition={transitions.fast}
               />
               <motion.div
                 className={styles.offCanvasInner}
-                variants={reduce ? undefined : offCanvasPanel}
+                variants={reduce ? undefined : mobilePanel}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
                 exit="exit"

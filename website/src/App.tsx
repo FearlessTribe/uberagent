@@ -1,6 +1,5 @@
-import { useState, useCallback, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { OverlayProvider, useOverlay } from "./context/OverlayContext";
-import { LoadingScreen } from "./components/LoadingScreen";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { Intro } from "./components/Intro";
@@ -21,16 +20,10 @@ const LaurensModal = lazy(() =>
 );
 
 function AppContent() {
-  const [loading, setLoading] = useState(
-    () => typeof window !== "undefined" && !sessionStorage.getItem("ua-loaded"),
-  );
   const overlay = useOverlay();
-  const handleLoadingComplete = useCallback(() => setLoading(false), []);
 
   return (
     <>
-      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
-
       <a href="#home" className="skip-link">
         Zum Inhalt springen
       </a>

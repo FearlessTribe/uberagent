@@ -11,18 +11,10 @@
   white-space: nowrap;
   text-decoration: none;
   transition:
-    transform var(--duration-normal) var(--ease-out-expo),
-    box-shadow var(--duration-normal) var(--ease-out-expo),
-    border-color var(--duration-normal),
-    background var(--duration-normal);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn:active {
-  transform: translateY(0);
+    box-shadow var(--duration-fast) var(--ease-out-smooth),
+    border-color var(--duration-fast) var(--ease-out-smooth),
+    background var(--duration-fast) var(--ease-out-smooth),
+    color var(--duration-fast) var(--ease-out-smooth);
 }
 
 /* Sizes */
@@ -64,13 +56,13 @@
   flex-shrink: 0;
   opacity: 0.75;
   transition:
-    transform var(--duration-normal) var(--ease-out-expo),
-    opacity var(--duration-normal);
+    transform var(--duration-fast) var(--ease-out-smooth),
+    opacity var(--duration-fast) var(--ease-out-smooth);
 }
 
 .btn:hover .arrow {
   opacity: 1;
-  transform: translate(2px, -2px);
+  transform: translateX(3px);
 }
 
 .fullWidth {

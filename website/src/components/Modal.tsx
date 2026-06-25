@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "motion/react";
-import { modalDialog, modalOverlay } from "../motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { modalDialog, modalOverlay, resolveVariants } from "../motion";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -9,7 +9,6 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   eyebrow?: string;
-  headerBanner?: React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
   variant?: "default" | "dark-header";
@@ -20,20 +19,22 @@ export function Modal({
   onClose,
   title,
   eyebrow,
-  headerBanner,
   children,
   footer,
   variant = "dark-header",
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
+  const reduce = useReducedMotion();
+  const overlayVariants = resolveVariants(reduce, modalOverlay);
+  const dialogVariants = resolveVariants(reduce, modalDialog);
 
   useEffect(() => {
     if (!isOpen) return;
     previousFocus.current = document.activeElement as HTMLElement;
     dialogRef.current?.focus();
     return () => {
-      previousFocus.current?.focus();
+      previousFocus.current?.focus({ preventScroll: true });
     };
   }, [isOpen]);
 
@@ -51,9 +52,8 @@ export function Modal({
         <motion.div
           key="modal-overlay"
           className={styles.overlay}
-          onClick={onClose}
           role="presentation"
-          variants={modalOverlay}
+          variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -65,8 +65,7 @@ export function Modal({
             aria-modal="true"
             aria-labelledby="modal-title"
             tabIndex={-1}
-            onClick={(e) => e.stopPropagation()}
-            variants={modalDialog}
+            variants={dialogVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -74,32 +73,34 @@ export function Modal({
             <div className={styles.dialogGlow} aria-hidden="true" />
             <div className={styles.dialogGrid} aria-hidden="true" />
 
-            <div className={styles.header}>
-              <div className={styles.headerContent}>
-                {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
-                <h2 id="modal-title" className={styles.title}>
-                  {title}
-                </h2>
+            <header className={styles.header}>
+              <div className={`container ${styles.headerInner}`}>
+                <div className={styles.headerContent}>
+                  {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+                  <h2 id="modal-title" className={styles.title}>
+                    {title}
+                  </h2>
+                </div>
+                <button
+                  className={styles.closeBtn}
+                  onClick={onClose}
+                  aria-label="Schließen"
+                >
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M15 5L5 15M5 5l10 10"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
               </div>
-              <button
-                className={styles.closeBtn}
-                onClick={onClose}
-                aria-label="Schließen"
-              >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path
-                    d="M15 5L5 15M5 5l10 10"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
+            </header>
+
+            <div className={styles.body}>
+              <div className={`container ${styles.bodyInner}`}>{children}</div>
             </div>
-
-            {headerBanner && <div className={styles.headerBanner}>{headerBanner}</div>}
-
-            <div className={styles.body}>{children}</div>
 
             {footer && <div className={styles.footer}>{footer}</div>}
           </motion.div>

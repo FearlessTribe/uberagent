@@ -40,12 +40,18 @@ interface ServiceModalProps {
   onClose: () => void;
 }
 
-function ServiceBanner({ tag }: { tag: string }) {
+function FlowArrow() {
   return (
-    <div className={styles.smokeBanner}>
-      <div className={styles.smokeOverlay}>
-        <span className={styles.smokeTag}>{tag}</span>
-      </div>
+    <div className={styles.flowArrow} aria-hidden="true">
+      <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+        <path
+          d="M0 8h28M24 3l5 5-5 5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </div>
   );
 }
@@ -159,17 +165,39 @@ function StrategyProcessFlow() {
 }
 
 function GtmContent() {
+  const meta = serviceModalMeta["gtm-engineering"];
+
   return (
     <div className={styles.content}>
       <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           Wir bauen AI-gestützte GTM-Infrastruktur: von ICP- und Signal-Logik über Research
           und Enrichment bis zu Routing, Personalisierung, QA und Reporting.
         </p>
         <div className={styles.statsRow}>
-          {serviceModalMeta["gtm-engineering"].stats.map((s) => (
+          {meta.stats.map((s) => (
             <StatPill key={s.label} {...s} />
           ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Heute</span>
+            <ul className={styles.panelList}>
+              <li>CRM, Sheets, Outreach — getrennt</li>
+              <li>Manuelle Recherche &amp; Briefings</li>
+              <li>Unklare Signale, schwache Priorisierung</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Mit überagent</span>
+            <ul className={styles.panelList}>
+              <li>Eine GTM-Ausführungsschicht</li>
+              <li>Automatisiertes Enrichment &amp; Routing</li>
+              <li>Signal-basierte Priorisierung</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -244,17 +272,45 @@ function GtmContent() {
 }
 
 function McpContent() {
+  const meta = serviceModalMeta.mcp;
+
   return (
     <div className={styles.content}>
       <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           AI Agents werden nur produktiv, wenn sie sicher auf echte Systeme zugreifen können.
           MCP schliesst die Lücke zwischen Modellen und Ihrer operativen Infrastruktur.
         </p>
         <div className={styles.statsRow}>
-          {serviceModalMeta.mcp.stats.map((s) => (
+          {meta.stats.map((s) => (
             <StatPill key={s.label} {...s} />
           ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Ohne MCP</span>
+            <div className={styles.chaosDots} aria-hidden="true">
+              <span /><span /><span /><span /><span />
+            </div>
+            <ul className={styles.panelList}>
+              <li>APIs, DBs, SaaS — verstreut</li>
+              <li>Fragile Einzellösungen</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>MCP Layer</span>
+            <div className={styles.miniStack}>
+              <span>Agent</span>
+              <span>Tools</span>
+              <span>Resources</span>
+            </div>
+            <ul className={styles.panelList}>
+              <li>Standardisiert &amp; kontrolliert</li>
+              <li>Erweiterbar &amp; auditierbar</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -339,17 +395,42 @@ function McpContent() {
 }
 
 function WorkflowAgentsContent() {
+  const meta = serviceModalMeta["workflow-agents"];
+
   return (
     <div className={styles.content}>
       <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           KI-Agenten sind wertvoll, wenn sie einen klar begrenzten Workflow besser, schneller
           und konsistenter ausführen als manuelle Koordination. Genau dort setzen wir an.
         </p>
         <div className={styles.statsRow}>
-          {serviceModalMeta["workflow-agents"].stats.map((s) => (
+          {meta.stats.map((s) => (
             <StatPill key={s.label} {...s} />
           ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Eingang</span>
+            <ul className={styles.panelList}>
+              <li>E-Mail, Ticket, CRM-Signal</li>
+              <li>Mehrere Quellen, manuelle Triage</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Workflow Agent</span>
+            <div className={styles.miniStack}>
+              <span>Analysieren</span>
+              <span>Entscheiden</span>
+              <span>Ausführen</span>
+            </div>
+            <ul className={styles.panelList}>
+              <li>Mit Freigaben &amp; Logging</li>
+              <li>Direkt in Ihren Systemen</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -437,17 +518,42 @@ function WorkflowAgentsContent() {
 }
 
 function BusinessModelsContent() {
+  const meta = serviceModalMeta["business-models"];
+
   return (
     <div className={styles.content}>
       <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           Produktentwicklung und neue Geschäftsmodelle sind zeit-, kosten- und risikointensiv.
           Wir helfen Ihnen, die richtigen Entscheidungen zu treffen — bevor Sie skalieren.
         </p>
         <div className={styles.statsRow}>
-          {serviceModalMeta["business-models"].stats.map((s) => (
+          {meta.stats.map((s) => (
             <StatPill key={s.label} {...s} />
           ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Hypothese</span>
+            <ul className={styles.panelList}>
+              <li>Annahmen statt Evidenz</li>
+              <li>Hoher Invest vor Validierung</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Validiert</span>
+            <div className={styles.miniStack}>
+              <span>Experiment</span>
+              <span>Messung</span>
+              <span>Go / No-Go</span>
+            </div>
+            <ul className={styles.panelList}>
+              <li>Klare Entscheidungsgrundlage</li>
+              <li>Skalierung mit Daten</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -493,18 +599,44 @@ function BusinessModelsContent() {
 }
 
 function AiStrategyContent() {
+  const meta = serviceModalMeta["ai-strategy"];
+
   return (
     <div className={styles.content}>
       <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           AI-Initiativen scheitern selten an der Technologie, sondern an fehlender Priorisierung,
           unklarer Governance und zu vielen parallelen PoCs. Wir strukturieren Ihr AI-Portfolio
           von der ersten Idee bis zur skalierbaren Umsetzung.
         </p>
         <div className={styles.statsRow}>
-          {serviceModalMeta["ai-strategy"].stats.map((s) => (
+          {meta.stats.map((s) => (
             <StatPill key={s.label} {...s} />
           ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Heute</span>
+            <ul className={styles.panelList}>
+              <li>Viele parallele PoCs</li>
+              <li>Kein gemeinsames Scoring</li>
+              <li>Unklare Stage-Gates</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Portfolio</span>
+            <div className={styles.miniStack}>
+              <span>Discovery</span>
+              <span>Priority Score</span>
+              <span>Lighthouse Bets</span>
+            </div>
+            <ul className={styles.panelList}>
+              <li>1–2 fokussierte Umsetzungen</li>
+              <li>Governance &amp; KPIs</li>
+            </ul>
+          </div>
         </div>
         <p className={styles.inlineCta}>
           <strong>Nächster Schritt:</strong> In einem Strategie-Workshop kartieren wir Ihren
@@ -707,7 +839,6 @@ export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
       onClose={onClose}
       title={service.title}
       eyebrow={meta.eyebrow}
-      headerBanner={<ServiceBanner tag={meta.bannerTag} />}
       footer={
         <ModalContactFooter onClose={onClose} label={meta.ctaLabel} />
       }

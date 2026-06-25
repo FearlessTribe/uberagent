@@ -3,7 +3,12 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { scrollToSection } from "../hooks/useScrollReveal";
-import { heroContainer, heroItem } from "../motion";
+import {
+  heroContainer,
+  heroFeatureContainer,
+  heroItem,
+  resolveVariants,
+} from "../motion";
 import styles from "./Hero.module.css";
 
 const featureCards = [
@@ -16,7 +21,9 @@ export function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  const contentOpacity = useTransform(scrollY, [0, 900], [1, 0]);
+  const contentOpacity = useTransform(scrollY, [0, 700], [1, 0.4]);
+  const contentY = useTransform(scrollY, [0, 700], [0, -32]);
+  const contentScale = useTransform(scrollY, [0, 700], [1, 0.985]);
 
   useEffect(() => {
     document.body.classList.add("hero-active");
@@ -36,61 +43,64 @@ export function Hero() {
     };
   }, []);
 
+  const itemVariants = resolveVariants(reduce, heroItem);
+  const containerVariants = resolveVariants(reduce, heroContainer);
+  const featureVariants = resolveVariants(reduce, heroFeatureContainer);
+
   const layout = (
     <div className={`container ${styles.layout}`}>
       <motion.div
-        className={styles.heroHeader}
-        variants={reduce ? undefined : heroItem}
+        className={styles.heroSequence}
+        variants={containerVariants}
         initial={reduce ? false : "hidden"}
         animate="visible"
       >
-        <div className={styles.badge}>
+        <motion.div className={styles.badge} variants={itemVariants}>
           <span className={styles.badgeDot} aria-hidden="true" />
           Production-Ready AI Engineering
-        </div>
-
-        <h1 id="hero-heading" className={styles.headline}>
-          AI Engineering für{" "}
-          <span className={styles.headlineAccent}>operative Exzellenz</span>
-        </h1>
-      </motion.div>
-
-      <motion.div
-        className={styles.heroGrid}
-        variants={reduce ? undefined : heroContainer}
-        initial={reduce ? false : "hidden"}
-        animate="visible"
-      >
-        <motion.div className={styles.heroLeft} variants={reduce ? undefined : heroItem}>
-          <p className={styles.subline}>
-            Wir bauen AI-Agenten, Workflow-Automations, MCP-Integrationen und
-            GTM- &amp; Sales-Systeme, die in Ihrem Stack produktiv laufen.
-          </p>
-
-          <div className={styles.actions}>
-            <CtaButton
-              size="md"
-              surface="on-dark"
-              onClick={() => scrollToSection("contact")}
-            >
-              Erstgespräch vereinbaren
-            </CtaButton>
-            <CtaButton
-              size="md"
-              surface="on-dark-ghost"
-              onClick={() => scrollToSection("services")}
-            >
-              Services entdecken
-            </CtaButton>
-          </div>
         </motion.div>
 
-        <div className={styles.featureCards} aria-label="Kernleistungen">
+        <motion.h1
+          id="hero-heading"
+          className={styles.headline}
+          variants={itemVariants}
+        >
+          AI Engineering für{" "}
+          <span className={styles.headlineAccent}>operative Exzellenz</span>
+        </motion.h1>
+
+        <motion.p className={styles.subline} variants={itemVariants}>
+          Wir bauen AI-Agenten, Workflow-Automations, MCP-Integrationen und
+          GTM- &amp; Sales-Systeme, die in Ihrem Stack produktiv laufen.
+        </motion.p>
+
+        <motion.div className={styles.actions} variants={itemVariants}>
+          <CtaButton
+            size="md"
+            surface="on-dark"
+            onClick={() => scrollToSection("contact")}
+          >
+            Erstgespräch vereinbaren
+          </CtaButton>
+          <CtaButton
+            size="md"
+            surface="on-dark-ghost"
+            onClick={() => scrollToSection("services")}
+          >
+            Services entdecken
+          </CtaButton>
+        </motion.div>
+
+        <motion.div
+          className={styles.featureCards}
+          aria-label="Kernleistungen"
+          variants={featureVariants}
+        >
           {featureCards.map((card) => (
             <motion.div
               key={card.title}
               className={styles.featureCard}
-              variants={reduce ? undefined : heroItem}
+              variants={itemVariants}
             >
               <div className={styles.featureGlow} aria-hidden="true" />
               <div className={styles.featureContent}>
@@ -102,7 +112,7 @@ export function Hero() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );
@@ -118,7 +128,14 @@ export function Hero() {
       {reduce ? (
         <div ref={contentRef}>{layout}</div>
       ) : (
-        <motion.div ref={contentRef} style={{ opacity: contentOpacity }}>
+        <motion.div
+          ref={contentRef}
+          style={{
+            opacity: contentOpacity,
+            y: contentY,
+            scale: contentScale,
+          }}
+        >
           {layout}
         </motion.div>
       )}

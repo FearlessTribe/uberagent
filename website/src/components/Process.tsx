@@ -1,15 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { processSteps } from "../data/content";
 import { ScrollReveal } from "./ScrollReveal";
-import { slidePanel } from "../motion";
+import { resolveVariants, slidePanel } from "../motion";
 import styles from "./Process.module.css";
-
-const AUTO_INTERVAL = 8000;
 
 export function Process() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
 
   const next = useCallback(() => {
@@ -20,16 +17,8 @@ export function Process() {
     setActive((prev) => (prev - 1 + processSteps.length) % processSteps.length);
   }, []);
 
-  useEffect(() => {
-    if (paused) return;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
-
-    const timer = setInterval(next, AUTO_INTERVAL);
-    return () => clearInterval(timer);
-  }, [paused, next]);
-
   const step = processSteps[active];
+  const panelVariants = resolveVariants(reduce, slidePanel);
 
   return (
     <section className={`section ${styles.process}`} aria-labelledby="process-heading">
@@ -43,16 +32,12 @@ export function Process() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div
-            className={styles.carousel}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-          >
+          <div className={styles.carousel}>
             <AnimatePresence mode="wait">
               <motion.article
                 key={active}
                 className={`card ${styles.stepBox}`}
-                variants={reduce ? undefined : slidePanel}
+                variants={panelVariants}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
                 exit="exit"

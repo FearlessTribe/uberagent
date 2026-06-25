@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { gtmProcessPhases } from "../data/content";
-import { slidePanel, transitions } from "../motion";
+import { slidePanel, resolveVariants, transitions } from "../motion";
 import styles from "./ProcessSlider.module.css";
 
 export function ProcessSlider() {
@@ -30,7 +30,8 @@ export function ProcessSlider() {
       <div className={styles.track} aria-hidden="true">
         <motion.div
           className={styles.trackFill}
-          animate={{ width: `${((active + 1) / gtmProcessPhases.length) * 100}%` }}
+          animate={{ scaleX: (active + 1) / gtmProcessPhases.length }}
+          style={{ transformOrigin: "left" }}
           transition={transitions.normal}
         />
       </div>
@@ -44,7 +45,7 @@ export function ProcessSlider() {
               id={`phase-panel-${i}`}
               aria-labelledby={`phase-tab-${i}`}
               className={styles.panel}
-              variants={reduce ? undefined : slidePanel}
+              variants={resolveVariants(reduce, slidePanel)}
               initial={reduce ? false : "hidden"}
               animate="visible"
               exit="exit"

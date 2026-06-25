@@ -1,43 +1,151 @@
-/* Banner */
-.smokeBanner {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background:
-    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.55) 100%),
-    radial-gradient(ellipse 70% 55% at 50% 40%, rgba(204, 128, 102, 0.12) 0%, transparent 60%),
-    var(--color-surface);
-}
-
-.smokeOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(
-    to bottom,
-    rgba(25, 28, 33, 0.2) 0%,
-    rgba(25, 28, 33, 0.55) 100%
-  );
-  pointer-events: none;
-}
-
-.smokeTag {
+/* Hero */
+.heroTag {
+  display: inline-flex;
+  width: fit-content;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  padding: 6px 14px;
+  color: var(--color-primary);
+  padding: 6px 12px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
-  text-align: center;
-  max-width: 90%;
+  border: 1px solid rgba(204, 128, 102, 0.28);
+  background: rgba(204, 128, 102, 0.08);
 }
+
+.heroVisual {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: stretch;
+  padding: 20px;
+  background: linear-gradient(135deg, #fafafa 0%, #f3f4f6 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+@media (max-width: 640px) {
+  .heroVisual {
+    grid-template-columns: 1fr;
+  }
+
+  .flowArrow {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+}
+
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+  padding: 16px;
+  background: var(--color-surface);
+  border-radius: var(--radius-control);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.heroPanelAccent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: var(--radius-control);
+  border: 1px solid rgba(204, 128, 102, 0.28);
+  border-left: 3px solid var(--color-primary);
+  box-shadow: 0 8px 24px rgba(204, 128, 102, 0.08);
+}
+
+.panelLabel {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.heroPanelAccent .panelLabel {
+  color: var(--color-primary);
+}
+
+.panelList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.panelList li {
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.65);
+  padding-left: 12px;
+  position: relative;
+}
+
+.panelList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+}
+
+.heroPanelAccent .panelList li {
+  color: var(--color-text-secondary);
+}
+
+.flowArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.miniStack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.miniStack span {
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.chaosDots {
+  position: relative;
+  height: 56px;
+  margin: 4px 0;
+}
+
+.chaosDots span {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  opacity: 0.65;
+}
+
+.chaosDots span:nth-child(1) { top: 10%; left: 18%; }
+.chaosDots span:nth-child(2) { top: 48%; left: 58%; }
+.chaosDots span:nth-child(3) { top: 28%; left: 78%; }
+.chaosDots span:nth-child(4) { top: 68%; left: 32%; }
+.chaosDots span:nth-child(5) { top: 22%; left: 42%; }
 
 /* Layout */
 .content {
@@ -240,8 +348,8 @@
 
 .compareCard {
   padding: 18px;
-  background: #f9fafb;
-  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-control);
 }
 
@@ -257,7 +365,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.45);
   display: block;
   margin-bottom: 10px;
 }
@@ -275,7 +383,7 @@
 
 .compareList li {
   font-size: 0.8125rem;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.65);
   padding-left: 14px;
   position: relative;
   line-height: 1.5;
@@ -290,6 +398,10 @@
   height: 5px;
   border-radius: 50%;
   background: var(--color-text-muted);
+}
+
+.compareCardGood .compareList li {
+  color: var(--color-text-secondary);
 }
 
 .compareCardGood .compareList li::before {
@@ -419,8 +531,8 @@
 
 .valueCard {
   padding: 18px;
-  background: #fafafa;
-  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-control);
   border-left: 3px solid var(--color-primary);
   transition: border-color var(--duration-fast);
@@ -434,7 +546,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 6px;
-  color: var(--color-text-primary);
+  color: var(--color-secondary);
 }
 
 .valueDesc {
@@ -446,8 +558,8 @@
 /* Service cards (MCP) */
 .serviceCard {
   padding: 20px;
-  background: #fafafa;
-  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-card);
   margin-bottom: 12px;
 }
@@ -474,7 +586,7 @@
 .serviceCardTitle {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: var(--color-secondary);
 }
 
 /* Use cases */
@@ -491,9 +603,9 @@
 
 .useCase {
   padding: 18px;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-control);
-  background: #fff;
+  background: var(--color-surface);
   transition: border-color var(--duration-fast);
 }
 
@@ -505,7 +617,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 6px;
-  color: var(--color-text-primary);
+  color: var(--color-secondary);
 }
 
 /* Principles / mini cards */
@@ -1264,8 +1376,8 @@
 
 .experimentCard {
   padding: 18px;
-  background: #fafafa;
-  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-control);
   border-left: 3px solid var(--color-primary);
 }
@@ -1283,7 +1395,7 @@
   font-size: 0.9375rem;
   font-weight: 500;
   margin-bottom: 6px;
-  color: var(--color-text-primary);
+  color: var(--color-secondary);
 }
 
 .experimentMetric {

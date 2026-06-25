@@ -154,13 +154,6 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       onClose={onClose}
       title="KI-Sales-Agent für datenbasierte Kundenaktivierung"
       eyebrow="Success Story"
-      headerBanner={
-        <div className={styles.smokeBanner}>
-          <div className={styles.smokeOverlay}>
-            <span className={styles.smokeTag}>Vom Kundenstamm zum Sales-System</span>
-          </div>
-        </div>
-      }
       footer={
         <ModalContactFooter
           onClose={onClose}
@@ -171,6 +164,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       <div className={styles.content}>
         {/* Hero */}
         <section className={styles.heroSection}>
+          <span className={styles.heroTag}>Vom Kundenstamm zum Sales-System</span>
           <p className={styles.lead}>
             Wie aus verstreuten CRM- und Standortdaten personalisierte Verkaufschancen
             für zehntausende KMU-Kunden entstanden — und der Umsatz aus dem Bestandsstamm

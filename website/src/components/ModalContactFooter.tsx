@@ -12,8 +12,8 @@ export function ModalContactFooter({
   label = "Get in touch",
 }: ModalContactFooterProps) {
   const handleClick = () => {
+    scrollToSection("contact");
     onClose();
-    setTimeout(() => scrollToSection("contact"), 300);
   };
 
   return (

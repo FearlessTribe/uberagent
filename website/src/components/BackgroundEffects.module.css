@@ -17,7 +17,7 @@
     rgba(255, 255, 255, 1) 100%
   );
   background-size: 400% 400%;
-  animation: gradient-shift 16s ease infinite;
+  animation: gradient-shift var(--duration-ambient) var(--ease-out-smooth) infinite;
 }
 
 .orb1 {
