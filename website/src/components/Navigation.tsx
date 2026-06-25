@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useActiveSection, useScrollProgress, scrollToSection } from "../hooks/useScrollReveal";
+import { useOverlay } from "../context/OverlayContext";
 import { CtaButton } from "./CtaButton";
+import { menuContainer, menuItem, offCanvasPanel, transitions } from "../motion";
 import styles from "./Navigation.module.css";
 
 const navLinks = [
@@ -13,18 +15,25 @@ const navLinks = [
 export function Navigation() {
   const scrolled = useScrollProgress();
   const activeId = useActiveSection(navLinks.map((l) => l.id));
-  const [menuOpen, setMenuOpen] = useState(false);
-  const onDarkNav = !scrolled;
+  const overlay = useOverlay();
+  const { menuOpen, isOverlayOpen, toggleMenu, closeMenu, closeAll } = overlay;
+  const onDarkNav = !scrolled && !menuOpen;
+  const reduce = useReducedMotion();
 
   const handleNav = (id: string) => {
+    closeAll();
     scrollToSection(id);
-    setMenuOpen(false);
+  };
+
+  const toggleMenuSafe = () => {
+    if (isOverlayOpen && !menuOpen) return;
+    toggleMenu();
   };
 
   return (
     <>
       <header
-        className={`${styles.header} ${scrolled ? styles.scrolled : styles.onHero}`}
+        className={`${styles.header} layer-chrome ${menuOpen ? styles.behindMenu : ""} ${scrolled || menuOpen ? styles.scrolled : styles.onHero}`}
         role="banner"
       >
         <nav className={`container ${styles.nav}`} aria-label="Hauptnavigation">
@@ -33,7 +42,7 @@ export function Navigation() {
             className={styles.logoLink}
             onClick={(e) => {
               e.preventDefault();
-              scrollToSection("home");
+              handleNav("home");
             }}
             aria-label="überagent – Startseite"
           >
@@ -82,10 +91,11 @@ export function Navigation() {
 
           <button
             className={styles.menuToggle}
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={toggleMenuSafe}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+            disabled={isOverlayOpen && !menuOpen}
           >
             <span className={`${styles.hamburger} ${menuOpen ? styles.open : ""}`}>
               <span />
@@ -95,42 +105,64 @@ export function Navigation() {
         </nav>
       </header>
 
-      <div
-        id="mobile-menu"
-        className={`${styles.offCanvas} ${menuOpen ? styles.offCanvasOpen : ""}`}
-        aria-hidden={!menuOpen}
-      >
-        <button
-          className={styles.offCanvasBackdrop}
-          onClick={() => setMenuOpen(false)}
-          aria-label="Menü schließen"
-          tabIndex={menuOpen ? 0 : -1}
-        />
-        <div className={styles.offCanvasInner}>
-          <div className={styles.offCanvasBrand}>
-            <img src="/logoblack.svg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
-            <span className={styles.logoTextDark}>überagent</span>
-          </div>
-          <ul className={styles.offCanvasLinks} role="list">
-            {navLinks.map((link, i) => (
-              <li
-                key={link.id}
-                style={{ animationDelay: menuOpen ? `${i * 60}ms` : "0ms" }}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            id="mobile-menu"
+            className={styles.offCanvas}
+            aria-hidden={false}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={transitions.fast}
+          >
+            <div className={styles.offCanvasLayout}>
+              <motion.button
+                className={styles.offCanvasBackdrop}
+                onClick={closeMenu}
+                aria-label="Menü schließen"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transitions.normal}
+              />
+              <motion.div
+                className={styles.offCanvasInner}
+                variants={reduce ? undefined : offCanvasPanel}
+                initial={reduce ? false : "hidden"}
+                animate="visible"
+                exit="exit"
               >
-                <button
-                  className={styles.offCanvasLink}
-                  onClick={() => handleNav(link.id)}
+                <div className={styles.offCanvasBrand}>
+                  <img src="/logoblack.svg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
+                  <span className={styles.logoTextDark}>überagent</span>
+                </div>
+                <motion.ul
+                  className={styles.offCanvasLinks}
+                  role="list"
+                  variants={reduce ? undefined : menuContainer}
+                  initial={reduce ? false : "hidden"}
+                  animate="visible"
                 >
-                  {link.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <CtaButton size="md" surface="on-light" onClick={() => handleNav("contact")} fullWidth>
-            Erstgespräch vereinbaren
-          </CtaButton>
-        </div>
-      </div>
+                  {navLinks.map((link) => (
+                    <motion.li key={link.id} variants={reduce ? undefined : menuItem}>
+                      <button
+                        className={styles.offCanvasLink}
+                        onClick={() => handleNav(link.id)}
+                      >
+                        {link.label}
+                      </button>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+                <CtaButton size="md" surface="on-light" onClick={() => handleNav("contact")} fullWidth>
+                  Erstgespräch vereinbaren
+                </CtaButton>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

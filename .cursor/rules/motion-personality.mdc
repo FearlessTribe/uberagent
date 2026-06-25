@@ -1,0 +1,28 @@
+---
+description: Motion personality for überagent website animations
+globs: website/src/**/*.{tsx,css}
+alwaysApply: false
+---
+
+# Motion Personality (überagent)
+
+Read `design/design.md` and use presets from `website/src/motion/`.
+
+## Style
+
+calm · elegant · precise · premium · technical · restrained · system-like · fast but not nervous · cinematic only in hero/scroll sections
+
+## Avoid
+
+bouncy springs · excessive parallax · particle chaos · scroll-jacking · long delays · overanimated SaaS sections · animating every element
+
+## Rules
+
+- Import from `motion/react`, presets from `../motion`
+- Use `useReducedMotion()` for entrance animations
+- Animate only `opacity` and `transform` (x, y, scale)
+- Springs: `stiffness: 420, damping: 38` – no bounce
+- Durations: 0.2–0.55s (hero max 0.75s)
+- Stagger: 50–60ms between children
+- Modals: `AnimatePresence` + `modalOverlay` / `modalDialog` presets
+- Cards: subtle `y: -2` hover, `scale: 0.99` tap only

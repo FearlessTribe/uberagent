@@ -9,22 +9,13 @@
 .bg {
   position: absolute;
   inset: 0;
-  background: var(--color-surface);
   overflow: hidden;
-}
-
-.smokeLayer {
-  position: absolute;
-  inset: 0;
-}
-
-.bgOverlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+  clip-path: inset(0);
+  contain: paint;
   background:
     linear-gradient(90deg, rgba(25, 28, 33, 0.55) 0%, rgba(25, 28, 33, 0.25) 50%, rgba(25, 28, 33, 0.45) 100%),
-    radial-gradient(ellipse 70% 80% at 30% 50%, rgba(204, 128, 102, 0.12) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 80% at 30% 50%, rgba(204, 128, 102, 0.12) 0%, transparent 60%),
+    var(--color-surface);
 }
 
 .container {

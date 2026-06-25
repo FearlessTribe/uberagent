@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
 import styles from "./ProjectModal.module.css";
@@ -10,9 +9,9 @@ interface ProjectModalProps {
 }
 
 const stats = [
-  { value: "Tausende", label: "KMU-Kunden" },
+  { value: "Zehntausende", label: "KMU-Kunden" },
   { value: "DE / FR / IT", label: "Sprachen" },
-  { value: "Minuten", label: "statt Wochen" },
+  { value: "Hochautomatisiert", label: "& umsatzstark" },
 ];
 
 const crmRows = [
@@ -55,7 +54,7 @@ const impactRows = [
   { before: "Manuelle Recherche", after: "Automatisierte Analyse" },
   { before: "Generische Kampagnen", after: "Individuelle Gesprächsanlässe" },
   { before: "Unklare Priorisierung", after: "Segmentierte Sales-Pipeline" },
-  { before: "Wochen Aufwand", after: "Minuten Laufzeit" },
+  { before: "Wochen Aufwand", after: "Hochautomatisierte Laufzeit" },
   { before: "Bauchgefühl", after: "Datenbasierte Empfehlungen" },
   { before: "Einzelaktionen", after: "Wiederholbares System" },
 ];
@@ -157,7 +156,6 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
       eyebrow="Success Story"
       headerBanner={
         <div className={styles.smokeBanner}>
-          <SmokeBackground />
           <div className={styles.smokeOverlay}>
             <span className={styles.smokeTag}>Vom Kundenstamm zum Sales-System</span>
           </div>
@@ -175,7 +173,8 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
         <section className={styles.heroSection}>
           <p className={styles.lead}>
             Wie aus verstreuten CRM- und Standortdaten personalisierte Verkaufschancen
-            für tausende KMU-Kunden wurden.
+            für zehntausende KMU-Kunden entstanden — und der Umsatz aus dem Bestandsstamm
+            systematisch skaliert wurde.
           </p>
           <div className={styles.statsRow}>
             {stats.map((s) => (
@@ -268,7 +267,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           </div>
           <p className={styles.bodyTextMuted}>
             Manuell hätte jede Analyse Recherche, Bewertung, Segmentierung und individuelle Ansprache
-            erfordert. Für tausende Kunden war das wirtschaftlich nicht abbildbar.
+            erfordert. Für zehntausende Kunden war das wirtschaftlich nicht abbildbar.
           </p>
         </section>
 

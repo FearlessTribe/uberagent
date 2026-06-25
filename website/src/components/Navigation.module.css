@@ -3,13 +3,18 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: var(--z-chrome);
   height: var(--nav-height);
-  transition: all var(--duration-normal) var(--ease-out-smooth);
+  isolation: isolate;
+  transition: background var(--duration-normal) var(--ease-out-smooth),
+    border-color var(--duration-normal) var(--ease-out-smooth),
+    box-shadow var(--duration-normal) var(--ease-out-smooth);
 }
 
 .onHero {
-  background: transparent;
+  background: rgba(25, 28, 33, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .onHero .logoText {
@@ -37,10 +42,12 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.behindMenu {
+  z-index: calc(var(--z-chrome) - 10);
+}
+
 .scrolled {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: #ffffff;
   border-bottom: 1px solid var(--color-border-subtle);
   box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
 }
@@ -111,7 +118,7 @@
   font-weight: 500;
   color: var(--color-text-secondary);
   border-radius: var(--radius-pill);
-  transition: all var(--duration-fast);
+  transition: color var(--duration-fast);
   position: relative;
 }
 
@@ -166,8 +173,13 @@
   transition: background var(--duration-fast);
 }
 
-.menuToggle:hover {
+.menuToggle:hover:not(:disabled) {
   background: rgba(0, 0, 0, 0.04);
+}
+
+.menuToggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 @media (min-width: 768px) {
@@ -213,37 +225,27 @@
 .offCanvas {
   position: fixed;
   inset: 0;
-  z-index: 999;
-  pointer-events: none;
-  visibility: hidden;
+  z-index: var(--z-menu);
+  pointer-events: auto;
 }
 
-.offCanvasOpen {
-  pointer-events: auto;
-  visibility: visible;
+.offCanvasLayout {
+  display: flex;
+  height: 100%;
 }
 
 .offCanvasBackdrop {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  flex: 1;
+  min-width: 0;
   background: rgba(17, 24, 39, 0.4);
   backdrop-filter: blur(4px);
-  opacity: 0;
-  transition: opacity var(--duration-normal);
   border: none;
   cursor: pointer;
 }
 
-.offCanvasOpen .offCanvasBackdrop {
-  opacity: 1;
-}
-
 .offCanvasInner {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
+  position: relative;
+  flex-shrink: 0;
   width: min(320px, 85vw);
   height: 100%;
   background: var(--color-background);
@@ -251,13 +253,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  transform: translateX(100%);
-  transition: transform var(--duration-normal) var(--ease-out-expo);
   box-shadow: -8px 0 40px rgba(0, 0, 0, 0.1);
-}
-
-.offCanvasOpen .offCanvasInner {
-  transform: translateX(0);
 }
 
 .offCanvasBrand {
@@ -295,14 +291,6 @@
   font-weight: 500;
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border);
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all var(--duration-normal) var(--ease-out-expo);
-}
-
-.offCanvasOpen .offCanvasLink {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 .offCanvasLink:hover {

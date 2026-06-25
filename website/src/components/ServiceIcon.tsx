@@ -24,6 +24,13 @@ export function ServiceIcon({ type, className = "" }: ServiceIconProps) {
         <path d="M22 14l6-2M24 20l4 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
+    strategy: (
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="11" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M16 5v6M16 21v6M5 16h6M21 16h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="16" cy="16" r="3" stroke="currentColor" strokeWidth="1.5" />
+      </svg>
+    ),
     mcp: (
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />

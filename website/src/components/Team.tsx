@@ -1,15 +1,29 @@
-import { useState } from "react";
-import { teamMembers, laurensProfile } from "../data/team";
+import { useState, lazy, Suspense } from "react";
+import { teamMembers } from "../data/team";
 import { useCardGlow } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
-import { Modal } from "./Modal";
-import { ModalContactFooter } from "./ModalContactFooter";
+import { MotionPressable } from "./MotionPressable";
 import styles from "./Team.module.css";
 
-export function Team() {
+const LaurensModal = lazy(() =>
+  import("./LaurensModal").then((m) => ({ default: m.LaurensModal })),
+);
+
+interface TeamProps {
+  onOpenLaurens?: () => void;
+}
+
+export function Team({ onOpenLaurens }: TeamProps) {
   const [openId, setOpenId] = useState<string | null>(null);
   const { handleMouseMove } = useCardGlow();
-  const member = teamMembers.find((m) => m.id === openId);
+
+  const openLaurens = () => {
+    if (onOpenLaurens) {
+      onOpenLaurens();
+    } else {
+      setOpenId("laurens");
+    }
+  };
 
   return (
     <section id="team" className={`section ${styles.team}`} aria-labelledby="team-heading">
@@ -24,10 +38,10 @@ export function Team() {
 
           <div className={styles.members}>
             {teamMembers.map((m) => (
-              <button
+              <MotionPressable
                 key={m.id}
                 className={`card ${styles.memberCard}`}
-                onClick={() => setOpenId(m.id)}
+                onClick={openLaurens}
                 onMouseMove={handleMouseMove}
                 aria-haspopup="dialog"
               >
@@ -45,7 +59,7 @@ export function Team() {
                   <h3 className={styles.memberName}>{m.name}</h3>
                   <span className={styles.memberRole}>{m.role}</span>
                 </div>
-              </button>
+              </MotionPressable>
             ))}
 
             <div className={`card ${styles.staticCard}`} aria-label="Victor Loës, CTO">
@@ -61,69 +75,10 @@ export function Team() {
         </ScrollReveal>
       </div>
 
-      {member && member.id === "laurens" && (
-        <Modal
-          isOpen={!!openId}
-          onClose={() => setOpenId(null)}
-          title={member.name}
-          eyebrow={member.role}
-          footer={<ModalContactFooter onClose={() => setOpenId(null)} />}
-        >
-          <div className={styles.modalContent}>
-            <div className={styles.modalHero}>
-              <img
-                src={member.image}
-                alt=""
-                className={styles.modalHeroImage}
-                width={160}
-                height={165}
-              />
-              <div className={styles.modalHeroText}>
-                {laurensProfile.bio.map((paragraph, i) => (
-                  <p key={i} className="body">{paragraph}</p>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.respTags}>
-              {laurensProfile.responsibilities.map((r) => (
-                <span key={r} className={styles.respTag}>{r}</span>
-              ))}
-            </div>
-
-            <div className={styles.modalSection}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Education</span>
-                <h4 className={styles.sectionTitle}>Ausbildung</h4>
-              </div>
-              <div className={styles.timelineCards}>
-                {laurensProfile.education.map((edu) => (
-                  <div key={edu.period + edu.institution} className={styles.timelineCard}>
-                    <span className={styles.timelinePeriod}>{edu.period}</span>
-                    <p className={styles.timelineTitle}>{edu.institution}</p>
-                    <p className={styles.timelineSub}>{edu.degree}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.modalSection}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionEyebrow}>Experience</span>
-                <h4 className={styles.sectionTitle}>Berufserfahrung</h4>
-              </div>
-              <div className={styles.timelineCards}>
-                {laurensProfile.experience.map((exp) => (
-                  <div key={exp.period + exp.company} className={`${styles.timelineCard} ${styles.timelineCardDark}`}>
-                    <span className={styles.timelinePeriod}>{exp.period}</span>
-                    <p className={styles.timelineTitle}>{exp.company}</p>
-                    <p className={styles.timelineSub}>{exp.role}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Modal>
+      {!onOpenLaurens && (
+        <Suspense fallback={null}>
+          <LaurensModal isOpen={openId === "laurens"} onClose={() => setOpenId(null)} />
+        </Suspense>
       )}
     </section>
   );

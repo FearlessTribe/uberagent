@@ -1,6 +1,6 @@
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { CtaButton } from "./CtaButton";
 import { scrollToSection } from "../hooks/useScrollReveal";
+import { ScrollReveal } from "./ScrollReveal";
 import styles from "./GrowthBanner.module.css";
 
 interface GrowthBannerProps {
@@ -10,15 +10,10 @@ interface GrowthBannerProps {
 export function GrowthBanner({ className = "" }: GrowthBannerProps) {
   return (
     <div className={`${styles.wrapper} ${className}`}>
-      <div className={styles.bg} aria-hidden="true">
-        <div className={styles.smokeLayer}>
-          <SmokeBackground />
-        </div>
-        <div className={styles.bgOverlay} />
-      </div>
+      <div className={styles.bg} aria-hidden="true" />
 
       <div className={styles.container}>
-        <div className={styles.inner}>
+        <ScrollReveal className={styles.inner}>
           <div className={styles.textRow}>
             <span className={styles.line} aria-hidden="true" />
             <div className={styles.textBlock}>
@@ -39,7 +34,7 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
               Get in touch
             </CtaButton>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   );

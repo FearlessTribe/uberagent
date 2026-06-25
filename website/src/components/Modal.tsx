@@ -1,4 +1,7 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "motion/react";
+import { modalDialog, modalOverlay } from "../motion";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -26,17 +29,11 @@ export function Modal({
   const previousFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      previousFocus.current = document.activeElement as HTMLElement;
-      document.body.style.overflow = "hidden";
-      dialogRef.current?.focus();
-    } else {
-      document.body.style.overflow = "";
-      previousFocus.current?.focus();
-    }
-
+    if (!isOpen) return;
+    previousFocus.current = document.activeElement as HTMLElement;
+    dialogRef.current?.focus();
     return () => {
-      document.body.style.overflow = "";
+      previousFocus.current?.focus();
     };
   }, [isOpen]);
 
@@ -48,51 +45,67 @@ export function Modal({
     return () => window.removeEventListener("keydown", handleKey);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
-  return (
-    <div className={styles.overlay} onClick={onClose} role="presentation">
-      <div
-        ref={dialogRef}
-        className={`${styles.dialog} ${variant === "dark-header" ? styles.dialogPremium : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        tabIndex={-1}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={styles.dialogGlow} aria-hidden="true" />
-        <div className={styles.dialogGrid} aria-hidden="true" />
-
-        <div className={styles.header}>
-          <div className={styles.headerContent}>
-            {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
-            <h2 id="modal-title" className={styles.title}>
-              {title}
-            </h2>
-          </div>
-          <button
-            className={styles.closeBtn}
-            onClick={onClose}
-            aria-label="Schließen"
+  return createPortal(
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          key="modal-overlay"
+          className={styles.overlay}
+          onClick={onClose}
+          role="presentation"
+          variants={modalOverlay}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <motion.div
+            ref={dialogRef}
+            className={`${styles.dialog} ${variant === "dark-header" ? styles.dialogPremium : ""}`}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            tabIndex={-1}
+            onClick={(e) => e.stopPropagation()}
+            variants={modalDialog}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path
-                d="M15 5L5 15M5 5l10 10"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
+            <div className={styles.dialogGlow} aria-hidden="true" />
+            <div className={styles.dialogGrid} aria-hidden="true" />
 
-        {headerBanner && <div className={styles.headerBanner}>{headerBanner}</div>}
+            <div className={styles.header}>
+              <div className={styles.headerContent}>
+                {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+                <h2 id="modal-title" className={styles.title}>
+                  {title}
+                </h2>
+              </div>
+              <button
+                className={styles.closeBtn}
+                onClick={onClose}
+                aria-label="Schließen"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M15 5L5 15M5 5l10 10"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
 
-        <div className={styles.body}>{children}</div>
+            {headerBanner && <div className={styles.headerBanner}>{headerBanner}</div>}
 
-        {footer && <div className={styles.footer}>{footer}</div>}
-      </div>
-    </div>
+            <div className={styles.body}>{children}</div>
+
+            {footer && <div className={styles.footer}>{footer}</div>}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body,
   );
 }

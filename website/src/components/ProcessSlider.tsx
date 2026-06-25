@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { gtmProcessPhases } from "../data/content";
+import { slidePanel, transitions } from "../motion";
 import styles from "./ProcessSlider.module.css";
 
 export function ProcessSlider() {
   const [active, setActive] = useState(0);
+  const reduce = useReducedMotion();
 
   return (
     <div className={styles.slider}>
@@ -25,24 +28,32 @@ export function ProcessSlider() {
       </div>
 
       <div className={styles.track} aria-hidden="true">
-        <div
+        <motion.div
           className={styles.trackFill}
-          style={{ width: `${((active + 1) / gtmProcessPhases.length) * 100}%` }}
+          animate={{ width: `${((active + 1) / gtmProcessPhases.length) * 100}%` }}
+          transition={transitions.normal}
         />
       </div>
 
-      {gtmProcessPhases.map((phase, i) => (
-        <div
-          key={phase.phase}
-          role="tabpanel"
-          id={`phase-panel-${i}`}
-          aria-labelledby={`phase-tab-${i}`}
-          hidden={active !== i}
-          className={styles.panel}
-        >
-          <p className="body">{phase.description}</p>
-        </div>
-      ))}
+      <AnimatePresence mode="wait">
+        {gtmProcessPhases.map((phase, i) =>
+          active === i ? (
+            <motion.div
+              key={phase.phase}
+              role="tabpanel"
+              id={`phase-panel-${i}`}
+              aria-labelledby={`phase-tab-${i}`}
+              className={styles.panel}
+              variants={reduce ? undefined : slidePanel}
+              initial={reduce ? false : "hidden"}
+              animate="visible"
+              exit="exit"
+            >
+              <p className="body">{phase.description}</p>
+            </motion.div>
+          ) : null,
+        )}
+      </AnimatePresence>
     </div>
   );
 }

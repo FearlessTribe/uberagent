@@ -1,4 +1,3 @@
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import { CtaButton } from "./CtaButton";
 import styles from "./ModalContactFooter.module.css";
@@ -19,10 +18,7 @@ export function ModalContactFooter({
 
   return (
     <div className={styles.footerInner}>
-      <div className={styles.smokeBg} aria-hidden="true">
-        <SmokeBackground />
-        <div className={styles.smokeOverlay} />
-      </div>
+      <div className={styles.smokeBg} aria-hidden="true" />
       <div className={styles.footerContent}>
         <p className={styles.footerText}>Bereit für den nächsten Schritt?</p>
         <CtaButton size="md" surface="on-dark" onClick={handleClick}>{label}</CtaButton>

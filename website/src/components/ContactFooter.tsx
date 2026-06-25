@@ -1,23 +1,29 @@
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
+import { SectionShell } from "./SectionShell";
+import { teamMembers } from "../data/team";
 import { services } from "../data/services";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
+import { MotionPressable } from "./MotionPressable";
 import styles from "./ContactFooter.module.css";
 
 interface ContactFooterProps {
   onOpenService: (id: string) => void;
+  onOpenLaurens?: () => void;
 }
 
-export function ContactFooter({ onOpenService }: ContactFooterProps) {
-  return (
-    <footer id="contact" className={styles.footer} role="contentinfo">
-      <div className={styles.smokeLayer} aria-hidden="true">
-        <SmokeBackground />
-      </div>
-      <div className={styles.bgOverlay} aria-hidden="true" />
+export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterProps) {
+  const laurens = teamMembers[0];
 
-      <div className={styles.footerContent}>
-        <div className="container">
+  return (
+    <SectionShell
+      as="footer"
+      id="contact"
+      role="contentinfo"
+      background="static-footer"
+      className={styles.footer}
+      contentClassName={styles.footerInner}
+    >
+      <div className="container">
         <ScrollReveal className={styles.hero}>
           <div className={`sectionStart ${styles.intro}`}>
             <span className="eyebrow">Ihr Ansprechpartner</span>
@@ -33,12 +39,18 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
             </CtaButton>
           </div>
 
-          <div className={styles.profileColumn}>
+          <MotionPressable
+            className={styles.profileColumn}
+            onClick={onOpenLaurens}
+            aria-haspopup="dialog"
+            aria-label="Profil von Laurens Lang öffnen"
+          >
             <img
-              src="/laurens.jpg"
-              alt="Laurens Lang, CEO von überagent"
+              src={laurens.image}
+              alt={laurens.name}
               className={styles.profileImage}
-              loading="lazy"
+              loading="eager"
+              decoding="async"
               width={320}
               height={330}
             />
@@ -46,7 +58,7 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
               <p className={styles.profileName}>Laurens Lang, M.Sc. MBA</p>
               <p className={styles.profileRole}>CEO · überagent</p>
             </div>
-          </div>
+          </MotionPressable>
         </ScrollReveal>
 
         <ScrollReveal className={styles.details}>
@@ -87,8 +99,7 @@ export function ContactFooter({ onOpenService }: ContactFooterProps) {
           <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
           <p className={styles.copyright}>© überagent. 2026</p>
         </div>
-        </div>
       </div>
-    </footer>
+    </SectionShell>
   );
 }

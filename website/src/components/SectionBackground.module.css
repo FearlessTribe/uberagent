@@ -1,0 +1,38 @@
+.layerBg {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  overflow: hidden;
+  clip-path: inset(0);
+  contain: paint;
+}
+
+.staticBg {
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.5) 100%),
+    radial-gradient(ellipse 70% 55% at 30% 40%, rgba(204, 128, 102, 0.1) 0%, transparent 60%),
+    var(--color-surface);
+}
+
+.staticBgAccentRight {
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.5) 100%),
+    radial-gradient(ellipse 70% 55% at 65% 40%, rgba(204, 128, 102, 0.1) 0%, transparent 60%),
+    var(--color-surface);
+}
+
+.staticBgFooter {
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.4) 0%, rgba(25, 28, 33, 0.15) 40%, rgba(25, 28, 33, 0.5) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(204, 128, 102, 0.08) 0%, transparent 55%),
+    var(--color-surface);
+}
+
+.staticBgHero {
+  background:
+    linear-gradient(180deg, rgba(25, 28, 33, 0.35) 0%, rgba(25, 28, 33, 0.12) 45%, rgba(25, 28, 33, 0.55) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 35%, rgba(204, 128, 102, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 25% 75%, rgba(51, 65, 85, 0.2) 0%, transparent 55%),
+    var(--color-surface);
+}

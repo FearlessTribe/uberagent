@@ -1,3 +1,5 @@
+import laurensPhoto from "../assets/laurens.jpg";
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -10,7 +12,7 @@ export const teamMembers: TeamMember[] = [
     id: "laurens",
     name: "Laurens Lang, M.Sc. MBA",
     role: "CEO",
-    image: "/laurens.jpg",
+    image: laurensPhoto,
   },
 ];
 

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { scrollToSection } from "../hooks/useScrollReveal";
+import { heroContainer, heroItem } from "../motion";
 import styles from "./Hero.module.css";
 
 const featureCards = [
@@ -12,22 +14,18 @@ const featureCards = [
 
 export function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  const contentOpacity = useTransform(scrollY, [0, 900], [1, 0]);
 
   useEffect(() => {
     document.body.classList.add("hero-active");
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
-
     const handleScroll = () => {
       const y = window.scrollY;
       if (y > 80) {
         document.body.classList.remove("hero-active");
       } else {
         document.body.classList.add("hero-active");
-      }
-      if (contentRef.current) {
-        contentRef.current.style.transform = `translateY(${y * 0.06}px)`;
-        contentRef.current.style.opacity = `${Math.max(0, 1 - y / 900)}`;
       }
     };
 
@@ -38,72 +36,92 @@ export function Hero() {
     };
   }, []);
 
-  return (
-    <section id="home" className={styles.hero} aria-labelledby="hero-heading">
-      <div className={styles.smokeLayer} aria-hidden="true">
-        <SmokeBackground />
-      </div>
-      <div className={styles.bgOverlay} aria-hidden="true" />
-      <div className={styles.bottomFade} aria-hidden="true" />
-
-      <div className={`container ${styles.layout}`} ref={contentRef}>
-        <div className={styles.heroHeader}>
-          <div className={styles.badge}>
-            <span className={styles.badgeDot} aria-hidden="true" />
-            Production-Ready AI Engineering
-          </div>
-
-          <h1 id="hero-heading" className={styles.headline}>
-            AI Engineering für{" "}
-            <span className={styles.headlineAccent}>operative Exzellenz</span>
-          </h1>
+  const layout = (
+    <div className={`container ${styles.layout}`}>
+      <motion.div
+        className={styles.heroHeader}
+        variants={reduce ? undefined : heroItem}
+        initial={reduce ? false : "hidden"}
+        animate="visible"
+      >
+        <div className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          Production-Ready AI Engineering
         </div>
 
-        <div className={styles.heroGrid}>
-          <div className={styles.heroLeft}>
-            <p className={styles.subline}>
-              Wir bauen AI-Agenten, Workflow-Automations, MCP-Integrationen und
-              GTM- &amp; Sales-Systeme, die in Ihrem Stack produktiv laufen.
-            </p>
+        <h1 id="hero-heading" className={styles.headline}>
+          AI Engineering für{" "}
+          <span className={styles.headlineAccent}>operative Exzellenz</span>
+        </h1>
+      </motion.div>
 
-            <div className={styles.actions}>
-              <CtaButton
-                size="md"
-                surface="on-dark"
-                onClick={() => scrollToSection("contact")}
-              >
-                Erstgespräch vereinbaren
-              </CtaButton>
-              <CtaButton
-                size="md"
-                surface="on-dark-ghost"
-                onClick={() => scrollToSection("services")}
-              >
-                Services entdecken
-              </CtaButton>
-            </div>
+      <motion.div
+        className={styles.heroGrid}
+        variants={reduce ? undefined : heroContainer}
+        initial={reduce ? false : "hidden"}
+        animate="visible"
+      >
+        <motion.div className={styles.heroLeft} variants={reduce ? undefined : heroItem}>
+          <p className={styles.subline}>
+            Wir bauen AI-Agenten, Workflow-Automations, MCP-Integrationen und
+            GTM- &amp; Sales-Systeme, die in Ihrem Stack produktiv laufen.
+          </p>
+
+          <div className={styles.actions}>
+            <CtaButton
+              size="md"
+              surface="on-dark"
+              onClick={() => scrollToSection("contact")}
+            >
+              Erstgespräch vereinbaren
+            </CtaButton>
+            <CtaButton
+              size="md"
+              surface="on-dark-ghost"
+              onClick={() => scrollToSection("services")}
+            >
+              Services entdecken
+            </CtaButton>
           </div>
+        </motion.div>
 
-          <div className={styles.featureCards} aria-label="Kernleistungen">
-            {featureCards.map((card, i) => (
-              <div
-                key={card.title}
-                className={styles.featureCard}
-                style={{ animationDelay: `${0.45 + i * 0.1}s` }}
-              >
-                <div className={styles.featureGlow} aria-hidden="true" />
-                <div className={styles.featureContent}>
-                  <h3 className={styles.featureTitle}>
-                    <span className={styles.featureNum} aria-hidden="true">{card.num}</span>
-                    {card.title}
-                  </h3>
-                  <p className={styles.featureDesc}>{card.description}</p>
-                </div>
+        <div className={styles.featureCards} aria-label="Kernleistungen">
+          {featureCards.map((card) => (
+            <motion.div
+              key={card.title}
+              className={styles.featureCard}
+              variants={reduce ? undefined : heroItem}
+            >
+              <div className={styles.featureGlow} aria-hidden="true" />
+              <div className={styles.featureContent}>
+                <h2 className={styles.featureTitle}>
+                  <span className={styles.featureNum} aria-hidden="true">{card.num}</span>
+                  {card.title}
+                </h2>
+                <p className={styles.featureDesc}>{card.description}</p>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </div>
+  );
+
+  return (
+    <SectionShell
+      id="home"
+      hero
+      background="static-hero"
+      bottomFade
+      ariaLabelledBy="hero-heading"
+    >
+      {reduce ? (
+        <div ref={contentRef}>{layout}</div>
+      ) : (
+        <motion.div ref={contentRef} style={{ opacity: contentOpacity }}>
+          {layout}
+        </motion.div>
+      )}
+    </SectionShell>
   );
 }

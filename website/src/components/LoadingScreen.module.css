@@ -1,13 +1,14 @@
 .loading {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: var(--z-loading);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-surface);
-  animation: fade-in 0.4s ease;
-  transition: opacity 0.5s var(--ease-out-expo), visibility 0.5s;
+  background: transparent;
+  pointer-events: none;
+  animation: fade-in 0.3s ease;
+  transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s;
 }
 
 .fadeOut {
@@ -25,7 +26,8 @@
 
 .logo {
   width: 120px;
-  height: auto;
+  height: 120px;
+  object-fit: contain;
 }
 
 .text {

@@ -101,6 +101,26 @@ export const services: Service[] = [
     ],
     ctaLabel: "Geschäftsmodell validieren",
   },
+  {
+    id: "ai-strategy",
+    slug: "ai-strategy",
+    title: "AI Strategy",
+    shortDescription:
+      "Strukturierte AI-Strategie vom Use-Case-Funnel bis zur Lighthouse-Entscheidung, mit Portfolio-Logik, Priority Scoring und klaren Stage-Gates.",
+    cardHook:
+      "Wenige Bets mit hohem Impact statt vieler paralleler PoCs: Use Cases sammeln, bewerten, validieren und skalieren, mit Governance und messbaren KPIs.",
+    icon: "strategy",
+    eyebrow: "AI Strategy",
+    bannerTag: "Vom Use-Case-Funnel zur skalierbaren AI-Roadmap",
+    lead: "Wir helfen Führungsteams, AI nicht als Projektliste zu betreiben, sondern als Portfolio: klare Prioritäten, transparente Bewertung und fundierte Go/No-Go-Entscheidungen.",
+    tags: ["Strategy", "Portfolio", "Governance"],
+    stats: [
+      { value: "6 Phasen", label: "Funnel" },
+      { value: "Priority Score", label: "Ein Ranking" },
+      { value: "1 bis 2 Bets", label: "Lighthouse" },
+    ],
+    ctaLabel: "AI-Strategie besprechen",
+  },
 ];
 
 export const serviceIds = services.map((s) => s.id);

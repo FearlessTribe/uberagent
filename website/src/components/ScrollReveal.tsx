@@ -1,10 +1,24 @@
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { Children, type ElementType, type ReactNode } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  fadeUp,
+  fadeUpItem,
+  staggerContainer,
+  viewport,
+} from "../motion";
+
+const motionTags = {
+  div: motion.div,
+  section: motion.section,
+  article: motion.article,
+  ul: motion.ul,
+} as const;
 
 interface ScrollRevealProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   stagger?: boolean;
-  as?: "div" | "section" | "article" | "ul";
+  as?: keyof typeof motionTags;
 }
 
 export function ScrollReveal({
@@ -13,19 +27,41 @@ export function ScrollReveal({
   stagger = false,
   as: Tag = "div",
 }: ScrollRevealProps) {
-  const { ref, visible } = useScrollReveal<HTMLElement>();
+  const reduce = useReducedMotion();
+  const MotionTag = motionTags[Tag];
 
-  const classes = [
-    stagger ? "reveal-stagger" : "reveal",
-    visible ? "visible" : "",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  if (reduce) {
+    const PlainTag = Tag as ElementType;
+    return <PlainTag className={className}>{children}</PlainTag>;
+  }
+
+  if (stagger) {
+    return (
+      <MotionTag
+        className={className}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
+        {Children.map(children, (child, i) => (
+          <motion.div key={i} className="reveal-item" variants={fadeUpItem}>
+            {child}
+          </motion.div>
+        ))}
+      </MotionTag>
+    );
+  }
 
   return (
-    <Tag ref={ref as React.Ref<never>} className={classes}>
+    <MotionTag
+      className={className}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
       {children}
-    </Tag>
+    </MotionTag>
   );
 }

@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, lazy, Suspense } from "react";
+import { OverlayProvider, useOverlay } from "./context/OverlayContext";
 import { LoadingScreen } from "./components/LoadingScreen";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
@@ -8,13 +9,22 @@ import { Services } from "./components/Services";
 import { Projects } from "./components/Projects";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
-import { ServiceModal } from "./components/ServiceModal";
-import { useServiceRoute } from "./hooks/useServiceRoute";
 
-export default function App() {
-  const [loading, setLoading] = useState(true);
-  const { openServiceId, setOpenServiceId } = useServiceRoute();
+const ServiceModal = lazy(() =>
+  import("./components/ServiceModal").then((m) => ({ default: m.ServiceModal })),
+);
+const ProjectModal = lazy(() =>
+  import("./components/ProjectModal").then((m) => ({ default: m.ProjectModal })),
+);
+const LaurensModal = lazy(() =>
+  import("./components/LaurensModal").then((m) => ({ default: m.LaurensModal })),
+);
 
+function AppContent() {
+  const [loading, setLoading] = useState(
+    () => typeof window !== "undefined" && !sessionStorage.getItem("ua-loaded"),
+  );
+  const overlay = useOverlay();
   const handleLoadingComplete = useCallback(() => setLoading(false), []);
 
   return (
@@ -29,17 +39,35 @@ export default function App() {
       <main>
         <Hero />
         <Intro />
-        <Services onOpenService={setOpenServiceId} />
+        <Services onOpenService={overlay.openService} />
         <Process />
-        <Projects />
-        <Team />
+        <Projects onOpenProject={overlay.openProject} />
+        <Team onOpenLaurens={overlay.openLaurens} />
       </main>
-      <ContactFooter onOpenService={setOpenServiceId} />
-
-      <ServiceModal
-        serviceId={openServiceId}
-        onClose={() => setOpenServiceId(null)}
+      <ContactFooter
+        onOpenService={overlay.openService}
+        onOpenLaurens={overlay.openLaurens}
       />
+
+      <Suspense fallback={null}>
+        <LaurensModal isOpen={overlay.laurensOpen} onClose={overlay.closeLaurens} />
+        <ServiceModal
+          serviceId={overlay.openServiceId}
+          onClose={overlay.closeService}
+        />
+        <ProjectModal
+          isOpen={overlay.openProjectId === "ai-sales-agent"}
+          onClose={overlay.closeProject}
+        />
+      </Suspense>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <OverlayProvider>
+      <AppContent />
+    </OverlayProvider>
   );
 }

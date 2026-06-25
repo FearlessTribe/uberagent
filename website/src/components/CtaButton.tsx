@@ -1,3 +1,5 @@
+import { motion, useReducedMotion } from "motion/react";
+import { pressableHover, pressableTap } from "../motion";
 import styles from "./CtaButton.module.css";
 
 export type CtaSize = "sm" | "md" | "lg";
@@ -29,6 +31,7 @@ export function CtaButton({
   fullWidth = false,
   type = "button",
 }: CtaButtonProps) {
+  const reduce = useReducedMotion();
   const className = [
     styles.btn,
     styles[size],
@@ -37,6 +40,13 @@ export function CtaButton({
   ]
     .filter(Boolean)
     .join(" ");
+
+  const motionProps = reduce
+    ? {}
+    : {
+        whileHover: pressableHover,
+        whileTap: pressableTap,
+      };
 
   const content = (
     <>
@@ -55,20 +65,21 @@ export function CtaButton({
 
   if (href) {
     return (
-      <a
+      <motion.a
         href={href}
         className={className}
         target="_blank"
         rel="noopener noreferrer"
+        {...motionProps}
       >
         {content}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button type={type} className={className} onClick={onClick}>
+    <motion.button type={type} className={className} onClick={onClick} {...motionProps}>
       {content}
-    </button>
+    </motion.button>
   );
 }

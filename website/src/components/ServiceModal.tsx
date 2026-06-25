@@ -1,4 +1,3 @@
-import { SmokeBackground } from "@/components/ui/spooky-smoke-animation";
 import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { ProcessSlider } from "./ProcessSlider";
@@ -21,6 +20,15 @@ import {
   mcpImpact,
   mcpValueProps,
   serviceModalMeta,
+  strategyDecision,
+  strategyDeepDive,
+  strategyDiscoveryAreas,
+  strategyFrameworks,
+  strategyFunnel,
+  strategyGovernance,
+  strategyImpact,
+  strategyKpiLayers,
+  strategyScoreIndices,
   type ImpactRow,
   type ServiceStat,
 } from "../data/serviceModalContent";
@@ -35,7 +43,6 @@ interface ServiceModalProps {
 function ServiceBanner({ tag }: { tag: string }) {
   return (
     <div className={styles.smokeBanner}>
-      <SmokeBackground />
       <div className={styles.smokeOverlay}>
         <span className={styles.smokeTag}>{tag}</span>
       </div>
@@ -76,6 +83,79 @@ function ImpactTable({ rows }: { rows: ImpactRow[] }) {
 
 function Callout({ children }: { children: React.ReactNode }) {
   return <p className={styles.callout}>{children}</p>;
+}
+
+const funnelStepIcons: Record<string, React.ReactNode> = {
+  collect: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M4 10h16M9 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  score: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 18V8M10 18V5M15 18v-7M20 18V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  deepdive: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M16 16l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  decide: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 12l4 4 8-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  build: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 18l8-12 8 12H4z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M9 15h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  scale: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 17l5-8 4 5 5-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 19h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+};
+
+function StrategyProcessFlow() {
+  return (
+    <div className={styles.processTrack}>
+      <div className={styles.processHeader}>
+        <span className={styles.processEyebrow}>6-Phasen-Prozess</span>
+        <p className={styles.processIntro}>
+          Jeder Use Case durchläuft denselben Funnel. Stage-Gates verhindern, dass Initiativen
+          ohne Evidenz weiterrollen.
+        </p>
+      </div>
+      <ol className={styles.processFlow}>
+        {strategyFunnel.map((step, index) => (
+          <li key={step.title} className={styles.processNode}>
+            <div className={styles.processCard}>
+              <div className={styles.processIconWrap}>
+                {funnelStepIcons[step.icon]}
+              </div>
+              <span className={styles.processStep}>{step.step}</span>
+              <span className={styles.processTitle}>{step.title}</span>
+              <p className={styles.processDesc}>{step.description}</p>
+            </div>
+            {index < strategyFunnel.length - 1 && (
+              <span className={styles.processConnector} aria-hidden="true">
+                <svg viewBox="0 0 24 12" fill="none">
+                  <path d="M0 6h18M14 2l6 4-6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
 }
 
 function GtmContent() {
@@ -412,11 +492,206 @@ function BusinessModelsContent() {
   );
 }
 
+function AiStrategyContent() {
+  return (
+    <div className={styles.content}>
+      <section className={styles.heroSection}>
+        <p className={styles.lead}>
+          AI-Initiativen scheitern selten an der Technologie, sondern an fehlender Priorisierung,
+          unklarer Governance und zu vielen parallelen PoCs. Wir strukturieren Ihr AI-Portfolio
+          von der ersten Idee bis zur skalierbaren Umsetzung.
+        </p>
+        <div className={styles.statsRow}>
+          {serviceModalMeta["ai-strategy"].stats.map((s) => (
+            <StatPill key={s.label} {...s} />
+          ))}
+        </div>
+        <p className={styles.inlineCta}>
+          <strong>Nächster Schritt:</strong> In einem Strategie-Workshop kartieren wir Ihren
+          Ist-Stand, sammeln Use Cases und leiten die ersten Lighthouse-Bets ab, mit einem
+          Score-Modell, das Ihr Management live justieren kann.
+        </p>
+      </section>
+
+      <section className={styles.strategyPanel}>
+        <SectionTitle>Operating Model: iterativer Funnel</SectionTitle>
+        <StrategyProcessFlow />
+        <div className={styles.governancePanel}>
+          <span className={styles.governanceLabel}>Governance</span>
+          <div className={styles.benefitGrid}>
+            {strategyGovernance.map((item) => (
+              <div key={item} className={styles.benefitItem}>
+                <span className={styles.benefitDot} aria-hidden="true" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.strategyPanel}>
+        <SectionTitle>Use-Case-Discovery</SectionTitle>
+        <p className={styles.bodyText}>
+          Systematische Sammlung über Funktionen hinweg, von Revenue-Hebeln über Operations
+          bis zu internen Quick Wins mit niedrigem Risiko.
+        </p>
+        <div className={styles.discoveryGrid}>
+          {strategyDiscoveryAreas.map((area, i) => (
+            <div key={area.title} className={styles.discoveryCard}>
+              <div className={styles.discoveryHead}>
+                <span className={styles.discoveryIcon} aria-hidden="true">
+                  {i === 0 && (
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.5" />
+                      <path d="M8 10h8M8 14h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  )}
+                  {i === 1 && (
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
+                      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  )}
+                  {i === 2 && (
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+                <h4 className={styles.discoveryTitle}>{area.title}</h4>
+              </div>
+              <ul className={styles.compactList}>
+                {area.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.strategyPanel}>
+        <SectionTitle>Grobbewertung: ein verbundener Priority Score</SectionTitle>
+        <p className={styles.bodyText}>
+          Kein getrenntes Ranking je Metrik. Eine Formel bündelt Value, Feasibility und Risk
+          multiplikativ. Hoher Value bei niedriger Machbarkeit oder hohem Risiko fällt automatisch zurück.
+        </p>
+        <div className={styles.scoreVisual}>
+          {strategyScoreIndices.flatMap((row, i) => {
+            const nodes: React.ReactNode[] = [];
+            if (i > 0) {
+              nodes.push(
+                <span key={`op-${i}`} className={styles.scoreOp} aria-hidden="true">×</span>,
+              );
+            }
+            nodes.push(
+              <div key={row.index} className={styles.scoreCard}>
+                <span className={styles.scoreBadge}>{row.index}</span>
+                <p className={styles.scoreCardText}>{row.metrics}</p>
+              </div>,
+            );
+            return nodes;
+          })}
+        </div>
+        <div className={styles.formulaBox}>
+{`Value-Index   = Σ (Gewicht × V)           (1–5)
+Feas.-Index   = Σ (Gewicht × F)           (1–5)
+Risk-Index    = Σ (Gewicht × R)           (1–5)
+Risk-Faktor   = 1 − 0,5 × (Risk − 1) / 4  (1,0 … 0,5)
+
+Priority Score = (Value/5) × (Feasibility/5) × Risk-Faktor × 100`}
+        </div>
+        <Callout>
+          Max. Risiko halbiert den Score, eliminiert ihn aber nicht. Das Ergebnis ist eine
+          Diskussionsgrundlage mit klarem Ranking und Heatmap, nicht ein K.-o.-Kriterium.
+        </Callout>
+      </section>
+
+      <section>
+        <SectionTitle>Feinbewertung: Top-Kandidaten</SectionTitle>
+        <div className={styles.experimentGrid}>
+          {strategyDeepDive.map((item, i) => (
+            <div key={item.title} className={styles.experimentCard}>
+              <span className={styles.experimentNum}>{String(i + 1).padStart(2, "0")}</span>
+              <h4 className={styles.experimentTitle}>{item.title}</h4>
+              <p className={styles.bodyText}>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.strategyPanel}>
+        <SectionTitle>KPI-Framework</SectionTitle>
+        <p className={styles.bodyText}>
+          Baseline vor jedem PoC fixieren, per A/B oder Vorher-Nachher. Jeder PoC hat eine
+          definierte Erfolgs-Schwelle für Go/No-Go.
+        </p>
+        <div className={styles.kpiStack}>
+          {strategyKpiLayers.map((kpi, i) => (
+            <div key={kpi.layer} className={styles.kpiLayer}>
+              <div className={styles.kpiLayerMarker}>
+                <span className={styles.kpiLayerNum}>{String(i + 1).padStart(2, "0")}</span>
+                {i < strategyKpiLayers.length - 1 && <span className={styles.kpiLayerLine} />}
+              </div>
+              <div className={styles.kpiLayerBody}>
+                <span className={styles.kpiLayerTitle}>{kpi.layer}</span>
+                <p className={styles.kpiLayerDesc}>{kpi.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Entscheidung &amp; MVP-Shaping</SectionTitle>
+        <div className={styles.decisionGrid}>
+          {strategyDecision.map((item) => (
+            <div key={item.title} className={styles.decisionCard}>
+              <h4 className={styles.decisionTitle}>{item.title}</h4>
+              <p className={styles.bodyText}>{item.description}</p>
+            </div>
+          ))}
+        </div>
+        <p className={styles.bodyText}>
+          MVP: kleinster nutzbarer Scope, klare Hypothese, Time-box (typisch 6 bis 8 Wochen)
+          und definierter Nutzerkreis, bevor Budget in die Breite fließt.
+        </p>
+      </section>
+
+      <section className={styles.strategyPanel}>
+        <SectionTitle>Bewährte Frameworks, adaptiert statt neu erfunden</SectionTitle>
+        <div className={styles.frameworkGrid}>
+          {strategyFrameworks.map((fw) => (
+            <div key={fw.title} className={styles.frameworkCard}>
+              <span className={styles.frameworkTag}>{fw.tag}</span>
+              <h4 className={styles.frameworkTitle}>{fw.title}</h4>
+              <p className={styles.frameworkDesc}>{fw.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Die Transformation</SectionTitle>
+        <ImpactTable rows={strategyImpact} />
+        <Callout>
+          Portfolio statt Projektliste, mit wenigen gut begründeten Bets und messbarer Skalierung.
+        </Callout>
+        <p className={styles.inlineCta}>
+          <strong>Bereit für Klarheit?</strong> Wir moderieren den Strategie-Workshop, liefern
+          das Scoring-Modell und begleiten Sie bis zur ersten Lighthouse-Entscheidung.
+        </p>
+      </section>
+    </div>
+  );
+}
+
 const contentByService: Record<string, () => React.ReactNode> = {
   "gtm-engineering": GtmContent,
   mcp: McpContent,
   "workflow-agents": WorkflowAgentsContent,
   "business-models": BusinessModelsContent,
+  "ai-strategy": AiStrategyContent,
 };
 
 export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {

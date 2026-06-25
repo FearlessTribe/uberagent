@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { processSteps } from "../data/content";
 import { ScrollReveal } from "./ScrollReveal";
+import { slidePanel } from "../motion";
 import styles from "./Process.module.css";
 
 const AUTO_INTERVAL = 8000;
@@ -8,6 +10,7 @@ const AUTO_INTERVAL = 8000;
 export function Process() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
 
   const next = useCallback(() => {
     setActive((prev) => (prev + 1) % processSteps.length);
@@ -45,35 +48,44 @@ export function Process() {
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
-            <article className={`card ${styles.stepBox}`} key={active}>
-              <div className={styles.boxTop}>
-                <span className={styles.number}>{step.number}</span>
-                <div className={styles.navButtons}>
-                  <button
-                    type="button"
-                    className={styles.navBtn}
-                    onClick={prev}
-                    aria-label="Vorheriger Schritt"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                      <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.navBtn}
-                    onClick={next}
-                    aria-label="Nächster Schritt"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                      <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={active}
+                className={`card ${styles.stepBox}`}
+                variants={reduce ? undefined : slidePanel}
+                initial={reduce ? false : "hidden"}
+                animate="visible"
+                exit="exit"
+              >
+                <div className={styles.boxTop}>
+                  <span className={styles.number}>{step.number}</span>
+                  <div className={styles.navButtons}>
+                    <button
+                      type="button"
+                      className={styles.navBtn}
+                      onClick={prev}
+                      aria-label="Vorheriger Schritt"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.navBtn}
+                      onClick={next}
+                      aria-label="Nächster Schritt"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <h3 className={styles.stepTitle}>{step.title}</h3>
-              <p className={styles.stepBody}>{step.description}</p>
-            </article>
+                <h3 className={styles.stepTitle}>{step.title}</h3>
+                <p className={styles.stepBody}>{step.description}</p>
+              </motion.article>
+            </AnimatePresence>
 
             <div className={styles.tabs} role="tablist" aria-label="Prozessschritte">
               {processSteps.map((s, i) => (

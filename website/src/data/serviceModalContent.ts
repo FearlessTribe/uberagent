@@ -158,3 +158,142 @@ export const businessImpact: ImpactRow[] = [
   { before: "Intuitions-Entscheidungen", after: "Datenbasiertes Go/No-Go" },
   { before: "Hohes Investitionsrisiko", after: "Gestufte Validierung" },
 ];
+
+export const strategyFunnel = [
+  { step: "01", title: "Collect", icon: "collect", description: "Use Cases systematisch sammeln, über Teams, Systeme und Funktionen hinweg." },
+  { step: "02", title: "Score", icon: "score", description: "Grobbewertung mit einem verbundenen Priority Score statt isolierter Metriken." },
+  { step: "03", title: "Deep-Dive", icon: "deepdive", description: "Top-Kandidaten mit Business Case, Datenreife und Compliance-Vorprüfung." },
+  { step: "04", title: "Decide", icon: "decide", description: "Portfolio-Entscheid: Lighthouse-Bets plus Quick Wins mit klaren Ownern." },
+  { step: "05", title: "Build", icon: "build", description: "MVP mit Time-box, Hypothese und definierter Erfolgsmetrik, typisch 6 bis 8 Wochen." },
+  { step: "06", title: "Scale", icon: "scale", description: "Nur skalieren, wenn KPI-Schwelle, Adoption und Run-Kosten tragfähig sind." },
+];
+
+export const strategyGovernance = [
+  "Zentrales AI-Backlog mit klaren Ownern je Use Case (Business + IT)",
+  "Stage-Gates zwischen jeder Phase, kein automatisches Weiterrollen",
+  "Portfolio statt Projektliste: wenige Bets mit hohem Impact",
+  "Gewichte im Scoring-Modell sind explizit und für Management justierbar",
+];
+
+export const strategyDiscoveryAreas = [
+  {
+    title: "Sales, Marketing & GTM",
+    items: [
+      "Lead-Scoring & ICP-Matching, personalisierte Erstansprache",
+      "Churn- und Schlummerkunden-Erkennung, Win-back-Sequenzen",
+      "Next-Best-Offer aus Kauf- und CRM-Historie",
+      "GenAI für Markt-/Wettbewerbsanalyse und segment-spezifisches Messaging",
+      "Auto-Generierung von Angeboten und Verträgen aus CPQ/CRM/PIM",
+    ],
+  },
+  {
+    title: "Production & Operations",
+    items: [
+      "Automatisierte Shift-, Qualitäts- und OEE-Reports aus MES/Sensordaten",
+      "Root-Cause-Assistenz bei Reklamationen und Ausschuss",
+      "Visual Quality Control und Predictive Maintenance",
+      "Prozess-, Energie- und Yield-Optimierung mit ML",
+      "Demand Forecasting und S&OP-Unterstützung",
+    ],
+  },
+  {
+    title: "Support-Funktionen",
+    items: [
+      "Interner Knowledge-Assistant über HR, IT und QM-Dokumente",
+      "Übersetzung und Dokumenten-Automatisierung",
+      "Procurement: Spend-Analyse und Vertragsauswertung",
+      "Low-Risk Quick Wins mit schneller Sichtbarkeit",
+    ],
+  },
+];
+
+export const strategyScoreIndices = [
+  {
+    index: "Value (V)",
+    metrics: "Revenue-Impact · Kosten-/Effizienz · Qualität/Risiko · Strategic Fit",
+  },
+  {
+    index: "Feasibility (F)",
+    metrics: "Datenreife · Tech-Reife · System-Integration · Change-Readiness · Time-to-Value",
+  },
+  {
+    index: "Risk (R)",
+    metrics: "Technisch · Rechtlich (DSGVO, EU AI Act) · Kommerziell · Organisatorisch",
+  },
+];
+
+export const strategyDeepDive = [
+  { title: "Business Case", description: "Quantifizierter ROI, Annahmen und Sensitivitätsanalyse." },
+  { title: "Solution Design", description: "Build vs. Buy vs. Configure; Datenfluss; Foundation-Model + RAG vs. Fine-Tuning." },
+  { title: "Datenreife-Check", description: "Verfügbarkeit, Qualität, Zugriff und Labeling." },
+  { title: "Compliance-Vorprüfung", description: "EU AI Act-Risikoklasse, DSGVO, IP und Vertraulichkeit." },
+  { title: "Delivery-Plan", description: "Meilensteine, Owner, Abhängigkeiten und PoC-Exit-Kriterien." },
+];
+
+export const strategyKpiLayers = [
+  { layer: "North-Star", description: "Business-Outcome je Case, z. B. Conversion, Qualität, Durchsatz oder Zeitersparnis." },
+  { layer: "Value / Outcome", description: "€-Impact, ROI und Time-to-Value." },
+  { layer: "Adoption", description: "Aktive Nutzer, Nutzungsfrequenz und Anteil automatisierter Vorgänge." },
+  { layer: "Qualität & Trust", description: "Accuracy, Halluzinationsrate und Human-Override-Quote." },
+  { layer: "Cost / Run", description: "Kosten pro Vorgang, Token/Infra und Latenz." },
+];
+
+export const strategyDecision = [
+  {
+    title: "Lighthouse-Cases",
+    description: "1 bis 2 Initiativen mit hohem Value und solider Machbarkeit, sichtbarer strategischer Hebel.",
+  },
+  {
+    title: "Quick Wins",
+    description: "1 bis 2 low-risk Cases für schnelle Sichtbarkeit und Adoption im Unternehmen.",
+  },
+  {
+    title: "Scale-Gate",
+    description: "Skalierung nur bei erreichten KPI-Schwellen und tragfähigen Run-Kosten.",
+  },
+];
+
+export const strategyFrameworks = [
+  {
+    title: "Value/Feasibility-Matrix",
+    description: "Impact vs. Machbarkeit als Standard für die Portfolio-Auswahl.",
+    tag: "Priorisierung",
+  },
+  {
+    title: "Three Horizons",
+    description: "Quick Wins, neue Capabilities und transformative Bets im Gleichgewicht.",
+    tag: "Portfolio",
+  },
+  {
+    title: "AI Maturity Models",
+    description: "Standortbestimmung von Awareness bis Transformational.",
+    tag: "Reifegrad",
+  },
+  {
+    title: "CRISP-DM",
+    description: "Strukturiertes Vorgehen für Daten- und ML-Use-Cases.",
+    tag: "Delivery",
+  },
+  {
+    title: "People + AI",
+    description: "Human-in-the-loop und Trust-KPIs als Qualitätsanker.",
+    tag: "Responsible AI",
+  },
+  {
+    title: "Build vs. Buy vs. Configure",
+    description: "Make-or-buy-Entscheidung je Case und Kontext.",
+    tag: "Architektur",
+  },
+  {
+    title: "EU AI Act",
+    description: "Risikoklassen und Compliance-Anforderungen pro Use Case.",
+    tag: "Compliance",
+  },
+];
+
+export const strategyImpact: ImpactRow[] = [
+  { before: "Viele parallele PoCs", after: "Priorisiertes AI-Portfolio" },
+  { before: "Intuition & Lobbying", after: "Transparenter Priority Score" },
+  { before: "Unklare Ownership", after: "Stage-Gates mit klaren Ownern" },
+  { before: "Skalieren ohne Evidenz", after: "MVP → Messen → Scale-Gate" },
+];

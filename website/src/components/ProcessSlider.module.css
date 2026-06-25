@@ -22,7 +22,7 @@
   border: 1px solid var(--color-border);
   background: var(--color-background);
   text-align: left;
-  transition: all var(--duration-normal) var(--ease-out-smooth);
+  transition: opacity var(--duration-normal) var(--ease-out-smooth);
   min-width: 120px;
 }
 
