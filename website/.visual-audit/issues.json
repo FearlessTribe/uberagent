@@ -1,0 +1,32 @@
+[
+  {
+    "type": "mobile-menu-maybe-not-modal",
+    "note": "Menu clicked but no dialog detected"
+  },
+  {
+    "type": "nav-z-index-above-modal",
+    "modalIdx": 2,
+    "navZ": 1000,
+    "dialogZ": 0,
+    "navAboveDialog": true,
+    "navOverlapsDialog": true
+  },
+  {
+    "type": "trigger-failed",
+    "modalIdx": 2,
+    "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('nav a, header a').first()\n    - locator reso"
+  },
+  {
+    "type": "nav-z-index-above-modal",
+    "modalIdx": 3,
+    "navZ": 1000,
+    "dialogZ": 0,
+    "navAboveDialog": true,
+    "navOverlapsDialog": true
+  },
+  {
+    "type": "trigger-failed",
+    "modalIdx": 3,
+    "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('nav a, header a').first()\n    - locator reso"
+  }
+]

@@ -1,0 +1,331 @@
+{
+  "discovered": {
+    "navLinks": [
+      {
+        "i": 0,
+        "text": "überagent",
+        "href": "#home"
+      }
+    ],
+    "buttons": [
+      {
+        "i": 0,
+        "text": "Home",
+        "aria": null,
+        "className": "_link_106i1_19 _active_106i1_24"
+      },
+      {
+        "i": 1,
+        "text": "Services",
+        "aria": null,
+        "className": "_link_106i1_19 "
+      },
+      {
+        "i": 2,
+        "text": "Success Stories",
+        "aria": null,
+        "className": "_link_106i1_19 "
+      },
+      {
+        "i": 3,
+        "text": "Team",
+        "aria": null,
+        "className": "_link_106i1_19 "
+      },
+      {
+        "i": 4,
+        "text": "Erstgespräch",
+        "aria": null,
+        "className": "_btn_12q29_1 _sm_12q29_29 _onDark_12q29_82"
+      },
+      {
+        "i": 5,
+        "text": "",
+        "aria": "Menü öffnen",
+        "className": "_menuToggle_106i1_36"
+      },
+      {
+        "i": 6,
+        "text": "",
+        "aria": "Menü schließen",
+        "className": "_offCanvasBackdrop_106i1_226"
+      },
+      {
+        "i": 7,
+        "text": "Home",
+        "aria": null,
+        "className": "_offCanvasLink_106i1_282"
+      },
+      {
+        "i": 8,
+        "text": "Services",
+        "aria": null,
+        "className": "_offCanvasLink_106i1_282"
+      },
+      {
+        "i": 9,
+        "text": "Success Stories",
+        "aria": null,
+        "className": "_offCanvasLink_106i1_282"
+      },
+      {
+        "i": 10,
+        "text": "Team",
+        "aria": null,
+        "className": "_offCanvasLink_106i1_282"
+      },
+      {
+        "i": 11,
+        "text": "Erstgespräch vereinbaren",
+        "aria": null,
+        "className": "_btn_12q29_1 _md_12q29_39 _onLight_12q29_110 _fullWidth_12q29_76"
+      },
+      {
+        "i": 12,
+        "text": "Erstgespräch vereinbaren",
+        "aria": null,
+        "className": "_btn_12q29_1 _md_12q29_39 _onDark_12q29_82"
+      },
+      {
+        "i": 13,
+        "text": "Services entdecken",
+        "aria": null,
+        "className": "_btn_12q29_1 _md_12q29_39 _onDarkGhost_12q29_93"
+      },
+      {
+        "i": 14,
+        "text": "GTMCRMPipelineAI GTM EngineeringAus frag",
+        "aria": null,
+        "className": "card card-dark _serviceCard_1p9bn_63 _featured_1p9bn_75"
+      },
+      {
+        "i": 15,
+        "text": "MCPIntegrationEnterpriseEnd-to-End MCP I",
+        "aria": null,
+        "className": "card card-dark _serviceCard_1p9bn_63 "
+      },
+      {
+        "i": 16,
+        "text": "AgentsAutomationOperationsAI Workflow Ag",
+        "aria": null,
+        "className": "card card-dark _serviceCard_1p9bn_63 "
+      },
+      {
+        "i": 17,
+        "text": "ValidationStrategyMVPValidieren von neue",
+        "aria": null,
+        "className": "card card-dark _serviceCard_1p9bn_63 "
+      },
+      {
+        "i": 18,
+        "text": "",
+        "aria": "Vorheriger Schritt",
+        "className": "_navBtn_1hxyq_57"
+      },
+      {
+        "i": 19,
+        "text": "",
+        "aria": "Nächster Schritt",
+        "className": "_navBtn_1hxyq_57"
+      },
+      {
+        "i": 20,
+        "text": "01Ideation Workshop",
+        "aria": "Schritt 01: Ideation Workshop",
+        "className": "_tab_1hxyq_91 _tabActive_1hxyq_122"
+      },
+      {
+        "i": 21,
+        "text": "02Lösungsdesign & Planung",
+        "aria": "Schritt 02: Lösungsdesign & Planung",
+        "className": "_tab_1hxyq_91 "
+      },
+      {
+        "i": 22,
+        "text": "03Implementierung & Integration",
+        "aria": "Schritt 03: Implementierung & Integration",
+        "className": "_tab_1hxyq_91 "
+      },
+      {
+        "i": 23,
+        "text": "04Support & kontinuierliche Optimierung",
+        "aria": "Schritt 04: Support & kontinuierliche Optimierung",
+        "className": "_tab_1hxyq_91 "
+      },
+      {
+        "i": 24,
+        "text": "StrategyAI Sales AgentSalesforceAI Sales",
+        "aria": null,
+        "className": "card card-dark _projectCard_1sdee_48"
+      },
+      {
+        "i": 25,
+        "text": "Laurens Lang, M.Sc. MBACEO",
+        "aria": null,
+        "className": "card _memberCard_i9r78_46"
+      },
+      {
+        "i": 26,
+        "text": "Laurens Lang, M.Sc. MBACEO · überagent",
+        "aria": "Profil von Laurens Lang öffnen",
+        "className": "_profileColumn_17omw_64"
+      },
+      {
+        "i": 27,
+        "text": "AI GTM Engineering",
+        "aria": null,
+        "className": "_serviceLink_17omw_158"
+      },
+      {
+        "i": 28,
+        "text": "End-to-End MCP Implementation",
+        "aria": null,
+        "className": "_serviceLink_17omw_158"
+      },
+      {
+        "i": 29,
+        "text": "AI Workflow Agents",
+        "aria": null,
+        "className": "_serviceLink_17omw_158"
+      }
+    ],
+    "clickableCards": [
+      {
+        "i": 0,
+        "tag": "SECTION",
+        "className": "section _services_1p9bn_1",
+        "text": "LeistungenServicesVon GTM-Systemen über MCP-Integr"
+      },
+      {
+        "i": 1,
+        "tag": "DIV",
+        "className": "_servicesContent_1p9bn_25",
+        "text": "LeistungenServicesVon GTM-Systemen über MCP-Integr"
+      },
+      {
+        "i": 2,
+        "tag": "BUTTON",
+        "className": "card card-dark _serviceCard_1p9bn_63 _featured_1p9bn_75",
+        "text": "GTMCRMPipelineAI GTM EngineeringAus fragmentierten"
+      },
+      {
+        "i": 3,
+        "tag": "DIV",
+        "className": "_cardMain_1p9bn_83",
+        "text": "GTMCRMPipelineAI GTM EngineeringAus fragmentierten"
+      },
+      {
+        "i": 4,
+        "tag": "H3",
+        "className": "_serviceTitle_1p9bn_148",
+        "text": "AI GTM Engineering"
+      },
+      {
+        "i": 5,
+        "tag": "P",
+        "className": "_cardHook_1p9bn_156",
+        "text": "Aus fragmentierten CRM-Daten und Signalen wird ein"
+      },
+      {
+        "i": 6,
+        "tag": "DIV",
+        "className": "_cardAside_1p9bn_88",
+        "text": "6–8 Wo.Time-to-ValueGTM-System besprechen"
+      },
+      {
+        "i": 7,
+        "tag": "BUTTON",
+        "className": "card card-dark _serviceCard_1p9bn_63 ",
+        "text": "MCPIntegrationEnterpriseEnd-to-End MCP Implementat"
+      },
+      {
+        "i": 8,
+        "tag": "DIV",
+        "className": "_cardMain_1p9bn_83",
+        "text": "MCPIntegrationEnterpriseEnd-to-End MCP Implementat"
+      },
+      {
+        "i": 9,
+        "tag": "H3",
+        "className": "_serviceTitle_1p9bn_148",
+        "text": "End-to-End MCP Implementation"
+      },
+      {
+        "i": 10,
+        "tag": "P",
+        "className": "_cardHook_1p9bn_156",
+        "text": "Ihre bestehenden Systeme werden AI-ready — standar"
+      },
+      {
+        "i": 11,
+        "tag": "DIV",
+        "className": "_cardAside_1p9bn_88",
+        "text": "CRM · ERP · CMSAnbindungenMCP-Potenzial prüfen"
+      },
+      {
+        "i": 12,
+        "tag": "BUTTON",
+        "className": "card card-dark _serviceCard_1p9bn_63 ",
+        "text": "AgentsAutomationOperationsAI Workflow AgentsDigita"
+      },
+      {
+        "i": 13,
+        "tag": "DIV",
+        "className": "_cardMain_1p9bn_83",
+        "text": "AgentsAutomationOperationsAI Workflow AgentsDigita"
+      },
+      {
+        "i": 14,
+        "tag": "H3",
+        "className": "_serviceTitle_1p9bn_148",
+        "text": "AI Workflow Agents"
+      },
+      {
+        "i": 15,
+        "tag": "P",
+        "className": "_cardHook_1p9bn_156",
+        "text": "Digitale Mitarbeitende für konkrete Prozesse — mit"
+      },
+      {
+        "i": 16,
+        "tag": "DIV",
+        "className": "_cardAside_1p9bn_88",
+        "text": "Human-in-the-loopKontrolleWorkflow-Agent konzipier"
+      },
+      {
+        "i": 17,
+        "tag": "BUTTON",
+        "className": "card card-dark _serviceCard_1p9bn_63 ",
+        "text": "ValidationStrategyMVPValidieren von neuen Geschäft"
+      },
+      {
+        "i": 18,
+        "tag": "DIV",
+        "className": "_cardMain_1p9bn_83",
+        "text": "ValidationStrategyMVPValidieren von neuen Geschäft"
+      },
+      {
+        "i": 19,
+        "tag": "H3",
+        "className": "_serviceTitle_1p9bn_148",
+        "text": "Validieren von neuen Geschäftsmodellen"
+      }
+    ]
+  },
+  "state": {
+    "scrollY": 0,
+    "bodyOverflow": "hidden auto",
+    "htmlOverflow": "visible",
+    "nav": {
+      "tag": "HEADER",
+      "className": "_header_106i1_1 _onHero_106i1_11",
+      "position": "fixed",
+      "zIndex": "1000",
+      "top": 0,
+      "visible": true
+    },
+    "openModalCount": 0,
+    "openModalClasses": [],
+    "hash": ""
+  }
+}
