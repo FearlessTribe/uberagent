@@ -22,12 +22,24 @@
   gap: var(--space-gap);
   position: relative;
   margin-bottom: var(--space-section-start);
+  align-items: stretch;
+}
+
+.grid .reveal-item {
+  display: flex;
+  height: 100%;
 }
 
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    align-items: stretch;
+  }
+
+  .grid .reveal-item {
+    display: flex;
+    height: 100%;
   }
 }
 
@@ -39,7 +51,8 @@
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  min-height: 240px;
+  height: 100%;
+  min-height: 280px;
 }
 
 @media (min-width: 640px) {
@@ -47,7 +60,7 @@
     flex-direction: row;
     align-items: stretch;
     gap: clamp(24px, 4vw, 48px);
-    min-height: 200px;
+    min-height: 280px;
   }
 
   .featured .cardMain {

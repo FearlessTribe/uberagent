@@ -66,7 +66,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .heroPanelAccent .panelLabel {
@@ -83,7 +83,7 @@
 .panelList li {
   font-size: 0.75rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.88);
   padding-left: 12px;
   position: relative;
 }
@@ -119,17 +119,24 @@
 
 .miniStack span {
   padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 4px;
   font-size: 0.6875rem;
   font-family: var(--font-mono);
-  color: rgba(255, 255, 255, 0.75);
+  color: #fff;
+}
+
+.heroPanelAccent .miniStack span {
+  background: var(--color-surface);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #fff;
 }
 
 .chaosDots {
   position: relative;
-  height: 56px;
-  margin: 4px 0;
+  height: 64px;
+  margin: 4px 0 8px;
 }
 
 .chaosDots span {
@@ -138,14 +145,55 @@
   height: 7px;
   border-radius: 50%;
   background: var(--color-primary-light);
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
-.chaosDots span:nth-child(1) { top: 10%; left: 18%; }
-.chaosDots span:nth-child(2) { top: 48%; left: 58%; }
-.chaosDots span:nth-child(3) { top: 28%; left: 78%; }
-.chaosDots span:nth-child(4) { top: 68%; left: 32%; }
-.chaosDots span:nth-child(5) { top: 22%; left: 42%; }
+.chaosDots span:nth-child(1) { top: 12%; left: 15%; }
+.chaosDots span:nth-child(2) { top: 55%; left: 62%; }
+.chaosDots span:nth-child(3) { top: 28%; left: 82%; }
+.chaosDots span:nth-child(4) { top: 72%; left: 28%; }
+.chaosDots span:nth-child(5) { top: 18%; left: 48%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .chaosDots span:nth-child(1) {
+    animation: chaos-drift-a 16s var(--ease-out-smooth) infinite alternate;
+  }
+
+  .chaosDots span:nth-child(2) {
+    animation: chaos-drift-b 18s var(--ease-out-smooth) infinite alternate;
+    animation-delay: -3s;
+  }
+
+  .chaosDots span:nth-child(3) {
+    animation: chaos-drift-c 14s var(--ease-out-smooth) infinite alternate;
+    animation-delay: -6s;
+  }
+
+  .chaosDots span:nth-child(4) {
+    animation: chaos-drift-b 20s var(--ease-out-smooth) infinite alternate;
+    animation-delay: -9s;
+  }
+
+  .chaosDots span:nth-child(5) {
+    animation: chaos-drift-a 17s var(--ease-out-smooth) infinite alternate;
+    animation-delay: -12s;
+  }
+}
+
+@keyframes chaos-drift-a {
+  0% { transform: translate(0, 0); opacity: 0.55; }
+  100% { transform: translate(10px, -12px); opacity: 0.95; }
+}
+
+@keyframes chaos-drift-b {
+  0% { transform: translate(0, 0); opacity: 0.5; }
+  100% { transform: translate(-12px, 8px); opacity: 0.9; }
+}
+
+@keyframes chaos-drift-c {
+  0% { transform: translate(0, 0); opacity: 0.6; }
+  100% { transform: translate(8px, 10px); opacity: 0.85; }
+}
 
 /* Layout */
 .content {
@@ -203,7 +251,7 @@
 
 .statLabel {
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -365,7 +413,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.7);
   display: block;
   margin-bottom: 10px;
 }
@@ -383,7 +431,7 @@
 
 .compareList li {
   font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.88);
   padding-left: 14px;
   position: relative;
   line-height: 1.5;
@@ -421,102 +469,6 @@
   margin-top: 8px;
 }
 
-/* MCP problem visual */
-.problemVisual {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-@media (min-width: 640px) {
-  .problemVisual {
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-  }
-}
-
-.problemSide {
-  padding: 18px;
-  background: #fafafa;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  text-align: center;
-}
-
-.problemSide p {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  margin-top: 12px;
-  line-height: 1.5;
-}
-
-.problemLabel {
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-muted);
-}
-
-.chaosDots {
-  position: relative;
-  height: 48px;
-  margin: 12px auto;
-  max-width: 120px;
-}
-
-.chaosDots span {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-text-muted);
-  opacity: 0.5;
-}
-
-.chaosDots span:nth-child(1) { top: 10%; left: 20%; }
-.chaosDots span:nth-child(2) { top: 50%; left: 60%; }
-.chaosDots span:nth-child(3) { top: 30%; left: 80%; }
-.chaosDots span:nth-child(4) { top: 70%; left: 30%; }
-.chaosDots span:nth-child(5) { top: 20%; left: 45%; }
-
-.agentStack {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 12px auto;
-  max-width: 140px;
-}
-
-.agentStack span {
-  padding: 6px 12px;
-  background: var(--color-surface);
-  color: var(--color-secondary);
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-}
-
-.problemBridge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mcpBadge {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 8px 14px;
-  background: rgba(204, 128, 102, 0.15);
-  color: var(--color-primary);
-  border: 1px solid rgba(204, 128, 102, 0.35);
-  border-radius: var(--radius-pill);
-}
-
 /* Value props */
 .valueGrid {
   display: grid;
@@ -552,7 +504,7 @@
 .valueDesc {
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* Service cards (MCP) */
@@ -620,6 +572,15 @@
   color: var(--color-secondary);
 }
 
+.useCase .bodyText,
+.serviceCard .bodyText {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.serviceCard .compactList li {
+  color: rgba(255, 255, 255, 0.78);
+}
+
 /* Principles / mini cards */
 .principleGrid {
   display: grid;
@@ -661,7 +622,7 @@
 .miniBody {
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Benefits */
@@ -771,7 +732,7 @@
 .pipelineDesc {
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* Business validation */
@@ -815,6 +776,10 @@
 
 .strategyPanel .discoveryTitle {
   color: var(--color-text-primary);
+}
+
+.strategyPanel .discoveryCard .compactList li {
+  color: var(--color-text-secondary);
 }
 
 .strategyPanel .scoreCard {
@@ -872,7 +837,7 @@
 .processIntro {
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
@@ -951,7 +916,7 @@
 .processDesc {
   font-size: 0.75rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.82);
   margin: 0;
 }
 
@@ -1029,7 +994,24 @@
 .funnelDesc {
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.experimentCard .bodyText {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.experimentMetric {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 4px 10px;
+  background: rgba(204, 128, 102, 0.15);
+  border-radius: var(--radius-pill);
 }
 
 .formulaBox {
@@ -1087,13 +1069,6 @@
   margin-bottom: 8px;
 }
 
-.scoreCardText {
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-}
-
 .scoreOp {
   display: flex;
   align-items: center;
@@ -1133,7 +1108,18 @@
 .scoreMetrics {
   font-size: 0.8125rem;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.scoreCardText {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.discoveryCard .compactList li {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .discoveryGrid {
@@ -1405,8 +1391,8 @@
   font-size: 0.625rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.72);
   padding: 4px 10px;
-  background: rgba(204, 128, 102, 0.08);
+  background: rgba(204, 128, 102, 0.15);
   border-radius: var(--radius-pill);
 }

@@ -202,34 +202,6 @@ function GtmContent() {
       </section>
 
       <section>
-        <SectionTitle>Das Problem: viele Tools, wenig Execution</SectionTitle>
-        <div className={styles.compareVisual}>
-          <div className={styles.compareCard}>
-            <span className={styles.compareLabel}>Heute</span>
-            <ul className={styles.compareList}>
-              <li>CRM, Sheets, Outreach-Tools — getrennt</li>
-              <li>Manuelle Recherche & Briefings</li>
-              <li>Unklare Signale, schwache Priorisierung</li>
-            </ul>
-          </div>
-          <div className={styles.compareArrow} aria-hidden="true">→</div>
-          <div className={`${styles.compareCard} ${styles.compareCardGood}`}>
-            <span className={styles.compareLabel}>Mit überagent</span>
-            <ul className={styles.compareList}>
-              <li>Eine GTM-Ausführungsschicht</li>
-              <li>Automatisiertes Enrichment & Routing</li>
-              <li>Signal-basierte Priorisierung</li>
-            </ul>
-          </div>
-        </div>
-        <p className={styles.bodyText}>
-          Statt weitere Einzellösungen auf den Stack zu setzen, verbinden wir CRM, Produktdaten,
-          externe Signale und Workflows zu einem System — bei dem ICP, Priorisierung, Research,
-          Personalisierung und Reporting zusammenhängen.
-        </p>
-      </section>
-
-      <section>
         <SectionTitle>Was Sie konkret gewinnen</SectionTitle>
         <ul className={styles.list}>
           {gtmBenefits.map((b) => (
@@ -310,31 +282,6 @@ function McpContent() {
               <li>Standardisiert &amp; kontrolliert</li>
               <li>Erweiterbar &amp; auditierbar</li>
             </ul>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Warum MCP jetzt relevant wird</SectionTitle>
-        <div className={styles.problemVisual}>
-          <div className={styles.problemSide}>
-            <span className={styles.problemLabel}>Ohne MCP</span>
-            <div className={styles.chaosDots} aria-hidden="true">
-              <span /><span /><span /><span /><span />
-            </div>
-            <p>APIs, DBs, SaaS, Docs — verstreut, fragil, unsicher</p>
-          </div>
-          <div className={styles.problemBridge}>
-            <span className={styles.mcpBadge}>MCP Layer</span>
-          </div>
-          <div className={styles.problemSide}>
-            <span className={styles.problemLabel}>Mit MCP</span>
-            <div className={styles.agentStack}>
-              <span>Agent</span>
-              <span>Tools</span>
-              <span>Resources</span>
-            </div>
-            <p>Standardisiert, kontrolliert, erweiterbar</p>
           </div>
         </div>
       </section>
