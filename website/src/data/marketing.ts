@@ -183,7 +183,7 @@ export const roiDefaults = {
   teamSize: 12,
   hoursPerWeek: 8,
   hourlyRate: 85,
-  automationRate: 0.55,
+  automationRate: 0.75,
 };
 
 export type RoiCurrency = "CHF" | "EUR" | "USD";

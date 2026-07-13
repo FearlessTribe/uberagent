@@ -24,9 +24,8 @@ export function RoiCalculator() {
   const results = useMemo(() => {
     const hoursMonth = teamSize * hoursPerWeek * 4.33;
     const costMonth = hoursMonth * hourlyRate;
-    const savedHours = hoursMonth * roiDefaults.automationRate;
     const savedCost = costMonth * roiDefaults.automationRate;
-    return { hoursMonth, costMonth, savedHours, savedCost };
+    return { costMonth, savedCost };
   }, [teamSize, hoursPerWeek, hourlyRate]);
 
   return (
@@ -105,24 +104,18 @@ export function RoiCalculator() {
 
           <div className={styles.results}>
             <div className={styles.resultCard}>
-              <span className={styles.resultLabel}>Stunden / Monat verloren</span>
-              <span className={styles.resultValue}>{Math.round(results.hoursMonth)}</span>
-            </div>
-            <div className={styles.resultCard}>
               <span className={styles.resultLabel}>Kosten / Monat</span>
               <span className={styles.resultValue}>
                 {formatMoney(results.costMonth, currency, currencyMeta.locale)}
               </span>
             </div>
             <div className={`${styles.resultCard} ${styles.resultAccent}`}>
-              <span className={styles.resultLabel}>
-                Potenzial bei ~{Math.round(roiDefaults.automationRate * 100)}% Automatisierung
-              </span>
+              <span className={styles.resultLabel}>Sparen mit überagent.com</span>
               <span className={styles.resultValue}>
                 {formatMoney(results.savedCost, currency, currencyMeta.locale)}
               </span>
               <span className={styles.resultHint}>
-                ≈ {Math.round(results.savedHours)} Stunden / Monat
+                Bei 75% Automatisierung der manuellen Arbeit.
               </span>
             </div>
             <CtaButton
