@@ -297,3 +297,29 @@ export const strategyImpact: ImpactRow[] = [
   { before: "Unklare Ownership", after: "Stage-Gates mit klaren Ownern" },
   { before: "Skalieren ohne Evidenz", after: "MVP → Messen → Scale-Gate" },
 ];
+
+export const trainingModules = [
+  {
+    title: "Operating Model",
+    description: "Rollen, Freigaben, Escalation Paths und Ownership für produktive AI-Systeme.",
+  },
+  {
+    title: "Hands-on Workflows",
+    description: "Ihr Team übt an realen Cases: Prompting, QA, Monitoring und Fehlerpfade.",
+  },
+  {
+    title: "Systemverständnis",
+    description: "MCP, Agents und Integrationen so erklären, dass Fach- und Tech-Teams dieselbe Sprache sprechen.",
+  },
+  {
+    title: "Übergabe & Docs",
+    description: "Runbooks, Checklisten und Dashboards, damit Wissen nicht an Einzelpersonen hängt.",
+  },
+];
+
+export const trainingImpact: ImpactRow[] = [
+  { before: "Abhängigkeit vom Builder", after: "Team kann Systeme betreiben" },
+  { before: "Ad-hoc Prompting", after: "Klare Guardrails und QA" },
+  { before: "Unklare Ownership", after: "Definierte Rollen und Escalation" },
+  { before: "Einmalige Demo", after: "Nachhaltiges Enablement" },
+];

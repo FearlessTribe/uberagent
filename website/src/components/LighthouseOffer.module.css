@@ -1,0 +1,127 @@
+.section {
+  position: relative;
+  padding: clamp(72px, 10vw, 110px) 0;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(25, 28, 33, 0.92) 0%, rgba(25, 28, 33, 0.85) 55%, rgba(34, 38, 45, 0.9) 100%),
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(204, 128, 102, 0.18), transparent 65%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(40px, 6vw, 64px);
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary-light);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--color-secondary);
+}
+
+.description {
+  margin: 0;
+  max-width: 42ch;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.tagline {
+  margin: 0;
+  max-width: 36ch;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--color-secondary);
+}
+
+.steps {
+  display: grid;
+  gap: 14px;
+}
+
+.step {
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-control);
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.stepNum {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+}
+
+.stepLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(204, 128, 102, 0.55), transparent);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stepLine {
+    animation: line-draw 0.8s var(--ease-out-expo) both;
+  }
+}
+
+@keyframes line-draw {
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.stepTitle {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+.stepText {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+}

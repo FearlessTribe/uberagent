@@ -26,7 +26,7 @@ export function Services({ onOpenService }: ServicesProps) {
             Services
           </h2>
           <p className={styles.subline}>
-            Von GTM-Systemen über MCP-Integration bis zu Workflow Agents —
+            Von GTM-Systemen über MCP und Agents bis zu Strategy und Enablement,
             produktionsreif, nicht prototypisch.
           </p>
         </ScrollReveal>

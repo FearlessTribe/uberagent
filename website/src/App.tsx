@@ -3,9 +3,16 @@ import { OverlayProvider, useOverlay } from "./context/OverlayContext";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { Intro } from "./components/Intro";
-import { Process } from "./components/Process";
+import { PainPoints } from "./components/PainPoints";
+import { ChaosToStructure } from "./components/ChaosToStructure";
+import { BeforeAfter } from "./components/BeforeAfter";
+import { LighthouseOffer } from "./components/LighthouseOffer";
 import { Services } from "./components/Services";
-import { Projects } from "./components/Projects";
+import { GrowthBanner } from "./components/GrowthBanner";
+import { Process } from "./components/Process";
+import { CaseStudies } from "./components/CaseStudies";
+import { RoiCalculator } from "./components/RoiCalculator";
+import { Faq } from "./components/Faq";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
 
@@ -32,9 +39,16 @@ function AppContent() {
       <main>
         <Hero />
         <Intro />
+        <PainPoints />
+        <ChaosToStructure />
+        <BeforeAfter />
+        <LighthouseOffer />
         <Services onOpenService={overlay.openService} />
+        <GrowthBanner />
         <Process />
-        <Projects onOpenProject={overlay.openProject} />
+        <CaseStudies onOpenProject={overlay.openProject} />
+        <RoiCalculator />
+        <Faq />
         <Team onOpenLaurens={overlay.openLaurens} />
       </main>
       <ContactFooter

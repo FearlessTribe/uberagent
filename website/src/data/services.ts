@@ -121,6 +121,26 @@ export const services: Service[] = [
     ],
     ctaLabel: "AI-Strategie besprechen",
   },
+  {
+    id: "trainings",
+    slug: "trainings",
+    title: "Schulungen & Workshops",
+    shortDescription:
+      "Praxisnahe Enablement-Sessions, damit Ihr Team AI-Systeme versteht, steuert und weiterentwickelt, ohne Abhängigkeit von Einzelpersonen.",
+    cardHook:
+      "Vom ersten Shadow-Run bis zum Operating Model: Ihr Team lernt Prompting, Guardrails, Monitoring und Ownership an echten Use Cases.",
+    icon: "train",
+    eyebrow: "Enablement",
+    bannerTag: "Teams befähigen, Systeme betreiben",
+    lead: "Produktionstaugliche AI braucht Enablement. Wir schulen Fach- und Tech-Teams an Ihren Workflows, damit Wissen, Kontrolle und Verbesserung im Unternehmen bleiben.",
+    tags: ["Enablement", "Workshops", "Operating Model"],
+    stats: [
+      { value: "1–2 Tage", label: "Workshop" },
+      { value: "Hands-on", label: "an echten Cases" },
+      { value: "Docs", label: "für den Betrieb" },
+    ],
+    ctaLabel: "Enablement planen",
+  },
 ];
 
 export const serviceIds = services.map((s) => s.id);

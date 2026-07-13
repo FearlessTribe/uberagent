@@ -31,6 +31,12 @@ export function ServiceIcon({ type, className = "" }: ServiceIconProps) {
         <circle cx="16" cy="16" r="3" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
+    train: (
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M6 24V10l10-4 10 4v14" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M6 14l10 4 10-4M16 18v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
     mcp: (
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />

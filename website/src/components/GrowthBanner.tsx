@@ -18,9 +18,9 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
             <span className={styles.line} aria-hidden="true" />
             <div className={styles.textBlock}>
               <p className={styles.headline}>
-                Mehr Wachstum durch intelligente
-                <span className={styles.accent}> &amp; automatisierte </span>
-                Workflow Agenten.
+                Vom Use Case zum Kickstart:
+                <span className={styles.accent}> 7–14 Tage </span>
+                bis zum Live Prototype.
               </p>
             </div>
           </div>
@@ -31,7 +31,7 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
               surface="on-dark"
               onClick={() => scrollToSection("contact")}
             >
-              Get in touch
+              Erstgespräch vereinbaren
             </CtaButton>
           </div>
         </ScrollReveal>

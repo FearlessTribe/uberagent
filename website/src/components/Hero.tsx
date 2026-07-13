@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
+import { TrustBar } from "./TrustBar";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import {
   heroContainer,
@@ -124,12 +125,16 @@ export function Hero() {
       background="static-hero"
       bottomFade
       ariaLabelledBy="hero-heading"
+      contentClassName={styles.shellContent}
     >
       {reduce ? (
-        <div ref={contentRef}>{layout}</div>
+        <div ref={contentRef} className={styles.main}>
+          {layout}
+        </div>
       ) : (
         <motion.div
           ref={contentRef}
+          className={styles.main}
           style={{
             opacity: contentOpacity,
             y: contentY,
@@ -139,6 +144,7 @@ export function Hero() {
           {layout}
         </motion.div>
       )}
+      <TrustBar embedded />
     </SectionShell>
   );
 }

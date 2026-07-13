@@ -29,6 +29,8 @@ import {
   strategyImpact,
   strategyKpiLayers,
   strategyScoreIndices,
+  trainingImpact,
+  trainingModules,
   type ImpactRow,
   type ServiceStat,
 } from "../data/serviceModalContent";
@@ -765,12 +767,77 @@ Priority Score = (Value/5) × (Feasibility/5) × Risk-Faktor × 100`}
   );
 }
 
+function TrainingsContent() {
+  const meta = serviceModalMeta.trainings;
+
+  return (
+    <div className={styles.content}>
+      <section className={styles.heroSection}>
+        <span className={styles.heroTag}>{meta.bannerTag}</span>
+        <p className={styles.lead}>
+          AI-Systeme bleiben nur produktiv, wenn Teams sie verstehen und steuern können.
+          Wir machen Enablement praxisnah: an Ihren Cases, mit klaren Rollen und dokumentiertem Betrieb.
+        </p>
+        <div className={styles.statsRow}>
+          {meta.stats.map((s) => (
+            <StatPill key={s.label} {...s} />
+          ))}
+        </div>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Ohne Enablement</span>
+            <ul className={styles.panelList}>
+              <li>Wissen hängt an Einzelpersonen</li>
+              <li>Unklare Freigaben und Fehlerpfade</li>
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Mit Workshop</span>
+            <div className={styles.miniStack}>
+              <span>Rollen</span>
+              <span>QA &amp; Monitoring</span>
+              <span>Runbooks</span>
+            </div>
+            <ul className={styles.panelList}>
+              <li>Team kann Systeme betreiben</li>
+              <li>Klarer Operating Model</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Was wir vermitteln</SectionTitle>
+        <div className={styles.experimentGrid}>
+          {trainingModules.map((mod, i) => (
+            <div key={mod.title} className={styles.experimentCard}>
+              <span className={styles.experimentNum}>{String(i + 1).padStart(2, "0")}</span>
+              <h4 className={styles.experimentTitle}>{mod.title}</h4>
+              <p className={styles.bodyText}>{mod.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Die Transformation</SectionTitle>
+        <ImpactTable rows={trainingImpact} />
+        <Callout>
+          Enablement ist kein Add-on, sondern die Voraussetzung für skalierbare AI im Unternehmen.
+        </Callout>
+      </section>
+    </div>
+  );
+}
+
 const contentByService: Record<string, () => React.ReactNode> = {
   "gtm-engineering": GtmContent,
   mcp: McpContent,
   "workflow-agents": WorkflowAgentsContent,
   "business-models": BusinessModelsContent,
   "ai-strategy": AiStrategyContent,
+  trainings: TrainingsContent,
 };
 
 export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {

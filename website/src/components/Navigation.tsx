@@ -8,7 +8,9 @@ import styles from "./Navigation.module.css";
 const navLinks = [
   { id: "home", label: "Home" },
   { id: "services", label: "Services" },
+  { id: "offer", label: "Sprint" },
   { id: "projects", label: "Success Stories" },
+  { id: "faq", label: "FAQ" },
   { id: "team", label: "Team" },
 ];
 
