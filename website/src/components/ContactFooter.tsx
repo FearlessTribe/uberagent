@@ -1,6 +1,7 @@
 import { SectionShell } from "./SectionShell";
 import { teamMembers } from "../data/team";
 import { services } from "../data/services";
+import { trackCalendlyClick } from "../lib/analytics";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
 import { MotionPressable } from "./MotionPressable";
@@ -34,6 +35,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
               size="lg"
               surface="on-dark"
               href="https://calendly.com/supraflow/30min"
+              onClick={() => trackCalendlyClick("footer")}
             >
               Kostenloses Erstgespräch
             </CtaButton>

@@ -1,5 +1,10 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useActiveSection, useScrollProgress, scrollToSection } from "../hooks/useScrollReveal";
+import {
+  useActiveSection,
+  useScrollProgress,
+  scrollToContact,
+  scrollToSection,
+} from "../hooks/useScrollReveal";
 import { useOverlay } from "../context/OverlayContext";
 import { CtaButton } from "./CtaButton";
 import { menuContainer, menuItem, mobilePanel, modalOverlay, transitions } from "../motion";
@@ -22,8 +27,12 @@ export function Navigation() {
   const onDarkNav = !scrolled && !menuOpen;
   const reduce = useReducedMotion();
 
-  const handleNav = (id: string) => {
-    scrollToSection(id);
+  const handleNav = (id: string, options?: { trackContact?: boolean; location?: string }) => {
+    if (id === "contact" && options?.trackContact) {
+      scrollToContact(options.location ?? "nav");
+    } else {
+      scrollToSection(id);
+    }
     closeAll();
   };
 
@@ -85,7 +94,7 @@ export function Navigation() {
             <CtaButton
               size="sm"
               surface={onDarkNav ? "on-dark" : "on-light"}
-              onClick={() => handleNav("contact")}
+              onClick={() => handleNav("contact", { trackContact: true, location: "nav" })}
             >
               Erstgespräch
             </CtaButton>
@@ -157,7 +166,12 @@ export function Navigation() {
                     </motion.li>
                   ))}
                 </motion.ul>
-                <CtaButton size="md" surface="on-light" onClick={() => handleNav("contact")} fullWidth>
+                <CtaButton
+                  size="md"
+                  surface="on-light"
+                  onClick={() => handleNav("contact", { trackContact: true, location: "nav_mobile" })}
+                  fullWidth
+                >
                   Erstgespräch vereinbaren
                 </CtaButton>
               </motion.div>

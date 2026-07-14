@@ -1,4 +1,4 @@
-import { scrollToSection } from "../hooks/useScrollReveal";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import { CtaButton } from "./CtaButton";
 import styles from "./ModalContactFooter.module.css";
 
@@ -12,7 +12,7 @@ export function ModalContactFooter({
   label = "Get in touch",
 }: ModalContactFooterProps) {
   const handleClick = () => {
-    scrollToSection("contact");
+    scrollToContact("modal_footer");
     onClose();
   };
 

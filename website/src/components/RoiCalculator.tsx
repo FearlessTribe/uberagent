@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
 import { roiCurrencies, roiDefaults, type RoiCurrency } from "../data/marketing";
-import { scrollToSection } from "../hooks/useScrollReveal";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import styles from "./RoiCalculator.module.css";
 
 function formatMoney(value: number, currency: RoiCurrency, locale: string) {
@@ -121,7 +121,7 @@ export function RoiCalculator() {
             <CtaButton
               size="md"
               surface="on-dark"
-              onClick={() => scrollToSection("contact")}
+              onClick={() => scrollToContact("roi_calculator")}
             >
               Individuellen Plan besprechen
             </CtaButton>

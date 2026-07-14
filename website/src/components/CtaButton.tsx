@@ -70,6 +70,7 @@ export function CtaButton({
         className={className}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={onClick}
         {...motionProps}
       >
         {content}

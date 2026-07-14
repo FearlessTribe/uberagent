@@ -3,7 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { TrustBar } from "./TrustBar";
-import { scrollToSection } from "../hooks/useScrollReveal";
+import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
 import {
   heroContainer,
   heroFeatureContainer,
@@ -79,7 +79,7 @@ export function Hero() {
           <CtaButton
             size="md"
             surface="on-dark"
-            onClick={() => scrollToSection("contact")}
+            onClick={() => scrollToContact("hero")}
           >
             Erstgespräch vereinbaren
           </CtaButton>

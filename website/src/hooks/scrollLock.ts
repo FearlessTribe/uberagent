@@ -1,3 +1,5 @@
+import { trackContactCta } from "../lib/analytics";
+
 let lockCount = 0;
 let savedScrollY = 0;
 let pendingScroll: (() => void) | null = null;
@@ -69,4 +71,10 @@ export function scrollToSection(id: string, behavior: ScrollBehavior = "auto") {
   }
 
   run();
+}
+
+/** Scroll to footer contact and track the CTA in Google Analytics */
+export function scrollToContact(location: string, behavior: ScrollBehavior = "auto") {
+  trackContactCta(location);
+  scrollToSection("contact", behavior);
 }

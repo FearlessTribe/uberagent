@@ -1,7 +1,7 @@
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
 import { kickstartOffer } from "../data/marketing";
-import { scrollToSection } from "../hooks/useScrollReveal";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import styles from "./LighthouseOffer.module.css";
 
 export function LighthouseOffer() {
@@ -19,7 +19,7 @@ export function LighthouseOffer() {
           <CtaButton
             size="md"
             surface="on-dark"
-            onClick={() => scrollToSection("contact")}
+            onClick={() => scrollToContact("kickstart_offer")}
           >
             {kickstartOffer.cta}
           </CtaButton>

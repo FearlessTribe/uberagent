@@ -1,5 +1,5 @@
 import { CtaButton } from "./CtaButton";
-import { scrollToSection } from "../hooks/useScrollReveal";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import styles from "./GrowthBanner.module.css";
 
@@ -29,7 +29,7 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
             <CtaButton
               size="sm"
               surface="on-dark"
-              onClick={() => scrollToSection("contact")}
+              onClick={() => scrollToContact("growth_banner")}
             >
               Erstgespräch vereinbaren
             </CtaButton>

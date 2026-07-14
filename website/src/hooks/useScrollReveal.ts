@@ -90,4 +90,4 @@ export function useCardGlow() {
   return { handleMouseMove };
 }
 
-export { scrollToSection } from "./scrollLock";
+export { scrollToSection, scrollToContact } from "./scrollLock";
