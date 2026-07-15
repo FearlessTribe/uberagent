@@ -2,10 +2,10 @@ import { lazy, Suspense } from "react";
 import { OverlayProvider, useOverlay } from "./context/OverlayContext";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
+import { PotentialCheck } from "./components/PotentialCheck";
 import { Intro } from "./components/Intro";
 import { PainPoints } from "./components/PainPoints";
 import { ChaosToStructure } from "./components/ChaosToStructure";
-import { BeforeAfter } from "./components/BeforeAfter";
 import { LighthouseOffer } from "./components/LighthouseOffer";
 import { Services } from "./components/Services";
 import { GrowthBanner } from "./components/GrowthBanner";
@@ -38,10 +38,10 @@ function AppContent() {
       <Navigation />
       <main>
         <Hero />
+        <PotentialCheck />
         <Intro />
         <PainPoints />
         <ChaosToStructure />
-        <BeforeAfter />
         <LighthouseOffer />
         <Services onOpenService={overlay.openService} />
         <GrowthBanner />

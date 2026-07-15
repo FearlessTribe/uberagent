@@ -30,3 +30,17 @@ export function trackCalendlyClick(location: string) {
     link_url: "https://calendly.com/supraflow/30min",
   });
 }
+
+/** AI Potenzial-Check: URL step submitted */
+export function trackPotentialCheckUrl() {
+  trackEvent("potential_check_url", {
+    step: "url",
+  });
+}
+
+/** AI Potenzial-Check: lead form submitted */
+export function trackPotentialCheckLead() {
+  trackEvent("potential_check_lead", {
+    step: "lead",
+  });
+}

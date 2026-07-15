@@ -2,12 +2,36 @@
 
 Vite + React. Alles in diesem Ordner.
 
+## AI Potenzial-Check → Notion
+
+Leads landen in der Notion-Datenbank **AI Potenzial-Check Leads**.
+
+### Einmaliges Setup
+
+1. In Notion eine Seite anlegen (z. B. `überagent Leads`).
+2. Oben rechts **Teilen / Connections** → Integration **überagent website** hinzufügen.
+3. Page-URL kopieren und DB anlegen:
+
+```bash
+NOTION_TOKEN='…' node scripts/create-notion-db.mjs 'https://www.notion.so/…'
+printf '%s' '<database-id>' | npx wrangler secret put NOTION_DATABASE_ID
+```
+
+Secrets (nie committen):
+
+- `NOTION_TOKEN`
+- `NOTION_DATABASE_ID`
+
+API-Route: `POST /api/potential-check`
+
 ## Lokal
 
 ```bash
 npm install
 npm run dev
 ```
+
+Für lokale API-Tests: `website/.dev.vars` (gitignored) mit denselben Secrets.
 
 ## Cloudflare Workers (dein aktuelles Setup)
 

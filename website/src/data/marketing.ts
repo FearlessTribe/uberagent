@@ -38,27 +38,6 @@ export const painPoints = [
   },
 ];
 
-export const beforeAfter = {
-  before: {
-    label: "Status-quo",
-    items: [
-      "Fragmentierte Tools und manuelle Listen",
-      "Unklare Priorisierung und schwache Signale",
-      "Parallele PoCs ohne gemeinsames Scoring",
-      "Skalierung nur über mehr Personal",
-    ],
-  },
-  after: {
-    label: "Mit überagent",
-    items: [
-      "Eine Ausführungsschicht mit klaren Workflows",
-      "Signal-basiertes Scoring und Routing",
-      "Priorisiertes AI-Portfolio mit Stage-Gates",
-      "Messbare Systeme mit Human-in-the-loop",
-    ],
-  },
-};
-
 export const kickstartOffer = {
   eyebrow: "Low-Friction Einstieg",
   title: "Kickstart Sprint",
