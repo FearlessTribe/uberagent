@@ -1,6 +1,10 @@
 name = "uberagent"
 main = "worker/index.ts"
 compatibility_date = "2024-11-01"
+workers_dev = true
+
+[vars]
+NOTION_DATABASE_ID = "39e0da11-e074-805d-8333-f56a136309d2"
 
 [assets]
 directory = "./dist"

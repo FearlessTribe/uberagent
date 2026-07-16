@@ -6,6 +6,7 @@ import {
   trackPotentialCheckLead,
   trackPotentialCheckUrl,
 } from "../lib/analytics";
+import { getApiBase } from "../lib/api";
 import { fadeUpItem, resolveVariants, transitions } from "../motion";
 import styles from "./PotentialCheck.module.css";
 
@@ -55,7 +56,7 @@ export function PotentialCheck() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/potential-check", {
+      const res = await fetch(`${getApiBase()}/api/potential-check`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ website, name, email, phone }),
