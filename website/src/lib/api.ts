@@ -1,7 +1,15 @@
-/** API base URL — custom domain worker lacks secrets; workers.dev has them. */
+const WORKER_API = "https://uberagent.fearlesstribe.workers.dev";
+
+/**
+ * API base URL.
+ * Local Vite and custom domain use workers.dev where Notion secrets are bound.
+ */
 export function getApiBase(): string {
-  if (import.meta.env.DEV) return "";
   if (typeof window === "undefined") return "";
-  if (window.location.hostname.endsWith(".workers.dev")) return "";
-  return "https://uberagent.fearlesstribe.workers.dev";
+
+  const { hostname } = window.location;
+  if (hostname === "localhost" || hostname === "127.0.0.1") return WORKER_API;
+  if (hostname.endsWith(".workers.dev")) return "";
+
+  return WORKER_API;
 }
