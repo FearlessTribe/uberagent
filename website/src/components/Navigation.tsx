@@ -31,6 +31,9 @@ export function Navigation() {
     if (id === "contact" && options?.trackContact) {
       scrollToContact(options.location ?? "nav");
     } else {
+      if (window.location.pathname === "/contact" || window.location.pathname === "/contact/") {
+        window.history.pushState(null, "", "/");
+      }
       scrollToSection(id);
     }
     closeAll();

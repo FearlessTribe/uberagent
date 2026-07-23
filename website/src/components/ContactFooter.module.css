@@ -166,6 +166,25 @@
   opacity: 1;
 }
 
+.bottomMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.legalLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: rgba(255, 255, 255, 0.45);
+  transition: color var(--duration-fast);
+}
+
+.legalLink:hover {
+  color: var(--color-primary-light);
+}
+
 .copyright {
   font-family: var(--font-mono);
   font-size: var(--text-label);

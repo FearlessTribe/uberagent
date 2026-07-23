@@ -1,7 +1,9 @@
+import { useEffect, type MouseEvent } from "react";
 import { SectionShell } from "./SectionShell";
 import { teamMembers } from "../data/team";
 import { services } from "../data/services";
 import { trackCalendlyClick } from "../lib/analytics";
+import { scrollToSection } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
 import { MotionPressable } from "./MotionPressable";
@@ -12,8 +14,31 @@ interface ContactFooterProps {
   onOpenLaurens?: () => void;
 }
 
+function isContactPath(pathname = window.location.pathname) {
+  return pathname === "/contact" || pathname === "/contact/";
+}
+
 export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterProps) {
   const laurens = teamMembers[0];
+
+  useEffect(() => {
+    const scrollIfContact = () => {
+      if (!isContactPath()) return;
+      requestAnimationFrame(() => scrollToSection("impressum", "smooth"));
+    };
+
+    scrollIfContact();
+    window.addEventListener("popstate", scrollIfContact);
+    return () => window.removeEventListener("popstate", scrollIfContact);
+  }, []);
+
+  const openContact = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (!isContactPath()) {
+      window.history.pushState(null, "", "/contact");
+    }
+    scrollToSection("impressum", "smooth");
+  };
 
   return (
     <SectionShell
@@ -64,19 +89,21 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
         </ScrollReveal>
 
         <ScrollReveal className={styles.details}>
-          <div className={styles.detailBlock}>
-            <h3 className={styles.detailLabel}>Adresse</h3>
+          <div className={styles.detailBlock} id="impressum">
+            <h3 className={styles.detailLabel}>Impressum</h3>
             <address className={styles.address}>
               überagent<br />
+              Laurens Lang<br />
               Eugen-Huber-Strasse 127<br />
-              8048 Zürich
+              8048 Zürich<br />
+              Schweiz
             </address>
           </div>
 
           <div className={styles.detailBlock}>
-            <h3 className={styles.detailLabel}>Telefon</h3>
-            <a href="tel:+41795103025" className={styles.phone}>
-              +41 79 510 30 25
+            <h3 className={styles.detailLabel}>E-Mail</h3>
+            <a href="mailto:info@überagent.com" className={styles.phone}>
+              info@überagent.com
             </a>
           </div>
 
@@ -99,7 +126,12 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
 
         <div className={styles.bottom}>
           <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
-          <p className={styles.copyright}>© überagent. 2026</p>
+          <div className={styles.bottomMeta}>
+            <a href="/contact" className={styles.legalLink} onClick={openContact}>
+              Impressum
+            </a>
+            <p className={styles.copyright}>© überagent. 2026</p>
+          </div>
         </div>
       </div>
     </SectionShell>

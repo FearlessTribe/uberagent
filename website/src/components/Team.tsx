@@ -61,16 +61,6 @@ export function Team({ onOpenLaurens }: TeamProps) {
                 </div>
               </MotionPressable>
             ))}
-
-            <div className={`card ${styles.staticCard}`} aria-label="Victor Loës, CTO">
-              <div className={styles.staticAvatar} aria-hidden="true">
-                <span>VL</span>
-              </div>
-              <div className={styles.memberInfo}>
-                <h3 className={styles.memberName}>Victor Loës</h3>
-                <span className={styles.memberRole}>CTO</span>
-              </div>
-            </div>
           </div>
         </ScrollReveal>
       </div>
