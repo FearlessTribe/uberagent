@@ -160,142 +160,345 @@ export const businessImpact: ImpactRow[] = [
 ];
 
 export const strategyFunnel = [
-  { step: "01", title: "Collect", icon: "collect", description: "Use Cases systematisch sammeln, über Teams, Systeme und Funktionen hinweg." },
-  { step: "02", title: "Score", icon: "score", description: "Grobbewertung mit einem verbundenen Priority Score statt isolierter Metriken." },
-  { step: "03", title: "Deep-Dive", icon: "deepdive", description: "Top-Kandidaten mit Business Case, Datenreife und Compliance-Vorprüfung." },
-  { step: "04", title: "Decide", icon: "decide", description: "Portfolio-Entscheid: Lighthouse-Bets plus Quick Wins mit klaren Ownern." },
-  { step: "05", title: "Build", icon: "build", description: "MVP mit Time-box, Hypothese und definierter Erfolgsmetrik, typisch 6 bis 8 Wochen." },
-  { step: "06", title: "Scale", icon: "scale", description: "Nur skalieren, wenn KPI-Schwelle, Adoption und Run-Kosten tragfähig sind." },
+  {
+    step: "01",
+    title: "Collect Ideas",
+    icon: "collect",
+    phase: "Ideation",
+    description:
+      "Ein breites Spektrum relevanter AI-Use-Cases identifizieren und strategische Blind Spots vermeiden.",
+    detail:
+      "Ideen werden in Discovery-Workshops mit Stakeholdern konkretisiert: Problem, Anforderungen, Prozesse, Risiken, Auswirkungen, Abhängigkeiten. Danach liegen Zahlen für die quantitative Bewertung vor.",
+    outcome: "Dynamisches Portfolio als Grundlage für die AI-Roadmap",
+  },
+  {
+    step: "02",
+    title: "Analysis & Scoring",
+    icon: "score",
+    phase: "Priorisierung",
+    description:
+      "Überführung in eine quantitative Bewertung, um jeden Use Case im Portfolio einzuordnen.",
+    detail:
+      "Fünf Dimensionen — Business Value, AI Fit, Feasibility & Cost, Time-to-Value, Risk & Compliance — liefern eine belastbare Entscheidungsgrundlage für die Investition.",
+    outcome: "Transparente Ranking-Heatmap statt Bauchgefühl",
+  },
+  {
+    step: "03",
+    title: "Deep Dive",
+    icon: "deepdive",
+    phase: "Validierung",
+    description:
+      "Top-Kandidaten werden zu entscheidungsreifen Investment Cases verdichtet.",
+    detail:
+      "Lösungsbild (Scope, MVP, Architektur), Business Case (Nutzen, Kosten, Amortisation) und Machbarkeit & Risiken (Abhängigkeiten, Compliance, Betrieb) werden gemeinsam geschärft.",
+    outcome: "Entscheidungsreifer Investment Case",
+  },
+  {
+    step: "04",
+    title: "Decide",
+    icon: "decide",
+    phase: "Portfolio",
+    description:
+      "Klare Portfolioentscheidung über Budget, Verantwortlichkeiten, Zeitplan und nächste Schritte.",
+    detail:
+      "Jedes Vorhaben landet in einer der Optionen Build, Buy, Pivot, Kill oder Defer — mit Commitment der Entscheider und nachvollziehbarer Begründung.",
+    outcome: "Commitment, Budget und Owner sind gesetzt",
+  },
+  {
+    step: "05",
+    title: "MVP",
+    icon: "build",
+    phase: "Validierung in Produktion",
+    description:
+      "Den kleinsten nutzbaren Scope bauen — und mit echten Nutzungsdaten entscheiden, ob weiter oder Abbruch.",
+    detail:
+      "Kurze Sprints, priorisierte Features, frühe Tests. Erfolgskriterien und Monitoring sind vor dem Start klar. Quality- und Compliance-Gates sichern die Produktionsreife.",
+    outcome: "Messbarer MVP: Go, Anpassen oder Stop",
+  },
+  {
+    step: "06",
+    title: "Roll Out",
+    icon: "rollout",
+    phase: "Einführung",
+    description:
+      "Gesteuertes Ausrollen in die Organisation — mit Enablement und klaren Verantwortlichkeiten.",
+    detail:
+      "Dokumentation, Basistraining, AI Champions und rollenspezifische Workshops. Nutzer werden segmentiert, Adoption wird aktiv gesteuert.",
+    outcome: "Kontrollierte Einführung mit messbarer Adoption",
+  },
+  {
+    step: "07",
+    title: "Scaling",
+    icon: "scale",
+    phase: "Werthebel",
+    description:
+      "Nur skalieren, was den Impact belegt hat — Adoption, Retention und Nutzen systematisch steigern.",
+    detail:
+      "Hürden beseitigen, Produkt und Prozesse verbessern, Reichweite erhöhen. Skalierung ist kein Automatismus, sondern die Folge belegten Werts.",
+    outcome: "Skalierter Impact mit klarer Governance",
+  },
 ];
 
-export const strategyGovernance = [
-  "Zentrales AI-Backlog mit klaren Ownern je Use Case (Business + IT)",
-  "Stage-Gates zwischen jeder Phase, kein automatisches Weiterrollen",
-  "Portfolio statt Projektliste: wenige Bets mit hohem Impact",
-  "Gewichte im Scoring-Modell sind explizit und für Management justierbar",
-];
-
-export const strategyDiscoveryAreas = [
+export const strategyIdeaSources = [
   {
-    title: "Sales, Marketing & GTM",
-    items: [
-      "Lead-Scoring & ICP-Matching, personalisierte Erstansprache",
-      "Churn- und Schlummerkunden-Erkennung, Win-back-Sequenzen",
-      "Next-Best-Offer aus Kauf- und CRM-Historie",
-      "GenAI für Markt-/Wettbewerbsanalyse und segment-spezifisches Messaging",
-      "Auto-Generierung von Angeboten und Verträgen aus CPQ/CRM/PIM",
-    ],
+    id: "research",
+    title: "Research",
+    description:
+      "Branchenstudien & Industriereports, Technologie- und Markttrends, Wettbewerb und übertragbare Lösungen.",
   },
   {
-    title: "Production & Operations",
-    items: [
-      "Automatisierte Shift-, Qualitäts- und OEE-Reports aus MES/Sensordaten",
-      "Root-Cause-Assistenz bei Reklamationen und Ausschuss",
-      "Visual Quality Control und Predictive Maintenance",
-      "Prozess-, Energie- und Yield-Optimierung mit ML",
-      "Demand Forecasting und S&OP-Unterstützung",
-    ],
-  },
-  {
-    title: "Support-Funktionen",
-    items: [
-      "Interner Knowledge-Assistant über HR, IT und QM-Dokumente",
-      "Übersetzung und Dokumenten-Automatisierung",
-      "Procurement: Spend-Analyse und Vertragsauswertung",
-      "Low-Risk Quick Wins mit schneller Sichtbarkeit",
-    ],
+    id: "crowd",
+    title: "Crowd-Sourcing",
+    description:
+      "Kontinuierliche Ideeneinreichung durch Mitarbeitende sowie gezielte, incentivierte Challenges für priorisierte Geschäftsprobleme.",
   },
 ];
 
-export const strategyScoreIndices = [
+export const strategyScoreDimensions = [
   {
-    index: "Value (V)",
-    metrics: "Revenue-Impact · Kosten-/Effizienz · Qualität/Risiko · Strategic Fit",
+    id: "value",
+    title: "Business Value",
+    short: "Value",
+    question: "Wie groß ist der messbare Nutzen?",
+    detail: "Effizienz, Umsatz, strategischer Beitrag und Reichweite.",
   },
   {
-    index: "Feasibility (F)",
-    metrics: "Datenreife · Tech-Reife · System-Integration · Change-Readiness · Time-to-Value",
+    id: "fit",
+    title: "AI Fit",
+    short: "AI Fit",
+    question: "Wie gut eignet sich AI zur Lösung?",
+    detail: "Lösungsgrad, Datenqualität, AI-Eignung und Human-in-the-Loop.",
   },
   {
-    index: "Risk (R)",
-    metrics: "Technisch · Rechtlich (DSGVO, EU AI Act) · Kommerziell · Organisatorisch",
+    id: "feasibility",
+    title: "Feasibility & Cost",
+    short: "Feasibility",
+    question: "Wie realistisch ist die Umsetzung?",
+    detail: "Komplexität, Integration, Entwicklungs-, Betriebs- und Change-Aufwand.",
+  },
+  {
+    id: "ttv",
+    title: "Time-to-Value",
+    short: "TTV",
+    question: "Wie schnell entsteht produktiver Nutzen?",
+    detail: "Zeit bis MVP, produktivem Einsatz, Break-even und Skalierung.",
+  },
+  {
+    id: "risk",
+    title: "Risk & Compliance",
+    short: "Risk",
+    question: "Welche Risiken begrenzen den Einsatz?",
+    detail: "Qualität, Sicherheit, Transparenz, Datenschutz und Regulierung.",
+  },
+];
+
+export const strategyPortfolioZones = [
+  {
+    id: "build",
+    title: "Build",
+    label: "Hoher Value · tragbares Risiko",
+    description: "Priorisierte Umsetzungen mit klarem Business Case und machbarer Delivery.",
+  },
+  {
+    id: "derisk",
+    title: "De-Risk",
+    label: "Hoher Value · erhöhtes Risiko",
+    description: "Potenzial hoch, aber erst Risiken, Daten oder Abhängigkeiten absichern.",
+  },
+  {
+    id: "pivot",
+    title: "Pivot",
+    label: "Mittlerer Value · offen",
+    description: "Richtung stimmt, Scope oder Ansatz muss angepasst werden.",
+  },
+  {
+    id: "kill",
+    title: "Kill",
+    label: "Niedriger Value · hohes Risiko",
+    description: "Bewusst stoppen — Kapazität für wirkungsvollere Cases freimachen.",
   },
 ];
 
 export const strategyDeepDive = [
-  { title: "Business Case", description: "Quantifizierter ROI, Annahmen und Sensitivitätsanalyse." },
-  { title: "Solution Design", description: "Build vs. Buy vs. Configure; Datenfluss; Foundation-Model + RAG vs. Fine-Tuning." },
-  { title: "Datenreife-Check", description: "Verfügbarkeit, Qualität, Zugriff und Labeling." },
-  { title: "Compliance-Vorprüfung", description: "EU AI Act-Risikoklasse, DSGVO, IP und Vertraulichkeit." },
-  { title: "Delivery-Plan", description: "Meilensteine, Owner, Abhängigkeiten und PoC-Exit-Kriterien." },
-];
-
-export const strategyKpiLayers = [
-  { layer: "North-Star", description: "Business-Outcome je Case, z. B. Conversion, Qualität, Durchsatz oder Zeitersparnis." },
-  { layer: "Value / Outcome", description: "€-Impact, ROI und Time-to-Value." },
-  { layer: "Adoption", description: "Aktive Nutzer, Nutzungsfrequenz und Anteil automatisierter Vorgänge." },
-  { layer: "Qualität & Trust", description: "Accuracy, Halluzinationsrate und Human-Override-Quote." },
-  { layer: "Cost / Run", description: "Kosten pro Vorgang, Token/Infra und Latenz." },
-];
-
-export const strategyDecision = [
   {
-    title: "Lighthouse-Cases",
-    description: "1 bis 2 Initiativen mit hohem Value und solider Machbarkeit, sichtbarer strategischer Hebel.",
+    title: "Lösungsbild",
+    question: "Was bauen wir?",
+    description: "Scope, MVP, Architektur und Roadmap.",
   },
   {
-    title: "Quick Wins",
-    description: "1 bis 2 low-risk Cases für schnelle Sichtbarkeit und Adoption im Unternehmen.",
+    title: "Business Case",
+    question: "Lohnt es sich?",
+    description: "Nutzen, Kosten, Amortisation und Skalierung.",
   },
   {
-    title: "Scale-Gate",
-    description: "Skalierung nur bei erreichten KPI-Schwellen und tragfähigen Run-Kosten.",
+    title: "Machbarkeit & Risiken",
+    question: "Können wir es umsetzen?",
+    description: "Architektur, Abhängigkeiten, Compliance und Betrieb.",
   },
 ];
 
-export const strategyFrameworks = [
+export const strategyDecisions = [
   {
-    title: "Value/Feasibility-Matrix",
-    description: "Impact vs. Machbarkeit als Standard für die Portfolio-Auswahl.",
-    tag: "Priorisierung",
+    id: "build",
+    title: "Build",
+    muted: false,
+    description: "Hoher Value, guter AI Fit, tragbare Risiken — intern oder mit Partner umsetzen.",
   },
   {
-    title: "Three Horizons",
-    description: "Quick Wins, neue Capabilities und transformative Bets im Gleichgewicht.",
-    tag: "Portfolio",
+    id: "buy",
+    title: "Buy",
+    muted: false,
+    description: "Marktstandard deckt den Need ab; schneller Time-to-Value ohne Eigenbau.",
   },
   {
-    title: "AI Maturity Models",
-    description: "Standortbestimmung von Awareness bis Transformational.",
-    tag: "Reifegrad",
+    id: "pivot",
+    title: "Pivot",
+    muted: false,
+    description: "Kernidee stimmt, Scope oder Ansatz muss angepasst werden.",
   },
   {
-    title: "CRISP-DM",
-    description: "Strukturiertes Vorgehen für Daten- und ML-Use-Cases.",
-    tag: "Delivery",
+    id: "kill",
+    title: "Kill",
+    muted: false,
+    description: "Value zu niedrig oder Risiko/Komplexität zu hoch — bewusst stoppen.",
   },
   {
-    title: "People + AI",
-    description: "Human-in-the-loop und Trust-KPIs als Qualitätsanker.",
-    tag: "Responsible AI",
+    id: "defer",
+    title: "Defer",
+    muted: true,
+    description: "Potenzial vorhanden, aber Abhängigkeiten oder Timing sprechen gegen jetzt.",
+  },
+];
+
+export const strategyGovernance = [
+  {
+    title: "Steuerbar & planbar",
+    description:
+      "Durch klare Governance steuerbar. Frühzeitig Risiken minimieren und Abhängigkeiten erfassen — und so planbar bleiben.",
   },
   {
-    title: "Build vs. Buy vs. Configure",
-    description: "Make-or-buy-Entscheidung je Case und Kontext.",
-    tag: "Architektur",
+    title: "Vertrauen & Ressourcen",
+    description:
+      "Schafft Vertrauen in der Organisation und setzt damit Ressourcen auch langfristig frei.",
   },
   {
-    title: "EU AI Act",
-    description: "Risikoklassen und Compliance-Anforderungen pro Use Case.",
-    tag: "Compliance",
+    title: "Quality & Compliance",
+    description:
+      "Quality- & Compliance-Gates sichern hohe Umsetzungsqualität und gewährleisten regulatorische Exzellenz.",
+  },
+];
+
+export const strategyMvpChecks = [
+  {
+    title: "Nutzungsdaten lesen",
+    description: "Adoption, Aufgabenerfolg und Feedback zeigen, ob der MVP trägt.",
+  },
+  {
+    title: "Go / Anpassen / Stop",
+    description: "Entscheidung auf Evidenz: weiter investieren, Scope ändern oder abbrechen.",
+  },
+  {
+    title: "Gates einhalten",
+    description: "Erfolgskriterien, Monitoring, Human-in-the-Loop und Compliance vor dem Scale.",
+  },
+];
+
+export const strategyRolloutLevers = [
+  {
+    title: "Enablement aufbauen",
+    description: "Dokumentation, Basistraining, AI Champions und klare Verantwortlichkeiten.",
+  },
+  {
+    title: "Nutzer segmentieren",
+    description: "Rollenspezifische Trainings, Workshops und reale Use Cases.",
+  },
+  {
+    title: "Adoption steuern",
+    description: "Einführung in Wellen, Support-Pfade und sichtbare Ownership je Segment.",
+  },
+];
+
+export const strategyScalingLevers = [
+  {
+    title: "Reichweite erhöhen",
+    description: "Von Pilotgruppen zu Organisationseinheiten — nur wo Nutzen belegt ist.",
+  },
+  {
+    title: "Wert maximieren",
+    description: "Retention, Zufriedenheit und Aufgabenerfolg systematisch steigern.",
+  },
+  {
+    title: "Kontinuierlich optimieren",
+    description: "Hürden beseitigen, Produkt und Prozesse verbessern, Run-Kosten im Blick behalten.",
+  },
+];
+
+export const strategyExampleAgents = [
+  {
+    id: "presentation",
+    title: "Presentation Agent",
+    problem:
+      "Präsentationen sind zeitaufwändig, inkonsistent und oft nicht auf dem neuesten Stand.",
+    promise:
+      "Vom generischen Foliensatz zur aktuellen, kundenspezifischen und datenbasierten Vertriebsstory.",
+    outcomes: [
+      "Deutlich weniger Zeit für Recherche und Folienaufbau",
+      "Kundenspezifisch statt Standard-Pitches",
+      "Aktuelle, belastbare Inhalte direkt aus den Systemen",
+    ],
+    system: [
+      { role: "Research", task: "Interne & externe Quellen erschließen" },
+      { role: "Storyline", task: "Narrative Struktur und Slide-Logik" },
+      { role: "Content", task: "Assets, Visuals und Medien finden" },
+      { role: "Design", task: "CI, Layout und visuelle Hierarchie" },
+      { role: "Review", task: "Konsistenz, Qualität, Markenkonformität" },
+    ],
+  },
+  {
+    id: "crm",
+    title: "CRM Enrichment Agent",
+    problem:
+      "Kundendaten liegen verteilt in verschiedenen Systemen und werden nicht konsistent im CRM gepflegt.",
+    promise:
+      "Von fragmentierten Daten zum vollständigen, aktuellen und verlässlichen Kundenprofil.",
+    outcomes: [
+      "Vollständigere und aktuellere CRM-Daten",
+      "Automatische Erkennung relevanter Kundeninformationen",
+      "Quellen, Aktualität und Confidence Score je Information",
+    ],
+    system: [
+      { role: "Collect", task: "CRM, ERP, PIM und externe Quellen" },
+      { role: "Match", task: "Kunden, Kontakte, Projekte zuordnen" },
+      { role: "Validate", task: "Aktualität und Confidence bewerten" },
+      { role: "Write-back", task: "Profil im CRM konsistent pflegen" },
+    ],
+  },
+  {
+    id: "sales",
+    title: "Sales Agent",
+    problem:
+      "Im CRM liegen viele Informationen, aber der Vertrieb hat wenig Zeit, daraus relevante Chancen abzuleiten.",
+    promise:
+      "Vom Kundenprofil zur evidenzbasierten Next Best Sales Action.",
+    outcomes: [
+      "Priorisierte Chancen mit Bedarf und Evidenz",
+      "Bewertung nach Dringlichkeit, Wahrscheinlichkeit und Deal-Potenzial",
+      "Upgrade, Upselling, Cross-Selling und Retention als klare Opportunity-Typen",
+    ],
+    system: [
+      { role: "Signals", task: "CRM-, Projekt-, Markt- und Verhaltenssignale" },
+      { role: "Score", task: "Dringlichkeit, Wahrscheinlichkeit, Potenzial" },
+      { role: "Recommend", task: "Max. fünf priorisierte Next Actions" },
+      { role: "Evidence", task: "Jede Empfehlung nachvollziehbar begründen" },
+    ],
   },
 ];
 
 export const strategyImpact: ImpactRow[] = [
-  { before: "Viele parallele PoCs", after: "Priorisiertes AI-Portfolio" },
-  { before: "Intuition & Lobbying", after: "Transparenter Priority Score" },
-  { before: "Unklare Ownership", after: "Stage-Gates mit klaren Ownern" },
-  { before: "Skalieren ohne Evidenz", after: "MVP → Messen → Scale-Gate" },
+  { before: "Ein paar Cases ohne Klarheit zum Impact", after: "Priorisiertes AI-Portfolio mit messbarem Nutzen" },
+  { before: "Bauchtentscheidungen & Lobbying", after: "Fünf Dimensionen, ein transparentes Ranking" },
+  { before: "PoCs ohne Exit-Kriterien", after: "Build · Buy · Pivot · Kill · Defer" },
+  { before: "Skalieren ohne Evidenz", after: "MVP → Messen → Roll-out → Scale-Gate" },
 ];
 
 export const trainingModules = [

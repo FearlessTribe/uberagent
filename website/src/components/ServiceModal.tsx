@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { ProcessSlider } from "./ProcessSlider";
@@ -20,21 +22,24 @@ import {
   mcpImpact,
   mcpValueProps,
   serviceModalMeta,
-  strategyDecision,
+  strategyDecisions,
   strategyDeepDive,
-  strategyDiscoveryAreas,
-  strategyFrameworks,
   strategyFunnel,
   strategyGovernance,
+  strategyIdeaSources,
   strategyImpact,
-  strategyKpiLayers,
-  strategyScoreIndices,
+  strategyMvpChecks,
+  strategyPortfolioZones,
+  strategyRolloutLevers,
+  strategyScalingLevers,
+  strategyScoreDimensions,
   trainingImpact,
   trainingModules,
   type ImpactRow,
   type ServiceStat,
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
+import { fadeIn, slidePanel } from "../motion";
 import styles from "./ServiceModal.module.css";
 
 interface ServiceModalProps {
@@ -123,6 +128,12 @@ const funnelStepIcons: Record<string, React.ReactNode> = {
       <path d="M9 15h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
+  rollout: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 12h12M12 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 18h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
   scale: (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 17l5-8 4 5 5-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -131,37 +142,388 @@ const funnelStepIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-function StrategyProcessFlow() {
-  return (
-    <div className={styles.processTrack}>
-      <div className={styles.processHeader}>
-        <span className={styles.processEyebrow}>6-Phasen-Prozess</span>
-        <p className={styles.processIntro}>
-          Jeder Use Case durchläuft denselben Funnel. Stage-Gates verhindern, dass Initiativen
-          ohne Evidenz weiterrollen.
-        </p>
-      </div>
-      <ol className={styles.processFlow}>
-        {strategyFunnel.map((step, index) => (
-          <li key={step.title} className={styles.processNode}>
-            <div className={styles.processCard}>
-              <div className={styles.processIconWrap}>
-                {funnelStepIcons[step.icon]}
-              </div>
-              <span className={styles.processStep}>{step.step}</span>
-              <span className={styles.processTitle}>{step.title}</span>
-              <p className={styles.processDesc}>{step.description}</p>
+function StrategyStageExtras({ index }: { index: number }) {
+  switch (index) {
+    case 0:
+      return (
+        <div className={styles.ideaSourceGrid}>
+          {strategyIdeaSources.map((source) => (
+            <div key={source.id} className={styles.ideaSourceCardDark}>
+              <span className={styles.embedIcon} aria-hidden="true">
+                {source.id === "research" ? (
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M16 16l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="9" cy="9" r="3" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="16" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="12" cy="16" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                )}
+              </span>
+              <h4 className={styles.ideaSourceTitleDark}>{source.title}</h4>
+              <p>{source.description}</p>
             </div>
-            {index < strategyFunnel.length - 1 && (
-              <span className={styles.processConnector} aria-hidden="true">
-                <svg viewBox="0 0 24 12" fill="none">
-                  <path d="M0 6h18M14 2l6 4-6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          ))}
+        </div>
+      );
+    case 1:
+      return <StrategyScoreExplorer />;
+    case 2:
+      return (
+        <div className={styles.deepDiveGrid}>
+          {strategyDeepDive.map((item, i) => (
+            <div key={item.title} className={styles.deepDiveCardDark}>
+              <span className={styles.deepDiveNum}>{String(i + 1).padStart(2, "0")}</span>
+              <h4 className={styles.deepDiveTitleDark}>{item.title}</h4>
+              <p className={styles.deepDiveQuestion}>{item.question}</p>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      );
+    case 3:
+      return <StrategyDecisionBoard />;
+    case 4:
+      return (
+        <div className={styles.scaleGrid}>
+          {strategyMvpChecks.map((item) => (
+            <div key={item.title} className={styles.scaleCardDark}>
+              <span className={styles.embedIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M5 17l5-8 4 5 5-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M4 19h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </span>
-            )}
-          </li>
+              <h4 className={styles.scaleTitleDark}>{item.title}</h4>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      );
+    case 5:
+      return (
+        <div className={styles.scaleGrid}>
+          {strategyRolloutLevers.map((item) => (
+            <div key={item.title} className={styles.scaleCardDark}>
+              <span className={styles.embedIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 12h12M12 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <h4 className={styles.scaleTitleDark}>{item.title}</h4>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      );
+    case 6:
+      return (
+        <div className={styles.scaleGrid}>
+          {strategyScalingLevers.map((item) => (
+            <div key={item.title} className={styles.scaleCardDark}>
+              <span className={styles.embedIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 18V8M10 18V5M16 18v-7M20 18V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </span>
+              <h4 className={styles.scaleTitleDark}>{item.title}</h4>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      );
+    default:
+      return null;
+  }
+}
+
+function StrategyProcessFlow() {
+  const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const step = strategyFunnel[active];
+  const total = strategyFunnel.length;
+
+  // Evenly scattered idea-dots (percent positions)
+  const caseDots = [
+    [6, 22], [14, 58], [22, 12], [28, 72], [36, 34],
+    [42, 8], [48, 64], [54, 28], [60, 78], [66, 18],
+    [72, 52], [78, 8], [84, 40], [90, 68], [12, 40],
+    [32, 52], [58, 46], [76, 72], [44, 86], [68, 32],
+  ] as const;
+
+  return (
+    <div className={styles.funnelTrack}>
+      <div className={styles.processHeader}>
+        <span className={styles.processEyebrow}>7-Phasen-Funnel</span>
+        <p className={styles.processIntro}>
+          Jeder Use Case durchläuft denselben Funnel. Stage-Gates verhindern, dass Initiativen
+          ohne Evidenz weiterrollen — von der Idee bis zur Skalierung.
+        </p>
+      </div>
+
+      <div className={styles.funnelSplit}>
+        <div className={styles.funnelColumn}>
+          <div className={styles.funnelCases}>
+            {caseDots.map(([left, top], i) => (
+              <button
+                key={i}
+                type="button"
+                className={styles.funnelCaseDot}
+                style={{ left: `${left}%`, top: `${top}%` }}
+                title="AI Use Case Ideen"
+                aria-label="AI Use Case Ideen"
+              />
+            ))}
+          </div>
+
+          <div className={styles.funnelVisual} role="tablist" aria-label="Strategie-Phasen">
+            {strategyFunnel.map((item, index) => {
+              const topInset = (index / total) * 28;
+              const bottomInset = ((index + 1) / total) * 28;
+              return (
+                <button
+                  key={item.step}
+                  type="button"
+                  role="tab"
+                  aria-selected={active === index}
+                  className={`${styles.funnelStage} ${active === index ? styles.funnelStageActive : ""}`}
+                  style={{
+                    clipPath: `polygon(${topInset}% 0, ${100 - topInset}% 0, ${100 - bottomInset}% 100%, ${bottomInset}% 100%)`,
+                    paddingLeft: `calc(${Math.max(topInset, bottomInset)}% + 18px)`,
+                    paddingRight: `calc(${Math.max(topInset, bottomInset)}% + 12px)`,
+                  }}
+                  onClick={() => setActive(index)}
+                >
+                  <span className={styles.funnelStageIcon}>{funnelStepIcons[item.icon]}</span>
+                  <span className={styles.funnelStageText}>
+                    <span className={styles.funnelStageNum}>{item.step}</span>
+                    <span className={styles.funnelStageTitle}>{item.title}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className={styles.funnelDiamonds}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={styles.funnelDiamondBtn}
+                title="AI Use Cases, die den Gesamtimpact der Strategie erhöhen"
+                aria-label="AI Use Cases, die den Gesamtimpact der Strategie erhöhen"
+                style={{ animationDelay: `${i * 0.2}s` }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 2.5L21 9.2 12 21.5 3 9.2 12 2.5z"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M3.4 9.2h17.2M12 2.5l-3.2 6.7L12 21.5l3.2-12.3L12 2.5z"
+                    stroke="currentColor"
+                    strokeWidth="1.1"
+                    strokeLinejoin="round"
+                    opacity="0.55"
+                  />
+                </svg>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step.step}
+            className={styles.phaseDetail}
+            role="tabpanel"
+            variants={reduceMotion ? fadeIn : slidePanel}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <div className={styles.phaseDetailHead}>
+              <div className={styles.processIconWrap}>{funnelStepIcons[step.icon]}</div>
+              <div>
+                <span className={styles.phaseMeta}>{step.phase}</span>
+                <h4 className={styles.phaseTitle}>{step.title}</h4>
+              </div>
+            </div>
+            <p className={styles.phaseLead}>{step.description}</p>
+            <p className={styles.phaseBody}>{step.detail}</p>
+            <div className={styles.phaseOutcome}>
+              <span className={styles.phaseOutcomeLabel}>Ergebnis</span>
+              <span>{step.outcome}</span>
+            </div>
+            <div className={styles.phaseExtras}>
+              <StrategyStageExtras index={active} />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+function StrategyPortfolioDiagram() {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const zone = strategyPortfolioZones.find((z) => z.id === hovered) ?? null;
+
+  return (
+    <div className={styles.portfolioBlock}>
+      <div className={styles.portfolioHead}>
+        <span className={styles.portfolioEyebrow}>Portfolio-Diagramm</span>
+        <p>Value vs. Risiko/Komplexität — Flächen zeigen die typische Einordnung.</p>
+      </div>
+      <div className={styles.portfolioMatrix} onMouseLeave={() => setHovered(null)}>
+        <span className={styles.portfolioAxisY}>Business Value</span>
+        <span className={styles.portfolioAxisX}>Risiko &amp; Komplexität</span>
+        {strategyPortfolioZones.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className={`${styles.portfolioCell} ${styles[`portfolioCell_${item.id}`]} ${
+              hovered === item.id ? styles.portfolioCellActive : ""
+            }`}
+            onMouseEnter={() => setHovered(item.id)}
+            onFocus={() => setHovered(item.id)}
+            onClick={() => setHovered(item.id)}
+          >
+            <strong>{item.title}</strong>
+            <span>{item.label}</span>
+          </button>
         ))}
-      </ol>
+      </div>
+      <div className={styles.portfolioHint} aria-live="polite">
+        {zone ? (
+          <>
+            <strong>{zone.title}</strong>
+            <span>{zone.description}</span>
+          </>
+        ) : (
+          <span>Über eine Fläche hoveren, um die Bedeutung zu sehen.</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StrategyScoreExplorer() {
+  const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const dim = strategyScoreDimensions[active];
+
+  return (
+    <div className={styles.scoreStack}>
+      <div className={styles.scoreExplorer}>
+        <div className={styles.scoreAxis} role="tablist" aria-label="Scoring-Dimensionen">
+          {strategyScoreDimensions.map((item, index) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={active === index}
+              className={`${styles.scoreAxisBtn} ${active === index ? styles.scoreAxisBtnActive : ""}`}
+              onClick={() => setActive(index)}
+            >
+              <span className={styles.scoreAxisIndex}>{String(index + 1).padStart(2, "0")}</span>
+              <span className={styles.scoreAxisShort}>{item.short}</span>
+            </button>
+          ))}
+        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={dim.id}
+            className={styles.scoreFocus}
+            role="tabpanel"
+            variants={reduceMotion ? fadeIn : slidePanel}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <p className={styles.scoreQuestion}>{dim.question}</p>
+            <p className={styles.scoreAnswer}>{dim.detail}</p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <StrategyPortfolioDiagram />
+    </div>
+  );
+}
+
+const decisionIcons: Record<string, React.ReactNode> = {
+  build: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 18l8-12 8 12H4z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  buy: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 7h12l-1 12H7L6 7z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M9 7a3 3 0 016 0" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  pivot: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 7h7v7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 17H10V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  kill: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  defer: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 8v4l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+};
+
+function StrategyDecisionBoard() {
+  const [active, setActive] = useState("build");
+  const reduceMotion = useReducedMotion();
+  const current = strategyDecisions.find((d) => d.id === active) ?? strategyDecisions[0];
+
+  return (
+    <div className={styles.decisionBoard}>
+      <div className={styles.decisionChips} role="tablist" aria-label="Portfolio-Entscheidungen">
+        {strategyDecisions.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={active === item.id}
+            className={`${styles.decisionChip} ${styles[`decisionChip_${item.id}`]} ${
+              item.muted ? styles.decisionChipMuted : ""
+            } ${active === item.id ? styles.decisionChipActive : ""}`}
+            onClick={() => setActive(item.id)}
+          >
+            <span className={styles.decisionChipIcon}>{decisionIcons[item.id]}</span>
+            {item.title}
+          </button>
+        ))}
+      </div>
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={current.id}
+          className={styles.decisionExplain}
+          role="tabpanel"
+          variants={reduceMotion ? fadeIn : slidePanel}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          {current.description}
+        </motion.p>
+      </AnimatePresence>
     </div>
   );
 }
@@ -555,212 +917,78 @@ function AiStrategyContent() {
       <section className={styles.heroSection}>
         <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
-          AI-Initiativen scheitern selten an der Technologie, sondern an fehlender Priorisierung,
-          unklarer Governance und zu vielen parallelen PoCs. Wir strukturieren Ihr AI-Portfolio
-          von der ersten Idee bis zur skalierbaren Umsetzung.
+          Wie Ihr Unternehmen <strong>PowerPoint-Folien bricht</strong>,{" "}
+          <strong>langwierige Strategie-Diskussionen verkürzt</strong> und{" "}
+          <strong>produktive AI-Agenten entwickelt</strong>, die{" "}
+          <strong>operative Kosten senken</strong> und{" "}
+          <strong>Wachstum maximieren</strong>. Messbar und planbar.
         </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
+
+        <div className={styles.strategyPromise}>
+          <span className={styles.strategyPromiseIcon} aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M8 10h8M8 14h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M12 18v3M9 21h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </span>
+          <div>
+            <h3 className={styles.strategyPromiseTitle}>
+              Von Ideen zum priorisierten AI-Portfolio
+            </h3>
+            <p className={styles.strategyPromiseText}>
+              Die wirkungsvollsten Use Cases werden gezielt selektiert, der Gesamtimpact der
+              AI Strategy messbar maximiert.
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.strategyPillarGrid}>
+          {strategyGovernance.map((item, i) => (
+            <div key={item.title} className={styles.strategyPillar}>
+              <span className={styles.strategyPillarIcon} aria-hidden="true">
+                {i === 0 && (
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+                {i === 1 && (
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="9" cy="9" r="3" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="16" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M4 19c.8-2.4 2.8-4 5-4s4.2 1.6 5 4M14 19c.5-1.5 1.7-2.6 3.2-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                )}
+                {i === 2 && (
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M6 12l4 4 8-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                )}
+              </span>
+              <h4 className={styles.strategyPillarTitle}>{item.title}</h4>
+              <p className={styles.strategyPillarText}>{item.description}</p>
+            </div>
           ))}
         </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Heute</span>
-            <ul className={styles.panelList}>
-              <li>Viele parallele PoCs</li>
-              <li>Kein gemeinsames Scoring</li>
-              <li>Unklare Stage-Gates</li>
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Portfolio</span>
-            <div className={styles.miniStack}>
-              <span>Discovery</span>
-              <span>Priority Score</span>
-              <span>Lighthouse Bets</span>
-            </div>
-            <ul className={styles.panelList}>
-              <li>1–2 fokussierte Umsetzungen</li>
-              <li>Governance &amp; KPIs</li>
-            </ul>
-          </div>
-        </div>
-        <p className={styles.inlineCta}>
-          <strong>Nächster Schritt:</strong> In einem Strategie-Workshop kartieren wir Ihren
-          Ist-Stand, sammeln Use Cases und leiten die ersten Lighthouse-Bets ab, mit einem
-          Score-Modell, das Ihr Management live justieren kann.
-        </p>
       </section>
 
       <section className={styles.strategyPanel}>
-        <SectionTitle>Operating Model: iterativer Funnel</SectionTitle>
+        <SectionTitle>AI Strategy: von Ideen zum priorisierten Portfolio</SectionTitle>
         <StrategyProcessFlow />
-        <div className={styles.governancePanel}>
-          <span className={styles.governanceLabel}>Governance</span>
-          <div className={styles.benefitGrid}>
-            {strategyGovernance.map((item) => (
-              <div key={item} className={styles.benefitItem}>
-                <span className={styles.benefitDot} aria-hidden="true" />
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.strategyPanel}>
-        <SectionTitle>Use-Case-Discovery</SectionTitle>
-        <p className={styles.bodyText}>
-          Systematische Sammlung über Funktionen hinweg, von Revenue-Hebeln über Operations
-          bis zu internen Quick Wins mit niedrigem Risiko.
-        </p>
-        <div className={styles.discoveryGrid}>
-          {strategyDiscoveryAreas.map((area, i) => (
-            <div key={area.title} className={styles.discoveryCard}>
-              <div className={styles.discoveryHead}>
-                <span className={styles.discoveryIcon} aria-hidden="true">
-                  {i === 0 && (
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.5" />
-                      <path d="M8 10h8M8 14h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  )}
-                  {i === 1 && (
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-                      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  )}
-                  {i === 2 && (
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </span>
-                <h4 className={styles.discoveryTitle}>{area.title}</h4>
-              </div>
-              <ul className={styles.compactList}>
-                {area.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.strategyPanel}>
-        <SectionTitle>Grobbewertung: ein verbundener Priority Score</SectionTitle>
-        <p className={styles.bodyText}>
-          Kein getrenntes Ranking je Metrik. Eine Formel bündelt Value, Feasibility und Risk
-          multiplikativ. Hoher Value bei niedriger Machbarkeit oder hohem Risiko fällt automatisch zurück.
-        </p>
-        <div className={styles.scoreVisual}>
-          {strategyScoreIndices.flatMap((row, i) => {
-            const nodes: React.ReactNode[] = [];
-            if (i > 0) {
-              nodes.push(
-                <span key={`op-${i}`} className={styles.scoreOp} aria-hidden="true">×</span>,
-              );
-            }
-            nodes.push(
-              <div key={row.index} className={styles.scoreCard}>
-                <span className={styles.scoreBadge}>{row.index}</span>
-                <p className={styles.scoreCardText}>{row.metrics}</p>
-              </div>,
-            );
-            return nodes;
-          })}
-        </div>
-        <div className={styles.formulaBox}>
-{`Value-Index   = Σ (Gewicht × V)           (1–5)
-Feas.-Index   = Σ (Gewicht × F)           (1–5)
-Risk-Index    = Σ (Gewicht × R)           (1–5)
-Risk-Faktor   = 1 − 0,5 × (Risk − 1) / 4  (1,0 … 0,5)
-
-Priority Score = (Value/5) × (Feasibility/5) × Risk-Faktor × 100`}
-        </div>
-        <Callout>
-          Max. Risiko halbiert den Score, eliminiert ihn aber nicht. Das Ergebnis ist eine
-          Diskussionsgrundlage mit klarem Ranking und Heatmap, nicht ein K.-o.-Kriterium.
-        </Callout>
-      </section>
-
-      <section>
-        <SectionTitle>Feinbewertung: Top-Kandidaten</SectionTitle>
-        <div className={styles.experimentGrid}>
-          {strategyDeepDive.map((item, i) => (
-            <div key={item.title} className={styles.experimentCard}>
-              <span className={styles.experimentNum}>{String(i + 1).padStart(2, "0")}</span>
-              <h4 className={styles.experimentTitle}>{item.title}</h4>
-              <p className={styles.bodyText}>{item.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.strategyPanel}>
-        <SectionTitle>KPI-Framework</SectionTitle>
-        <p className={styles.bodyText}>
-          Baseline vor jedem PoC fixieren, per A/B oder Vorher-Nachher. Jeder PoC hat eine
-          definierte Erfolgs-Schwelle für Go/No-Go.
-        </p>
-        <div className={styles.kpiStack}>
-          {strategyKpiLayers.map((kpi, i) => (
-            <div key={kpi.layer} className={styles.kpiLayer}>
-              <div className={styles.kpiLayerMarker}>
-                <span className={styles.kpiLayerNum}>{String(i + 1).padStart(2, "0")}</span>
-                {i < strategyKpiLayers.length - 1 && <span className={styles.kpiLayerLine} />}
-              </div>
-              <div className={styles.kpiLayerBody}>
-                <span className={styles.kpiLayerTitle}>{kpi.layer}</span>
-                <p className={styles.kpiLayerDesc}>{kpi.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Entscheidung &amp; MVP-Shaping</SectionTitle>
-        <div className={styles.decisionGrid}>
-          {strategyDecision.map((item) => (
-            <div key={item.title} className={styles.decisionCard}>
-              <h4 className={styles.decisionTitle}>{item.title}</h4>
-              <p className={styles.bodyText}>{item.description}</p>
-            </div>
-          ))}
-        </div>
-        <p className={styles.bodyText}>
-          MVP: kleinster nutzbarer Scope, klare Hypothese, Time-box (typisch 6 bis 8 Wochen)
-          und definierter Nutzerkreis, bevor Budget in die Breite fließt.
-        </p>
-      </section>
-
-      <section className={styles.strategyPanel}>
-        <SectionTitle>Bewährte Frameworks, adaptiert statt neu erfunden</SectionTitle>
-        <div className={styles.frameworkGrid}>
-          {strategyFrameworks.map((fw) => (
-            <div key={fw.title} className={styles.frameworkCard}>
-              <span className={styles.frameworkTag}>{fw.tag}</span>
-              <h4 className={styles.frameworkTitle}>{fw.title}</h4>
-              <p className={styles.frameworkDesc}>{fw.description}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section>
         <SectionTitle>Die Transformation</SectionTitle>
         <ImpactTable rows={strategyImpact} />
         <Callout>
-          Portfolio statt Projektliste, mit wenigen gut begründeten Bets und messbarer Skalierung.
+          Portfolio statt Projektliste: wenige gut begründete Bets, messbare Stage-Gates
+          und Skalierung nur mit Evidenz.
         </Callout>
         <p className={styles.inlineCta}>
-          <strong>Bereit für Klarheit?</strong> Wir moderieren den Strategie-Workshop, liefern
-          das Scoring-Modell und begleiten Sie bis zur ersten Lighthouse-Entscheidung.
+          <strong>Bereit für Klarheit?</strong> Wir moderieren den Strategie-Workshop,
+          liefern das Scoring-Modell und begleiten Sie bis zur ersten Portfolio-Entscheidung.
         </p>
       </section>
     </div>

@@ -111,14 +111,14 @@ export const caseStudies: CaseStudyCard[] = [
   {
     id: "industrial",
     industry: "Industrie · Leadership",
-    title: "AI Strategy: vom PoC-Friedhof zum fokussierten Portfolio",
+    title: "AI Strategy: klare Roadmap statt Cases ohne Impact",
     quote:
-      "Wir hatten viele Ideen und wenig Fokus. Das Priority-Score-Modell hat uns geholfen, zwei Cases zu entscheiden und den Rest bewusst zu stoppen.",
+      "Wir hatten ein paar Cases und keine Klarheit, was sie wirklich bringen. Das Scoring und die Stage-Gates haben uns zu einem priorisierten Portfolio gebracht.",
     person: "CTO",
     role: "Mittelständisches Industrieunternehmen",
     metrics: [
-      { value: "1–2", label: "Fokus-Bets" },
-      { value: "Score", label: "statt Lobbying" },
+      { value: "5 Achsen", label: "Scoring" },
+      { value: "Portfolio", label: "statt Bauchgefühl" },
       { value: "Gates", label: "vor Scale" },
     ],
     tags: ["AI Strategy", "Portfolio", "Governance"],
