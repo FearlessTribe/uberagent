@@ -44,3 +44,10 @@ export function trackPotentialCheckLead() {
     step: "lead",
   });
 }
+
+/** AI Strategy Guide one-pager download */
+export function trackStrategyGuideDownload() {
+  trackEvent("strategy_guide_download", {
+    asset: "ai_strategy_implementation_management",
+  });
+}

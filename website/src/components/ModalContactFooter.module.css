@@ -25,7 +25,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 24px 28px;
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: 24px max(var(--space-container), env(safe-area-inset-right, 0px)) 24px max(var(--space-container), env(safe-area-inset-left, 0px));
   flex-wrap: wrap;
 }
 

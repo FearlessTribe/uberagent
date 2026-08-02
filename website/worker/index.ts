@@ -15,6 +15,14 @@ type PotentialCheckBody = {
   phone?: string;
 };
 
+type StrategyGuideBody = {
+  name?: string;
+  title?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+};
+
 const NOTION_VERSION = "2022-06-28";
 
 function corsHeaders(origin: string | null): HeadersInit {
@@ -46,7 +54,11 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-async function createNotionLead(env: Env, payload: Required<PotentialCheckBody>) {
+async function createNotionPage(
+  env: Env,
+  properties: Record<string, unknown>,
+  children?: unknown[],
+) {
   const res = await fetch("https://api.notion.com/v1/pages", {
     method: "POST",
     headers: {
@@ -56,17 +68,8 @@ async function createNotionLead(env: Env, payload: Required<PotentialCheckBody>)
     },
     body: JSON.stringify({
       parent: { database_id: env.NOTION_DATABASE_ID },
-      properties: {
-        Name: {
-          title: [{ text: { content: payload.name } }],
-        },
-        "E-Mail": { email: payload.email },
-        Website: { url: payload.website },
-        Status: { select: { name: "Neu" } },
-        ...(payload.phone
-          ? { Telefon: { phone_number: payload.phone } }
-          : {}),
-      },
+      properties,
+      ...(children?.length ? { children } : {}),
     }),
   });
 
@@ -78,12 +81,68 @@ async function createNotionLead(env: Env, payload: Required<PotentialCheckBody>)
   return res.json();
 }
 
+async function createPotentialCheckLead(
+  env: Env,
+  payload: Required<PotentialCheckBody>,
+) {
+  return createNotionPage(env, {
+    Name: {
+      title: [{ text: { content: payload.name } }],
+    },
+    "E-Mail": { email: payload.email },
+    Website: { url: payload.website },
+    Status: { select: { name: "Neu" } },
+    ...(payload.phone ? { Telefon: { phone_number: payload.phone } } : {}),
+  });
+}
+
+async function createStrategyGuideLead(
+  env: Env,
+  payload: Required<StrategyGuideBody>,
+) {
+  const detail = [
+    `Quelle: AI Strategy Guide Download`,
+    `Titel: ${payload.title}`,
+    `Firma: ${payload.company}`,
+  ].join("\n");
+
+  return createNotionPage(
+    env,
+    {
+      Name: {
+        title: [
+          {
+            text: {
+              content: `${payload.name} · ${payload.title} · ${payload.company}`.slice(
+                0,
+                2000,
+              ),
+            },
+          },
+        ],
+      },
+      "E-Mail": { email: payload.email },
+      Status: { select: { name: "Neu" } },
+      Telefon: { phone_number: payload.phone },
+    },
+    [
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: {
+          rich_text: [{ type: "text", text: { content: detail } }],
+        },
+      },
+    ],
+  );
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin");
 
-    if (url.pathname === "/api/potential-check") {
+    if (url.pathname === "/api/potential-check" || url.pathname === "/api/strategy-guide") {
       if (request.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: corsHeaders(origin) });
       }
@@ -94,6 +153,41 @@ export default {
 
       if (!env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) {
         return json({ error: "Lead intake is not configured" }, 503, origin);
+      }
+
+      if (url.pathname === "/api/strategy-guide") {
+        let body: StrategyGuideBody;
+        try {
+          body = (await request.json()) as StrategyGuideBody;
+        } catch {
+          return json({ error: "Invalid JSON" }, 400, origin);
+        }
+
+        const name = (body.name || "").trim();
+        const title = (body.title || "").trim();
+        const company = (body.company || "").trim();
+        const email = (body.email || "").trim();
+        const phone = (body.phone || "").trim();
+
+        if (!name || !title || !company || !email || !phone) {
+          return json(
+            { error: "Name, Titel, Firma, E-Mail und Telefon sind erforderlich." },
+            400,
+            origin,
+          );
+        }
+
+        if (!isValidEmail(email)) {
+          return json({ error: "Bitte eine gültige E-Mail angeben." }, 400, origin);
+        }
+
+        try {
+          await createStrategyGuideLead(env, { name, title, company, email, phone });
+          return json({ ok: true }, 200, origin);
+        } catch (err) {
+          console.error(err);
+          return json({ error: "Lead konnte nicht gespeichert werden." }, 502, origin);
+        }
       }
 
       let body: PotentialCheckBody;
@@ -123,7 +217,7 @@ export default {
       }
 
       try {
-        await createNotionLead(env, { website, name, email, phone });
+        await createPotentialCheckLead(env, { website, name, email, phone });
         return json({ ok: true }, 200, origin);
       } catch (err) {
         console.error(err);

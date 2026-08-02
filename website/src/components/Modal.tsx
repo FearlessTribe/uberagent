@@ -74,7 +74,7 @@ export function Modal({
             <div className={styles.dialogGrid} aria-hidden="true" />
 
             <header className={styles.header}>
-              <div className={`container ${styles.headerInner}`}>
+              <div className={styles.headerInner}>
                 <div className={styles.headerContent}>
                   {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
                   <h2 id="modal-title" className={styles.title}>
@@ -99,7 +99,7 @@ export function Modal({
             </header>
 
             <div className={styles.body}>
-              <div className={`container ${styles.bodyInner}`}>{children}</div>
+              <div className={styles.bodyInner}>{children}</div>
             </div>
 
             {footer && <div className={styles.footer}>{footer}</div>}

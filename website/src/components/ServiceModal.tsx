@@ -40,6 +40,7 @@ import {
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
 import { fadeIn, slidePanel } from "../motion";
+import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import styles from "./ServiceModal.module.css";
 
 interface ServiceModalProps {
@@ -978,6 +979,8 @@ function AiStrategyContent() {
         <SectionTitle>AI Strategy: von Ideen zum priorisierten Portfolio</SectionTitle>
         <StrategyProcessFlow />
       </section>
+
+      <StrategyGuideDownload />
 
       <section>
         <SectionTitle>Die Transformation</SectionTitle>
