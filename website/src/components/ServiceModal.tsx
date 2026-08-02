@@ -249,10 +249,9 @@ function StrategyProcessFlow() {
 
   // Evenly scattered idea-dots (percent positions)
   const caseDots = [
-    [6, 22], [14, 58], [22, 12], [28, 72], [36, 34],
-    [42, 8], [48, 64], [54, 28], [60, 78], [66, 18],
-    [72, 52], [78, 8], [84, 40], [90, 68], [12, 40],
-    [32, 52], [58, 46], [76, 72], [44, 86], [68, 32],
+    [10, 28], [22, 62], [34, 18], [46, 70], [58, 32],
+    [70, 58], [82, 22], [16, 48], [40, 42], [64, 14],
+    [88, 46], [52, 54],
   ] as const;
 
   return (
@@ -284,26 +283,34 @@ function StrategyProcessFlow() {
             {strategyFunnel.map((item, index) => {
               const topInset = (index / total) * 28;
               const bottomInset = ((index + 1) / total) * 28;
+              const fill = 0.08 + (index / Math.max(total - 1, 1)) * 0.16;
+              const isActive = active === index;
               return (
-                <button
+                <motion.button
                   key={item.step}
                   type="button"
                   role="tab"
-                  aria-selected={active === index}
-                  className={`${styles.funnelStage} ${active === index ? styles.funnelStageActive : ""}`}
+                  aria-selected={isActive}
+                  className={`${styles.funnelStage} ${isActive ? styles.funnelStageActive : ""}`}
                   style={{
                     clipPath: `polygon(${topInset}% 0, ${100 - topInset}% 0, ${100 - bottomInset}% 100%, ${bottomInset}% 100%)`,
-                    paddingLeft: `calc(${Math.max(topInset, bottomInset)}% + 18px)`,
-                    paddingRight: `calc(${Math.max(topInset, bottomInset)}% + 12px)`,
+                    paddingLeft: `calc(${Math.max(topInset, bottomInset)}% + 12px)`,
+                    paddingRight: `calc(${Math.max(topInset, bottomInset)}% + 8px)`,
+                    background: isActive
+                      ? `rgba(204, 128, 102, ${0.28 + fill * 0.4})`
+                      : `rgba(204, 128, 102, ${fill})`,
                   }}
                   onClick={() => setActive(index)}
+                  whileHover={reduceMotion ? undefined : { filter: "brightness(1.04)" }}
+                  whileTap={reduceMotion ? undefined : { scale: 0.995 }}
+                  transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                 >
                   <span className={styles.funnelStageIcon}>{funnelStepIcons[item.icon]}</span>
                   <span className={styles.funnelStageText}>
                     <span className={styles.funnelStageNum}>{item.step}</span>
                     <span className={styles.funnelStageTitle}>{item.title}</span>
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>

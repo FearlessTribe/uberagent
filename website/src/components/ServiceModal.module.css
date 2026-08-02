@@ -768,10 +768,10 @@
 
 /* AI Strategy panels */
 .strategyPanel {
-  padding: 24px;
-  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
 }
 
 .strategyPanel .discoveryCard {
@@ -823,9 +823,9 @@
 }
 
 .processHeader {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .processEyebrow {
@@ -834,16 +834,17 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .processIntro {
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
   margin: 0;
+  max-width: 54ch;
 }
 
 .processFlow {
@@ -890,20 +891,21 @@
 }
 
 .processIconWrap {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: rgba(204, 128, 102, 0.15);
-  color: var(--color-primary-light);
-  margin-bottom: 4px;
+  background: rgba(204, 128, 102, 0.12);
+  color: var(--color-primary);
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .processIconWrap svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .processStep {
@@ -1457,26 +1459,27 @@
 }
 
 .phaseDetail {
-  padding: 22px 24px;
-  border-radius: var(--radius-control);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 18px 18px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 28px rgba(25, 28, 33, 0.05);
   min-width: 0;
 }
 
 .phaseExtras {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .phaseDetailHead {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .phaseMeta {
@@ -1484,29 +1487,30 @@
   font-size: 0.625rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .phaseTitle {
-  margin: 2px 0 0;
-  font-size: 1rem;
+  margin: 1px 0 0;
+  font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--color-secondary);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
 }
 
 .phaseLead {
-  margin: 0 0 8px;
-  font-size: 0.9375rem;
+  margin: 0 0 6px;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-primary);
 }
 
 .phaseBody {
-  margin: 0 0 14px;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 12px;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
 }
 
 .phaseOutcome,
@@ -1514,13 +1518,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 12px;
-  padding: 12px 14px;
-  border-radius: var(--radius-control);
-  background: rgba(204, 128, 102, 0.12);
-  border: 1px solid rgba(204, 128, 102, 0.25);
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 0.875rem;
+  gap: 6px 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(204, 128, 102, 0.08);
+  border: 1px solid rgba(204, 128, 102, 0.22);
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
 }
 
 .phaseOutcomeLabel {
@@ -1529,14 +1533,14 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .ideaSourceGrid,
 .deepDiveGrid,
 .scaleGrid {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 @media (min-width: 768px) {
@@ -1868,25 +1872,25 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* Funnel shape */
+/* Funnel — light, open (no dark box) */
 .funnelTrack {
-  padding: 20px;
-  background: var(--color-surface);
-  border-radius: var(--radius-control);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 16px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 4px;
 }
 
 .funnelSplit {
   display: grid;
-  gap: 28px;
+  gap: 20px;
   align-items: start;
 }
 
 @media (min-width: 900px) {
   .funnelSplit {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 28px;
   }
 }
 
@@ -1894,35 +1898,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .funnelCases {
   position: relative;
   width: 100%;
-  height: 72px;
+  height: 36px;
 }
 
 .funnelCaseDot {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   margin: 0;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(204, 128, 102, 0.28);
+  background: rgba(204, 128, 102, 0.45);
+  box-shadow: 0 0 0 1px rgba(204, 128, 102, 0.18);
   cursor: help;
   transform: translate(-50%, -50%);
-  transition: background var(--duration-fast), box-shadow var(--duration-fast), transform var(--duration-fast);
+  transition:
+    background 0.35s var(--ease-out-smooth, ease),
+    box-shadow 0.35s var(--ease-out-smooth, ease),
+    transform 0.35s var(--ease-out-smooth, ease);
 }
 
 .funnelCaseDot:hover,
 .funnelCaseDot:focus-visible {
-  background: var(--color-primary-light);
-  box-shadow: 0 0 0 4px rgba(204, 128, 102, 0.2);
-  transform: translate(-50%, -50%) scale(1.25);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(204, 128, 102, 0.16);
+  transform: translate(-50%, -50%) scale(1.2);
   outline: none;
 }
 
@@ -1930,7 +1937,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0;
+  gap: 3px;
   width: 100%;
 }
 
@@ -1938,167 +1945,195 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
-  min-height: 68px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  min-height: 48px;
+  padding-top: 9px;
+  padding-bottom: 9px;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.045);
-  color: rgba(255, 255, 255, 0.84);
+  background: rgba(204, 128, 102, 0.1);
+  color: var(--color-text-primary);
+  cursor: pointer;
   transition:
-    background var(--duration-fast),
-    color var(--duration-fast);
+    background 0.35s var(--ease-out-smooth, ease),
+    color 0.35s var(--ease-out-smooth, ease),
+    box-shadow 0.35s var(--ease-out-smooth, ease),
+    filter 0.35s var(--ease-out-smooth, ease);
 }
 
 .funnelStage:first-child {
-  border-radius: 4px 4px 0 0;
+  border-radius: 6px 6px 0 0;
 }
 
 .funnelStage:last-child {
-  border-bottom: none;
+  border-radius: 0 0 6px 6px;
 }
 
 .funnelStage:hover {
-  background: rgba(204, 128, 102, 0.14);
-  color: rgba(255, 255, 255, 0.96);
+  background: rgba(204, 128, 102, 0.18);
+  filter: brightness(1.02);
 }
 
 .funnelStageActive {
-  background: rgba(204, 128, 102, 0.24);
-  color: var(--color-secondary);
+  background: rgba(204, 128, 102, 0.32);
+  box-shadow: inset 0 0 0 1px rgba(204, 128, 102, 0.28);
+  color: var(--color-text-primary);
 }
 
 .funnelStageIcon {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
+  opacity: 0.85;
+  transition: opacity 0.35s var(--ease-out-smooth, ease);
+}
+
+.funnelStageActive .funnelStageIcon {
+  opacity: 1;
 }
 
 .funnelStageIcon svg {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 .funnelStageText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 3px;
+  gap: 1px;
   min-width: 0;
 }
 
 .funnelStageNum {
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .funnelStageTitle {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-align: left;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .funnelDiamonds {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  min-height: 40px;
-  margin-top: 6px;
+  gap: 14px;
+  min-height: 28px;
+  margin-top: 4px;
 }
 
 .funnelDiamondBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
   cursor: help;
-  transition: color var(--duration-fast), transform var(--duration-fast), opacity var(--duration-fast);
-  animation: funnel-diamond-pulse 3s ease-in-out infinite;
+  transition:
+    color 0.35s var(--ease-out-smooth, ease),
+    transform 0.35s var(--ease-out-smooth, ease),
+    opacity 0.35s var(--ease-out-smooth, ease);
+  animation: funnel-diamond-pulse 4.5s var(--ease-out-smooth, ease) infinite;
 }
 
 .funnelDiamondBtn svg {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
 }
 
 .funnelDiamondBtn:hover,
 .funnelDiamondBtn:focus-visible {
-  color: #fff;
-  transform: translateY(-2px) scale(1.08);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
   outline: none;
   animation: none;
+  opacity: 1;
 }
 
 @keyframes funnel-diamond-pulse {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
 }
 
-/* Dark embeds inside funnel detail panel */
+@media (prefers-reduced-motion: reduce) {
+  .funnelDiamondBtn {
+    animation: none;
+    opacity: 0.7;
+  }
+
+  .funnelStage,
+  .funnelCaseDot,
+  .portfolioCell,
+  .phaseExtras .scoreAxisBtn,
+  .phaseExtras .decisionChip {
+    transition: none;
+  }
+}
+
+/* Light embeds inside funnel detail panel */
 .embedIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  background: rgba(204, 128, 102, 0.15);
-  color: var(--color-primary-light);
+  width: 26px;
+  height: 26px;
+  margin-bottom: 6px;
+  border-radius: 7px;
+  background: rgba(204, 128, 102, 0.12);
+  color: var(--color-primary);
 }
 
 .embedIcon svg {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
 }
 
 .ideaSourceCardDark,
 .deepDiveCardDark,
 .scaleCardDark {
-  padding: 18px 18px 20px;
-  border-radius: var(--radius-control);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 12px 14px;
+  border-radius: 10px;
+  background: var(--color-bg, #f8f6f4);
+  border: 1px solid var(--color-border);
   text-align: left;
 }
 
 .ideaSourceTitleDark,
 .deepDiveTitleDark,
 .scaleTitleDark {
-  margin: 0 0 8px;
-  font-size: 0.875rem;
+  margin: 0 0 4px;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-text-primary);
 }
 
 .ideaSourceCardDark p,
 .deepDiveCardDark p,
 .scaleCardDark p {
   margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
 }
 
 .scoreStack {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .phaseExtras .scoreExplorer {
@@ -2122,15 +2157,20 @@
 .phaseExtras .scoreAxisBtn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  padding: 9px 10px;
-  border-radius: var(--radius-control);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.75rem;
+  padding: 7px 8px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.6875rem;
   font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--ease-out-smooth, ease),
+    border-color 0.3s var(--ease-out-smooth, ease),
+    color 0.3s var(--ease-out-smooth, ease);
 }
 
 .phaseExtras .scoreAxisShort {
@@ -2141,42 +2181,50 @@
 
 .phaseExtras .scoreAxisBtn:hover,
 .phaseExtras .scoreAxisBtnActive {
-  background: rgba(204, 128, 102, 0.18);
-  border-color: rgba(204, 128, 102, 0.4);
-  color: var(--color-secondary);
+  background: rgba(204, 128, 102, 0.1);
+  border-color: rgba(204, 128, 102, 0.35);
+  color: var(--color-text-primary);
+}
+
+.phaseExtras .scoreAxisBtnActive .scoreAxisIndex {
+  color: var(--color-primary);
 }
 
 .phaseExtras .scoreFocus {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--color-bg, #f8f6f4);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   min-height: 0;
-  padding: 16px 18px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .phaseExtras .scoreQuestion {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
 }
 
 .phaseExtras .scoreAnswer {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
 }
 
 .portfolioBlock {
   display: grid;
-  gap: 10px;
-  padding: 14px;
-  border-radius: var(--radius-control);
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--color-bg, #f8f6f4);
+  border: 1px solid var(--color-border);
 }
 
 .portfolioHead p {
   margin: 4px 0 0;
   font-size: 0.75rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-text-secondary);
 }
 
 .portfolioEyebrow {
@@ -2185,7 +2233,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .portfolioMatrix {
@@ -2193,9 +2241,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 6px;
-  min-height: 160px;
-  margin: 8px 10px 4px 18px;
+  gap: 5px;
+  min-height: 120px;
+  margin: 6px 8px 2px 16px;
 }
 
 .portfolioAxisY,
@@ -2205,7 +2253,8 @@
   font-size: 0.5625rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-secondary);
+  opacity: 0.7;
 }
 
 .portfolioAxisY {
@@ -2232,49 +2281,55 @@
   border-radius: 8px;
   border: 1px solid transparent;
   text-align: left;
-  transition: background var(--duration-fast), border-color var(--duration-fast), transform var(--duration-fast);
+  cursor: pointer;
+  transition:
+    background 0.3s var(--ease-out-smooth, ease),
+    border-color 0.3s var(--ease-out-smooth, ease),
+    transform 0.3s var(--ease-out-smooth, ease),
+    box-shadow 0.3s var(--ease-out-smooth, ease);
 }
 
 .portfolioCell strong {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-text-primary);
 }
 
 .portfolioCell span {
   font-size: 0.6875rem;
   line-height: 1.35;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-text-secondary);
 }
 
 .portfolioCell_build {
-  background: rgba(47, 107, 79, 0.35);
+  background: rgba(47, 107, 79, 0.12);
   grid-column: 1;
   grid-row: 1;
 }
 
 .portfolioCell_derisk {
-  background: rgba(183, 121, 31, 0.32);
+  background: rgba(183, 121, 31, 0.12);
   grid-column: 2;
   grid-row: 1;
 }
 
 .portfolioCell_pivot {
-  background: rgba(51, 65, 85, 0.45);
+  background: rgba(51, 65, 85, 0.1);
   grid-column: 1;
   grid-row: 2;
 }
 
 .portfolioCell_kill {
-  background: rgba(155, 44, 44, 0.32);
+  background: rgba(155, 44, 44, 0.1);
   grid-column: 2;
   grid-row: 2;
 }
 
 .portfolioCell:hover,
 .portfolioCellActive {
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(204, 128, 102, 0.35);
   transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(25, 28, 33, 0.06);
 }
 
 .portfolioHint {
@@ -2284,14 +2339,14 @@
   min-height: 44px;
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--color-border);
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--color-text-secondary);
 }
 
 .portfolioHint strong {
-  color: var(--color-primary-light);
+  color: var(--color-primary);
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2301,9 +2356,13 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.85);
+  background: #fff;
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+  transition:
+    background 0.3s var(--ease-out-smooth, ease),
+    border-color 0.3s var(--ease-out-smooth, ease),
+    color 0.3s var(--ease-out-smooth, ease);
 }
 
 .decisionChipIcon {
@@ -2325,14 +2384,15 @@
 }
 
 .decisionChipMuted.decisionChipActive {
-  opacity: 0.72;
-  background: #4a5568 !important;
+  opacity: 0.85;
+  background: #e8eaed !important;
+  color: var(--color-text-primary) !important;
 }
 
 .phaseExtras .decisionExplain {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.82);
+  background: var(--color-bg, #f8f6f4);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
 }
 
 .strategyPromise {
