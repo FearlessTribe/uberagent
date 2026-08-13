@@ -8,6 +8,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "finanznomade-kv",
+    slug: "finanznomade-versicherungsrechner",
+    title: "Internationaler Krankenversicherungs-Konfigurator für Finanznomade",
+    shortDescription:
+      "Internationalen KV-Vergleich von der PDF-Welt in einen 5-Schritt-Konfigurator überführt — plus Architektur für Affiliate-Tracking, Provision und Funnel-Performance.",
+    tags: ["Konfigurator", "Insurance Tech", "Affiliate System", "Datenprodukte"],
+  },
+  {
     id: "ai-sales-agent",
     slug: "sales-ai-agent",
     title: "AI Sales Agent für führende Digitalagentur der Schweiz",
@@ -18,6 +26,26 @@ export const projects: Project[] = [
 ];
 
 export const projectDetails = {
+  "finanznomade-kv": {
+    situation:
+      "Finanznomade berät Unternehmer und Perpetual Traveler bei der Wahl internationaler Krankenversicherungen — der Markt liefert PDFs und inkompatible Tarifwerke statt fairen Vergleich.",
+    solution:
+      "Ein 5-Schritt-Konfigurator auf schema-validierter Multi-Anbieter-Datenbasis: Ampel-Vergleich, Detailmatrix mit Quellenpflicht und Broker-/Affiliate-Deep-Links — Fundament für Sales Tracking und Partnernetzwerk.",
+    principle:
+      "Providertreu und vergleichbar: Originalwortlaut bleibt, Vergleichbarkeit entsteht über Katalog-Mapping. Fehlende Information ist nie „nicht versichert“.",
+    impact:
+      "Auslandsversicherung wird konfigurierbar, Vergleich vertrauenswürdig — und Affiliate-Wachstum bekommt eine messbare Pipeline von der Quelle bis zum Abschluss.",
+    phases: [
+      "Analyse",
+      "Datenmodellierung",
+      "Produktkonzeption",
+      "UX/UI",
+      "Frontend",
+      "Affiliate-/Tracking-Architektur",
+    ],
+    tech: ["React", "TypeScript", "Vite", "Python", "JSON Schema", "Cloudflare Pages"],
+    client: "Finanznomade / Finance Masters",
+  },
   "ai-sales-agent": {
     situation:
       "Eine führende Schweizer Digital-Agentur wollte ihren KMU-Kundenstamm aktivieren: Bestandskunden vor Vertragsablauf halten und bei den übrigen erkennen, wer Potenzial für eine neue Website hat. Die Datengrundlage waren zwei unverbundene Listen aus CRM- und öffentlichen Standortdaten. Von Hand nicht skalierbar.",

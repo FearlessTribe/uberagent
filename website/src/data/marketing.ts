@@ -78,6 +78,22 @@ export interface CaseStudyCard {
 
 export const caseStudies: CaseStudyCard[] = [
   {
+    id: "finanznomade",
+    industry: "Finanzen · Insurance · Expat",
+    title: "Internationaler KV-Konfigurator für Finanznomade",
+    quote:
+      "Besonders stark fand ich, dass er nicht einfach nur Anforderungen umgesetzt hat, sondern sich intensiv in das Thema eingearbeitet […] Die Zusammenarbeit war unkompliziert, schnell und sehr lösungsorientiert.",
+    person: "Kim Elsholz",
+    role: "CEO von finanznoma.de der FINO Media LLC",
+    metrics: [
+      { value: "5 Schritte", label: "Konfigurator" },
+      { value: "5 Anbieter", label: "vergleichbar" },
+      { value: "Funnel", label: "Affiliate-ready" },
+    ],
+    tags: ["Konfigurator", "Insurance Tech", "Affiliate"],
+    openId: "finanznomade-kv",
+  },
+  {
     id: "digital-agency",
     industry: "Digitalagentur · Schweiz",
     title: "AI Sales Agent für Bestandskunden-Aktivierung",
@@ -107,21 +123,6 @@ export const caseStudies: CaseStudyCard[] = [
       { value: "QA", label: "Governance" },
     ],
     tags: ["GTM Engineering", "CRM", "Pipeline"],
-  },
-  {
-    id: "industrial",
-    industry: "Industrie · Leadership",
-    title: "AI Strategy: klare Roadmap statt Cases ohne Impact",
-    quote:
-      "Wir hatten ein paar Cases und keine Klarheit, was sie wirklich bringen. Das Scoring und die Stage-Gates haben uns zu einem priorisierten Portfolio gebracht.",
-    person: "CTO",
-    role: "Mittelständisches Industrieunternehmen",
-    metrics: [
-      { value: "5 Achsen", label: "Scoring" },
-      { value: "Portfolio", label: "statt Bauchgefühl" },
-      { value: "Gates", label: "vor Scale" },
-    ],
-    tags: ["AI Strategy", "Portfolio", "Governance"],
   },
 ];
 

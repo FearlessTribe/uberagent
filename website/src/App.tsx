@@ -22,6 +22,11 @@ const ServiceModal = lazy(() =>
 const ProjectModal = lazy(() =>
   import("./components/ProjectModal").then((m) => ({ default: m.ProjectModal })),
 );
+const FinanznomadeCaseModal = lazy(() =>
+  import("./components/FinanznomadeCaseModal").then((m) => ({
+    default: m.FinanznomadeCaseModal,
+  })),
+);
 const LaurensModal = lazy(() =>
   import("./components/LaurensModal").then((m) => ({ default: m.LaurensModal })),
 );
@@ -64,6 +69,10 @@ function AppContent() {
         />
         <ProjectModal
           isOpen={overlay.openProjectId === "ai-sales-agent"}
+          onClose={overlay.closeProject}
+        />
+        <FinanznomadeCaseModal
+          isOpen={overlay.openProjectId === "finanznomade-kv"}
           onClose={overlay.closeProject}
         />
       </Suspense>
