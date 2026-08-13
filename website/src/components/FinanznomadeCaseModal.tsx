@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
@@ -17,35 +17,111 @@ const LIVE_URL = "https://auslandsvergleich.finanznoma.de/";
 const QUOTE_TEXT =
   "Laurens hat mit uns aus einem Prototypen einen voll funktionsfähigen Versicherungskonfigurator entwickelt — von Analyse und Konzeption über Datenstruktur und UX/UI bis zur technischen Umsetzung. Besonders stark: Er hat sich intensiv eingearbeitet, komplexe Leistungen strukturiert und daraus eine verständliche Lösung gemacht. Unkompliziert, schnell, lösungsorientiert. Klare Empfehlung.";
 
+const navItems = [
+  { id: "fn-produkt", label: "Produkt" },
+  { id: "fn-ansatz", label: "Ansatz" },
+  { id: "fn-affiliate", label: "Affiliate" },
+] as const;
+
 const challenges = [
   {
-    reality: "Tarifnamen stimmen nicht überein (Comfort ≠ Classic ≠ Special)",
+    label: "Tarifnamen",
+    reality: "Comfort ≠ Classic ≠ Special",
     meaning: "Kein naives 1:1-Mapping",
+    icon: "tags" as const,
   },
   {
-    reality: "Geozonen, Preiszonen und Aufenthaltsregeln unterscheiden sich je Anbieter",
+    label: "Geologiken",
+    reality: "Zonen & Aufenthalt je Anbieter anders",
     meaning: "Eigene Mapping-Schicht nötig",
+    icon: "globe" as const,
   },
   {
-    reality: "Selbstbehalt gilt mal für alles, mal nur stationär, mal nur ambulant",
-    meaning: "Transparenz statt Vereinfachung um jeden Preis",
+    label: "Selbstbehalt",
+    reality: "Mal alles, mal nur stationär/ambulant",
+    meaning: "Transparenz statt Vereinfachung",
+    icon: "percent" as const,
   },
   {
-    reality: "Quellenlage ungleich (volle AVB vs. nur Broschüre)",
-    meaning: "Unsicherheit darf nicht als „nicht versichert“ erscheinen",
+    label: "Quellenlage",
+    reality: "Volle AVB vs. nur Broschüre",
+    meaning: "Unsicherheit darf nicht als „nicht versichert“ gelten",
+    icon: "docs" as const,
   },
   {
-    reality: "Abschluss läuft über Broker, APIs, Deep Links",
-    meaning: "Attribution muss von Anfang an mitgedacht werden",
+    label: "Abschluss",
+    reality: "Broker, APIs, Deep Links",
+    meaning: "Attribution von Tag 1 mitdenken",
+    icon: "link" as const,
   },
 ];
 
+const challengeIcons = {
+  tags: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7.5V4h3.5L16 12.5 11.5 17 4 7.5z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <circle cx="7.2" cy="6.8" r="1" fill="currentColor" />
+      <path
+        d="M13 4h7v7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  globe: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M4.5 12h15M12 4c2.2 2.4 3.3 5.1 3.3 8s-1.1 5.6-3.3 8c-2.2-2.4-3.3-5.1-3.3-8s1.1-5.6 3.3-8z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  ),
+  percent: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="8" cy="8" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="16" cy="16" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M17.5 6.5L6.5 17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  docs: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 4h7l4 4v12H7V4z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M14 4v4h4M10 12h6M10 16h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  link: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M9.5 14.5l5-5M10.5 9.5l-1-1a3.2 3.2 0 00-4.5 4.5l1 1M13.5 14.5l1 1a3.2 3.2 0 004.5-4.5l-1-1"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+};
+
 const insurers = [
-  { name: "BDAE", src: "/cases/finanznomade/insurers/bdae.svg", dark: false },
-  { name: "APRIL International", src: "/cases/finanznomade/insurers/april.png", dark: true },
-  { name: "PassportCard", src: "/cases/finanznomade/insurers/passportcard.png", dark: true },
-  { name: "Foyer Global Health", src: "/cases/finanznomade/insurers/foyer.png", dark: false },
-  { name: "Care Concept", src: "/cases/finanznomade/insurers/careconcept.png", dark: false },
+  { name: "BDAE", src: "/cases/finanznomade/insurers/bdae.svg" },
+  { name: "APRIL International", src: "/cases/finanznomade/insurers/april.png" },
+  { name: "PassportCard", src: "/cases/finanznomade/insurers/passportcard.png" },
+  { name: "Foyer Global Health", src: "/cases/finanznomade/insurers/foyer.png" },
+  { name: "Care Concept", src: "/cases/finanznomade/insurers/careconcept.png" },
 ];
 
 const principles = [
@@ -122,67 +198,18 @@ const affiliatePipeline = [
   { id: "pay", label: "Provision", detail: "Abrechnung" },
 ];
 
-const affiliateBlocks = [
-  {
-    title: "Tracking & Attribution",
-    eyebrow: "01 · Identity",
-    items: [
-      "Eindeutige Click- / Conversion-ID über den gesamten Funnel",
-      "Sales- und Abschluss-Tracking",
-      "Automatische Zuordnung von Abschlüssen zum Affiliate",
-      "Schnittstellen: API, Webhooks/Postbacks, CSV",
-    ],
-  },
-  {
-    title: "Provision & Abrechnung",
-    eyebrow: "02 · Money",
-    items: [
-      "Statuslogik: Offen → Bestätigt → Storniert → Ausgezahlt",
-      "Umsatz und Provision pro Affiliate",
-      "Auszahlungshistorie und Abrechnung",
-    ],
-  },
-  {
-    title: "Performance & Optimierung",
-    eyebrow: "03 · Insights",
-    items: ["EPC / CPL / CPA", "Stornoquote", "Tarif- und Anbieterperformance", "Detaillierte Funnel-Analyse"],
-  },
-  {
-    title: "Operative Skalierung",
-    eyebrow: "04 · Scale",
-    items: [
-      "CRM-Anbindung",
-      "Automatisiertes Lead-Follow-up",
-      "Partnerfähige Reporting-Oberfläche",
-    ],
-  },
+const affiliateLive = [
+  "5-Schritt-Konfigurator mit Ampel & Detailmatrix",
+  "Broker- / Affiliate-Deep-Links im Abschluss",
+  "Erste Attribution-Schicht über Click-IDs",
+  "Rechtliche Gateways (VersVermV / VVG) in der Journey",
 ];
 
-const results = [
-  {
-    dim: "Produkt",
-    text: "Live-fähiger 5-Schritt-Konfigurator mit Vergleich, Ampel und Abschlussstrecken",
-  },
-  {
-    dim: "Daten",
-    text: "Schema-validierte Multi-Anbieter-Basis inkl. Leistungskatalog und Mapping-Qualität",
-  },
-  {
-    dim: "Vertrauen",
-    text: "Provenance statt Blackbox — „keine Angabe“ statt falscher Sicherheit",
-  },
-  {
-    dim: "Marke",
-    text: "UX im Editorial-Look von Finanznomade, rechtlich sauber eingebettet",
-  },
-  {
-    dim: "Monetarisierung",
-    text: "Broker-/Affiliate-Deep-Links als erste Conversion-Schicht",
-  },
-  {
-    dim: "Skalierung",
-    text: "Architektur und Funnel als Fundament für Sales Tracking, Provision und Partnernetzwerk",
-  },
+const affiliateRoadmap = [
+  "Vollständige Provisions- & Statuslogik",
+  "Partner-Dashboard & Reporting",
+  "CRM-Anbindung + automatisiertes Lead-Follow-up",
+  "EPC / CPL / CPA & Funnel-Optimierung",
 ];
 
 const meta = [
@@ -201,40 +228,76 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h3 className={styles.sectionTitle}>{children}</h3>;
 }
 
+function findScrollParent(el: HTMLElement | null): HTMLElement | null {
+  let node = el?.parentElement ?? null;
+  while (node) {
+    const { overflowY } = getComputedStyle(node);
+    if (overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return null;
+}
+
 function TypedQuote({ active }: { active: boolean }) {
   const reduce = useReducedMotion();
-  const [shown, setShown] = useState(reduce ? QUOTE_TEXT : "");
-  const [done, setDone] = useState(Boolean(reduce));
+  const quoteRef = useRef<HTMLQuoteElement>(null);
+  const [chars, setChars] = useState(reduce ? QUOTE_TEXT.length : 0);
 
   useEffect(() => {
     if (!active) {
-      setShown(reduce ? QUOTE_TEXT : "");
-      setDone(Boolean(reduce));
+      setChars(reduce ? QUOTE_TEXT.length : 0);
       return;
     }
     if (reduce) {
-      setShown(QUOTE_TEXT);
-      setDone(true);
+      setChars(QUOTE_TEXT.length);
       return;
     }
 
-    setShown("");
-    setDone(false);
-    let i = 0;
-    const id = window.setInterval(() => {
-      i += 1;
-      setShown(QUOTE_TEXT.slice(0, i));
-      if (i >= QUOTE_TEXT.length) {
-        window.clearInterval(id);
-        setDone(true);
-      }
-    }, 16);
+    const quote = quoteRef.current;
+    if (!quote) return;
+    const scroller = findScrollParent(quote);
+    if (!scroller) return;
 
-    return () => window.clearInterval(id);
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      // Wait until the user has scrolled a bit before typing starts
+      if (scroller.scrollTop < 140) {
+        setChars(0);
+        return;
+      }
+      const scrollRect = scroller.getBoundingClientRect();
+      const quoteRect = quote.getBoundingClientRect();
+      const start = scrollRect.top + scrollRect.height * 0.72;
+      const end = scrollRect.top + scrollRect.height * 0.22;
+      const range = Math.max(160, start - end);
+      const progress = Math.min(1, Math.max(0, (start - quoteRect.top) / range));
+      setChars(Math.round(progress * QUOTE_TEXT.length));
+    };
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
+
+    return () => {
+      scroller.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, [active, reduce]);
 
+  const shown = QUOTE_TEXT.slice(0, chars);
+  const done = chars >= QUOTE_TEXT.length;
+
   return (
-    <blockquote className={styles.clientQuote}>
+    <blockquote className={styles.clientQuote} ref={quoteRef}>
       <div className={styles.quoteLayout}>
         <img
           className={styles.quotePhoto}
@@ -244,17 +307,16 @@ function TypedQuote({ active }: { active: boolean }) {
           height={320}
         />
         <div className={styles.quoteBody}>
-          <p>
-            <span className={styles.quoteMark} aria-hidden="true">
-              “
+          <p className={styles.quoteText} aria-label={QUOTE_TEXT}>
+            <span className={styles.quoteTextMeasure} aria-hidden="true">
+              “{QUOTE_TEXT}”
             </span>
-            {shown}
-            {!done && <span className={styles.quoteCaret} aria-hidden="true" />}
-            {done && (
-              <span className={styles.quoteMarkEnd} aria-hidden="true">
-                ”
-              </span>
-            )}
+            <span className={styles.quoteTextLive} aria-hidden="true">
+              <span className={styles.quoteMark}>“</span>
+              {shown}
+              {!done && <span className={styles.quoteCaret} />}
+              {done && <span className={styles.quoteMarkEnd}>”</span>}
+            </span>
           </p>
           <footer>
             <strong>Kim Elsholz &amp; Maurice</strong>
@@ -340,10 +402,7 @@ function ApproachProcess() {
           {phase.extra === "insurers" && (
             <div className={styles.insurerGrid}>
               {insurers.map((insurer) => (
-                <div
-                  key={insurer.name}
-                  className={`${styles.insurerCard} ${insurer.dark ? styles.insurerCardDark : ""}`}
-                >
+                <div key={insurer.name} className={styles.insurerCard}>
                   <img src={insurer.src} alt={insurer.name} width={160} height={40} />
                 </div>
               ))}
@@ -401,34 +460,95 @@ function AffiliateSystem() {
         ))}
       </div>
 
-      <div className={styles.affiliateIdChain}>
-        <span className={styles.affiliateIdLabel}>Eine ID · durchgängig</span>
-        <code className={styles.affiliateId}>fn_click_8f3a…c21 → lead → policy → payout</code>
-      </div>
-
-      <div className={styles.affiliateGrid}>
-        {affiliateBlocks.map((block) => (
-          <div key={block.title} className={styles.affiliateCard}>
-            <span className={styles.affiliateCardEyebrow}>{block.eyebrow}</span>
-            <h4>{block.title}</h4>
-            <ul>
-              {block.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div className={styles.affiliateStatusGrid}>
+        <div className={styles.affiliateStatusCard}>
+          <span className={styles.affiliateStatusBadge}>Live</span>
+          <h4>Heute im Produkt</h4>
+          <ul>
+            {affiliateLive.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div className={`${styles.affiliateStatusCard} ${styles.affiliateStatusRoadmap}`}>
+          <span className={styles.affiliateStatusBadgeMuted}>Roadmap</span>
+          <h4>Nächste Ausbaustufe</h4>
+          <ul>
+            {affiliateRoadmap.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <p className={styles.callout}>
         Der Konfigurator erzeugt qualifizierte Intent-Signale. Das Affiliate-System macht daraus
-        steuerbare Revenue-Infrastruktur.
+        steuerbare Revenue-Infrastruktur — Schritt für Schritt.
       </p>
     </div>
   );
 }
 
+function CaseNav({ scroller }: { scroller: HTMLElement | null }) {
+  const [active, setActive] = useState<string>(navItems[0].id);
+
+  useEffect(() => {
+    if (!scroller) return;
+
+    const sections = navItems
+      .map((item) => scroller.querySelector<HTMLElement>(`#${item.id}`))
+      .filter(Boolean) as HTMLElement[];
+
+    const onScroll = () => {
+      const top = scroller.getBoundingClientRect().top + 120;
+      let current: string = navItems[0].id;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= top) current = section.id;
+      }
+      setActive(current);
+    };
+
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => scroller.removeEventListener("scroll", onScroll);
+  }, [scroller]);
+
+  const jump = (id: string) => {
+    const el = scroller?.querySelector(`#${id}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <nav className={styles.caseNav} aria-label="Case-Abschnitte">
+      {navItems.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          className={`${styles.caseNavBtn} ${active === item.id ? styles.caseNavBtnActive : ""}`}
+          onClick={() => jump(item.id)}
+        >
+          {item.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
 export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModalProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [scroller, setScroller] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setScroller(null);
+      return;
+    }
+    const id = window.requestAnimationFrame(() => {
+      setScroller(findScrollParent(contentRef.current));
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -439,8 +559,10 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
         <ModalContactFooter onClose={onClose} label="Ähnliches Datenprodukt besprechen" />
       }
     >
-      <div className={styles.content}>
-        <section className={styles.heroSection}>
+      <div className={styles.content} ref={contentRef}>
+        <CaseNav scroller={scroller} />
+
+        <section className={styles.heroSection} id="fn-produkt">
           <div className={styles.videoBlock}>
             <div className={styles.macbook}>
               <div className={styles.macbookLid}>
@@ -480,163 +602,122 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
 
           <span className={styles.heroTag}>Von Tarif-PDFs zur Conversion-Maschine</span>
           <TypedQuote active={isOpen} />
-          <p className={styles.lead}>
-            Ein Auslandsversicherungs-Konfigurator, der komplexe Produkte einfach führt — und
-            gleichzeitig die Basis für ein skalierbares Affiliate- &amp; Sales-Tracking-System legt.
-          </p>
+
+          <div className={styles.stackDiagram} aria-label="Produktbaukasten">
+            <div className={styles.stackCard}>
+              <h4 className={styles.stackTitle}>Datenprodukt</h4>
+              <p>
+                Alle Versicherungen von fünf Anbietern systematisch und einheitlich strukturiert —
+                vergleichbar und quellenbelegt.
+              </p>
+            </div>
+            <span className={styles.stackOp} aria-hidden="true">
+              +
+            </span>
+            <div className={styles.stackCard}>
+              <h4 className={styles.stackTitle}>Konfigurator</h4>
+              <p>
+                Guided Experience für Endkunden: intuitiv, klar geführt — in wenigen Schritten zum
+                passenden Schutz statt PDF-Chaos.
+              </p>
+            </div>
+            <span className={styles.stackOp} aria-hidden="true">
+              +
+            </span>
+            <div className={styles.stackCard}>
+              <h4 className={styles.stackTitle}>Affiliate-Netzwerk</h4>
+              <p>
+                Partnersteuerung mit klarer Performance-Übersicht und Incentivierung nach Ergebnis —
+                vom Click bis zur Provision.
+              </p>
+            </div>
+            <span className={styles.stackEquals} aria-hidden="true">
+              =
+            </span>
+            <div className={`${styles.stackCard} ${styles.stackResult}`}>
+              <h4 className={styles.stackTitle}>Ergebnis</h4>
+              <p>
+                Skalierbarer, hocheffizienter Vertrieb internationaler Krankenversicherungen für
+                Unternehmer — rechtlich sauber, conversion-orientiert, partnerfähig.
+              </p>
+            </div>
+          </div>
         </section>
 
         <section>
           <SectionTitle>Ausgangslage</SectionTitle>
           <p className={styles.bodyText}>
             Finanznomade.de berät Unternehmerinnen und Unternehmer, die auswandern, remote arbeiten
-            oder als Perpetual Traveler leben. Eine der zentralen Fragen:{" "}
-            <em>Welche internationale Krankenversicherung passt zu meiner Situation?</em>
+            oder als Perpetual Traveler leben. Zentrale Frage:{" "}
+            <em>Welche internationale Krankenversicherung passt zu meiner Situation?</em> Der Markt
+            antwortet mit PDFs — nicht mit Produkten.
           </p>
-          <p className={styles.bodyText}>
-            Der Markt antwortet darauf mit PDFs, Leistungsbroschüren und inkompatiblen Tarifwerken.
-            Fünf Anbieter, fünf Geografielogiken, fünf Selbstbehaltssysteme — und kaum eine
-            Möglichkeit, fair und ehrlich zu vergleichen.
-          </p>
-          <div className={styles.pullQuote}>
-            <p>
-              Einfache Benutzerführung und intuitive UX bei gleichzeitiger fachlicher Tiefe, die
-              Versicherungsprodukte wirklich verdient.
-            </p>
+          <div className={styles.beforeAfter}>
+            <div className={styles.beforeCard}>
+              <span className={styles.beforeAfterEyebrow}>Before</span>
+              <h4>Marktrealität</h4>
+              <ul>
+                <li>PDFs &amp; Leistungsbroschüren</li>
+                <li>Inkompatible Tarifwerke</li>
+                <li>Fünf Geologiken, fünf Selbstbehalte</li>
+                <li>Kaum fairer Vergleich möglich</li>
+              </ul>
+            </div>
+            <div className={styles.beforeAfterArrow} aria-hidden="true">
+              →
+            </div>
+            <div className={styles.afterCard}>
+              <span className={styles.beforeAfterEyebrow}>After</span>
+              <h4>Konfigurator</h4>
+              <ul>
+                <li>5 geführte Schritte</li>
+                <li>Ampel-Vergleich &amp; Matrix</li>
+                <li>Quellenpflicht &amp; ehrliche Lücken</li>
+                <li>Abschluss via Deep Link / Beratung</li>
+              </ul>
+            </div>
           </div>
         </section>
 
         <section>
           <SectionTitle>Herausforderung</SectionTitle>
           <p className={styles.bodyText}>
-            Internationale Expat-Krankenversicherungen sind kein Vergleichsprodukt „out of the box“.
-            Zusätzlich sollte der Konfigurator monetarisierbar und skalierbar sein — als Einstieg in
-            ein Affiliate-Netzwerk, in dem von der Besucherquelle bis zum Versicherungsabschluss alles
-            nachvollziehbar ist.
+            Internationale Expat-Krankenversicherungen sind kein Vergleichsprodukt „out of the box“ —
+            und sollen trotzdem monetarisierbar und skalierbar werden.
           </p>
-          <table className={styles.challengeTable}>
-            <thead>
-              <tr>
-                <th>Realität im Markt</th>
-                <th>Was das fürs Produkt bedeutet</th>
-              </tr>
-            </thead>
-            <tbody>
-              {challenges.map((row) => (
-                <tr key={row.reality}>
-                  <td>{row.reality}</td>
-                  <td>{row.meaning}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className={styles.challengeGrid}>
+            {challenges.map((row) => (
+              <div key={row.label} className={styles.challengeCard}>
+                <span className={styles.challengeIcon}>{challengeIcons[row.icon]}</span>
+                <span className={styles.challengeLabel}>{row.label}</span>
+                <strong className={styles.challengeReality}>{row.reality}</strong>
+                <span className={styles.challengeMeaning}>{row.meaning}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
-        <section>
+        <section id="fn-ansatz">
           <SectionTitle>Ansatz: Datenprodukt mit Oberfläche</SectionTitle>
           <p className={styles.bodyText}>
-            Wir haben das Projekt nicht als „UI mit Tabelle“ gedacht, sondern als strukturierte
-            Wissensbasis — normalisiert, validiert und so aufbereitet, dass sie Produkt, Beratung und
-            Tracking gleichzeitig speisen kann.
+            Nicht „UI mit Tabelle“, sondern strukturierte Wissensbasis — normalisiert, validiert und
+            so aufbereitet, dass sie Produkt, Beratung und Tracking gleichzeitig speisen kann.
           </p>
           <ApproachProcess />
           <FinanznomadeScreenshotShowcase />
         </section>
 
-        <section>
-          <SectionTitle>Lösung im Überblick</SectionTitle>
-          <div className={styles.solutionGrid}>
-            <div className={styles.solutionCard}>
-              <span className={styles.solutionEyebrow}>Was Nutzer sehen</span>
-              <p>
-                Ein geführter Vergleichsrechner — mit ehrlichen Preisen, nachvollziehbaren Leistungen
-                und klaren nächsten Schritten (Direktabschluss, WhatsApp, Beratungstermin).
-              </p>
-            </div>
-            <div className={styles.solutionCard}>
-              <span className={styles.solutionEyebrow}>Was dahinter steckt</span>
-              <p>
-                Eine strukturierte Wissensbasis aus AVBs, Broschüren und Prämiensystemen —
-                normalisiert, validiert, produktfähig.
-              </p>
-            </div>
-            <div className={styles.solutionCard}>
-              <span className={styles.solutionEyebrow}>Was das strategisch öffnet</span>
-              <p>
-                Der Konfigurator ist der Funnel-Kern für ein Affiliate-System, in dem Traffic, Lead
-                und Abschluss derselben ID-Kette folgen.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
+        <section id="fn-affiliate">
           <SectionTitle>Affiliate-Netzwerk &amp; Sales Tracking</SectionTitle>
           <p className={styles.bodyText}>
-            Ziel: Ein echtes Affiliate-Netzwerk, bei dem von der Besucherquelle bis zum
-            Versicherungsabschluss alles nachvollziehbar ist — inklusive Performance- und
-            Provisionsplattform.
+            Zielbild: von der Besucherquelle bis zum Versicherungsabschluss alles nachvollziehbar —
+            inklusive Performance- und Provisionsplattform. Klar getrennt: was heute live ist, und was
+            als nächste Stufe folgt.
           </p>
           <AffiliateSystem />
         </section>
 
-        <section>
-          <SectionTitle>Ergebnis</SectionTitle>
-          <table className={styles.resultTable}>
-            <tbody>
-              {results.map((row) => (
-                <tr key={row.dim}>
-                  <th>{row.dim}</th>
-                  <td>{row.text}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-
-        <section>
-          <SectionTitle>Was diese Case Study zeigt</SectionTitle>
-          <p className={styles.bodyText}>
-            überagent baut keine Oberflächen um Tabellen. Wir übersetzen domainkomplexe Märkte in
-            Produkte, die:
-          </p>
-          <ol className={styles.showList}>
-            <li>
-              <div>
-                <strong>einfach bedienbar</strong>
-                <span>sind — kurze Flows, eine Aufgabe pro Screen.</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <strong>fachlich ehrlich</strong>
-                <span>bleiben — Provenance statt Blackbox, Unsicherheit sichtbar machen.</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <strong>operativ skalierbar</strong>
-                <span>
-                  werden — von der ersten Nutzerentscheidung bis zur ausbezahlten Provision.
-                </span>
-              </div>
-            </li>
-          </ol>
-          <div className={styles.closing}>
-            <p>
-              Für Finanznomade heißt das konkret: Auslandsversicherung wird konfigurierbar. Vergleich
-              wird vertrauenswürdig. Und Affiliate-Wachstum bekommt eine messbare Pipeline — von der
-              Quelle bis zum Abschluss.
-            </p>
-            <p>
-              Komplexität der Auslandsversicherung in einen klaren Konfigurator übersetzt — und als
-              Basis für ein skalierbares Affiliate-Netzwerk gebaut.
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <SectionTitle>Projekt-Meta</SectionTitle>
+        <section className={styles.metaSection}>
           <div className={styles.metaGrid}>
             {meta.map((item) => (
               <div key={item.label} className={styles.metaItem}>

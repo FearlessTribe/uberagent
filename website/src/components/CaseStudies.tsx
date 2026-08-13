@@ -34,6 +34,24 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
             const clickable = Boolean(study.openId);
             const body = (
               <>
+                {study.preview && (
+                  <div className={styles.preview}>
+                    <div className={styles.previewChrome} aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                    </div>
+                    <div className={styles.previewViewport}>
+                      <img
+                        src={study.preview.src}
+                        alt={study.preview.alt}
+                        width={640}
+                        height={400}
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                )}
                 <span className={styles.industry}>{study.industry}</span>
                 <div className={styles.tags}>
                   {study.tags.map((tag) => (

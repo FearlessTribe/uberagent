@@ -74,6 +74,10 @@ export interface CaseStudyCard {
   metrics: { value: string; label: string }[];
   tags: string[];
   openId?: string;
+  preview?: {
+    src: string;
+    alt: string;
+  };
 }
 
 export const caseStudies: CaseStudyCard[] = [
@@ -92,6 +96,10 @@ export const caseStudies: CaseStudyCard[] = [
     ],
     tags: ["Konfigurator", "Insurance Tech", "Affiliate"],
     openId: "finanznomade-kv",
+    preview: {
+      src: "/cases/finanznomade/screenshots/05-vergleich.png",
+      alt: "Finanznomade Konfigurator — Tarifvergleich",
+    },
   },
   {
     id: "digital-agency",
