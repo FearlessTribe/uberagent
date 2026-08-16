@@ -1,17 +1,65 @@
 .wrap {
   display: inline-flex;
   align-items: center;
+  transform-origin: left center;
+  animation: pe-grow 900ms var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 2.6s forwards;
+}
+
+/* Settles slightly larger so the rating draws the eye after the hero has landed. */
+@keyframes pe-grow {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1.07);
+  }
 }
 
 .widget {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 2px 4px;
   background: transparent;
   border: none;
   box-shadow: none;
   color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+}
+
+.widget::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 62%
+  );
+  transform: translateX(-140%);
+  animation: pe-shine 1100ms var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1)) 2.9s;
+}
+
+@keyframes pe-shine {
+  to {
+    transform: translateX(140%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    animation: none;
+  }
+
+  .widget::after {
+    animation: none;
+  }
 }
 
 .widget :global(#pe_rating) {
