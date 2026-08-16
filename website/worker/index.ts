@@ -152,7 +152,18 @@ export default {
       }
 
       if (!env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) {
-        return json({ error: "Lead intake is not configured" }, 503, origin);
+        const missing = [
+          !env.NOTION_TOKEN ? "NOTION_TOKEN" : null,
+          !env.NOTION_DATABASE_ID ? "NOTION_DATABASE_ID" : null,
+        ].filter(Boolean);
+        return json(
+          {
+            error: "Lead intake is not configured",
+            missing,
+          },
+          503,
+          origin,
+        );
       }
 
       if (url.pathname === "/api/strategy-guide") {
