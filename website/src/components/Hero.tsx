@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
@@ -17,6 +17,35 @@ const featureCards = [
   { num: "02", title: "AI Workflow Agents", description: "Agenten die handeln" },
   { num: "03", title: "GTM Engineering", description: "Signal-Logik & Outreach" },
 ];
+
+const HEADLINE_LEAD = "AI Engineering für ";
+const HEADLINE_ACCENT = "operative Exzellenz";
+const HEADLINE_LENGTH = HEADLINE_LEAD.length + HEADLINE_ACCENT.length;
+const HEADLINE_TEXT = HEADLINE_LEAD + HEADLINE_ACCENT;
+const TYPE_MS = 38;
+
+function useTypedHeadline(reduce: boolean) {
+  const [chars, setChars] = useState(reduce ? HEADLINE_LENGTH : 0);
+
+  useEffect(() => {
+    if (reduce) {
+      setChars(HEADLINE_LENGTH);
+      return;
+    }
+
+    setChars(0);
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      setChars(i);
+      if (i >= HEADLINE_LENGTH) window.clearInterval(id);
+    }, TYPE_MS);
+
+    return () => window.clearInterval(id);
+  }, [reduce]);
+
+  return chars;
+}
 
 export function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -48,6 +77,14 @@ export function Hero() {
   const containerVariants = resolveVariants(reduce, heroContainer);
   const featureVariants = resolveVariants(reduce, heroFeatureContainer);
 
+  const typedChars = useTypedHeadline(Boolean(reduce));
+  const typedLead = HEADLINE_LEAD.slice(0, typedChars);
+  const typedAccent =
+    typedChars > HEADLINE_LEAD.length
+      ? HEADLINE_ACCENT.slice(0, typedChars - HEADLINE_LEAD.length)
+      : "";
+  const typedDone = typedChars >= HEADLINE_LENGTH;
+
   const layout = (
     <div className={`container ${styles.layout}`}>
       <motion.div
@@ -66,8 +103,16 @@ export function Hero() {
           className={styles.headline}
           variants={itemVariants}
         >
-          AI Engineering für{" "}
-          <span className={styles.headlineAccent}>operative Exzellenz</span>
+          <span className={styles.headlineMeasure} aria-hidden="true">
+            {HEADLINE_LEAD}
+            <span className={styles.headlineAccent}>{HEADLINE_ACCENT}</span>
+          </span>
+          <span className={styles.headlineLive} aria-hidden="true">
+            {typedLead}
+            <span className={styles.headlineAccent}>{typedAccent}</span>
+            {!typedDone && <span className={styles.headlineCaret} />}
+          </span>
+          <span className={styles.headlineSrOnly}>{HEADLINE_TEXT}</span>
         </motion.h1>
 
         <motion.p className={styles.subline} variants={itemVariants}>

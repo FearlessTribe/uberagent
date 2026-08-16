@@ -257,7 +257,7 @@ function GapVisual() {
           .wb-ping { animation: wbDotPing 2.5s ease-out infinite 2s; }
           .wb-ai { animation: wbAIRide 4s cubic-bezier(0.4,0,0.2,1) infinite 2.5s, wbAIPulse 2s ease-in-out infinite 2.5s; }
           .wb-gap-line { animation: wbGapPulse 1.5s ease-in-out infinite 2s; }
-          .wb-gap-badge { transform-origin: 175px 118px; animation: wbPop 0.5s ease-out 2.2s both; }
+          .wb-gap-badge { transform-origin: 205px 108px; animation: wbPop 0.5s ease-out 2.2s both; }
           .wb-you-label {
             transform-origin: 238px 174px;
             animation: wbCountUp 0.5s ease-out 1.5s both, wbDuPulse 2s ease-in-out infinite 2.5s;
@@ -326,18 +326,20 @@ function GapVisual() {
 
         <line
           className="wb-gap-line"
-          x1="175"
-          y1="68"
-          x2="175"
-          y2="158"
+          x1="205"
+          y1="55"
+          x2="205"
+          y2="162"
           stroke={ink}
           strokeWidth="1"
           strokeDasharray="4 4"
         />
 
+        <circle className="wb-gap-line" cx="205" cy="162" r="3" fill={ink} />
+
         <g className="wb-gap-badge">
-          <rect x="160" y="108" width="30" height="20" rx="10" fill={ink} />
-          <text x="175" y="122" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="700" fontFamily="sans-serif">
+          <rect x="190" y="98" width="30" height="20" rx="10" fill={ink} />
+          <text x="205" y="112" textAnchor="middle" fill="#fff" fontSize="8" fontWeight="700" fontFamily="sans-serif">
             GAP
           </text>
         </g>
