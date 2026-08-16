@@ -5,7 +5,7 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Cross-Origin-Opener-Policy: same-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://www.provenexpert.com; style-src 'self' 'unsafe-inline' https://www.provenexpert.com; img-src 'self' data: https://www.provenexpert.com https://images.provenexpert.com https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.provenexpert.com https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com; media-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
 
 /assets/*.js
   Content-Type: application/javascript; charset=utf-8

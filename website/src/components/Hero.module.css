@@ -184,6 +184,11 @@
   gap: 10px;
 }
 
+.ratingRow {
+  display: flex;
+  align-items: center;
+}
+
 .featureCards {
   display: flex;
   flex-direction: column;
@@ -324,7 +329,8 @@
     flex-direction: column;
   }
 
-  .actions button {
+  .actions button,
+  .actions a {
     width: 100%;
     max-width: 100%;
   }

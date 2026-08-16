@@ -1,0 +1,119 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.widget {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.widget :global(#pe_rating) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 10px;
+  margin: 0 !important;
+  border: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  font-size: 0.75rem !important;
+  line-height: 1.2 !important;
+}
+
+.widget :global(#pe_name) {
+  position: static !important;
+  display: inline !important;
+  overflow: visible !important;
+  height: auto !important;
+  line-height: 1.2 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: inherit !important;
+}
+
+.widget :global(#pe_name span),
+.widget :global(#pe_name img) {
+  display: inline !important;
+  position: static !important;
+  height: auto !important;
+  line-height: inherit !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.widget :global(#pe_rating > span:not(#pe_name)) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px;
+}
+
+.widget :global(#pe_stars) {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  font-size: 0 !important;
+}
+
+.widget :global(#pe_stars > span) {
+  position: static !important;
+  display: inline-flex !important;
+  overflow: visible !important;
+  top: auto !important;
+  left: auto !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+.widget :global(#pe_stars svg) {
+  width: 14px !important;
+  height: 14px !important;
+  display: block;
+}
+
+/* ProvenExpert marks filled stars with a gold fill and empty ones with white. */
+.widget :global(#pe_stars path[fill="#AB9044"]) {
+  fill: var(--color-primary-light) !important;
+  stroke: var(--color-primary-light) !important;
+}
+
+.widget :global(#pe_stars path[fill="#FFFFFF"]) {
+  fill: transparent !important;
+  stroke: rgba(255, 255, 255, 0.3) !important;
+}
+
+.widget :global(.pe_u) {
+  display: inline !important;
+  margin: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  vertical-align: baseline !important;
+  color: inherit !important;
+}
+
+.widget:hover {
+  color: var(--color-secondary);
+}

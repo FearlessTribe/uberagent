@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { TrustBar } from "./TrustBar";
+import { ProvenExpertRating } from "./ProvenExpertRating";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
 import {
   heroContainer,
@@ -135,6 +136,9 @@ export function Hero() {
           >
             Services entdecken
           </CtaButton>
+        </motion.div>
+        <motion.div className={styles.ratingRow} variants={itemVariants}>
+          <ProvenExpertRating />
         </motion.div>
 
         <motion.div
