@@ -73,11 +73,11 @@ export function scrollToSection(id: string, behavior: ScrollBehavior = "auto") {
   run();
 }
 
-/** Scroll to footer impressum and track the CTA in Google Analytics */
+/** Scroll to contact section (profile / CTA) and track the CTA in Google Analytics */
 export function scrollToContact(location: string, behavior: ScrollBehavior = "auto") {
   trackContactCta(location);
   if (window.location.pathname !== "/contact") {
     window.history.pushState(null, "", "/contact");
   }
-  scrollToSection("impressum", behavior);
+  scrollToSection("contact", behavior);
 }

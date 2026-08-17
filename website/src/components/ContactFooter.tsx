@@ -24,7 +24,9 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
   useEffect(() => {
     const scrollIfContact = () => {
       if (!isContactPath()) return;
-      requestAnimationFrame(() => scrollToSection("impressum", "smooth"));
+      const target =
+        window.location.hash === "#impressum" ? "impressum" : "contact";
+      requestAnimationFrame(() => scrollToSection(target, "smooth"));
     };
 
     scrollIfContact();
@@ -32,7 +34,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
     return () => window.removeEventListener("popstate", scrollIfContact);
   }, []);
 
-  const openContact = (e: MouseEvent<HTMLAnchorElement>) => {
+  const openImpressum = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     if (!isContactPath()) {
       window.history.pushState(null, "", "/contact");
@@ -127,7 +129,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
         <div className={styles.bottom}>
           <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
           <div className={styles.bottomMeta}>
-            <a href="/contact" className={styles.legalLink} onClick={openContact}>
+            <a href="/contact#impressum" className={styles.legalLink} onClick={openImpressum}>
               Impressum
             </a>
             <p className={styles.copyright}>© überagent. 2026</p>
