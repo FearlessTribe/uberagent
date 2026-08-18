@@ -1,4 +1,6 @@
 import { ScrollReveal } from "./ScrollReveal";
+import { CtaButton } from "./CtaButton";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import styles from "./Intro.module.css";
 
 export function Intro() {
@@ -7,12 +9,13 @@ export function Intro() {
       <div className={styles.gradientBg} aria-hidden="true" />
       <div className="container">
         <ScrollReveal className="sectionStart">
-          <span className="eyebrow">About überagent.com</span>
+          <span className="eyebrow">About überagent</span>
         </ScrollReveal>
 
         <ScrollReveal className={styles.content}>
           <h2 id="intro-heading" className={`display-md ${styles.headline}`}>
-            AI Agents, die Wachstum entfesseln und Umsatz erhöhen.
+            AI Agents, die <span className="em">Wachstum</span> entfesseln und{" "}
+            <span className="mark">Umsatz</span> erhöhen.
           </h2>
 
           <p className={styles.tagline}>
@@ -26,6 +29,16 @@ export function Intro() {
             Tool-Anbindung bis zu AI GTM Engineering mit klaren Guardrails und
             messbaren Ergebnissen.
           </p>
+
+          <CtaButton
+            size="md"
+            surface="accent"
+            showCalendar
+            sublabel
+            onClick={() => scrollToContact("intro")}
+          >
+            Jetzt Erstgespräch sichern
+          </CtaButton>
         </ScrollReveal>
       </div>
     </section>

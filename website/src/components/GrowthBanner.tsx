@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { CtaButton } from "./CtaButton";
 import { scrollToContact } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
@@ -5,9 +6,15 @@ import styles from "./GrowthBanner.module.css";
 
 interface GrowthBannerProps {
   className?: string;
+  headline?: ReactNode;
+  ctaLocation?: string;
 }
 
-export function GrowthBanner({ className = "" }: GrowthBannerProps) {
+export function GrowthBanner({
+  className = "",
+  headline,
+  ctaLocation = "growth_banner",
+}: GrowthBannerProps) {
   return (
     <div className={`${styles.wrapper} ${className}`}>
       <div className={styles.bg} aria-hidden="true" />
@@ -18,9 +25,13 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
             <span className={styles.line} aria-hidden="true" />
             <div className={styles.textBlock}>
               <p className={styles.headline}>
-                Vom Use Case zum Kickstart:
-                <span className={styles.accent}> 7–14 Tage </span>
-                bis zum Live Prototype.
+                {headline ?? (
+                  <>
+                    Vom Use Case zum Kickstart:
+                    <span className={styles.accent}> 7–14 Tage </span>
+                    bis zum Live Prototype.
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -28,10 +39,11 @@ export function GrowthBanner({ className = "" }: GrowthBannerProps) {
           <div className={styles.ctaBlock}>
             <CtaButton
               size="sm"
-              surface="on-dark"
-              onClick={() => scrollToContact("growth_banner")}
+              surface="accent"
+              showCalendar
+              onClick={() => scrollToContact(ctaLocation)}
             >
-              Erstgespräch vereinbaren
+              Jetzt Erstgespräch sichern
             </CtaButton>
           </div>
         </ScrollReveal>

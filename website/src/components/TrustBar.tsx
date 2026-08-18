@@ -1,4 +1,4 @@
-import { trustTools } from "../data/marketing";
+import { trustClients, trustTools } from "../data/marketing";
 import styles from "./TrustBar.module.css";
 
 function ToolIcon({ type }: { type: string }) {
@@ -85,20 +85,39 @@ function ToolIcon({ type }: { type: string }) {
 }
 
 export function TrustBar({ embedded = false }: { embedded?: boolean }) {
-  const loop = [...trustTools, ...trustTools];
+  const clientLoop = [...trustClients, ...trustClients];
+  const toolLoop = [...trustTools, ...trustTools];
   const Tag = embedded ? "div" : "section";
 
   return (
     <Tag
       className={`${styles.section} ${embedded ? styles.embedded : ""}`}
-      aria-label="Technologien und Integrationen"
+      aria-label="Kundenprojekte und Integrationen"
     >
       <div className="container">
-        <p className={styles.caption}>Stack &amp; Integrationen in Kundenprojekten</p>
+        <p className={styles.caption}>Kundenprojekte</p>
       </div>
       <div className={styles.marquee} aria-hidden="true">
         <div className={styles.track}>
-          {loop.map((tool, i) => (
+          {clientLoop.map((client, i) => (
+            <span key={`${client.name}-${i}`} className={styles.clientPill}>
+              {client.logo ? (
+                <img src={client.logo} alt="" className={styles.clientLogo} width={20} height={20} />
+              ) : (
+                <span className={styles.clientDot} aria-hidden="true" />
+              )}
+              {client.name}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="container">
+        <p className={styles.captionMuted}>Stack &amp; Integrationen</p>
+      </div>
+      <div className={`${styles.marquee} ${styles.marqueeMuted}`} aria-hidden="true">
+        <div className={styles.track}>
+          {toolLoop.map((tool, i) => (
             <span key={`${tool.name}-${i}`} className={styles.pill}>
               <span className={styles.icon}>
                 <ToolIcon type={tool.icon} />
@@ -108,7 +127,11 @@ export function TrustBar({ embedded = false }: { embedded?: boolean }) {
           ))}
         </div>
       </div>
+
       <ul className={`container ${styles.srOnly}`}>
+        {trustClients.map((client) => (
+          <li key={client.name}>{client.name}</li>
+        ))}
         {trustTools.map((tool) => (
           <li key={tool.name}>{tool.name}</li>
         ))}

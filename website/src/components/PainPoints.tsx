@@ -389,7 +389,7 @@ export function PainPoints() {
         <ScrollReveal className={`sectionStart ${styles.header}`}>
           <span className="eyebrow">Das Problem</span>
           <h2 id="pain-heading" className="display-md">
-            Kennen Sie das?
+            <span className="em">Kennen</span> Sie das?
           </h2>
           <p className={styles.sub}>
             Viele Unternehmen wissen, dass AI wichtig ist – aber nicht, wo sie anfangen

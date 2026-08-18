@@ -11,7 +11,6 @@ import { GrowthBanner } from "./components/GrowthBanner";
 import { Process } from "./components/Process";
 import { CaseStudies } from "./components/CaseStudies";
 import { RoiCalculator } from "./components/RoiCalculator";
-import { Faq } from "./components/Faq";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
 
@@ -50,8 +49,16 @@ function AppContent() {
         <GrowthBanner />
         <Process />
         <CaseStudies onOpenProject={overlay.openProject} />
+        <GrowthBanner
+          headline={
+            <>
+              Bereit für <span className="em">produktive</span>{" "}
+              <span className="mark">AI-Systeme</span>?
+            </>
+          }
+          ctaLocation="post_cases"
+        />
         <RoiCalculator />
-        <Faq />
         <Team onOpenLaurens={overlay.openLaurens} />
       </main>
       <ContactFooter

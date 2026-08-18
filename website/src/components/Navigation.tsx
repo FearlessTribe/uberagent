@@ -15,7 +15,6 @@ const navLinks = [
   { id: "services", label: "Services" },
   { id: "offer", label: "Sprint" },
   { id: "projects", label: "Success Stories" },
-  { id: "faq", label: "FAQ" },
   { id: "team", label: "Team" },
 ];
 
@@ -27,15 +26,16 @@ export function Navigation() {
   const onDarkNav = !scrolled && !menuOpen;
   const reduce = useReducedMotion();
 
-  const handleNav = (id: string, options?: { trackContact?: boolean; location?: string }) => {
-    if (id === "contact" && options?.trackContact) {
-      scrollToContact(options.location ?? "nav");
-    } else {
-      if (window.location.pathname === "/contact" || window.location.pathname === "/contact/") {
-        window.history.pushState(null, "", "/");
-      }
-      scrollToSection(id);
+  const handleContact = () => {
+    closeAll();
+    scrollToContact("nav", "smooth");
+  };
+
+  const handleNav = (id: string) => {
+    if (window.location.pathname === "/contact" || window.location.pathname === "/contact/") {
+      window.history.pushState(null, "", "/");
     }
+    scrollToSection(id, "smooth");
     closeAll();
   };
 
@@ -96,10 +96,11 @@ export function Navigation() {
           <div className={styles.ctaWrap}>
             <CtaButton
               size="sm"
-              surface={onDarkNav ? "on-dark" : "on-light"}
-              onClick={() => handleNav("contact", { trackContact: true, location: "nav" })}
+              surface={onDarkNav ? "accent" : "on-light"}
+              showCalendar={onDarkNav}
+              onClick={handleContact}
             >
-              Erstgespräch
+              Jetzt Erstgespräch sichern
             </CtaButton>
           </div>
 
@@ -171,11 +172,16 @@ export function Navigation() {
                 </motion.ul>
                 <CtaButton
                   size="md"
-                  surface="on-light"
-                  onClick={() => handleNav("contact", { trackContact: true, location: "nav_mobile" })}
+                  surface="accent"
+                  showCalendar
+                  sublabel
+                  onClick={() => {
+                    closeMenu();
+                    scrollToContact("nav_mobile", "smooth");
+                  }}
                   fullWidth
                 >
-                  Erstgespräch vereinbaren
+                  Jetzt Erstgespräch sichern
                 </CtaButton>
               </motion.div>
             </div>

@@ -3,27 +3,18 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { TrustBar } from "./TrustBar";
-import { ProvenExpertRating } from "./ProvenExpertRating";
+import { ProofRow } from "./ProofRow";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
-import {
-  heroContainer,
-  heroFeatureContainer,
-  heroItem,
-  resolveVariants,
-} from "../motion";
+import { heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
 import styles from "./Hero.module.css";
 
-const featureCards = [
-  { num: "01", title: "MCP Integration", description: "Sichere System-Anbindung" },
-  { num: "02", title: "AI Workflow Agents", description: "Agenten die handeln" },
-  { num: "03", title: "GTM Engineering", description: "Signal-Logik & Outreach" },
-];
-
 const HEADLINE_LEAD = "AI Engineering für ";
-const HEADLINE_ACCENT = "operative Exzellenz";
-const HEADLINE_LENGTH = HEADLINE_LEAD.length + HEADLINE_ACCENT.length;
-const HEADLINE_TEXT = HEADLINE_LEAD + HEADLINE_ACCENT;
-const TYPE_MS = 38;
+const HEADLINE_EM = "operative ";
+const HEADLINE_MARK = "Exzellenz";
+const HEADLINE_LENGTH = HEADLINE_LEAD.length + HEADLINE_EM.length + HEADLINE_MARK.length;
+const HEADLINE_TEXT = HEADLINE_LEAD + HEADLINE_EM + HEADLINE_MARK;
+const TYPE_MS = 42;
+const TYPE_START_MS = 280;
 
 function useTypedHeadline(reduce: boolean) {
   const [chars, setChars] = useState(reduce ? HEADLINE_LENGTH : 0);
@@ -36,13 +27,18 @@ function useTypedHeadline(reduce: boolean) {
 
     setChars(0);
     let i = 0;
-    const id = window.setInterval(() => {
+    let timeout = 0;
+
+    const tick = () => {
       i += 1;
       setChars(i);
-      if (i >= HEADLINE_LENGTH) window.clearInterval(id);
-    }, TYPE_MS);
+      if (i >= HEADLINE_LENGTH) return;
+      const next = HEADLINE_TEXT[i - 1] === " " ? 18 : TYPE_MS;
+      timeout = window.setTimeout(tick, next);
+    };
 
-    return () => window.clearInterval(id);
+    timeout = window.setTimeout(tick, TYPE_START_MS);
+    return () => window.clearTimeout(timeout);
   }, [reduce]);
 
   return chars;
@@ -76,13 +72,19 @@ export function Hero() {
 
   const itemVariants = resolveVariants(reduce, heroItem);
   const containerVariants = resolveVariants(reduce, heroContainer);
-  const featureVariants = resolveVariants(reduce, heroFeatureContainer);
+  const headlineVariants = resolveVariants(reduce, heroHeadline);
 
   const typedChars = useTypedHeadline(Boolean(reduce));
   const typedLead = HEADLINE_LEAD.slice(0, typedChars);
-  const typedAccent =
-    typedChars > HEADLINE_LEAD.length
-      ? HEADLINE_ACCENT.slice(0, typedChars - HEADLINE_LEAD.length)
+  const emStart = HEADLINE_LEAD.length;
+  const emEnd = emStart + HEADLINE_EM.length;
+  const typedEm =
+    typedChars > emStart
+      ? HEADLINE_EM.slice(0, Math.min(typedChars - emStart, HEADLINE_EM.length))
+      : "";
+  const typedMark =
+    typedChars > emEnd
+      ? HEADLINE_MARK.slice(0, Math.min(typedChars - emEnd, HEADLINE_MARK.length))
       : "";
   const typedDone = typedChars >= HEADLINE_LENGTH;
 
@@ -96,22 +98,26 @@ export function Hero() {
       >
         <motion.div className={styles.badge} variants={itemVariants}>
           <span className={styles.badgeDot} aria-hidden="true" />
-          Production-Ready AI Engineering
+          Production-ready AI Engineering
         </motion.div>
 
         <motion.h1
           id="hero-heading"
           className={styles.headline}
-          variants={itemVariants}
+          variants={headlineVariants}
         >
           <span className={styles.headlineMeasure} aria-hidden="true">
             {HEADLINE_LEAD}
-            <span className={styles.headlineAccent}>{HEADLINE_ACCENT}</span>
+            <span className="em">{HEADLINE_EM}</span>
+            <span className="mark">{HEADLINE_MARK}</span>
           </span>
           <span className={styles.headlineLive} aria-hidden="true">
             {typedLead}
-            <span className={styles.headlineAccent}>{typedAccent}</span>
-            {!typedDone && <span className={styles.headlineCaret} />}
+            {typedEm && <span className="em">{typedEm}</span>}
+            {typedMark && <span className="mark">{typedMark}</span>}
+            <span
+              className={`${styles.headlineCaret} ${typedDone ? styles.headlineCaretDone : ""}`}
+            />
           </span>
           <span className={styles.headlineSrOnly}>{HEADLINE_TEXT}</span>
         </motion.h1>
@@ -124,44 +130,24 @@ export function Hero() {
         <motion.div className={styles.actions} variants={itemVariants}>
           <CtaButton
             size="md"
-            surface="on-dark"
-            onClick={() => scrollToContact("hero")}
+            surface="accent"
+            showCalendar
+            sublabel
+            onClick={() => scrollToContact("hero", "smooth")}
           >
-            Erstgespräch vereinbaren
+            Jetzt Erstgespräch sichern
           </CtaButton>
           <CtaButton
             size="md"
             surface="on-dark-ghost"
-            onClick={() => scrollToSection("services")}
+            onClick={() => scrollToSection("services", "smooth")}
           >
             Services entdecken
           </CtaButton>
         </motion.div>
-        <motion.div className={styles.ratingRow} variants={itemVariants}>
-          <ProvenExpertRating />
-        </motion.div>
 
-        <motion.div
-          className={styles.featureCards}
-          aria-label="Kernleistungen"
-          variants={featureVariants}
-        >
-          {featureCards.map((card) => (
-            <motion.div
-              key={card.title}
-              className={styles.featureCard}
-              variants={itemVariants}
-            >
-              <div className={styles.featureGlow} aria-hidden="true" />
-              <div className={styles.featureContent}>
-                <h2 className={styles.featureTitle}>
-                  <span className={styles.featureNum} aria-hidden="true">{card.num}</span>
-                  {card.title}
-                </h2>
-                <p className={styles.featureDesc}>{card.description}</p>
-              </div>
-            </motion.div>
-          ))}
+        <motion.div className={styles.proofRow} variants={itemVariants}>
+          <ProofRow />
         </motion.div>
       </motion.div>
     </div>

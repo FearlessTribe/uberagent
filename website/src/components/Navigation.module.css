@@ -149,16 +149,13 @@
 @media (min-width: 768px) {
   .ctaWrap {
     display: block;
+    flex-shrink: 0;
   }
 
-  .ctaWrap button {
+  .ctaWrap button,
+  .ctaWrap a {
     min-height: 44px;
-    font-size: 0.8125rem;
-  }
-
-  .ctaWrap button span:last-child {
-    width: 44px;
-    min-width: 44px;
+    white-space: nowrap;
   }
 }
 

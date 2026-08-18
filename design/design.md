@@ -4,6 +4,24 @@ Implementierung: `website/src/motion/tokens.ts`, `website/src/motion/presets.ts`
 
 ---
 
+## Editorial Typography
+
+Headlines nutzen **Inter** (Display) mit selektiven Akzenten — nicht Mono-Uppercase für Marketing-Chrome.
+
+| Utility | Verwendung | CSS |
+| ------- | ---------- | --- |
+| `.mark` | Key-Phrase in Terracotta-Gradient | `background-clip: text` auf Primary-Gradient |
+| `.em` | Emotionswort in Serif-Kursiv | `--font-accent`: Libre Caslon Text Italic |
+| `.eyebrow` | Section-Label | Inter 500, Sentence Case, Primary-Farbe |
+
+**Regeln:**
+
+* Mono (`JetBrains Mono`) nur für System-Nummern, Stats und Code — nicht für CTAs oder Eyebrows
+* CTAs: Sentence Case, Inter 500, Surface `accent` (Terracotta-Radialgradient) für Conversion
+* Pro Headline maximal 1–2 Akzentwörter (`.em` + `.mark`), nicht den ganzen Satz einfärben
+
+---
+
 ## Motion Personality
 
 Die Bewegung der Website wirkt wie ein präzises technisches System: ruhig, hochwertig, kontrolliert und intelligent. Animationen sollen nicht „unterhalten“, sondern Orientierung, Tiefe, Fokus und Wertigkeit erzeugen.

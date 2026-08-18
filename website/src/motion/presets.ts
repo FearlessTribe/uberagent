@@ -1,5 +1,5 @@
 import type { Variants } from "motion/react";
-import { DURATION, DISTANCE, EASE, STAGGER } from "./tokens";
+import { DURATION, DISTANCE, EASE, SPRING, STAGGER } from "./tokens";
 
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: DISTANCE.normal },
@@ -65,6 +65,63 @@ export const heroItem: Variants = {
     filter: "blur(0px)",
     transition: { duration: DURATION.hero, ease: EASE.outExpo },
   },
+};
+
+/** Headline stays sharp so the typewriter is readable. */
+export const heroHeadline: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: DURATION.slow, ease: EASE.outExpo },
+  },
+};
+
+export const starContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: STAGGER.logos,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+export const starItem: Variants = {
+  hidden: { opacity: 0, scale: 0.88, y: DISTANCE.micro },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: DURATION.normal, ease: EASE.outExpo },
+  },
+};
+
+export const avatarContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: STAGGER.logos,
+    },
+  },
+};
+
+export const avatarItem: Variants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: DURATION.normal, ease: EASE.outExpo },
+  },
+};
+
+export const ctaHover = {
+  scale: 1.015,
+  transition: SPRING.precise,
+};
+
+export const ctaTap = {
+  scale: 0.985,
+  transition: { duration: DURATION.tap, ease: EASE.outSmooth },
 };
 
 export const heroFeatureContainer: Variants = {

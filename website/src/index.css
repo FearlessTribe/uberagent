@@ -7,6 +7,8 @@
 @import "@fontsource/inter/latin-ext-600.css";
 @import "@fontsource/jetbrains-mono/latin-500.css";
 @import "@fontsource/jetbrains-mono/latin-600.css";
+@import "@fontsource/libre-caslon-text/latin-400-italic.css";
+@import "@fontsource/libre-caslon-text/latin-ext-400-italic.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -28,6 +30,7 @@
   --color-border-subtle: rgba(229, 231, 235, 0.6);
 
   --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-accent: "Libre Caslon Text", Georgia, "Times New Roman", serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --text-display-lg: clamp(3rem, 6vw + 1rem, 5.5rem);
@@ -220,11 +223,10 @@ button {
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--color-primary);
   display: inline-flex;
   align-items: center;
@@ -236,6 +238,24 @@ button {
   width: 24px;
   height: 1px;
   background: var(--color-primary);
+}
+
+.mark {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light) 0%,
+    var(--color-primary) 55%,
+    #a8654a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.em {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
 }
 
 .display-lg {

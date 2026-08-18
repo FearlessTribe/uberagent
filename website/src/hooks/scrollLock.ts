@@ -74,9 +74,9 @@ export function scrollToSection(id: string, behavior: ScrollBehavior = "auto") {
 }
 
 /** Scroll to contact section (profile / CTA) and track the CTA in Google Analytics */
-export function scrollToContact(location: string, behavior: ScrollBehavior = "auto") {
+export function scrollToContact(location: string, behavior: ScrollBehavior = "smooth") {
   trackContactCta(location);
-  if (window.location.pathname !== "/contact") {
+  if (!/^\/contact\/?$/.test(window.location.pathname)) {
     window.history.pushState(null, "", "/contact");
   }
   scrollToSection("contact", behavior);

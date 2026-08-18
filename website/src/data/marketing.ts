@@ -1,3 +1,9 @@
+export const trustClients = [
+  { name: "Finanznomade", logo: "/cases/finanznomade/logo.png" },
+  { name: "B2B SaaS", logo: null },
+  { name: "Digitalagentur CH", logo: null },
+] as const;
+
 export const trustTools = [
   { name: "Salesforce", icon: "salesforce" },
   { name: "HubSpot", icon: "hubspot" },
@@ -71,6 +77,7 @@ export interface CaseStudyCard {
   quote: string;
   person: string;
   role: string;
+  primaryOutcome: { value: string; label: string };
   metrics: { value: string; label: string }[];
   tags: string[];
   openId?: string;
@@ -89,6 +96,7 @@ export const caseStudies: CaseStudyCard[] = [
       "Besonders stark fand ich, dass er nicht einfach nur Anforderungen umgesetzt hat, sondern sich intensiv in das Thema eingearbeitet […] Die Zusammenarbeit war unkompliziert, schnell und sehr lösungsorientiert.",
     person: "Kim Elsholz",
     role: "CEO von finanznoma.de der FINO Media LLC",
+    primaryOutcome: { value: "5 Schritte", label: "Konfigurator live" },
     metrics: [
       { value: "5 Schritte", label: "Konfigurator" },
       { value: "5 Anbieter", label: "vergleichbar" },
@@ -109,6 +117,7 @@ export const caseStudies: CaseStudyCard[] = [
       "Statt generischer Outreach bekommen wir für jeden Account einen datenbasierten Audit und eine personalisierte Ansprache, in Minuten statt Wochen.",
     person: "Head of Growth",
     role: "Führende Schweizer Digitalagentur",
+    primaryOutcome: { value: "Minuten", label: "statt Wochen" },
     metrics: [
       { value: "Minuten", label: "statt Wochen" },
       { value: "DE/FR/IT", label: "Personalisierung" },
@@ -125,45 +134,13 @@ export const caseStudies: CaseStudyCard[] = [
       "Priorisierung war vorher Bauchgefühl. Jetzt steuern wir Outreach über Signale, Scoring und klare Ownership, mit messbarer Pipeline pro Kopf.",
     person: "VP Revenue Operations",
     role: "Wachsendes B2B-SaaS-Unternehmen",
+    primaryOutcome: { value: "6–8 Wo.", label: "Time-to-Value" },
     metrics: [
       { value: "6–8 Wo.", label: "Time-to-Value" },
       { value: "ICP+", label: "Signal-Scoring" },
       { value: "QA", label: "Governance" },
     ],
     tags: ["GTM Engineering", "CRM", "Pipeline"],
-  },
-];
-
-export const faqItems = [
-  {
-    question: "Für wen ist überagent geeignet?",
-    answer:
-      "Für B2B-Teams mit echten Systemen und Prozessen: RevOps, Sales, Operations und Leadership, die AI produktiv machen wollen, nicht nur demonstrieren. Ideal, wenn CRM, Tickets oder ERP bereits existieren und klare Ownership möglich ist.",
-  },
-  {
-    question: "Wie schnell sehe ich erste Ergebnisse?",
-    answer:
-      "Ein Kickstart Sprint liefert typischerweise in 7–14 Tagen einen Live Prototype für einen klar begrenzten Workflow. Größere Enterprise-Integrationen planen wir danach in klaren Stage-Gates.",
-  },
-  {
-    question: "Was kostet eine Zusammenarbeit?",
-    answer:
-      "Das Erstgespräch ist kostenlos. Der AI-Revenue-Engine-Pilot startet festpreisig bei 1.000 €. Die Vibe Coding Challenge liegt bei 4.900 € Festpreis. Der produktive Agent liegt bei 8.000–20.000 €, der Betrieb bei 800–3.000 € pro Monat, abhängig von Kundenanzahl, CRM und Opportunity-Typen.",
-  },
-  {
-    question: "Brauche ich technisches Vorwissen?",
-    answer:
-      "Nein. Wir übernehmen Architektur, Integration und Guardrails. Ihr Team bringt Prozesswissen und Freigaben; wir liefern Enablement, Dokumentation und klare Operating Models.",
-  },
-  {
-    question: "Wie stellt ihr Datenschutz und Compliance sicher?",
-    answer:
-      "Jede Lösung wird mit Data-Access-Grenzen, Audit-Logs und Human-in-the-loop designed. Wir klassifizieren Use Cases früh (inkl. EU AI Act / DSGVO-Relevanz) und bauen nur, was betrieblich und rechtlich tragfähig ist.",
-  },
-  {
-    question: "Build, Buy oder Configure?",
-    answer:
-      "Je Case entscheiden wir Make-or-Buy: Hyperscaler-Plattform, bestehende Tools oder Eigenentwicklung über MCP und Agents. Entscheidend ist Wartbarkeit, Kontrolle und Time-to-Value, nicht Technologie um der Technologie willen.",
   },
 ];
 

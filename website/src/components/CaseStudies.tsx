@@ -1,6 +1,7 @@
 import { SectionShell } from "./SectionShell";
 import { ScrollReveal } from "./ScrollReveal";
 import { MotionPressable } from "./MotionPressable";
+import { ProofRow } from "./ProofRow";
 import { caseStudies } from "../data/marketing";
 import { useCardGlow } from "../hooks/useScrollReveal";
 import styles from "./CaseStudies.module.css";
@@ -22,16 +23,26 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
         <ScrollReveal className={styles.header}>
           <span className="eyebrow">Referenzen</span>
           <h2 id="projects-heading" className="display-md">
-            Success Stories
+            <span className="mark">Success Stories</span>
           </h2>
           <p className={styles.sub}>
             Messbare Outcomes aus GTM, Agents und Strategy, nicht nur Demos.
           </p>
         </ScrollReveal>
 
+        <ScrollReveal className={styles.proofWrap}>
+          <ProofRow />
+        </ScrollReveal>
+
         <ScrollReveal className={styles.grid} stagger>
           {caseStudies.map((study) => {
             const clickable = Boolean(study.openId);
+            const secondaryMetrics = study.metrics.filter(
+              (m) =>
+                m.value !== study.primaryOutcome.value ||
+                m.label !== study.primaryOutcome.label,
+            );
+
             const body = (
               <>
                 {study.preview && (
@@ -52,6 +63,12 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
                     </div>
                   </div>
                 )}
+
+                <div className={styles.outcome}>
+                  <span className={styles.outcomeValue}>{study.primaryOutcome.value}</span>
+                  <span className={styles.outcomeLabel}>{study.primaryOutcome.label}</span>
+                </div>
+
                 <span className={styles.industry}>{study.industry}</span>
                 <div className={styles.tags}>
                   {study.tags.map((tag) => (
@@ -66,14 +83,16 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
                     <span>{study.role}</span>
                   </footer>
                 </blockquote>
-                <div className={styles.metrics}>
-                  {study.metrics.map((m) => (
-                    <div key={m.label} className={styles.metric}>
-                      <span className={styles.metricValue}>{m.value}</span>
-                      <span className={styles.metricLabel}>{m.label}</span>
-                    </div>
-                  ))}
-                </div>
+                {secondaryMetrics.length > 0 && (
+                  <div className={styles.metrics}>
+                    {secondaryMetrics.map((m) => (
+                      <div key={m.label} className={styles.metric}>
+                        <span className={styles.metricValue}>{m.value}</span>
+                        <span className={styles.metricLabel}>{m.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {clickable && (
                   <span className={styles.readMore}>
                     Case Study lesen

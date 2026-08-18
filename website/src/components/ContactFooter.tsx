@@ -56,15 +56,17 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
           <div className={`sectionStart ${styles.intro}`}>
             <span className="eyebrow">Ihr Ansprechpartner</span>
             <h2 className="display-md">
-              Wir sind für dich da, um dir zu helfen.
+              Wir sind für Sie da, um Ihnen zu <span className="em">helfen</span>.
             </h2>
             <CtaButton
               size="lg"
-              surface="on-dark"
+              surface="accent"
+              showCalendar
+              sublabel
               href="https://calendly.com/supraflow/30min"
               onClick={() => trackCalendlyClick("footer")}
             >
-              Kostenloses Erstgespräch
+              Jetzt Erstgespräch sichern
             </CtaButton>
           </div>
 

@@ -4,10 +4,9 @@
   justify-content: center;
   gap: 8px;
   border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   text-decoration: none;
   transition:
@@ -17,39 +16,79 @@
     color var(--duration-fast) var(--ease-out-smooth);
 }
 
+.wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.wrapCenter {
+  align-items: center;
+}
+
+.sublabel {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.sublabelOnDark {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.sublabelStrong {
+  font-weight: 600;
+  color: inherit;
+}
+
 /* Sizes */
 .sm {
-  padding: 7px 16px;
-  font-size: 0.6875rem;
-}
-
-.sm .arrow {
-  width: 12px;
-  height: 12px;
-}
-
-.md {
-  padding: 10px 20px;
-  font-size: 0.75rem;
-}
-
-.md .arrow {
-  width: 13px;
-  height: 13px;
-}
-
-.lg {
-  padding: 12px 24px;
+  padding: 8px 16px;
   font-size: 0.8125rem;
 }
 
-.lg .arrow {
+.sm .arrow,
+.sm .calendar {
   width: 14px;
   height: 14px;
 }
 
+.md {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+}
+
+.md .arrow,
+.md .calendar {
+  width: 15px;
+  height: 15px;
+}
+
+.lg {
+  padding: 12px 24px;
+  font-size: 0.9375rem;
+}
+
+.lg .arrow,
+.lg .calendar {
+  width: 16px;
+  height: 16px;
+}
+
 .label {
   line-height: 1.2;
+}
+
+.calendar {
+  flex-shrink: 0;
+  opacity: 0.92;
+  transition: transform var(--duration-fast) var(--ease-out-smooth);
+}
+
+.btn:hover .calendar {
+  transform: translateY(-1px);
 }
 
 .arrow {
@@ -122,4 +161,25 @@
 .onLightGhost:hover {
   border-color: rgba(204, 128, 102, 0.45);
   box-shadow: 0 4px 24px rgba(204, 128, 102, 0.12);
+}
+
+/* Primary conversion surface */
+.accent {
+  background: radial-gradient(
+    ellipse 120% 180% at 50% 120%,
+    #e8a892 0%,
+    #cc8066 52%,
+    #a8654a 100%
+  );
+  color: var(--color-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 4px 24px rgba(204, 128, 102, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.accent:hover {
+  box-shadow:
+    0 8px 40px rgba(204, 128, 102, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
