@@ -148,7 +148,7 @@ export const faqItems = [
   {
     question: "Was kostet eine Zusammenarbeit?",
     answer:
-      "Das Erstgespräch ist kostenlos. Der AI-Revenue-Engine-Pilot startet festpreisig bei 1.000 €. Größere Vorhaben erhalten ein transparentes Angebot nach Scope, Systemen und Delivery-Modell.",
+      "Das Erstgespräch ist kostenlos. Der AI-Revenue-Engine-Pilot startet festpreisig bei 1.000 €. Die Vibe Coding Challenge liegt bei 4.900 € Festpreis. Der produktive Agent liegt bei 8.000–20.000 €, der Betrieb bei 800–3.000 € pro Monat, abhängig von Kundenanzahl, CRM und Opportunity-Typen.",
   },
   {
     question: "Brauche ich technisches Vorwissen?",

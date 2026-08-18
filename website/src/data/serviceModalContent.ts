@@ -19,10 +19,12 @@ export interface ServiceModalContent {
 
 const footerNotes: Record<string, string> = {
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
+  "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
 };
 
 const ctaHrefs: Record<string, string> = {
   "ai-revenue-engine": "https://calendly.com/supraflow/30min",
+  "vibe-coding-challenge": "https://calendly.com/supraflow/30min",
 };
 
 export const serviceModalMeta: Record<string, ServiceModalContent> = Object.fromEntries(
@@ -212,10 +214,11 @@ export const revenueProofMetrics = [
 export const revenueTiers = [
   {
     id: "pilot",
-    cap: "Schritt 1 · Sofort verfügbar",
+    cap: "Schritt 1 · Pilot",
     price: "1.000 €",
     note: "Festpreis · 10 Arbeitstage",
     featured: true,
+    gate: "Go nur mit belastbarer Rechnung aus dem Review.",
     items: [
       "200 Bestandskunden analysiert",
       "1 Opportunity-Typ Ihrer Wahl",
@@ -227,14 +230,13 @@ export const revenueTiers = [
   },
   {
     id: "implementation",
-    cap: "Schritt 2 · Implementation",
-    price: "20.000–50.000 €",
+    cap: "Schritt 2 · Agent in Produktion",
+    price: "8.000–20.000 €",
     note: "Einmalig · 6–10 Wochen",
     featured: false,
     items: [
-      "Gesamter Kundenstamm angebunden",
+      "Vollautomatisiert über den gesamten Bestand, Rückschrieb ins CRM ohne neues Tool",
       "Mehrere Opportunity-Modelle parallel",
-      "Automatisierter Rückschrieb ins CRM",
       "Scoring auf Ihre historischen Abschlüsse trainiert",
       "Governance, QA und Monitoring",
       "Enablement für Ihr Vertriebsteam",
@@ -243,7 +245,7 @@ export const revenueTiers = [
   {
     id: "ops",
     cap: "Schritt 3 · Betrieb",
-    price: "2.000–6.000 €",
+    price: "800–3.000 €",
     note: "Pro Monat · monatlich kündbar",
     featured: false,
     items: [
@@ -255,6 +257,18 @@ export const revenueTiers = [
     ],
   },
 ];
+
+export const revenuePathLead =
+  "Pilot beweist. Agent automatisiert. Betrieb hält das System scharf.";
+
+export const revenueDrivers = [
+  "Kundenanzahl",
+  "CRM und Stack",
+  "Anzahl Opportunity-Typen",
+];
+
+export const revenueProductionRoi =
+  "Ein durchschnittlicher Zusatzabschluss pro Monat trägt den Agenten.";
 
 export const revenueFaq = [
   {
@@ -292,6 +306,425 @@ export const revenueFaq = [
 export const revenueFinalMeta = [
   "Start innerhalb von 5 Tagen",
   "Festpreis 1.000 €",
+  "Ergebnisgarantie",
+  "Keine Vertragsbindung",
+];
+
+export const vibeHeadline =
+  "Ihr größtes Automatisierungspotenzial kennt längst ein Mitarbeiter. Gefragt hat ihn nur nie jemand.";
+
+export const vibeHeroNote = "Festpreis · Sandbox ohne Produktivdaten · Betriebsrat- und IT-tauglich";
+
+export const vibeReasonsIntro =
+  "Automatisierungsprojekte scheitern selten an der Technik. Sie scheitern daran, dass die falschen Prozesse ausgewählt wurden: von Menschen, die diese Prozesse nie selbst bearbeitet haben.";
+
+export const vibeMatrixIntro =
+  "Der Markt bietet aktuell zwei Dinge an: Tagesseminare, die Wissen vermitteln und dort enden. Und Innovations-Hackathons, die ein Event produzieren und dort enden. Beides erzeugt keine Einsparung.";
+
+export const vibeFlowIntro =
+  "Sechs Phasen über vier Wochen. Ihre Mitarbeitenden investieren rund zehn Stunden verteilt über den Zeitraum. Die Challenge läuft berufsbegleitend, nicht als Freistellung.";
+
+export const vibePrizeIntro =
+  "Der Preis ist kein Beiwerk. Er ist der Grund, warum Menschen mitmachen, die sonst kein Freiwilligenprojekt anfassen, und er macht Automatisierung intern zu etwas, das Anerkennung bringt statt Angst vor dem eigenen Arbeitsplatz.";
+
+export const vibePrizeBody = [
+  "Wir richten den Preis so ein, dass er in Ihrer Organisation trägt: Vorstellung der Gewinnerteams im Management-Meeting, Beitrag im Intranet, Nennung im internen Newsletter und ein physischer Preis, der im Büro stehen bleibt. Die materielle Prämie legen Sie fest. Wirksamer ist in fast allen Fällen die Sichtbarkeit gegenüber der Führungsebene.",
+  "Nebeneffekt, den unsere Kunden regelmäßig unterschätzen: Die Challenge ist eines der stärksten Employer-Branding-Formate, die ein Konzern intern fahren kann. Mitarbeitende erleben, dass ihre Beobachtungen ernst genommen und tatsächlich gebaut werden.",
+];
+
+export const vibeRoiIntro =
+  "Eine Challenge muss sich nicht über viele Cases rechnen. Sie muss sich über einen rechnen.";
+
+export const vibeRoiPanel =
+  "Nicht die Ersparnis eines Prototyps ist der Ertrag der Challenge, sondern die bewertete Pipeline: fünf bis zehn belastbare Automatisierungsfälle, die Sie sonst nie gefunden hätten. Jeder mit einer Zahl, gegen die Sie Budget rechnen können.";
+
+export const vibeRoiFootnote =
+  "Erfahrungs- und Beispielwerte, bewusst konservativ. Ihre realen Größen (Bereichsgröße, Vollkostensatz, Prozesslandschaft) setzen wir im Erstgespräch ein. Wenn die Rechnung für Ihren Bereich nicht aufgeht, sagen wir Ihnen das, bevor Sie beauftragen.";
+
+export const vibeGuarantee =
+  "Wenn aus der Challenge kein einziger Case hervorgeht, dem die Jury ein geschätztes Einsparpotenzial von mindestens 25.000 € pro Jahr zuspricht, stellen wir die Challenge nicht in Rechnung. Alle Prototypen, der Bewertungsreport und das aufgebaute Wissen bleiben trotzdem bei Ihnen.";
+
+export const vibeAfterIntro =
+  "Der Punkt, an dem vergleichbare Formate aufhören, ist der Punkt, an dem der Wert entsteht. Ein prämierter Prototyp spart noch nichts. Produktiv gestellt schon.";
+
+export const vibeCallout =
+  "Sie kaufen keine Schulung und kein Event. Sie kaufen eine bewertete Liste von Automatisierungsfällen aus Ihrem eigenen Haus, und einen Weg, sie zu bauen.";
+
+export const vibeTiersIntro =
+  "Sie starten klein, in einem Bereich, zum Festpreis. Alles Weitere entscheiden Sie auf Basis des Bewertungsreports, also anhand von Zahlen aus Ihrem eigenen Haus.";
+
+export const vibeTiersFootnote =
+  "Preise zzgl. MwSt. und Reisekosten. Die Pilot-Challenge ist bewusst so kalkuliert, dass sie unterhalb üblicher Freigabegrenzen für Bereichsleitungen liegt. Sie brauchen für den Einstieg kein Vorstandsbudget. Die Umsetzung wird erst beauftragt, wenn ein Business Case vorliegt.";
+
+export const vibeFinalLead =
+  "Im Erstgespräch legen wir den Pilotbereich fest, klären den Tool- und Datenrahmen und rechnen anhand Ihrer Bereichsgröße durch, welches Einsparpotenzial realistisch in Ihrem Haus liegt. 30 Minuten, ohne Pitch-Deck.";
+
+export const vibeToday = [
+  "Automatisierungsideen entstehen top-down in der IT",
+  "Wer den Prozess kennt, wird nicht gefragt",
+  "Das Vorschlagswesen sammelt Ideen, die nie gebaut werden",
+  "KI-Schulungen erzeugen Wissen, aber kein Ergebnis",
+];
+
+export const vibeWithUeberagent = [
+  "Ideen kommen von denen, die den Prozess täglich machen",
+  "Aus jeder Idee entsteht ein lauffähiger Prototyp",
+  "Jeder Case bekommt eine Zahl: geschätzte Ersparnis pro Jahr",
+  "Die Gewinner gehen in die produktive Umsetzung",
+];
+
+export const vibeReasons = [
+  {
+    title: "Sie kennen den Prozess wirklich",
+    text: "inklusive der Workarounds, Excel-Zwischenschritte und Doppelerfassungen, die in keiner Prozessdokumentation stehen.",
+  },
+  {
+    title: "Sie wissen, was wirklich Zeit kostet",
+    text: "nicht was auf dem Papier nach dem größten Hebel aussieht.",
+  },
+  {
+    title: "Sie kennen die Ausnahmen",
+    text: "und Ausnahmen sind der Grund, warum die meisten Automatisierungen im Betrieb scheitern.",
+  },
+  {
+    title: "Sie tragen die Lösung mit",
+    text: "was ein Team selbst gebaut hat, wird auch genutzt. Der Change-Aufwand entfällt fast vollständig.",
+  },
+  {
+    title: "Sie brauchen dafür heute keine Entwickler mehr",
+    text: "moderne KI-Werkzeuge lassen Fachanwender in Stunden bauen, wofür früher ein IT-Ticket und zwei Quartale nötig waren.",
+  },
+];
+
+export const vibeMatrix = [
+  {
+    id: "training",
+    cap: "Variante A",
+    title: "Klassische KI-Schulung",
+    win: false,
+    price: "Marktüblich 650–790 € pro Kopf und Tag",
+    items: [
+      "Wissen, kein Ergebnis",
+      "Generische Übungsbeispiele",
+      "Kein Bezug zu Ihren Prozessen",
+      "Kein Weg in die Umsetzung",
+    ],
+  },
+  {
+    id: "hackathon",
+    cap: "Variante B",
+    title: "Innovations-Hackathon",
+    win: false,
+    price: "Enterprise-Projektbudgets, meist fünfstellig",
+    items: [
+      "24–48 Stunden Eventformat",
+      "Aufwand liegt in der Logistik",
+      "Prototypen ohne Wirtschaftlichkeitsprüfung",
+      "Ergebnisse versanden nach dem Event",
+    ],
+  },
+  {
+    id: "challenge",
+    cap: "Unser Format",
+    title: "AI Vibe Coding Challenge",
+    win: true,
+    price: "Pilot ab 4.900 € Festpreis",
+    items: [
+      "4 Wochen berufsbegleitend statt Event",
+      "Eigene Prozesse statt Übungsaufgaben",
+      "Jeder Case mit geschätzter Jahresersparnis",
+      "Fester Umsetzungspfad für die Gewinner",
+    ],
+  },
+];
+
+export const vibeFlow = [
+  {
+    step: "01",
+    when: "Woche 0",
+    title: "Rahmen setzen",
+    description:
+      "Zielbereich, Teilnehmerkreis und Preisrahmen festlegen. Parallel klären wir Toolauswahl, Datenschutz und Sandbox mit IT, Compliance und Betriebsrat, bevor der erste Mitarbeitende etwas erfährt.",
+    outcome: false,
+  },
+  {
+    step: "02",
+    when: "Woche 1",
+    title: "Ideen-Workshop mit den Mitarbeitenden",
+    description:
+      "Halbtägig, moderiert. Wir arbeiten nicht mit „Was könnte KI?“, sondern mit „Was nervt Sie jeden Montag?“. Ergebnis ist eine strukturierte Liste realer Zeitfresser mit erster Aufwandsschätzung.",
+    outcome: false,
+  },
+  {
+    step: "03",
+    when: "Woche 1",
+    title: "Enablement-Workshop: Vibe Coding",
+    description:
+      "Ganztägig, hands-on. Ihre Mitarbeitenden lernen an ihrer eigenen Idee, wie sie daraus einen lauffähigen Prototyp bauen. Keine Programmierkenntnisse erforderlich. Am Ende des Tages hat jedes Team etwas, das läuft.",
+    outcome: false,
+  },
+  {
+    step: "04",
+    when: "Woche 2–3",
+    title: "Build-Phase mit technischem Support",
+    description:
+      "Die Teams bauen weiter. Wir halten zweimal wöchentlich offene Sprechstunden, lösen technische Blockaden und übernehmen die Teile, an denen Fachanwender realistisch scheitern: Schnittstellen, Datenzugriff, Deployment der Prototypen.",
+    outcome: false,
+  },
+  {
+    step: "05",
+    when: "Woche 4",
+    title: "Jury, Innovationspreis und Prämierung",
+    description:
+      "Jedes Team präsentiert fünf Minuten. Eine Jury aus Ihrem Management und unseren Engineers bewertet nach festen Kriterien. Die Gewinner erhalten Ihren internen Innovationspreis: sichtbar, im Haus, mit Namen.",
+    outcome: false,
+  },
+  {
+    step: "06",
+    when: "Woche 4",
+    title: "Bewertungsreport an die Geschäftsführung",
+    description:
+      "Alle eingereichten Cases mit geschätzter Jahresersparnis, Umsetzungsaufwand, technischem Risiko und klarer Empfehlung: produktiv umsetzen, nachschärfen oder verwerfen. Das ist das Dokument, mit dem Sie Budget bekommen.",
+    outcome: true,
+  },
+];
+
+export const vibeCriteria = [
+  {
+    name: "Wirtschaftliches Potenzial",
+    weight: "40 %",
+    width: 40,
+    desc: "Geschätzte Einsparung pro Jahr in Stunden und Euro.",
+  },
+  {
+    name: "Umsetzbarkeit",
+    weight: "25 %",
+    width: 25,
+    desc: "Technischer Aufwand, Schnittstellen, regulatorische Hürden.",
+  },
+  {
+    name: "Übertragbarkeit",
+    weight: "20 %",
+    width: 20,
+    desc: "Lässt sich der Case auf andere Abteilungen oder Standorte ausrollen?",
+  },
+  {
+    name: "Reifegrad des Prototyps",
+    weight: "15 %",
+    width: 15,
+    desc: "Wie weit ist das Team tatsächlich gekommen?",
+  },
+];
+
+export const vibeRoiLines = [
+  { label: "Investment Pilot-Challenge", value: "4.900 €" },
+  { label: "Teilnehmende Mitarbeitende", value: "25" },
+  { label: "Erfahrungswert eingereichte Ideen", value: "30–50" },
+  { label: "Davon mit echtem Automatisierungspotenzial", value: "5–10" },
+  { label: "Ein umgesetzter Case spart typischerweise", value: "2–5 Std./Woche" },
+  { label: "Bei 3 Std./Woche und 60 € Vollkosten", value: "≈ 9.400 €/Jahr" },
+  { label: "Amortisation bei einem einzigen Case", value: "< 7 Monate", total: true },
+];
+
+export const vibeAfterFlow = [
+  {
+    step: "A",
+    when: "1–2 Wochen",
+    title: "Business Case erstellen",
+    description:
+      "Wir prüfen den Gewinner-Case belastbar durch: reale Mengengerüste, Vollkosten, Schnittstellen, Risiken und Betriebsaufwand. Ergebnis ist eine Vorlage, die einer Investitionsprüfung standhält. Inklusive ehrlicher Aussage, wenn der Case sie nicht besteht.",
+    outcome: false,
+  },
+  {
+    step: "B",
+    when: "4–10 Wochen",
+    title: "Professionelle Umsetzung",
+    description:
+      "Aus dem Prototyp wird produktionsreife Software: saubere Architektur, Anbindung an Ihre Systeme, Fehlerbehandlung, Rechte- und Rollenkonzept, Monitoring, Dokumentation. Preis nach Aufwand des jeweiligen Case, Festpreis nach dem Business Case.",
+    outcome: false,
+  },
+  {
+    step: "C",
+    when: "laufend",
+    title: "Inbetriebnahme und Realisierung des Potenzials",
+    description:
+      "Rollout im Fachbereich, Schulung der Anwender, Übergabe der Ownership und Messung: Wir weisen nach, ob die im Business Case versprochene Ersparnis tatsächlich eintritt. Optional Betrieb und Weiterentwicklung im Monatsmodell.",
+    outcome: true,
+  },
+];
+
+export const vibeIdealFor = [
+  "viele manuelle Prozesse in Verwaltung, Service oder Produktion haben",
+  "ein KI-Budget haben, aber keine priorisierte Use-Case-Liste",
+  "ein Vorschlagswesen betreiben, aus dem selten etwas wird",
+  "KI-Schulungen gemacht haben, ohne messbares Ergebnis",
+  "Automatisierung intern positiv besetzen wollen",
+  "mehrere Standorte oder Bereiche später ausrollen könnten",
+];
+
+export const vibeImpact: ImpactRow[] = [
+  { before: "Use Cases werden geraten", after: "Use Cases kommen aus dem Prozess" },
+  { before: "Ideen im Vorschlagskasten", after: "Lauffähige Prototypen" },
+  { before: "KI als Schulungsthema", after: "KI als gebautes Ergebnis" },
+  { before: "Automatisierung macht Angst", after: "Automatisierung bringt Anerkennung" },
+  { before: "Schatten-IT im Verborgenen", after: "Kontrollierte Sandbox mit Governance" },
+  { before: "Innovationsbudget ohne Nachweis", after: "Bewertete Cases mit Euro-Betrag" },
+];
+
+export const vibeTimeline = [
+  {
+    title: "Setup",
+    when: "Woche 0",
+    detail:
+      "Zielbereich, Teilnehmerkreis und Preisrahmen festlegen. Parallel Toolauswahl, Datenschutz und Sandbox mit IT, Compliance und Betriebsrat klären.",
+  },
+  {
+    title: "Ideen & Enablement",
+    when: "Woche 1",
+    detail:
+      "Halbtägiger Ideen-Workshop, danach ganztägiges Vibe-Coding-Enablement an der eigenen Idee. Am Ende des Tages hat jedes Team etwas, das läuft.",
+  },
+  {
+    title: "Build",
+    when: "Woche 2",
+    detail:
+      "Die Teams bauen weiter. Offene Sprechstunden, Blockaden lösen, Schnittstellen und Datenzugriff dort übernehmen, wo Fachanwender realistisch scheitern.",
+  },
+  {
+    title: "Build & Support",
+    when: "Woche 3",
+    detail:
+      "Prototypen härten, in der Sandbox deployen, erste Einsparschätzung je Case. Noch keine Produktivdaten, noch kein Produktivsystem.",
+  },
+  {
+    title: "Jury & Report",
+    when: "Woche 4",
+    detail:
+      "Fünf-Minuten-Pitches, Bewertung nach festen Kriterien, Innovationspreis und Bewertungsreport an die Geschäftsführung.",
+  },
+];
+
+export const vibeTimelineNote =
+  "Ihr interner Aufwand: eine Ansprechperson für Organisation, zwei Termine für die Jury und die Freigabe des Tool- und Datenrahmens durch IT und Betriebsrat. Alles Übrige (Moderation, Workshops, technischer Support, Bewertung und Reporting) liegt bei uns.";
+
+export const vibeGovernance = [
+  {
+    value: "Sandbox statt Produktivsystem",
+    label:
+      "Gebaut wird in einer abgeschotteten Umgebung mit anonymisierten oder synthetischen Daten. Kein Prototyp berührt im Wettbewerbszeitraum ein Produktivsystem.",
+  },
+  {
+    value: "Betriebsrat eingebunden",
+    label:
+      "Wir liefern die Unterlagen für die Mitbestimmung mit: Zweckbindung, keine Leistungs- oder Verhaltenskontrolle, Freiwilligkeit der Teilnahme, Umgang mit den Ergebnissen.",
+  },
+  {
+    value: "Schatten-IT wird sichtbar, nicht erzeugt",
+    label:
+      "Fachbereiche bauen bereits heute unkontrolliert mit KI-Tools. Die Challenge holt genau das in einen kontrollierten Rahmen mit Freigaben, Tool-Liste und Governance.",
+  },
+  {
+    value: "EU AI Act und DSGVO",
+    label:
+      "Toolauswahl, Datenflüsse und Verarbeitungsorte werden vorab mit Ihrer Compliance abgestimmt. Jeder Case erhält im Report eine Ersteinordnung nach Risikoklasse.",
+  },
+];
+
+export const vibeTiers = [
+  {
+    id: "pilot",
+    cap: "Schritt 1 · Pilot-Challenge",
+    price: "4.900 €",
+    note: "Festpreis · 4 Wochen · 1 Bereich",
+    featured: true,
+    items: [
+      "Bis 25 Teilnehmende",
+      "Ideen-Workshop (halbtägig)",
+      "Vibe-Coding-Enablement (ganztägig)",
+      "Sandbox-Setup und Tool-Freigaben",
+      "4 Support-Sprechstunden",
+      "Jury, Innovationspreis, Prämierung",
+      "Bewertungsreport für die Geschäftsführung",
+      "Ergebnisgarantie",
+    ],
+  },
+  {
+    id: "scale",
+    cap: "Schritt 2 · Challenge Scale",
+    price: "ab 25.000 €",
+    note: "8–10 Wochen · mehrere Bereiche",
+    featured: false,
+    items: [
+      "Bereichs- oder konzernweiter Rollout",
+      "Mehrere Standorte, auch mehrsprachig",
+      "Interne Kampagne und Kommunikation",
+      "Mehrstufiges Jury-Verfahren",
+      "Enablement von internen Multiplikatoren",
+      "Aufbau eines dauerhaften Innovationsformats",
+    ],
+  },
+  {
+    id: "build",
+    cap: "Schritt 3 · Umsetzung",
+    price: "Preis je Case",
+    note: "Festpreis nach Business Case",
+    featured: false,
+    items: [
+      "Business Case ab 2.500 € je Fall",
+      "Produktive Umsetzung typischerweise 15.000–60.000 €",
+      "Inbetriebnahme und Anwenderschulung",
+      "Nachweis der realisierten Ersparnis",
+      "Optional Betrieb ab 1.500 €/Monat",
+    ],
+  },
+];
+
+export const vibeFaq = [
+  {
+    question: "Brauchen unsere Mitarbeitenden Programmierkenntnisse?",
+    answer:
+      "Nein. Das Enablement ist für Fachanwender ausgelegt: Sachbearbeitung, Einkauf, Controlling, Service, HR, Produktion. Wer Excel-Formeln erträgt, kommt damit zurecht. Alles, was echte Entwicklungsarbeit erfordert, übernehmen wir in den Sprechstunden.",
+  },
+  {
+    question: "Wie stellen wir sicher, dass keine Schatten-IT entsteht?",
+    answer:
+      "Genau umgekehrt: Fachbereiche bauen bereits heute mit KI-Tools, nur unkontrolliert. Die Challenge holt das in einen definierten Rahmen: freigegebene Tool-Liste, abgeschottete Sandbox, keine Produktivdaten, dokumentierte Ergebnisse. Alles, was in Produktion gehen soll, durchläuft anschließend unsere reguläre Umsetzung mit Architektur, Rechte- und Rollenkonzept und Monitoring.",
+  },
+  {
+    question: "Was sagt der Betriebsrat dazu?",
+    answer:
+      "In der Regel wenig, wenn drei Punkte von Anfang an stehen: Teilnahme ist freiwillig, es findet keine Leistungs- oder Verhaltenskontrolle statt, und es geht nicht um Personalabbau. Wir liefern die Unterlagen für die Mitbestimmung mit und nehmen auf Wunsch am Gespräch teil. Erfahrungsgemäß ist die Challenge für Arbeitnehmervertretungen eher ein Argument: Mitarbeitende gestalten Automatisierung mit, statt sie vorgesetzt zu bekommen.",
+  },
+  {
+    question: "Werden hier Arbeitsplätze wegautomatisiert?",
+    answer:
+      "Die Cases, die aus solchen Formaten entstehen, betreffen fast ausschließlich Tätigkeiten, die ohnehin niemand gerne macht: Daten übertragen, Listen abgleichen, Standardauskünfte erteilen, Berichte zusammenkopieren. Wir empfehlen, das offen zu kommunizieren und die Zielsetzung im Kickoff explizit zu benennen. Verdeckte Rationalisierungsabsichten sind der sicherste Weg, eine Challenge scheitern zu lassen.",
+  },
+  {
+    question: "Was passiert mit unseren Daten während der Challenge?",
+    answer:
+      "Gebaut wird mit anonymisierten oder synthetischen Daten in einer abgeschotteten Umgebung. Verarbeitung in der EU beziehungsweise der Schweiz, auf Basis eines Auftragsverarbeitungsvertrags. Toolauswahl und Datenflüsse stimmen wir vor dem Kickoff mit Ihrer IT-Sicherheit und Compliance ab.",
+  },
+  {
+    question: "Wir haben bereits ein Ideenmanagement. Ist das nicht doppelt?",
+    answer:
+      "Es ergänzt es an genau der Stelle, an der klassisches Vorschlagswesen scheitert: zwischen Idee und Nachweis. Ein Vorschlag im Kasten ist ein Satz. Aus der Challenge kommt ein lauffähiger Prototyp mit geschätzter Jahresersparnis. Auf Wunsch koppeln wir die Challenge direkt an Ihr bestehendes Prämienmodell.",
+  },
+  {
+    question: "Wie viel Zeit kostet das unsere Mitarbeitenden?",
+    answer:
+      "Rund zehn Stunden über vier Wochen: ein halber Tag Ideen-Workshop, ein Tag Enablement, danach freiwilliger Aufwand in der Build-Phase. Das Format ist berufsbegleitend ausgelegt, eine Freistellung ist nicht erforderlich.",
+  },
+  {
+    question: "Und wenn nichts Verwertbares dabei herauskommt?",
+    answer:
+      "Dann greift die Ergebnisgarantie und wir stellen die Challenge nicht in Rechnung. Nach unserer Erfahrung ist das unwahrscheinlich: 25 Menschen, die täglich mit Ihren Prozessen arbeiten, finden verlässlich mehr als einen Fall mit fünfstelligem Jahrespotenzial. Das Risiko dafür tragen wir, nicht Sie.",
+  },
+];
+
+export const vibeFinalMeta = [
+  "Start in 3 Wochen",
+  "Festpreis ab 4.900 €",
   "Ergebnisgarantie",
   "Keine Vertragsbindung",
 ];

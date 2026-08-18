@@ -3,8 +3,8 @@
   top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 14px;
   background: var(--color-surface);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-card);
@@ -58,7 +58,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 52%;
+  max-width: 58%;
   text-align: right;
 }
 
@@ -69,69 +69,124 @@
 .crmList {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.18);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
 }
 
 .account {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 22px 1fr;
   grid-template-rows: auto auto;
-  column-gap: 10px;
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  column-gap: 8px;
+  padding: 8px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
 }
 
-.account:last-child {
-  border-bottom: 0;
+.accountMark {
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .accountName {
-  font-size: 0.8125rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .accountMeta {
-  grid-column: 1;
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.32);
-}
-
-.accountCrm {
-  grid-row: 1 / span 2;
-  align-self: center;
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.32);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .accountActive {
-  background: rgba(204, 128, 102, 0.12);
+  border-color: rgba(204, 128, 102, 0.45);
+  background: rgba(204, 128, 102, 0.14);
 }
 
 .accountActive .accountName {
   color: #fff;
 }
 
-.accountActive .accountMeta,
-.accountActive .accountCrm {
+.accountActive .accountMeta {
+  color: var(--color-primary-light);
+}
+
+.accountActive .accountMark {
+  background: rgba(204, 128, 102, 0.28);
   color: var(--color-primary-light);
 }
 
 .scanLine {
   position: absolute;
-  left: 0;
-  right: 0;
   top: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--color-primary-light), transparent);
-  box-shadow: 0 0 16px rgba(204, 128, 102, 0.45);
+  bottom: 0;
+  left: 0;
+  width: 28%;
+  background: linear-gradient(90deg, transparent, rgba(232, 168, 146, 0.18), transparent);
   pointer-events: none;
+}
+
+.lockBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(204, 128, 102, 0.1);
+  border: 1px solid rgba(204, 128, 102, 0.18);
+}
+
+.mark {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(204, 128, 102, 0.28);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.lockName {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lockMeta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary-light);
 }
 
 .modules {
@@ -142,10 +197,9 @@
 
 .module {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 6px;
-  padding: 8px 9px;
+  padding: 7px 8px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
@@ -154,20 +208,24 @@
 }
 
 .module svg {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
 }
 
 .module span {
   font-family: var(--font-mono);
-  font-size: 0.5625rem;
+  font-size: 0.5rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  line-height: 1.25;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .module_idle {
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 .module_active {
@@ -184,7 +242,7 @@
 }
 
 .detail {
-  min-height: 132px;
+  min-height: 188px;
   padding: 12px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -195,94 +253,177 @@
   display: block;
   font-family: var(--font-mono);
   font-size: 0.5625rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-primary-light);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-.detail p,
-.detail li {
-  font-size: 0.75rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.78);
-  margin: 0;
+.crmFocus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.detail ul {
-  list-style: none;
+.crmFocus strong {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.crmFocus span:last-child {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 2px;
+}
+
+.crmFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.crmFields span {
+  padding: 7px 8px;
+  border-radius: 6px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.keywordTable {
   display: grid;
   gap: 6px;
-  margin: 0;
-  padding: 0;
 }
 
-.detail li {
-  padding-left: 12px;
-  position: relative;
+.keywordRow {
+  display: grid;
+  gap: 4px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.detail li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 4px;
-  height: 4px;
+.keywordQuery {
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.rankPair {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rankYou {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+
+.rankRival {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.insight {
+  margin: 10px 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--color-primary-light);
+}
+
+.checkGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.6875rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.checkDot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.checkOk .checkDot {
+  background: #86efac;
+}
+
+.checkFail .checkDot {
   background: var(--color-primary);
 }
 
-.metricRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.metricRow strong {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: -0.03em;
+.checkFail {
   color: var(--color-primary-light);
 }
 
-.metricRow span {
+.campaigns {
+  display: grid;
+  gap: 8px;
+}
+
+.campaign {
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+}
+
+.campaignWeak {
+  border-color: rgba(204, 128, 102, 0.35);
+  background: rgba(204, 128, 102, 0.08);
+}
+
+.campaignHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.campaignChannel {
   font-family: var(--font-mono);
-  font-size: 0.5625rem;
+  font-size: 0.5rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
 }
 
-.funnel {
-  display: grid;
-  gap: 7px;
+.campaignName {
+  font-size: 0.6875rem;
+  color: #fff;
 }
 
-.funnelRow {
-  display: grid;
-  grid-template-columns: 68px 1fr auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.funnelLabel {
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.funnelTrack {
-  height: 5px;
+.campaignBar {
+  height: 4px;
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.08);
   overflow: hidden;
+  margin-bottom: 6px;
 }
 
-.funnelFill {
+.campaignFill {
   display: block;
   height: 100%;
   border-radius: 99px;
@@ -290,26 +431,162 @@
   transform-origin: left center;
 }
 
-.funnelValue {
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  color: rgba(255, 255, 255, 0.7);
-  white-space: nowrap;
+.campaignWeak .campaignFill {
+  opacity: 0.55;
 }
 
-.funnelLeak .funnelLabel,
-.funnelLeak .funnelValue {
+.campaignKpis {
+  display: flex;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.campaignWeak .campaignKpis {
   color: var(--color-primary-light);
 }
 
-.funnelValue em {
-  font-style: normal;
-  color: var(--color-primary);
+.funnelVisual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 0 8px;
 }
 
-.leakNote {
-  margin-top: 10px !important;
-  color: var(--color-primary-light) !important;
+.funnelStage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 4px;
+  background: rgba(204, 128, 102, 0.16);
+  color: rgba(255, 255, 255, 0.78);
+  transform-origin: center;
+}
+
+.funnelStage span {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.funnelStage b {
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+
+.funnelStageLeak {
+  background: rgba(204, 128, 102, 0.38);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(204, 128, 102, 0.5);
+}
+
+.designRow {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.page {
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.pageChrome {
+  display: flex;
+  gap: 3px;
+  padding: 5px 6px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pageChrome span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.pageNav {
+  height: 8px;
+  margin: 6px 8px 0;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pageHero {
+  height: 28px;
+  margin: 6px 8px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pageCta,
+.pageForm {
+  position: relative;
+  height: 10px;
+  margin: 0 8px 6px;
+  border-radius: 2px;
+  background: rgba(204, 128, 102, 0.35);
+}
+
+.pageForm {
+  height: 16px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pin {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+}
+
+.auditList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.auditList li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.auditList b {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  font-weight: 500;
 }
 
 @media (max-width: 899px) {

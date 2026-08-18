@@ -53,6 +53,14 @@ export function ServiceIcon({ type, className = "" }: ServiceIconProps) {
         <path d="M24 8v4M22 10h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
+    vibe: (
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="11" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="21" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M5 24v-1.5a6 6 0 0112 0V24M15 24v-1.2a6 6 0 0112 0V24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M16 4.5l.8 1.7 1.8.2-1.4 1.2.4 1.8L16 8.5l-1.6.9.4-1.8-1.4-1.2 1.8-.2L16 4.5z" fill="currentColor" />
+      </svg>
+    ),
   };
 
   return (

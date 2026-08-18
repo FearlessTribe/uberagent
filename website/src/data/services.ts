@@ -3,6 +3,14 @@ export interface ServiceStat {
   label: string;
 }
 
+export type ServiceCategoryId = "neu" | "engineering" | "strategy";
+
+export const serviceCategories = [
+  { id: "neu" as const, label: "Neu" },
+  { id: "engineering" as const, label: "Engineering" },
+  { id: "strategy" as const, label: "Strategy" },
+];
+
 export interface Service {
   id: string;
   slug: string;
@@ -16,6 +24,7 @@ export interface Service {
   tags: string[];
   stats: ServiceStat[];
   ctaLabel: string;
+  category: ServiceCategoryId;
   featured?: boolean;
 }
 
@@ -39,6 +48,29 @@ export const services: Service[] = [
       { value: "200 Kunden", label: "Analysiert im Pilot" },
     ],
     ctaLabel: "Pilot-Termin buchen",
+    category: "neu",
+    featured: true,
+  },
+  {
+    id: "vibe-coding-challenge",
+    slug: "vibe-coding-challenge",
+    title: "AI Vibe Coding Challenge",
+    shortDescription:
+      "Ihre Mitarbeiter kennen die Prozesse, die Geld kosten. In vier Wochen bauen sie selbst die Prototypen, bewertet nach Einsparpotenzial und prämiert mit einem Innovationspreis.",
+    cardHook:
+      "Ihr größtes Automatisierungspotenzial kennt längst ein Mitarbeiter. Gefragt hat ihn nur nie jemand.",
+    icon: "vibe",
+    eyebrow: "Innovation Enablement",
+    bannerTag: "Vibe coding challenge",
+    lead: "Wer einen Prozess jeden Tag bearbeitet, weiß genau, wo er Zeit und Geld verbrennt. In der AI Vibe Coding Challenge bauen Ihre Mitarbeiter in vier Wochen selbst die Prototypen. Bewertet nach Einsparpotenzial, prämiert mit einem internen Innovationspreis. Die tragfähigen Fälle setzen wir anschließend produktiv um.",
+    tags: ["Enablement", "Innovation", "Prototyp"],
+    stats: [
+      { value: "4 Wochen", label: "Kickoff bis Preis" },
+      { value: "4.900 €", label: "Pilot-Challenge" },
+      { value: "bis 25", label: "Mitarbeitende" },
+    ],
+    ctaLabel: "Gespräch starten",
+    category: "neu",
     featured: true,
   },
   {
@@ -60,6 +92,7 @@ export const services: Service[] = [
       { value: "QA + Governance", label: "Produktionsreif" },
     ],
     ctaLabel: "GTM-System besprechen",
+    category: "engineering",
   },
   {
     id: "mcp",
@@ -80,6 +113,7 @@ export const services: Service[] = [
       { value: "OAuth + Audit", label: "Enterprise-ready" },
     ],
     ctaLabel: "MCP-Potenzial prüfen",
+    category: "engineering",
   },
   {
     id: "workflow-agents",
@@ -100,6 +134,7 @@ export const services: Service[] = [
       { value: "Messbar", label: "Skalierung" },
     ],
     ctaLabel: "Workflow-Agent konzipieren",
+    category: "engineering",
   },
   {
     id: "business-models",
@@ -120,6 +155,7 @@ export const services: Service[] = [
       { value: "→ Go/No-Go", label: "Entscheidung" },
     ],
     ctaLabel: "Geschäftsmodell validieren",
+    category: "strategy",
   },
   {
     id: "ai-strategy",
@@ -140,6 +176,7 @@ export const services: Service[] = [
       { value: "Planbar", label: "Governance" },
     ],
     ctaLabel: "AI-Strategie besprechen",
+    category: "strategy",
   },
   {
     id: "trainings",
@@ -160,6 +197,7 @@ export const services: Service[] = [
       { value: "Docs", label: "für den Betrieb" },
     ],
     ctaLabel: "Enablement planen",
+    category: "strategy",
   },
 ];
 

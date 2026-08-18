@@ -31,6 +31,9 @@ import {
   revenueRoiLines,
   revenueTimeline,
   revenueTiers,
+  revenuePathLead,
+  revenueDrivers,
+  revenueProductionRoi,
   revenueToday,
   revenueWithUeberagent,
   serviceModalMeta,
@@ -47,6 +50,37 @@ import {
   strategyScoreDimensions,
   trainingImpact,
   trainingModules,
+  vibeAfterFlow,
+  vibeAfterIntro,
+  vibeCallout,
+  vibeCriteria,
+  vibeFaq,
+  vibeFinalLead,
+  vibeFinalMeta,
+  vibeFlow,
+  vibeFlowIntro,
+  vibeGovernance,
+  vibeGuarantee,
+  vibeHeroNote,
+  vibeIdealFor,
+  vibeImpact,
+  vibeMatrix,
+  vibeMatrixIntro,
+  vibePrizeBody,
+  vibePrizeIntro,
+  vibeReasons,
+  vibeReasonsIntro,
+  vibeRoiFootnote,
+  vibeRoiIntro,
+  vibeRoiLines,
+  vibeRoiPanel,
+  vibeTiers,
+  vibeTiersFootnote,
+  vibeTiersIntro,
+  vibeTimeline,
+  vibeTimelineNote,
+  vibeToday,
+  vibeWithUeberagent,
   type ImpactRow,
   type ServiceStat,
 } from "../data/serviceModalContent";
@@ -56,6 +90,7 @@ import { trackCalendlyClick } from "../lib/analytics";
 import { teamMembers } from "../data/team";
 import { CtaButton } from "./CtaButton";
 import { RevenueScanVisual } from "./RevenueScanVisual";
+import { VibeChallengeVisual } from "./VibeChallengeVisual";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import styles from "./ServiceModal.module.css";
 
@@ -572,12 +607,6 @@ function RevenueEngineContent() {
           Ihr größter ungenutzter Vertriebskanal ist Ihr{" "}
           <strong>bestehender Kundenstamm</strong>. {meta.lead}
         </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <p className={styles.heroNote}>Festpreis · Keine Software-Lizenz · Keine Vertragsbindung</p>
         <div className={styles.heroVisual}>
           <div className={styles.heroPanel}>
             <span className={styles.panelLabel}>Heute</span>
@@ -668,6 +697,7 @@ function RevenueEngineContent() {
           Erstgespräch ein und rechnen die Kalkulation gemeinsam durch. Wenn sie nicht aufgeht,
           sagen wir das.
         </p>
+        <p className={styles.productionRoi}>{revenueProductionRoi}</p>
       </section>
 
       <section>
@@ -777,6 +807,7 @@ function RevenueEngineContent() {
 
       <section>
         <SectionTitle>Einstieg und Ausbaustufen</SectionTitle>
+        <p className={styles.bodyText}>{revenuePathLead}</p>
         <p className={styles.bodyText}>
           Sie starten mit dem Piloten. Alles danach ist eine Entscheidung, die Sie auf Basis echter
           Zahlen treffen, nicht auf Basis einer Präsentation.
@@ -807,14 +838,25 @@ function RevenueEngineContent() {
                   >
                     Pilot starten
                   </CtaButton>
+                  {"gate" in tier && tier.gate && (
+                    <p className={styles.tierGate}>{tier.gate}</p>
+                  )}
                 </div>
               )}
             </div>
           ))}
         </div>
+        <div className={styles.tierDrivers}>
+          <span className={styles.tierDriversLabel}>Die Spanne hängt ab von</span>
+          {revenueDrivers.map((driver) => (
+            <span key={driver} className={styles.tierDriver}>
+              {driver}
+            </span>
+          ))}
+        </div>
         <p className={styles.footnote}>
-          Preise zzgl. MwSt. Bei Konzernen und Beständen jenseits von 100.000 Kunden erstellen wir
-          ein individuelles Angebot. Der Pilot ist in jedem Fall der Einstieg. Er verpflichtet zu
+          Preise zzgl. MwSt. Produktions- und Betriebspreis richten sich nach Kundenanzahl, CRM und
+          Anzahl der Opportunity-Typen. Der Pilot ist in jedem Fall der Einstieg. Er verpflichtet zu
           nichts.
         </p>
       </section>
@@ -876,6 +918,379 @@ function RevenueEngineContent() {
             </CtaButton>
             <div className={styles.engineFinalMeta}>
               {revenueFinalMeta.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.engineFinalProfile}>
+            <img
+              src={teamMembers[0].image}
+              alt={teamMembers[0].name}
+              className={styles.engineFinalPhoto}
+              width={320}
+              height={330}
+            />
+            <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
+            <p className={styles.engineFinalRole}>CEO · überagent</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function VibeChallengeContent() {
+  const meta = serviceModalMeta["vibe-coding-challenge"];
+  const [activeTimeline, setActiveTimeline] = useState(0);
+  const [openFaq, setOpenFaq] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const timelineStep = vibeTimeline[activeTimeline];
+
+  return (
+    <div className={styles.content}>
+      <section className={styles.heroSection}>
+        <span className={styles.heroTag}>
+          <span className={styles.liveDot} aria-hidden="true" />
+          {meta.bannerTag}
+        </span>
+        <h3 className={styles.heroHeadline}>
+          Ihr größtes Automatisierungspotenzial kennt längst ein Mitarbeiter.{" "}
+          <em>Gefragt hat ihn nur nie jemand.</em>
+        </h3>
+        <p className={styles.lead}>{meta.lead}</p>
+        <p className={styles.heroNote}>{vibeHeroNote}</p>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Heute</span>
+            <ul className={styles.panelList}>
+              {vibeToday.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Mit überagent</span>
+            <ul className={styles.panelList}>
+              {vibeWithUeberagent.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Warum Mitarbeiter die besseren Ideen haben</SectionTitle>
+        <p className={styles.bodyText}>{vibeReasonsIntro}</p>
+        <ul className={styles.list}>
+          {vibeReasons.map((item) => (
+            <li key={item.title}>
+              <strong>{item.title}</strong> {item.text}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <SectionTitle>Warum das weder Schulung noch Hackathon ist</SectionTitle>
+        <p className={styles.bodyText}>{vibeMatrixIntro}</p>
+        <div className={styles.matrix}>
+          {vibeMatrix.map((col) => (
+            <div key={col.id} className={`${styles.mx} ${col.win ? styles.mxWin : ""}`}>
+              <span className={styles.mxCap}>{col.cap}</span>
+              <div className={styles.mxTitle}>{col.title}</div>
+              <ul className={styles.mxList}>
+                {col.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <div className={styles.mxPrice}>{col.price}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Wie die Challenge abläuft</SectionTitle>
+        <p className={styles.bodyText}>{vibeFlowIntro}</p>
+        <div className={styles.engineSplit}>
+          <VibeChallengeVisual />
+          <div className={`${styles.engineFlow} ${styles.engineFlowWide}`}>
+            {vibeFlow.map((step) => (
+              <div
+                key={step.step}
+                className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+              >
+                <div className={styles.engineFlowNum}>
+                  {step.step}
+                  <span className={styles.engineFlowWhen}>{step.when}</span>
+                </div>
+                <div className={styles.engineFlowBody}>
+                  <div className={styles.engineFlowTitle}>{step.title}</div>
+                  <p className={styles.engineFlowDesc}>{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Der Innovationspreis und wie bewertet wird</SectionTitle>
+        <p className={styles.bodyText}>{vibePrizeIntro}</p>
+        <div className={styles.prize}>
+          <div className={styles.prizeMain}>
+            <h4>Sichtbarkeit statt Gutschein</h4>
+            {vibePrizeBody.map((para) => (
+              <p key={para.slice(0, 40)}>{para}</p>
+            ))}
+          </div>
+          <div className={styles.crit}>
+            {vibeCriteria.map((item) => (
+              <div key={item.name} className={styles.critRow}>
+                <div className={styles.critTop}>
+                  <span className={styles.critName}>{item.name}</span>
+                  <span className={styles.critW}>{item.weight}</span>
+                </div>
+                <div className={styles.critTrack}>
+                  <motion.span
+                    className={styles.critFill}
+                    initial={reduceMotion ? { scaleX: item.width / 40 } : { scaleX: 0 }}
+                    whileInView={{ scaleX: item.width / 40 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : DURATION.slow,
+                      ease: EASE.outExpo,
+                    }}
+                  />
+                </div>
+                <div className={styles.critDesc}>{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Die Rechnung dahinter</SectionTitle>
+        <p className={styles.bodyText}>{vibeRoiIntro}</p>
+        <div className={styles.roiGrid}>
+          <div className={styles.roiTable}>
+            {vibeRoiLines.map((line) => (
+              <div
+                key={line.label}
+                className={`${styles.roiLine} ${line.total ? styles.roiLineTotal : ""}`}
+              >
+                <span>{line.label}</span>
+                <span>{line.value}</span>
+              </div>
+            ))}
+          </div>
+          <div className={styles.roiPanel}>
+            <span className={styles.roiK}>Der eigentliche Hebel</span>
+            <span className={styles.roiV}>5–10 Cases</span>
+            <p>{vibeRoiPanel}</p>
+          </div>
+        </div>
+        <p className={styles.footnote}>{vibeRoiFootnote}</p>
+      </section>
+
+      <section>
+        <div className={styles.guarantee}>
+          <div className={styles.guaranteeSeal}>
+            Kein
+            <br />
+            Case
+            <br />
+            keine
+            <br />
+            Rechnung
+          </div>
+          <div>
+            <h4 className={styles.guaranteeTitle}>Ergebnisgarantie auf die Pilot-Challenge</h4>
+            <p className={styles.bodyText}>{vibeGuarantee}</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Was nach der Preisverleihung passiert</SectionTitle>
+        <p className={styles.bodyText}>{vibeAfterIntro}</p>
+        <div className={`${styles.engineFlow} ${styles.engineFlowWide}`}>
+          {vibeAfterFlow.map((step) => (
+            <div
+              key={step.step}
+              className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+            >
+              <div className={styles.engineFlowNum}>
+                {step.step}
+                <span className={styles.engineFlowWhen}>{step.when}</span>
+              </div>
+              <div className={styles.engineFlowBody}>
+                <div className={styles.engineFlowTitle}>{step.title}</div>
+                <p className={styles.engineFlowDesc}>{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Ideal für Organisationen, die …</SectionTitle>
+        <div className={styles.benefitGrid}>
+          {vibeIdealFor.map((item) => (
+            <div key={item} className={styles.benefitItem}>
+              <span className={styles.benefitDot} aria-hidden="true" />
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Die Transformation</SectionTitle>
+        <ImpactTable rows={vibeImpact} />
+        <Callout>{vibeCallout}</Callout>
+      </section>
+
+      <section>
+        <SectionTitle>Vier Wochen im Überblick</SectionTitle>
+        <div className={styles.timeline} role="tablist" aria-label="Challenge-Ablauf">
+          {vibeTimeline.map((step, index) => (
+            <button
+              key={step.title}
+              type="button"
+              role="tab"
+              aria-selected={activeTimeline === index}
+              className={`${styles.tl} ${activeTimeline === index ? styles.tlActive : ""}`}
+              onMouseEnter={() => setActiveTimeline(index)}
+              onFocus={() => setActiveTimeline(index)}
+              onClick={() => setActiveTimeline(index)}
+            >
+              <span className={styles.tlTitle}>{step.title}</span>
+              <span className={styles.tlDate}>{step.when}</span>
+            </button>
+          ))}
+        </div>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={timelineStep.title}
+            className={styles.tlDetail}
+            role="tabpanel"
+            variants={reduceMotion ? fadeIn : slidePanel}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <strong>{timelineStep.when}</strong> {timelineStep.detail}
+          </motion.p>
+        </AnimatePresence>
+        <p className={styles.footnote}>{vibeTimelineNote}</p>
+      </section>
+
+      <section>
+        <SectionTitle>Konzerntauglich von Tag null</SectionTitle>
+        <div className={styles.proofMetrics}>
+          {vibeGovernance.map((item) => (
+            <div key={item.value} className={styles.metric}>
+              <div className={`${styles.metricV} ${styles.metricVLong}`}>{item.value}</div>
+              <div className={styles.metricL}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Einstieg und Ausbaustufen</SectionTitle>
+        <p className={styles.bodyText}>{vibeTiersIntro}</p>
+        <div className={styles.tiers}>
+          {vibeTiers.map((tier) => (
+            <div
+              key={tier.id}
+              className={`${styles.tier} ${tier.featured ? styles.tierHero : ""}`}
+            >
+              <span className={styles.tierCap}>{tier.cap}</span>
+              <div className={styles.tierPrice}>
+                {tier.price}
+                <small>{tier.note}</small>
+              </div>
+              <ul className={styles.tierList}>
+                {tier.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              {tier.featured && (
+                <div className={styles.tierFoot}>
+                  <CtaButton
+                    size="sm"
+                    surface="on-dark"
+                    href={CALENDLY_URL}
+                    onClick={() => trackCalendlyClick("vibe_challenge_pilot")}
+                  >
+                    Challenge starten
+                  </CtaButton>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className={styles.footnote}>{vibeTiersFootnote}</p>
+      </section>
+
+      <section>
+        <SectionTitle>Häufige Fragen</SectionTitle>
+        <div className={styles.engineFaq}>
+          {vibeFaq.map((item, index) => {
+            const isOpen = openFaq === index;
+            return (
+              <div key={item.question} className={styles.engineFaqItem}>
+                <button
+                  type="button"
+                  className={styles.engineFaqTrigger}
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                >
+                  {item.question}
+                  <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className={styles.engineFaqPanel}
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                      transition={{
+                        duration: reduceMotion ? 0 : DURATION.normal,
+                        ease: EASE.outExpo,
+                      }}
+                    >
+                      <p className={styles.engineFaqAnswer}>{item.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <div className={styles.engineFinal}>
+          <div className={styles.engineFinalCopy}>
+            <h3>Fragen Sie einmal die Leute, die den Prozess wirklich machen.</h3>
+            <p>{vibeFinalLead}</p>
+            <CtaButton
+              size="md"
+              surface="on-dark"
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("vibe_challenge_final")}
+            >
+              Gespräch starten
+            </CtaButton>
+            <div className={styles.engineFinalMeta}>
+              {vibeFinalMeta.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
@@ -1432,6 +1847,7 @@ function TrainingsContent() {
 
 const contentByService: Record<string, () => React.ReactNode> = {
   "ai-revenue-engine": RevenueEngineContent,
+  "vibe-coding-challenge": VibeChallengeContent,
   "gtm-engineering": GtmContent,
   mcp: McpContent,
   "workflow-agents": WorkflowAgentsContent,
