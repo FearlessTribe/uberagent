@@ -13,7 +13,17 @@ export interface ServiceModalContent {
   lead: string;
   stats: ServiceStat[];
   ctaLabel: string;
+  footerNote?: string;
+  ctaHref?: string;
 }
+
+const footerNotes: Record<string, string> = {
+  "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
+};
+
+const ctaHrefs: Record<string, string> = {
+  "ai-revenue-engine": "https://calendly.com/supraflow/30min",
+};
 
 export const serviceModalMeta: Record<string, ServiceModalContent> = Object.fromEntries(
   services.map((s) => [
@@ -24,9 +34,267 @@ export const serviceModalMeta: Record<string, ServiceModalContent> = Object.from
       lead: s.lead,
       stats: s.stats,
       ctaLabel: s.ctaLabel,
+      ...(footerNotes[s.id] ? { footerNote: footerNotes[s.id] } : {}),
+      ...(ctaHrefs[s.id] ? { ctaHref: ctaHrefs[s.id] } : {}),
     },
   ]),
 );
+
+export const revenueToday = [
+  "Vertrieb jagt Neukunden, Bestand liegt brach",
+  "Niemand weiß, wer gerade kaufbereit ist",
+  "Kontaktanlass wird manuell zusammengesucht",
+  "Abwanderung fällt erst bei der Kündigung auf",
+];
+
+export const revenueWithUeberagent = [
+  "Priorisierte Opportunity-Liste statt Bauchgefühl",
+  "Jede Opportunity mit belegtem Kaufsignal",
+  "Mail und Call-Briefing fertig im CRM",
+  "Churn-Risiken werden sichtbar, bevor sie eskalieren",
+];
+
+export const revenueFlow = [
+  {
+    step: "01",
+    title: "CRM- und Kundendaten anbinden",
+    description:
+      "Lesender Zugriff auf HubSpot, Salesforce, Pipedrive, Zoho, ERP oder schlicht einen CSV-Export. Keine Migration, keine Umstellung Ihrer Prozesse.",
+    outcome: false,
+  },
+  {
+    step: "02",
+    title: "Öffentliche und interne Signale anreichern",
+    description:
+      "Kundenwebsites, Stellenanzeigen, Tech-Stack, Firmenregister, News sowie Ihre eigenen Nutzungs-, Support- und Rechnungsdaten. Pro Kunde entsteht ein aktuelles Signalprofil.",
+    outcome: false,
+  },
+  {
+    step: "03",
+    title: "Opportunities erkennen",
+    description:
+      "Upsell, Cross-Sell, Renewal und Churn-Risiko, jeweils als eigenes Modell auf Ihr Leistungsportfolio trainiert.",
+    outcome: false,
+  },
+  {
+    step: "04",
+    title: "Opportunity Score vergeben",
+    description:
+      "Kaufwahrscheinlichkeit, geschätzter Wert und Dringlichkeit ergeben eine Rangfolge. Ihr Vertrieb arbeitet die Liste von oben ab, statt zu raten.",
+    outcome: false,
+  },
+  {
+    step: "05",
+    title: "Konkreten Verkaufsgrund generieren",
+    description:
+      "Kein „passt gut zum Profil“, sondern ein belegter Anlass: „Kunde hat zwei Performance-Marketing-Stellen ausgeschrieben und nutzt Ihr SEO-Paket seit 14 Monaten ohne Erweiterung.“",
+    outcome: false,
+  },
+  {
+    step: "06",
+    title: "Outreach fertig ausformulieren",
+    description:
+      "Personalisierte E-Mail in Ihrer Tonalität plus ein Call-Briefing auf einer Seite: Anlass, Argumente, erwartete Einwände, Preisrahmen.",
+    outcome: false,
+  },
+  {
+    step: "07",
+    title: "Zurück ins CRM, direkt an Ihr Sales-Team",
+    description:
+      "Als Task, Deal oder Notiz am Kundendatensatz. Ihr Vertrieb muss kein neues Tool lernen und öffnet morgens einfach das, was er ohnehin öffnet.",
+    outcome: true,
+  },
+];
+
+export const revenueGains = [
+  {
+    title: "Eine priorisierte Opportunity-Liste",
+    text: "über 200 Ihrer Bestandskunden, sortiert nach Score und geschätztem Umsatzpotenzial.",
+  },
+  {
+    title: "Pro Opportunity einen belegten Vertriebsanlass",
+    text: "nachvollziehbar, mit Quelle, nicht generisch.",
+  },
+  {
+    title: "Fertige Erstansprache",
+    text: "je Opportunity: personalisierte E-Mail plus einseitiges Call-Briefing.",
+  },
+  {
+    title: "Eine Potenzialschätzung für Ihren gesamten Kundenstamm",
+    text: "hochgerechnet aus der Pilot-Stichprobe.",
+  },
+  {
+    title: "Ein 45-minütiges Review",
+    text: "in dem wir die Ergebnisse mit Ihrem Vertrieb durchgehen und die Treffer markieren.",
+  },
+  {
+    title: "Eine klare Empfehlung",
+    text: "ob und in welcher Ausbaustufe sich die Vollautomatisierung für Sie rechnet. Inklusive ehrlichem „lohnt sich nicht“, wenn die Daten das hergeben.",
+  },
+];
+
+export const revenueRoiLines = [
+  { label: "Investment Pilot", value: "1.000 €" },
+  { label: "Analysierte Bestandskunden", value: "200" },
+  { label: "Gelieferte Opportunities (Minimum)", value: "20" },
+  { label: "Konservative Abschlussquote", value: "10 %" },
+  { label: "Erwartete Abschlüsse", value: "2" },
+  { label: "Annahme Zusatzumsatz je Abschluss", value: "3.000 €" },
+  { label: "Zusatzumsatz aus dem Piloten", value: "6.000 €", total: true },
+];
+
+export const revenueIdealFor = [
+  "mehrere hundert bis zehntausende Bestandskunden führen",
+  "ein Portfolio mit mehreren Leistungen oder Produkten haben",
+  "deren Vertrieb überwiegend reaktiv arbeitet",
+  "deren CRM gepflegt, aber ungenutzt ist",
+  "wachsen wollen, ohne den Vertrieb zu vergrößern",
+  "Churn erst bemerken, wenn er passiert ist",
+];
+
+export const revenueImpact: ImpactRow[] = [
+  { before: "Kundenstamm als Karteileiche", after: "Kundenstamm als Pipeline" },
+  { before: "Vertrieb nach Bauchgefühl", after: "Priorisierung nach Opportunity Score" },
+  { before: "Generische Ansprache", after: "Belegter Anlass pro Kunde" },
+  { before: "Recherche vor jedem Call", after: "Fertiges Call-Briefing im CRM" },
+  { before: "Churn als Überraschung", after: "Frühwarnung mit Handlungsempfehlung" },
+  { before: "Wachstum über mehr Köpfe", after: "Wachstum über mehr Umsatz pro Kopf" },
+];
+
+export const revenueTimeline = [
+  {
+    title: "Kickoff",
+    when: "Tag 1",
+    detail:
+      "45 Minuten Kickoff: Portfolio, Wunsch-Opportunity-Typ, Definition eines guten Kunden.",
+  },
+  {
+    title: "Datenanbindung",
+    when: "Tag 1–2",
+    detail: "Sie exportieren 200 Kundendatensätze oder geben lesenden CRM-Zugriff.",
+  },
+  {
+    title: "Signalanalyse",
+    when: "Tag 3–6",
+    detail: "Anreicherung, Scoring und Generierung der Verkaufsgründe.",
+  },
+  {
+    title: "Briefings",
+    when: "Tag 7–9",
+    detail: "Erstellung von Mail und Call-Briefing je Opportunity, Qualitätsprüfung durch uns.",
+  },
+  {
+    title: "Review",
+    when: "Tag 10",
+    detail: "45 Minuten Review mit Ihrem Vertrieb, Übergabe aller Materialien und Empfehlung.",
+  },
+];
+
+export const revenueProofMetrics = [
+  {
+    value: "Produktionsreif",
+    label: "Kein Prototyp. Laufende Systeme mit Monitoring, QA und Ownership im Kundenteam.",
+  },
+  {
+    value: "DSGVO-konform",
+    label: "Verarbeitung in der EU bzw. Schweiz, AV-Vertrag, keine Trainingsnutzung Ihrer Daten.",
+  },
+  {
+    value: "Ihr Stack",
+    label: "HubSpot, Salesforce, Pipedrive, Zoho, MS Dynamics, ERP oder CSV. Anbindung statt Ablösung.",
+  },
+  {
+    value: "Ihr Ton",
+    label: "Outreach wird auf Ihre bestehenden Gewinner-Mails kalibriert, nicht auf einen Standard.",
+  },
+];
+
+export const revenueTiers = [
+  {
+    id: "pilot",
+    cap: "Schritt 1 · Sofort verfügbar",
+    price: "1.000 €",
+    note: "Festpreis · 10 Arbeitstage",
+    featured: true,
+    items: [
+      "200 Bestandskunden analysiert",
+      "1 Opportunity-Typ Ihrer Wahl",
+      "Mind. 20 Opportunities mit Anlass",
+      "Mail + Call-Briefing je Opportunity",
+      "Potenzialhochrechnung Gesamtbestand",
+      "Ergebnisgarantie",
+    ],
+  },
+  {
+    id: "implementation",
+    cap: "Schritt 2 · Implementation",
+    price: "20.000–50.000 €",
+    note: "Einmalig · 6–10 Wochen",
+    featured: false,
+    items: [
+      "Gesamter Kundenstamm angebunden",
+      "Mehrere Opportunity-Modelle parallel",
+      "Automatisierter Rückschrieb ins CRM",
+      "Scoring auf Ihre historischen Abschlüsse trainiert",
+      "Governance, QA und Monitoring",
+      "Enablement für Ihr Vertriebsteam",
+    ],
+  },
+  {
+    id: "ops",
+    cap: "Schritt 3 · Betrieb",
+    price: "2.000–6.000 €",
+    note: "Pro Monat · monatlich kündbar",
+    featured: false,
+    items: [
+      "Laufende Signal- und Datenaktualisierung",
+      "Modellpflege und Nachschärfung",
+      "Neue Opportunity-Typen auf Zuruf",
+      "Monatliches Performance-Reporting",
+      "Support und Weiterentwicklung",
+    ],
+  },
+];
+
+export const revenueFaq = [
+  {
+    question: "Wie viel Aufwand entsteht bei uns?",
+    answer:
+      "Rund zwei Stunden über die gesamten zehn Tage: 45 Minuten Kickoff, ein Datenexport oder ein lesender CRM-Zugang, 45 Minuten Review. Den Rest übernehmen wir.",
+  },
+  {
+    question: "Was passiert mit unseren Kundendaten?",
+    answer:
+      "Verarbeitung ausschließlich in der EU beziehungsweise der Schweiz, auf Basis eines Auftragsverarbeitungsvertrags. Ihre Daten werden nicht zum Training von Modellen verwendet und nach dem Piloten auf Wunsch vollständig gelöscht. Für den Piloten reicht in der Regel ein pseudonymisierter Export.",
+  },
+  {
+    question: "Unser CRM ist nicht besonders sauber gepflegt.",
+    answer:
+      "Das ist der Normalfall und selten ein Hindernis. Ein Großteil der Signale stammt aus öffentlichen Quellen. Firmenname und Website genügen als Ausgangspunkt. Wo Ihre internen Daten dünn sind, sagen wir Ihnen im Review genau, welche Felder den größten Hebel hätten.",
+  },
+  {
+    question: "Welchen Opportunity-Typ sollten wir für den Piloten wählen?",
+    answer:
+      "Meist Upsell oder Cross-Sell, weil sich der Umsatz dort am schnellsten zeigt. Wenn Sie ein Abo- oder Retainer-Modell fahren, ist Churn-Frühwarnung häufig der wertvollere Einstieg. Wir entscheiden das im Kickoff gemeinsam.",
+  },
+  {
+    question: "Ersetzt das unser Vertriebsteam?",
+    answer:
+      "Nein. Es ersetzt die Recherche, die Priorisierung und das Schreiben der Erstansprache. Das Gespräch, die Beziehung und der Abschluss bleiben bei Ihren Leuten. Sie führen nur deutlich mehr Gespräche, die Substanz haben.",
+  },
+  {
+    question: "Und wenn der Pilot zeigt, dass sich das für uns nicht lohnt?",
+    answer:
+      "Dann sagen wir Ihnen das im Review und Sie haben für 1.000 € eine belastbare Antwort statt eines Projekts, das nach sechs Monaten versandet. Nicht jeder Kundenstamm trägt diese Mechanik. Genau dafür gibt es den Piloten.",
+  },
+];
+
+export const revenueFinalMeta = [
+  "Start innerhalb von 5 Tagen",
+  "Festpreis 1.000 €",
+  "Ergebnisgarantie",
+  "Keine Vertragsbindung",
+];
 
 export const gtmBenefits = [
   "Sauberere ICP-, TAM- und Signalmodelle für bessere Priorisierung",

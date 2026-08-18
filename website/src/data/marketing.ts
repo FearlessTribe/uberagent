@@ -148,7 +148,7 @@ export const faqItems = [
   {
     question: "Was kostet eine Zusammenarbeit?",
     answer:
-      "Das Erstgespräch ist kostenlos. Danach erhalten Sie ein transparentes Angebot nach Scope, Systemen und Delivery-Modell. Typisch starten wir mit Kickstart Sprint oder Workshop, bevor Budget in die Breite geht.",
+      "Das Erstgespräch ist kostenlos. Der AI-Revenue-Engine-Pilot startet festpreisig bei 1.000 €. Größere Vorhaben erhalten ein transparentes Angebot nach Scope, Systemen und Delivery-Modell.",
   },
   {
     question: "Brauche ich technisches Vorwissen?",

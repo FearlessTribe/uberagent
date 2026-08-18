@@ -21,6 +21,27 @@ export interface Service {
 
 export const services: Service[] = [
   {
+    id: "ai-revenue-engine",
+    slug: "ai-revenue-engine",
+    title: "AI Revenue Engine",
+    shortDescription:
+      "Wir analysieren Ihren bestehenden Kundenstamm und identifizieren automatisch, welcher Kunde gerade welches Produkt kaufen könnte. Inklusive Vertriebsanlass und fertigem Outreach.",
+    cardHook:
+      "Ihr größter ungenutzter Vertriebskanal ist Ihr bestehender Kundenstamm: priorisierte Opportunities mit belegtem Anlass, fertigem Outreach und Rückschrieb ins CRM.",
+    icon: "revenue",
+    eyebrow: "Revenue Intelligence",
+    bannerTag: "Pilot für 1.000 € · Start innerhalb von 5 Tagen",
+    lead: "Wir analysieren Ihren bestehenden Kundenstamm und identifizieren automatisch, welcher Kunde gerade welches Produkt kaufen könnte. Inklusive konkretem Vertriebsanlass und fertigem Outreach, direkt zurück in Ihr CRM.",
+    tags: ["Revenue", "Upsell", "CRM"],
+    stats: [
+      { value: "1.000 €", label: "Festpreis Pilot" },
+      { value: "10 Arbeitstage", label: "Bis zur Opportunity-Liste" },
+      { value: "200 Kunden", label: "Analysiert im Pilot" },
+    ],
+    ctaLabel: "Pilot-Termin buchen",
+    featured: true,
+  },
+  {
     id: "gtm-engineering",
     slug: "gtm-engineering",
     title: "AI GTM Engineering",
@@ -39,7 +60,6 @@ export const services: Service[] = [
       { value: "QA + Governance", label: "Produktionsreif" },
     ],
     ctaLabel: "GTM-System besprechen",
-    featured: true,
   },
   {
     id: "mcp",

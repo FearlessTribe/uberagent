@@ -26,7 +26,7 @@ export function Services({ onOpenService }: ServicesProps) {
             Services
           </h2>
           <p className={styles.subline}>
-            Von GTM-Systemen über MCP und Agents bis zu Strategy und Enablement,
+            Von der AI Revenue Engine über GTM-Systeme, MCP und Agents bis zu Strategy und Enablement,
             produktionsreif, nicht prototypisch.
           </p>
         </ScrollReveal>

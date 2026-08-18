@@ -21,6 +21,18 @@ import {
   gtmImpact,
   mcpImpact,
   mcpValueProps,
+  revenueFaq,
+  revenueFinalMeta,
+  revenueFlow,
+  revenueGains,
+  revenueIdealFor,
+  revenueImpact,
+  revenueProofMetrics,
+  revenueRoiLines,
+  revenueTimeline,
+  revenueTiers,
+  revenueToday,
+  revenueWithUeberagent,
   serviceModalMeta,
   strategyDecisions,
   strategyDeepDive,
@@ -39,9 +51,15 @@ import {
   type ServiceStat,
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
-import { fadeIn, slidePanel } from "../motion";
+import { fadeIn, slidePanel, DURATION, EASE } from "../motion";
+import { trackCalendlyClick } from "../lib/analytics";
+import { teamMembers } from "../data/team";
+import { CtaButton } from "./CtaButton";
+import { RevenueScanVisual } from "./RevenueScanVisual";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import styles from "./ServiceModal.module.css";
+
+const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 
 interface ServiceModalProps {
   serviceId: string | null;
@@ -532,6 +550,349 @@ function StrategyDecisionBoard() {
           {current.description}
         </motion.p>
       </AnimatePresence>
+    </div>
+  );
+}
+
+function RevenueEngineContent() {
+  const meta = serviceModalMeta["ai-revenue-engine"];
+  const [activeTimeline, setActiveTimeline] = useState(0);
+  const [openFaq, setOpenFaq] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const timelineStep = revenueTimeline[activeTimeline];
+
+  return (
+    <div className={styles.content}>
+      <section className={styles.heroSection}>
+        <span className={styles.heroTag}>
+          <span className={styles.liveDot} aria-hidden="true" />
+          {meta.bannerTag}
+        </span>
+        <p className={styles.lead}>
+          Ihr größter ungenutzter Vertriebskanal ist Ihr{" "}
+          <strong>bestehender Kundenstamm</strong>. {meta.lead}
+        </p>
+        <div className={styles.statsRow}>
+          {meta.stats.map((s) => (
+            <StatPill key={s.label} {...s} />
+          ))}
+        </div>
+        <p className={styles.heroNote}>Festpreis · Keine Software-Lizenz · Keine Vertragsbindung</p>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Heute</span>
+            <ul className={styles.panelList}>
+              {revenueToday.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Mit überagent</span>
+            <ul className={styles.panelList}>
+              {revenueWithUeberagent.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Wie die Engine arbeitet</SectionTitle>
+        <p className={styles.bodyText}>
+          Sieben Schritte, vollständig automatisiert. Sie liefern die Kundendaten, Ihr Vertrieb
+          bekommt fertige Gespräche. Alles dazwischen läuft im System.
+        </p>
+        <div className={styles.engineSplit}>
+          <RevenueScanVisual />
+          <div className={styles.engineFlow}>
+            {revenueFlow.map((step) => (
+              <div
+                key={step.step}
+                className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+              >
+                <div className={styles.engineFlowNum}>{step.step}</div>
+                <div className={styles.engineFlowBody}>
+                  <div className={styles.engineFlowTitle}>{step.title}</div>
+                  <p className={styles.engineFlowDesc}>{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Was Sie im Piloten konkret bekommen</SectionTitle>
+        <ul className={styles.list}>
+          {revenueGains.map((item) => (
+            <li key={item.title}>
+              <strong>{item.title}</strong> {item.text}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <SectionTitle>Die Rechnung, die Sie selbst nachprüfen können</SectionTitle>
+        <p className={styles.bodyText}>
+          Der Pilot ist der einzige Service, dessen Ertrag Sie nach zwei Wochen gegen eine reale
+          Zahl stellen können: den Umsatz, der aus den identifizierten Opportunities entsteht.
+        </p>
+        <div className={styles.roiGrid}>
+          <div className={styles.roiTable}>
+            {revenueRoiLines.map((line) => (
+              <div
+                key={line.label}
+                className={`${styles.roiLine} ${line.total ? styles.roiLineTotal : ""}`}
+              >
+                <span>{line.label}</span>
+                <span>{line.value}</span>
+              </div>
+            ))}
+          </div>
+          <div className={styles.roiPanel}>
+            <span className={styles.roiK}>Break-even</span>
+            <span className={styles.roiV}>1 Deal</span>
+            <p>
+              Ein einziger zusätzlicher Abschluss zahlt den Piloten mehrfach zurück. Alles darüber
+              ist Marge. Die Engine hat den Kundenstamm dann bereits einmal vollständig kartiert.
+            </p>
+          </div>
+        </div>
+        <p className={styles.footnote}>
+          Beispielrechnung mit bewusst konservativen Annahmen. Ihre echten Werte
+          (durchschnittlicher Auftragswert, Abschlussquote, Kundenanzahl) setzen wir im
+          Erstgespräch ein und rechnen die Kalkulation gemeinsam durch. Wenn sie nicht aufgeht,
+          sagen wir das.
+        </p>
+      </section>
+
+      <section>
+        <div className={styles.guarantee}>
+          <div className={styles.guaranteeSeal}>
+            Kein
+            <br />
+            Ergebnis
+            <br />
+            keine
+            <br />
+            Rechnung
+          </div>
+          <div>
+            <h4 className={styles.guaranteeTitle}>Ergebnisgarantie auf den Piloten</h4>
+            <p className={styles.bodyText}>
+              Wenn wir aus Ihren 200 analysierten Bestandskunden nicht mindestens 20 vertriebsreife
+              Opportunities mit belegtem Anlass liefern, stellen wir den Piloten nicht in Rechnung.
+              Die Analyse und alle erstellten Materialien behalten Sie trotzdem.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Ideal für Unternehmen, die …</SectionTitle>
+        <div className={styles.benefitGrid}>
+          {revenueIdealFor.map((item) => (
+            <div key={item} className={styles.benefitItem}>
+              <span className={styles.benefitDot} aria-hidden="true" />
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Die Transformation</SectionTitle>
+        <ImpactTable rows={revenueImpact} />
+        <Callout>
+          Mehr Umsatz aus Kunden, die Sie längst gewonnen haben. Ohne zusätzliche Leadkosten,
+          ohne zusätzliche Vertriebler, ohne neues Tool für Ihr Team.
+        </Callout>
+      </section>
+
+      <section>
+        <SectionTitle>Ablauf des Piloten</SectionTitle>
+        <p className={styles.bodyText}>
+          Zehn Arbeitstage von der Datenübergabe bis zum Review. Ihr Aufwand liegt bei rund zwei
+          Stunden, verteilt auf zwei Termine.
+        </p>
+        <div className={styles.timeline} role="tablist" aria-label="Pilot-Ablauf">
+          {revenueTimeline.map((step, index) => (
+            <button
+              key={step.title}
+              type="button"
+              role="tab"
+              aria-selected={activeTimeline === index}
+              className={`${styles.tl} ${activeTimeline === index ? styles.tlActive : ""}`}
+              onMouseEnter={() => setActiveTimeline(index)}
+              onFocus={() => setActiveTimeline(index)}
+              onClick={() => setActiveTimeline(index)}
+            >
+              <span className={styles.tlTitle}>{step.title}</span>
+              <span className={styles.tlDate}>{step.when}</span>
+            </button>
+          ))}
+        </div>
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={timelineStep.title}
+            className={styles.tlDetail}
+            role="tabpanel"
+            variants={reduceMotion ? fadeIn : slidePanel}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <strong>{timelineStep.when}</strong> {timelineStep.detail}
+          </motion.p>
+        </AnimatePresence>
+      </section>
+
+      <section>
+        <SectionTitle>Woher wir das können</SectionTitle>
+        <div className={styles.proof}>
+          <div className={styles.proofCard}>
+            <span className={styles.panelLabel}>Referenzprojekt</span>
+            <p>
+              Für eine Schweizer Agentur mit einem Bestand im fünfstelligen KMU-Bereich haben wir
+              genau diese Mechanik gebaut: Kundendaten und öffentliche Signale zusammengeführt,
+              Upsell-Potenziale gescored und die Vertriebsanlässe automatisiert in die tägliche
+              Arbeit des Sales-Teams gespielt. Diese Architektur ist die Grundlage der AI Revenue
+              Engine.
+            </p>
+          </div>
+          <div className={styles.proofMetrics}>
+            {revenueProofMetrics.map((metric) => (
+              <div key={metric.value} className={styles.metric}>
+                <div className={styles.metricV}>{metric.value}</div>
+                <div className={styles.metricL}>{metric.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Einstieg und Ausbaustufen</SectionTitle>
+        <p className={styles.bodyText}>
+          Sie starten mit dem Piloten. Alles danach ist eine Entscheidung, die Sie auf Basis echter
+          Zahlen treffen, nicht auf Basis einer Präsentation.
+        </p>
+        <div className={styles.tiers}>
+          {revenueTiers.map((tier) => (
+            <div
+              key={tier.id}
+              className={`${styles.tier} ${tier.featured ? styles.tierHero : ""}`}
+            >
+              <span className={styles.tierCap}>{tier.cap}</span>
+              <div className={styles.tierPrice}>
+                {tier.price}
+                <small>{tier.note}</small>
+              </div>
+              <ul className={styles.tierList}>
+                {tier.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              {tier.featured && (
+                <div className={styles.tierFoot}>
+                  <CtaButton
+                    size="sm"
+                    surface="on-dark"
+                    href={CALENDLY_URL}
+                    onClick={() => trackCalendlyClick("revenue_engine_pilot")}
+                  >
+                    Pilot starten
+                  </CtaButton>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className={styles.footnote}>
+          Preise zzgl. MwSt. Bei Konzernen und Beständen jenseits von 100.000 Kunden erstellen wir
+          ein individuelles Angebot. Der Pilot ist in jedem Fall der Einstieg. Er verpflichtet zu
+          nichts.
+        </p>
+      </section>
+
+      <section>
+        <SectionTitle>Häufige Fragen</SectionTitle>
+        <div className={styles.engineFaq}>
+          {revenueFaq.map((item, index) => {
+            const isOpen = openFaq === index;
+            return (
+              <div key={item.question} className={styles.engineFaqItem}>
+                <button
+                  type="button"
+                  className={styles.engineFaqTrigger}
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                >
+                  {item.question}
+                  <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className={styles.engineFaqPanel}
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                      transition={{
+                        duration: reduceMotion ? 0 : DURATION.normal,
+                        ease: EASE.outExpo,
+                      }}
+                    >
+                      <p className={styles.engineFaqAnswer}>{item.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <div className={styles.engineFinal}>
+          <div className={styles.engineFinalCopy}>
+            <h3>In 30 Minuten wissen Sie, ob Ihr Kundenstamm das hergibt.</h3>
+            <p>
+              Im Erstgespräch rechnen wir Ihre Zahlen durch: Kundenanzahl, Portfolio,
+              durchschnittlicher Auftragswert. Danach legen wir fest, welcher Opportunity-Typ im
+              Piloten den größten Hebel hat. Ohne Pitch-Deck.
+            </p>
+            <CtaButton
+              size="md"
+              surface="on-dark"
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("revenue_engine_final")}
+            >
+              Kostenloses Erstgespräch
+            </CtaButton>
+            <div className={styles.engineFinalMeta}>
+              {revenueFinalMeta.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.engineFinalProfile}>
+            <img
+              src={teamMembers[0].image}
+              alt={teamMembers[0].name}
+              className={styles.engineFinalPhoto}
+              width={320}
+              height={330}
+            />
+            <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
+            <p className={styles.engineFinalRole}>CEO · überagent</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -1070,6 +1431,7 @@ function TrainingsContent() {
 }
 
 const contentByService: Record<string, () => React.ReactNode> = {
+  "ai-revenue-engine": RevenueEngineContent,
   "gtm-engineering": GtmContent,
   mcp: McpContent,
   "workflow-agents": WorkflowAgentsContent,
@@ -1092,7 +1454,12 @@ export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
       title={service.title}
       eyebrow={meta.eyebrow}
       footer={
-        <ModalContactFooter onClose={onClose} label={meta.ctaLabel} />
+        <ModalContactFooter
+          onClose={onClose}
+          label={meta.ctaLabel}
+          note={meta.footerNote}
+          href={meta.ctaHref}
+        />
       }
     >
       <Content />
