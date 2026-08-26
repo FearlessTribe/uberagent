@@ -21,8 +21,6 @@ import {
   slidePanel,
   fadeUpItem,
   staggerContainer,
-  resolveVariants,
-  viewport,
   DURATION,
   EASE,
 } from "../motion";

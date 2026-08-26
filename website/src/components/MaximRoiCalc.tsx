@@ -32,13 +32,13 @@ const RESULT_SHIFTS = [-14, 12, -10, 16] as const;
 
 export function MaximRoiCalc() {
   const reduce = useReducedMotion();
-  const [hoursDay, setHoursDay] = useState(MAXIM_ROI_DEFAULTS.hoursDay);
-  const [workDays, setWorkDays] = useState(MAXIM_ROI_DEFAULTS.workDays);
-  const [hourlyRate, setHourlyRate] = useState(MAXIM_ROI_DEFAULTS.hourlyRate);
-  const [extraOrdersWeek, setExtraOrdersWeek] = useState(
+  const [hoursDay, setHoursDay] = useState<number>(MAXIM_ROI_DEFAULTS.hoursDay);
+  const [workDays, setWorkDays] = useState<number>(MAXIM_ROI_DEFAULTS.workDays);
+  const [hourlyRate, setHourlyRate] = useState<number>(MAXIM_ROI_DEFAULTS.hourlyRate);
+  const [extraOrdersWeek, setExtraOrdersWeek] = useState<number>(
     MAXIM_ROI_DEFAULTS.extraOrdersWeek,
   );
-  const [marginPerOrder, setMarginPerOrder] = useState(
+  const [marginPerOrder, setMarginPerOrder] = useState<number>(
     MAXIM_ROI_DEFAULTS.marginPerOrder,
   );
 
