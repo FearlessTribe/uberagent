@@ -1,18 +1,149 @@
 export const maximHeroAudience =
   "Für KFZ-Werkstätten, Handwerksbetriebe und alle, die täglich Preise nennen müssen.";
 
+/** Eine harte Zahl im Problem-Beat – nicht dreifach wiederholen. */
+export const maximTimeProof = {
+  value: "550+",
+  unit: "Stunden im Jahr",
+  detail: "10–15 Minuten × 20–30 Anfragen am Tag – für Angebote, die niemand bezahlt.",
+} as const;
+
+/** Drei Kernfolgen – Probleme einmal klar benennen. */
 export const maximProblemCosts = [
   {
     title: "Aufträge",
-    text: "Wer anfragt, fragt bei drei Betrieben an. Wer zuerst einen Preis nennt, bekommt den Job. Ihr Angebot vom Abend liest oft keiner mehr.",
+    text: "Wer zuerst einen Preis nennt, bekommt den Job. Ihr Angebot vom Abend liest oft keiner mehr.",
   },
   {
     title: "Freiheit",
-    text: "Sind Sie krank, im Urlaub oder auf der Baustelle, gehen keine Angebote raus. Ihre Mitarbeiter trauen sich die Kalkulation nicht zu.",
+    text: "Krank, Urlaub, Baustelle: keine Angebote. Mitarbeiter trauen sich die Kalkulation nicht zu.",
   },
   {
     title: "Überblick",
-    text: "Angebote liegen in E-Mails, WhatsApp und Excel. Was Sie wem zu welcher Marge angeboten haben, weiß hinterher keiner.",
+    text: "Angebote in E-Mails, WhatsApp und Excel. Was Sie wem zu welcher Marge angeboten haben, weiß hinterher keiner.",
+  },
+] as const;
+
+/** Mini-Demo: Anliegen → Kalkulation, branchenübergreifend. */
+export const maximDemoIntro = {
+  eyebrow: "So sieht es aus",
+  title: "Anliegen tippen. In etwa 20 Sekunden steht die Kalkulation.",
+  lead: "Maxim rechnet mit Ihren Stundensätzen, Aufschlägen und den Tagespreisen Ihres Lieferanten. Fehlt etwas, fragt er nach oder markiert die Position als „zu prüfen“.",
+  inputLabel: "Anliegen",
+  outputLabel: "Kalkulation · ~20 Sek.",
+  totalLabel: "Angebotspreis brutto",
+  note: "Beispielrechnung. Ihre echten Sätze und Lieferantenpreise nach der Kalibrierung.",
+} as const;
+
+export const maximDemoExamples = [
+  {
+    id: "kfz",
+    industry: "KFZ-Werkstatt",
+    input:
+      "Golf VII, 2016 · Bremsen vorne quietschen, Scheiben prüfen, ggf. Beläge + Scheiben",
+    lines: [
+      { label: "Bremsbeläge VA (OE-Qualität)", value: "86,40 €" },
+      { label: "Bremsscheiben VA", value: "142,00 €" },
+      { label: "Arbeitszeit 1,4 h × 118 €", value: "165,20 €" },
+      { label: "Aufschlag Teile", value: "34,26 €" },
+    ],
+    total: "427,86 €",
+  },
+  {
+    id: "elektro",
+    industry: "Elektriker",
+    input:
+      "Wohnung 3 Zimmer · 6 Steckdosen nachrüsten, 2 Deckenauslässe, FI prüfen",
+    lines: [
+      { label: "Material Steckdosen / Dosen", value: "94,80 €" },
+      { label: "Kabel & Kleinteile", value: "48,50 €" },
+      { label: "Arbeitszeit 3,5 h × 95 €", value: "332,50 €" },
+      { label: "Anfahrt + Aufschlag", value: "67,20 €" },
+    ],
+    total: "543,00 €",
+  },
+  {
+    id: "sanitaer",
+    industry: "Sanitär",
+    input:
+      "Einfamilienhaus · Mischbatterie Dusche tauschen, Anschlüsse prüfen, Silikon neu",
+    lines: [
+      { label: "Mischbatterie (Kundenwunsch)", value: "189,00 €" },
+      { label: "Dichtungen / Silikon / Fittinge", value: "28,40 €" },
+      { label: "Arbeitszeit 1,8 h × 92 €", value: "165,60 €" },
+      { label: "Anfahrt + Aufschlag", value: "54,80 €" },
+    ],
+    total: "437,80 €",
+  },
+  {
+    id: "schreiner",
+    industry: "Schreiner",
+    input:
+      "Einbauschrank Flur · 2,40 m × 0,60 m, 3 Türen, Eiche furniert, inkl. Montage",
+    lines: [
+      { label: "Platten + Kanten + Beschläge", value: "612,00 €" },
+      { label: "Produktion 6,5 h × 78 €", value: "507,00 €" },
+      { label: "Montage vor Ort 2,0 h × 78 €", value: "156,00 €" },
+      { label: "Aufschlag Material", value: "122,40 €" },
+    ],
+    total: "1.397,40 €",
+  },
+  {
+    id: "maler",
+    industry: "Maler",
+    input:
+      "Wohnzimmer 28 m² · Wände 2× streichen, Decke 1×, Farbe matte weiß inkl.",
+    lines: [
+      { label: "Farbe + Spachtel + Abdeckmaterial", value: "86,00 €" },
+      { label: "Vorbereitung 1,5 h × 68 €", value: "102,00 €" },
+      { label: "Streichen 4,0 h × 68 €", value: "272,00 €" },
+      { label: "Aufschlag Material", value: "17,20 €" },
+    ],
+    total: "477,20 €",
+  },
+  {
+    id: "shk",
+    industry: "Heizung / SHK",
+    input:
+      "EFH · Umwälzpumpe tauschen, Spülen, Entlüften, Funktionsprüfung",
+    lines: [
+      { label: "Umwälzpumpe (lieferantentagespreis)", value: "248,00 €" },
+      { label: "Dichtungen / Kleinteile", value: "22,50 €" },
+      { label: "Arbeitszeit 2,2 h × 98 €", value: "215,60 €" },
+      { label: "Anfahrt + Aufschlag", value: "72,80 €" },
+    ],
+    total: "558,90 €",
+  },
+] as const;
+
+/**
+ * Drei Cluster statt 8er-Matrix.
+ * Einwände (Haftung, Technik, Daten, Samstag) sitzen in der jeweiligen Lösung.
+ */
+export const maximSolutionClusters = [
+  {
+    id: "zeit",
+    title: "Zeit & Aufträge",
+    pain: "Zwei bis drei Stunden täglich für Angebote. Wer zu spät kommt, verliert den Job.",
+    solution:
+      "Etwa 20 Sekunden pro Kalkulation – und mit Stufe 2 Sofortpreis auf der Website auch um 21 Uhr.",
+    proof: "Kalibriert an Ihren echten Angeboten · Sofortpreis rund um die Uhr",
+  },
+  {
+    id: "team",
+    title: "Team & Chef-Engpass",
+    pain: "Nur Sie trauen sich die Kalkulation zu. Sind Sie weg, gehen keine Angebote raus.",
+    solution:
+      "Jeder im Team kalkuliert so wie Sie. Fehlt etwas, fragt Maxim nach oder markiert „zu prüfen“.",
+    proof: "Stufe 01 fürs Team · FAQ: Rechnet die KI wirklich so wie ich?",
+  },
+  {
+    id: "vertrauen",
+    title: "Vertrauen",
+    pain: "Angst vor falschen Preisen, Haftung, Technik-Chaos und Daten, die irgendwo landen.",
+    solution:
+      "30–50 echte Anfragen zur Kalibrierung, eine Woche Parallelbetrieb, EU-Hosting ohne Trainingsnutzung. Keine Schnittstelle nötig – zwei Stunden Workshop reichen zum Start.",
+    proof: "Testbetrieb parallel · AV-Vertrag · interne Zahlen technisch unsichtbar",
   },
 ] as const;
 
@@ -46,7 +177,7 @@ export const maximTimeline = [
   {
     step: "02",
     title: "Aufbau",
-    text: "Wir richten die Wissensbasis ein und binden Lieferant und CRM an.",
+    text: "Wir richten die Wissensbasis ein und binden Lieferant und CRM an – oder arbeiten mit Preisliste und Katalog.",
   },
   {
     step: "03",
@@ -65,14 +196,17 @@ export const maximTimeline = [
   },
 ] as const;
 
-export const maximRoi = {
-  hoursDay: "2,5 Stunden pro Tag",
-  hoursYear: "550 Stunden pro Jahr",
-  hourlyValue: "75 € / Stunde (konservativ)",
-  timeValue: "41.250 € Zeitwert pro Jahr",
-  extra: "Plus: ein zusätzlicher Auftrag pro Woche durch schnellere Angebote – ca. 20.000 € Deckungsbeitrag",
-  note: "Selbst wenn nur die Hälfte der Zeit in andere Aufgaben fließt, hat sich Stufe 1 im ersten Jahr bezahlt gemacht.",
+export const MAXIM_ROI_DEFAULTS = {
+  hoursDay: 2.5,
+  workDays: 220,
+  hourlyRate: 75,
+  extraOrdersWeek: 1,
+  /** 1 Auftrag/Woche × 52 × ~385 € ≈ 20.000 € Deckungsbeitrag */
+  marginPerOrder: 385,
 } as const;
+
+/** Stufe 1: 9.900 € Setup + 12 × 990 € */
+export const MAXIM_STAGE1_YEAR1_COST = 9900 + 990 * 12;
 
 export const maximPricing = [
   {
@@ -80,18 +214,21 @@ export const maximPricing = [
     detail: "Kalkulation für Ihr Team",
     setup: "9.900 €",
     monthly: "990 €",
+    featured: true,
   },
   {
     name: "Stufe 1 + 2",
     detail: "plus Website",
     setup: "14.800 €",
     monthly: "1.490 €",
+    featured: false,
   },
   {
     name: "Stufe 1 + 2 + 3",
     detail: "plus Telefon",
     setup: "19.900 €",
     monthly: "1.990 €",
+    featured: false,
   },
 ] as const;
 
@@ -99,12 +236,22 @@ export const maximPricingNote =
   "Alle Preise netto. Einrichtung: 50 % bei Auftrag, 50 % bei Go-live. Betrieb: 12 Monate Mindestlaufzeit, danach monatlich kündbar. Enthalten: EU-Hosting, KI-Lizenzkosten, monatliche Genauigkeitsprüfung, Anpassungen Ihrer Preislogik, Support.";
 
 export const maximTrust = [
-  "Hosting ausschließlich in der EU",
-  "Auftragsverarbeitungsvertrag nach Art. 28 DSGVO",
-  "Ihre Preise und Kalkulationen werden nicht zum Training fremder KI-Modelle genutzt",
-  "Interne Zahlen sind für Website und Telefon technisch unsichtbar",
-  "Website-Chat und Telefonassistent sind als KI gekennzeichnet (EU-KI-Verordnung)",
-  "Bei Vertragsende: Export und Löschung Ihrer Daten auf Wunsch",
+  {
+    title: "EU-Hosting",
+    text: "Ihre Daten bleiben in der EU. Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.",
+  },
+  {
+    title: "Keine Trainingsnutzung",
+    text: "Ihre Preise und Kalkulationen trainieren keine fremden KI-Modelle.",
+  },
+  {
+    title: "Interne Zahlen unsichtbar",
+    text: "Website und Telefon sehen nur, was freigegeben ist – nie Ihre Margenlogik.",
+  },
+  {
+    title: "Als KI gekennzeichnet",
+    text: "Chat und Telefonassistent sind als KI erkennbar (EU-KI-Verordnung).",
+  },
 ] as const;
 
 export const maximFaq = [

@@ -106,16 +106,20 @@ import { AgentLottie } from "./AgentLottie";
 import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import {
+  maximDemoIntro,
   maximFaq,
   maximHeroAudience,
   maximPricing,
   maximPricingNote,
   maximProblemCosts,
-  maximRoi,
+  maximSolutionClusters,
   maximStages,
   maximTimeline,
+  maximTimeProof,
   maximTrust,
 } from "../data/maximCalc";
+import { MaximRoiCalc } from "./MaximRoiCalc";
+import { MaximDemoCarousel } from "./MaximDemoCarousel";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import { SectionBackground } from "./SectionBackground";
 import { HeroTermRain } from "./HeroTermRain";
@@ -2135,14 +2139,24 @@ function MaximCalcContent() {
         }
       />
 
-      <section>
+      <section className={styles.maximProblemBand}>
+        <p className={styles.maximSectionEyebrow}>Das Problem</p>
         <SectionTitle>
           Sie verlieren jeden Tag zwei bis drei Stunden an Angebote, die Sie nie bezahlt bekommen.
         </SectionTitle>
         <p className={styles.bodyText}>
           Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
-          schicken raus. 10 bis 15 Minuten. Zwanzig bis dreißig Mal am Tag. Über 550 Stunden im Jahr.
+          schicken raus. Zwanzig bis dreißig Mal am Tag.
         </p>
+
+        <div className={styles.maximTimeHit}>
+          <strong>
+            {maximTimeProof.value}
+            <span>{maximTimeProof.unit}</span>
+          </strong>
+          <p>{maximTimeProof.detail}</p>
+        </div>
+
         <div className={styles.maximCostGrid}>
           {maximProblemCosts.map((item) => (
             <div key={item.title} className={styles.maximCostCard}>
@@ -2153,11 +2167,47 @@ function MaximCalcContent() {
         </div>
       </section>
 
+      <section>
+        <p className={styles.maximSectionEyebrow}>{maximDemoIntro.eyebrow}</p>
+        <SectionTitle>{maximDemoIntro.title}</SectionTitle>
+        <p className={styles.bodyText}>{maximDemoIntro.lead}</p>
+        <MaximDemoCarousel />
+      </section>
+
+      <section>
+        <p className={styles.maximSectionEyebrow}>Schmerz und Lösung</p>
+        <SectionTitle>Drei Engpässe. Drei praktische Antworten.</SectionTitle>
+        <div className={styles.maximClusterList}>
+          {maximSolutionClusters.map((cluster) => (
+            <article key={cluster.id} className={styles.maximCluster}>
+              <h4>{cluster.title}</h4>
+              <p className={styles.maximClusterPain}>{cluster.pain}</p>
+              <p className={styles.maximClusterSolution}>{cluster.solution}</p>
+              <span className={styles.maximClusterProof}>{cluster.proof}</span>
+            </article>
+          ))}
+        </div>
+
+        <div className={styles.maximMidCta}>
+          <p>Passt das zu Ihrem Betrieb? Fünf echte Anfragen reichen für den Check.</p>
+          <CtaButton
+            size="md"
+            surface="accent"
+            showCalendar
+            href={CALENDLY_URL}
+            onClick={() => trackCalendlyClick("maxim_mid")}
+          >
+            Kalkulations-Check starten
+          </CtaButton>
+        </div>
+      </section>
+
       <section id="maxim-how" className={styles.giftingAnchor}>
+        <p className={styles.maximSectionEyebrow}>So arbeitet Maxim</p>
         <SectionTitle>Ein Agent, der so kalkuliert wie Sie. Nur schneller.</SectionTitle>
         <p className={styles.bodyText}>
-          Maxim erfindet keine Zahlen. Er rechnet mit Ihren Stundensätzen, Ihren Aufschlagsregeln und
-          den Tagespreisen Ihres Lieferanten. Jede Position ist nachvollziehbar, jede Kalkulation wird gespeichert.
+          Maxim erfindet keine Zahlen. Er rechnet mit Ihren Regeln. Jede Position ist
+          nachvollziehbar, jede Kalkulation wird gespeichert.
         </p>
         <div className={styles.maximStageList}>
           {maximStages.map((stage) => (
@@ -2187,34 +2237,34 @@ function MaximCalcContent() {
       </section>
 
       <section>
-        <SectionTitle>Rechnet sich das? Rechnen Sie selbst.</SectionTitle>
-        <div className={styles.maximRoiPanel}>
-          <div className={styles.maximRoiRow}>
-            <span>Zeit für Angebote heute</span>
-            <strong>{maximRoi.hoursDay}</strong>
-          </div>
-          <div className={styles.maximRoiRow}>
-            <span>Stunden pro Jahr</span>
-            <strong>{maximRoi.hoursYear}</strong>
-          </div>
-          <div className={styles.maximRoiRow}>
-            <span>Wert Ihrer Stunde</span>
-            <strong>{maximRoi.hourlyValue}</strong>
-          </div>
-          <div className={`${styles.maximRoiRow} ${styles.maximRoiTotal}`}>
-            <span>Zeitwert pro Jahr</span>
-            <strong>{maximRoi.timeValue}</strong>
-          </div>
-          <p className={styles.bodyText}>{maximRoi.extra}</p>
-          <p className={styles.bodyText}>{maximRoi.note}</p>
+        <SectionTitle>Ihre Daten bleiben Ihre Daten.</SectionTitle>
+        <div className={styles.maximTrustGrid}>
+          {maximTrust.map((item) => (
+            <div key={item.title} className={styles.maximTrustItem}>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </div>
+          ))}
         </div>
+      </section>
+
+      <section>
+        <SectionTitle>Rechnet sich das? Rechnen Sie selbst.</SectionTitle>
+        <p className={styles.bodyText}>
+          Stellen Sie Ihre Realität ein. Die Rechnung aktualisiert sich sofort – inklusive Extra-Aufträge
+          durch schnellere Angebote.
+        </p>
+        <MaximRoiCalc />
       </section>
 
       <section>
         <SectionTitle>Klare Preise. Keine Überraschungen.</SectionTitle>
         <div className={styles.maximPriceGrid}>
           {maximPricing.map((tier) => (
-            <div key={tier.name} className={styles.maximPriceCard}>
+            <div
+              key={tier.name}
+              className={`${styles.maximPriceCard} ${tier.featured ? styles.maximPriceFeatured : ""}`}
+            >
               <span className={styles.maximPriceName}>{tier.name}</span>
               <h4>{tier.detail}</h4>
               <div className={styles.maximPriceMeta}>
@@ -2231,15 +2281,6 @@ function MaximCalcContent() {
           ))}
         </div>
         <p className={styles.maximPriceNote}>{maximPricingNote}</p>
-      </section>
-
-      <section>
-        <SectionTitle>Ihre Daten bleiben Ihre Daten.</SectionTitle>
-        <ul className={styles.list}>
-          {maximTrust.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
       </section>
 
       <section>
@@ -2281,8 +2322,8 @@ function MaximCalcContent() {
         <div>
           <h3 className={styles.sectionTitle}>Fünf Anfragen. Eine Woche. Null Risiko.</h3>
           <p className={styles.bodyText}>
-            Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen.
-            Wenn es nicht passt, hören Sie nie wieder von uns.
+            Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen. Wenn es
+            nicht passt, hören Sie nie wieder von uns.
           </p>
         </div>
         <CtaButton
