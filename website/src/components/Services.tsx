@@ -177,7 +177,7 @@ export function Services({ onOpenService }: ServicesProps) {
                 {filteredServices.map((service) => (
                   <motion.div
                     key={service.id}
-                    className={styles.gridItem}
+                    className={`${styles.gridItem} ${service.id === "corporate-gifting" ? styles.gridItemWide : ""}`}
                     variants={reduceMotion ? undefined : fadeUpItem}
                   >
                     <ServiceCard

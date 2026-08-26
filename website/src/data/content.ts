@@ -27,7 +27,7 @@ export const processSteps: ProcessStep[] = [
     number: "04",
     title: "Support & kontinuierliche Optimierung",
     description:
-      "KI-Technologie entwickelt sich schnell — und Ihre Automatisierungen sollten das ebenfalls. Wir bieten laufenden Support, überwachen die Performance und optimieren Ihre Workflows kontinuierlich, damit sie dauerhaft zuverlässig funktionieren und messbaren Mehrwert liefern.",
+      "KI-Technologie entwickelt sich schnell, und Ihre Automatisierungen sollten das ebenfalls. Wir bieten laufenden Support, überwachen die Performance und optimieren Ihre Workflows kontinuierlich, damit sie dauerhaft zuverlässig funktionieren und messbaren Mehrwert liefern.",
   },
 ];
 
@@ -42,7 +42,7 @@ export const gtmProcessPhases: GtmProcessPhase[] = [
     phase: "Discovery",
     week: "Woche 1",
     description:
-      "Ziele, KPIs, Tech-Stack, Stakeholder, Priorisierung der 1–2 wirkungsvollsten Use Cases",
+      "Ziele, KPIs, Tech-Stack, Stakeholder, Priorisierung der 1-2 wirkungsvollsten Use Cases",
   },
   {
     phase: "Audit",
@@ -52,19 +52,19 @@ export const gtmProcessPhases: GtmProcessPhase[] = [
   },
   {
     phase: "Build",
-    week: "Woche 3–5",
+    week: "Woche 3-5",
     description:
       "Workflows, Scoring, Routing, Enrichment, Prompting, QA-Logik und Handoffs implementieren",
   },
   {
     phase: "Test & Governance",
-    week: "Woche 5–6",
+    week: "Woche 5-6",
     description:
       "Shadow-Run, Freigabelogik, Fehlerpfade, Monitoring, Ownership",
   },
   {
     phase: "Rollout",
-    week: "Woche 6–8",
+    week: "Woche 6-8",
     description:
       "Enablement, Dashboarding, Doku, Übergabe und Optimierungsschleife",
   },

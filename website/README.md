@@ -1,4 +1,4 @@
-# überagent Website
+# uberagent Website
 
 Vite + React. Alles in diesem Ordner.
 
@@ -8,8 +8,8 @@ Leads landen in der Notion-Datenbank **AI Potenzial-Check Leads**.
 
 ### Einmaliges Setup
 
-1. In Notion eine Seite anlegen (z. B. `überagent Leads`).
-2. Oben rechts **Teilen / Connections** → Integration **überagent website** hinzufügen.
+1. In Notion eine Seite anlegen (z. B. `uberagent Leads`).
+2. Oben rechts **Teilen / Connections** → Integration **uberagent website** hinzufügen.
 3. Page-URL kopieren und DB anlegen:
 
 ```bash
@@ -43,7 +43,7 @@ Für lokale API-Tests: `website/.dev.vars` (gitignored) mit denselben Secrets.
 | **Deploy command** | `npx wrangler deploy` |
 | Node.js | `22` (Env: `NODE_VERSION=22`) |
 
-**Build token:** Von Cloudflare automatisch gesetzt, wenn du GitHub verbindest — **nicht** manuell einfügen. Den JSON-Wert aus dem Dashboard nicht kopieren oder committen.
+**Build token:** Von Cloudflare automatisch gesetzt, wenn du GitHub verbindest. **Nicht** manuell einfügen. Den JSON-Wert aus dem Dashboard nicht kopieren oder committen.
 
 `wrangler.toml` liegt in `website/` und zeigt auf `dist/`.
 

@@ -6,7 +6,7 @@ import styles from "./VibeChallengeVisual.module.css";
 const WEEKS = [
   { id: "rahmen", label: "Woche 0", short: "Rahmen" },
   { id: "ideen", label: "Woche 1", short: "Ideen" },
-  { id: "build", label: "Woche 2–3", short: "Build" },
+  { id: "build", label: "Woche 2-3", short: "Build" },
   { id: "jury", label: "Woche 4", short: "Jury" },
 ] as const;
 

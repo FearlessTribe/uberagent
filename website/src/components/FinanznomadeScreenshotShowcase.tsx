@@ -75,7 +75,7 @@ export function FinanznomadeScreenshotShowcase() {
       <div className={styles.showcaseHeader}>
         <span className={styles.showcaseEyebrow}>Live-Produkt</span>
         <p className={styles.showcaseIntro}>
-          Fünf Schritte vom Einstieg bis zum Vergleich — editorial, klar, conversion-orientiert.
+          Fünf Schritte vom Einstieg bis zum Vergleich, editorial, klar, conversion-orientiert.
         </p>
         <a
           className={styles.showcaseLink}

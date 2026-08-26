@@ -23,7 +23,7 @@ export const painPoints = [
     label: "Zeitfresser",
     title: "Manuelle Prozesse verschlingen Stunden",
     description:
-      "Ihr Team verbringt wertvolle Zeit mit repetitiven Aufgaben, die längst automatisiert sein könnten. E-Mails sortieren, Daten übertragen, Reports erstellen – immer wieder das Gleiche.",
+      "Ihr Team verbringt wertvolle Zeit mit repetitiven Aufgaben, die längst automatisiert sein könnten. E-Mails sortieren, Daten übertragen, Reports erstellen, immer wieder das Gleiche.",
     visual: "manual" as const,
   },
   {
@@ -31,7 +31,7 @@ export const painPoints = [
     label: "Daten-Chaos",
     title: "Daten ohne Entscheidungsgrundlage",
     description:
-      "Sie sammeln Daten in verschiedenen Tools, aber es fehlt die Struktur, um daraus strategische Erkenntnisse abzuleiten. Informationen liegen verstreut – ohne klares Bild.",
+      "Sie sammeln Daten in verschiedenen Tools, aber es fehlt die Struktur, um daraus strategische Erkenntnisse abzuleiten. Informationen liegen verstreut, ohne klares Bild.",
     visual: "chaos" as const,
   },
   {
@@ -39,7 +39,7 @@ export const painPoints = [
     label: "Wettbewerbsdruck",
     title: "Wettbewerber setzen bereits auf AI",
     description:
-      "Andere automatisieren bereits ihre Prozesse und gewinnen an Geschwindigkeit. Je länger Sie warten, desto größer wird der Rückstand – und desto schwieriger wird es aufzuholen.",
+      "Andere automatisieren bereits ihre Prozesse und gewinnen an Geschwindigkeit. Je länger Sie warten, desto größer wird der Rückstand, und desto schwieriger wird es aufzuholen.",
     visual: "gap" as const,
   },
 ];
@@ -53,7 +53,7 @@ export const kickstartOffer = {
   pillars: [
     {
       label: "Dauer",
-      value: "7–14 Tage",
+      value: "7-14 Tage",
       text: "Schnell genug, um nicht im Strategie-Sumpf zu sterben.",
     },
     {
@@ -106,7 +106,7 @@ export const caseStudies: CaseStudyCard[] = [
     openId: "finanznomade-kv",
     preview: {
       src: "/cases/finanznomade/screenshots/05-vergleich.png",
-      alt: "Finanznomade Konfigurator — Tarifvergleich",
+      alt: "Finanznomade Konfigurator, Tarifvergleich",
     },
   },
   {
@@ -134,9 +134,9 @@ export const caseStudies: CaseStudyCard[] = [
       "Priorisierung war vorher Bauchgefühl. Jetzt steuern wir Outreach über Signale, Scoring und klare Ownership, mit messbarer Pipeline pro Kopf.",
     person: "VP Revenue Operations",
     role: "Wachsendes B2B-SaaS-Unternehmen",
-    primaryOutcome: { value: "6–8 Wo.", label: "Time-to-Value" },
+    primaryOutcome: { value: "6-8 Wo.", label: "Time-to-Value" },
     metrics: [
-      { value: "6–8 Wo.", label: "Time-to-Value" },
+      { value: "6-8 Wo.", label: "Time-to-Value" },
       { value: "ICP+", label: "Signal-Scoring" },
       { value: "QA", label: "Governance" },
     ],

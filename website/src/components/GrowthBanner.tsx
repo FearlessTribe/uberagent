@@ -28,7 +28,7 @@ export function GrowthBanner({
                 {headline ?? (
                   <>
                     Vom Use Case zum Kickstart:
-                    <span className={styles.accent}> 7–14 Tage </span>
+                    <span className={styles.accent}> 7-14 Tage </span>
                     bis zum Live Prototype.
                   </>
                 )}

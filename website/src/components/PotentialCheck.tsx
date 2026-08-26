@@ -90,7 +90,7 @@ export function PotentialCheck() {
             </h2>
             <p className={styles.sub}>
               Gib deine Website-URL ein und erhalte eine kostenlose Analyse mit
-              konkreten AI-Automatisierungsideen — maßgeschneidert für dein
+              konkreten AI-Automatisierungsideen, maßgeschneidert für dein
               Unternehmen.
             </p>
             <ul className={styles.perks} aria-label="Vorteile">

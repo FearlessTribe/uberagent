@@ -11,6 +11,6 @@ export function getApiBase(): string {
   const { hostname } = window.location;
   if (hostname === "localhost" || hostname === "127.0.0.1") return WORKER_API;
 
-  // Same Worker serves the SPA and /api/* — never cross-origin in production.
+  // Same Worker serves the SPA and /api/*, never cross-origin in production.
   return "";
 }

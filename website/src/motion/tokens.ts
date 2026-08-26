@@ -1,4 +1,4 @@
-/** Motion design tokens – see design/design.md */
+/** Motion design tokens, see design/design.md */
 
 export const DURATION = {
   instant: 0,

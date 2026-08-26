@@ -1,12 +1,12 @@
 ---
 name: motion-framer
 description: >-
-  Motion (Framer Motion) animations for React with überagent motion personality.
+  Motion (Framer Motion) animations for React with uberagent motion personality.
   Use when adding animations, scroll reveals, modals, gestures, or micro-interactions
   on the website. Follows calm, precise, premium motion – no bouncy SaaS effects.
 ---
 
-# Motion & überagent Personality
+# Motion & uberagent Personality
 
 ## Before coding
 

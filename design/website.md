@@ -1,4 +1,4 @@
-# Seitenübersicht & Inhalte – überagent.com
+# Seitenübersicht & Inhalte – uberagent.com
 
 
 **Off-Canvas-Menü:** Logo
@@ -70,9 +70,9 @@ Beim Klick darauf öffnen sich Modals jeweils. Unten ist jeweils ein CTA, der de
     Schnellere Reaktion auf Kauf-, Nutzungs- und Markt-Signale
     Personalisierte Outbound- und Follow-up-Workflows über Ihren bestehenden Stack
     Monitoring, QA und Ownership für nachhaltigen Betrieb im Team
-    überagent entwickelt AI-GTM-Systeme für RevOps, Marketing und Vertrieb. Wir automatisieren Research, Routing, Personalisierung und Reporting, damit B2B-Teams schneller Pipeline aufbauen und sauber skalieren.
+    uberagent entwickelt AI-GTM-Systeme für RevOps, Marketing und Vertrieb. Wir automatisieren Research, Routing, Personalisierung und Reporting, damit B2B-Teams schneller Pipeline aufbauen und sauber skalieren.
 
-    überagent entwickelt KI-gestützte Go-to-Market-Systeme für B2B-SaaS-Teams, die mit wachsendem Stack, unklaren Signalen und zu viel manueller Vertriebsarbeit kämpfen. Statt weitere Einzellösungen auf den bestehenden Tech-Stack zu setzen, verbinden wir CRM, Produktdaten, externe Signale und operative Workflows zu einer belastbaren Ausführungsschicht. So werden ICP-Definition, Priorisierung, Research, Enrichment, Routing, Personalisierung und Reporting Teil eines zusammenhängenden Systems – nicht mehr einer losen Sammlung aus Tabellen, Tools und manuellen Übergaben.
+    uberagent entwickelt KI-gestützte Go-to-Market-Systeme für B2B-SaaS-Teams, die mit wachsendem Stack, unklaren Signalen und zu viel manueller Vertriebsarbeit kämpfen. Statt weitere Einzellösungen auf den bestehenden Tech-Stack zu setzen, verbinden wir CRM, Produktdaten, externe Signale und operative Workflows zu einer belastbaren Ausführungsschicht. So werden ICP-Definition, Priorisierung, Research, Enrichment, Routing, Personalisierung und Reporting Teil eines zusammenhängenden Systems – nicht mehr einer losen Sammlung aus Tabellen, Tools und manuellen Übergaben.
 
     Wir fokussieren uns auf die operative Hebelwirkung: Welche Accounts sind relevant? Welche Signale zählen wirklich? Wer soll wann reagieren? Welche Daten fehlen? Und wie werden Leads, Follow-ups und Handovers sauber dokumentiert? Gemeinsam identifizieren wir die wirkungsvollsten Use Cases, setzen die nötigen Daten- und Entscheidungslogiken auf und führen Freigaben, QA und Monitoring ein, damit Ihr Team der Automatisierung vertrauen kann. Das Ergebnis ist ein GTM-Setup, das schneller lernt, sauberer arbeitet und mehr Pipeline pro Kopf ermöglicht – ohne zusätzliche operative Last in Marketing, Sales und RevOps.
 
@@ -147,9 +147,9 @@ Wir verbinden den Agenten mit bestehenden Tools, Datenquellen und Workflows.
 Der Agent startet fokussiert, wird gemessen und Schritt für Schritt erweitert.
 
 KI-Agenten schaffen den Freiraum, den Sie verdienen.
-überagent entwickelt KI-Agenten für operative Workflows über CRM, E-Mail, Tickets und interne Systeme. So automatisieren Sie Recherche, Datenpflege und Follow-ups kontrolliert, nachvollziehbar und skalierbar.
+uberagent entwickelt KI-Agenten für operative Workflows über CRM, E-Mail, Tickets und interne Systeme. So automatisieren Sie Recherche, Datenpflege und Follow-ups kontrolliert, nachvollziehbar und skalierbar.
 
-überagent baut KI-Agenten, die wiederkehrende Arbeit nicht nur unterstützen, sondern in definierten Grenzen selbstständig erledigen. Unsere AI Workflow Agents analysieren Informationen aus E-Mails, Tickets, CRM-Daten, Dokumenten und internen Tools, treffen regelbasierte Entscheidungen und stoßen die nächsten Schritte automatisch an. So werden aus isolierten Handgriffen durchgängige Prozesse – von der Anfrage-Triage über Recherche und Datenpflege bis zu Follow-ups, Freigaben und Dokumentation.
+uberagent baut KI-Agenten, die wiederkehrende Arbeit nicht nur unterstützen, sondern in definierten Grenzen selbstständig erledigen. Unsere AI Workflow Agents analysieren Informationen aus E-Mails, Tickets, CRM-Daten, Dokumenten und internen Tools, treffen regelbasierte Entscheidungen und stoßen die nächsten Schritte automatisch an. So werden aus isolierten Handgriffen durchgängige Prozesse – von der Anfrage-Triage über Recherche und Datenpflege bis zu Follow-ups, Freigaben und Dokumentation.
 
 Im Mittelpunkt steht nicht ein Chatbot, sondern ein operatives System mit klarer Verantwortung. Wir definieren gemeinsam, welche Aufgaben der Agent vollständig übernimmt, an welchen Stellen Human-in-the-loop-Freigaben notwendig sind und wie Ausnahmen, Eskalationen und Fehlerpfade behandelt werden. Danach binden wir die relevanten Systeme an, richten Monitoring und Logging ein und optimieren den Agenten anhand realer Prozessdaten. Das Ergebnis: weniger Copy-Paste, weniger Rückfragen, schnellere Abläufe und mehr Fokus für Ihr Team auf wertschöpfende Arbeit. Ob Vertrieb, Operations, Service oder interne Prozesse – wir entwickeln Agenten, die in Ihrem Alltag funktionieren, nachvollziehbar handeln und kontrolliert skaliert werden können.
 
@@ -535,7 +535,7 @@ Concepts & Development
 Füge nochmal das laurens bild ein.
 Darunter
 
-- Adresse: überagent, Eugen-Huber-Strasse 127, 8048 Zürich
+- Adresse: uberagent, Eugen-Huber-Strasse 127, 8048 Zürich
 - Telefon: +41 79 510 30 25
-- überagent Services mit MOdal öffnen der servicemodals: Validieren von neuen Geschäftsmodellen · AI GTM Engineering · AI Workflow Agents · End-to-End MCP Implementation
-- © überagent. 2026
+- uberagent Services mit MOdal öffnen der servicemodals: Validieren von neuen Geschäftsmodellen · AI GTM Engineering · AI Workflow Agents · End-to-End MCP Implementation
+- © uberagent. 2026

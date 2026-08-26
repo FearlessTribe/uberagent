@@ -1897,7 +1897,7 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* Funnel — light, open (no dark box) */
+/* Funnel: light, open (no dark box) */
 .funnelTrack {
   padding: 0;
   background: transparent;
@@ -3595,4 +3595,505 @@
 .metricVLong {
   font-size: 0.9375rem;
   line-height: 1.3;
+}
+
+/* Corporate Gifting Agent */
+.heroHeadlineWide {
+  max-width: 38ch;
+}
+
+.heroHeadline.heroHeadlineWide {
+  max-width: 38ch;
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: -4px;
+  padding-bottom: 16px;
+}
+
+.leadFlush {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.giftingHubSpotNote {
+  margin: 2px 0 4px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.giftingCrmIntro {
+  padding: 16px 18px 18px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingCrmLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 2px;
+}
+
+.giftingAnchor {
+  scroll-margin-top: 8px;
+}
+
+.giftingScenario {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+@media (min-width: 800px) {
+  .giftingScenario {
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: stretch;
+  }
+}
+
+.giftingScenarioOrder {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-card);
+  color: #fff;
+}
+
+.giftingScenarioKicker {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary-light);
+}
+
+.giftingScenarioGift {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(204, 128, 102, 0.35);
+  background:
+    radial-gradient(circle at 12% 20%, rgba(204, 128, 102, 0.22), transparent 55%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.giftingScenarioGiftMark {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #5c3d2e 0%, #2a1a14 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.giftingScenarioGiftSpine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(180deg, #8b5a3c, #3d2418);
+}
+
+.giftingScenarioGiftCover {
+  position: absolute;
+  inset: 9px 9px 9px 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 232, 210, 0.28);
+  background: linear-gradient(160deg, rgba(255, 220, 190, 0.18), transparent 60%);
+}
+
+.giftingScenarioGift strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.giftingScenarioGift p {
+  margin: 3px 0 0;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.giftingScenarioPrice {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+}
+
+.giftingScenarioRows {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.giftingScenarioRow {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 520px) {
+  .giftingScenarioRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+.giftingScenarioRow dt {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.giftingScenarioRow dd {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.giftingScenarioYear {
+  display: grid;
+  gap: 10px;
+}
+
+.giftingScenarioYearItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingScenarioYearValue {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.giftingScenarioYearLabel {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.giftingRoleGrid {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (min-width: 720px) {
+  .giftingRoleGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.giftingRole {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingRoleWho {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.giftingRoleTitle {
+  margin: 0 0 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.giftingRole p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.giftingPriceCard {
+  margin-top: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-card);
+  color: #fff;
+  max-width: 520px;
+}
+
+.giftingPriceHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.giftingPriceRate {
+  font-family: var(--font-mono);
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-primary-light);
+}
+
+.giftingPriceNote {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.giftingPriceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.giftingPriceList li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.giftingPriceList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.giftingPriceFoot {
+  padding-top: 4px;
+}
+
+.giftingProblemGrid {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .giftingProblemGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.giftingProblem {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingCardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.giftingProblemTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.giftingFeatureGrid {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .giftingFeatureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .giftingFeatureGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.giftingFeature {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingFeature h4 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.giftingFeature p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.giftingFlow .engineFlowNum {
+  min-height: 88px;
+}
+
+.giftingFlow .engineFlowBody {
+  padding-bottom: 18px;
+}
+
+.giftingBenefitGrid {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (min-width: 720px) {
+  .giftingBenefitGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.giftingBenefit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-card);
+}
+
+.placeholderBadge {
+  width: fit-content;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(204, 128, 102, 0.28);
+  background: rgba(204, 128, 102, 0.1);
+}
+
+.giftingBenefit .placeholderBadge {
+  color: var(--color-primary-light);
+  border-color: rgba(204, 128, 102, 0.35);
+  background: rgba(204, 128, 102, 0.14);
+}
+
+.giftingBenefitValue {
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-primary-light);
+  line-height: 1.15;
+}
+
+.giftingBenefitLabel {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.giftingQuoteGrid {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 720px) {
+  .giftingQuoteGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.giftingQuote {
+  margin: 0;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.giftingQuote p {
+  margin: 12px 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  font-style: italic;
+}
+
+.giftingQuote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.giftingQuote strong {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-text-primary);
+}
+
+.giftingQuote span {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }

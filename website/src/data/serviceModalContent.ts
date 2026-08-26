@@ -18,11 +18,13 @@ export interface ServiceModalContent {
 }
 
 const footerNotes: Record<string, string> = {
+  "corporate-gifting": "10% vom Warenwert je bestätigter Bestellung. Landet automatisch in Ihren Systemen.",
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
   "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
 };
 
 const ctaHrefs: Record<string, string> = {
+  "corporate-gifting": "https://calendly.com/supraflow/30min",
   "ai-revenue-engine": "https://calendly.com/supraflow/30min",
   "vibe-coding-challenge": "https://calendly.com/supraflow/30min",
 };
@@ -172,17 +174,17 @@ export const revenueTimeline = [
   },
   {
     title: "Datenanbindung",
-    when: "Tag 1–2",
+    when: "Tag 1-2",
     detail: "Sie exportieren 200 Kundendatensätze oder geben lesenden CRM-Zugriff.",
   },
   {
     title: "Signalanalyse",
-    when: "Tag 3–6",
+    when: "Tag 3-6",
     detail: "Anreicherung, Scoring und Generierung der Verkaufsgründe.",
   },
   {
     title: "Briefings",
-    when: "Tag 7–9",
+    when: "Tag 7-9",
     detail: "Erstellung von Mail und Call-Briefing je Opportunity, Qualitätsprüfung durch uns.",
   },
   {
@@ -231,8 +233,8 @@ export const revenueTiers = [
   {
     id: "implementation",
     cap: "Schritt 2 · Agent in Produktion",
-    price: "8.000–20.000 €",
-    note: "Einmalig · 6–10 Wochen",
+    price: "8.000-20.000 €",
+    note: "Einmalig · 6-10 Wochen",
     featured: false,
     items: [
       "Vollautomatisiert über den gesamten Bestand, Rückschrieb ins CRM ohne neues Tool",
@@ -245,7 +247,7 @@ export const revenueTiers = [
   {
     id: "ops",
     cap: "Schritt 3 · Betrieb",
-    price: "800–3.000 €",
+    price: "800-3.000 €",
     note: "Pro Monat · monatlich kündbar",
     featured: false,
     items: [
@@ -402,7 +404,7 @@ export const vibeMatrix = [
     cap: "Variante A",
     title: "Klassische KI-Schulung",
     win: false,
-    price: "Marktüblich 650–790 € pro Kopf und Tag",
+    price: "Marktüblich 650-790 € pro Kopf und Tag",
     items: [
       "Wissen, kein Ergebnis",
       "Generische Übungsbeispiele",
@@ -417,7 +419,7 @@ export const vibeMatrix = [
     win: false,
     price: "Enterprise-Projektbudgets, meist fünfstellig",
     items: [
-      "24–48 Stunden Eventformat",
+      "24-48 Stunden Eventformat",
       "Aufwand liegt in der Logistik",
       "Prototypen ohne Wirtschaftlichkeitsprüfung",
       "Ergebnisse versanden nach dem Event",
@@ -465,7 +467,7 @@ export const vibeFlow = [
   },
   {
     step: "04",
-    when: "Woche 2–3",
+    when: "Woche 2-3",
     title: "Build-Phase mit technischem Support",
     description:
       "Die Teams bauen weiter. Wir halten zweimal wöchentlich offene Sprechstunden, lösen technische Blockaden und übernehmen die Teile, an denen Fachanwender realistisch scheitern: Schnittstellen, Datenzugriff, Deployment der Prototypen.",
@@ -519,9 +521,9 @@ export const vibeCriteria = [
 export const vibeRoiLines = [
   { label: "Investment Pilot-Challenge", value: "4.900 €" },
   { label: "Teilnehmende Mitarbeitende", value: "25" },
-  { label: "Erfahrungswert eingereichte Ideen", value: "30–50" },
-  { label: "Davon mit echtem Automatisierungspotenzial", value: "5–10" },
-  { label: "Ein umgesetzter Case spart typischerweise", value: "2–5 Std./Woche" },
+  { label: "Erfahrungswert eingereichte Ideen", value: "30-50" },
+  { label: "Davon mit echtem Automatisierungspotenzial", value: "5-10" },
+  { label: "Ein umgesetzter Case spart typischerweise", value: "2-5 Std./Woche" },
   { label: "Bei 3 Std./Woche und 60 € Vollkosten", value: "≈ 9.400 €/Jahr" },
   { label: "Amortisation bei einem einzigen Case", value: "< 7 Monate", total: true },
 ];
@@ -529,7 +531,7 @@ export const vibeRoiLines = [
 export const vibeAfterFlow = [
   {
     step: "A",
-    when: "1–2 Wochen",
+    when: "1-2 Wochen",
     title: "Business Case erstellen",
     description:
       "Wir prüfen den Gewinner-Case belastbar durch: reale Mengengerüste, Vollkosten, Schnittstellen, Risiken und Betriebsaufwand. Ergebnis ist eine Vorlage, die einer Investitionsprüfung standhält. Inklusive ehrlicher Aussage, wenn der Case sie nicht besteht.",
@@ -537,7 +539,7 @@ export const vibeAfterFlow = [
   },
   {
     step: "B",
-    when: "4–10 Wochen",
+    when: "4-10 Wochen",
     title: "Professionelle Umsetzung",
     description:
       "Aus dem Prototyp wird produktionsreife Software: saubere Architektur, Anbindung an Ihre Systeme, Fehlerbehandlung, Rechte- und Rollenkonzept, Monitoring, Dokumentation. Preis nach Aufwand des jeweiligen Case, Festpreis nach dem Business Case.",
@@ -652,7 +654,7 @@ export const vibeTiers = [
     id: "scale",
     cap: "Schritt 2 · Challenge Scale",
     price: "ab 25.000 €",
-    note: "8–10 Wochen · mehrere Bereiche",
+    note: "8-10 Wochen · mehrere Bereiche",
     featured: false,
     items: [
       "Bereichs- oder konzernweiter Rollout",
@@ -671,7 +673,7 @@ export const vibeTiers = [
     featured: false,
     items: [
       "Business Case ab 2.500 € je Fall",
-      "Produktive Umsetzung typischerweise 15.000–60.000 €",
+      "Produktive Umsetzung typischerweise 15.000-60.000 €",
       "Inbetriebnahme und Anwenderschulung",
       "Nachweis der realisierten Ersparnis",
       "Optional Betrieb ab 1.500 €/Monat",
@@ -756,17 +758,17 @@ export const mcpValueProps = [
   {
     title: "AI Agents mit echtem Datenzugriff",
     description:
-      "Agents greifen auf Kundendaten, Tickets, Dokumente und Reports zu — kontextbezogen statt isoliert.",
+      "Agents greifen auf Kundendaten, Tickets, Dokumente und Reports zu, kontextbezogen statt isoliert.",
   },
   {
     title: "Sichere Aktionen in Live-Systemen",
     description:
-      "Nicht nur lesen: Datensätze anlegen, Status ändern, Workflows auslösen — mit klaren Grenzen.",
+      "Nicht nur lesen: Datensätze anlegen, Status ändern, Workflows auslösen, mit klaren Grenzen.",
   },
   {
     title: "Standard statt Einzellösung",
     description:
-      "MCP strukturiert Tools, Ressourcen und Aktionen — wartbar, erweiterbar, zukunftssicher.",
+      "MCP strukturiert Tools, Ressourcen und Aktionen, wartbar, erweiterbar, zukunftssicher.",
   },
   {
     title: "Bestehende Systeme nutzbar machen",
@@ -793,7 +795,7 @@ export const agentPrinciples = [
     label: "Integration",
     title: "In bestehende Systeme eingebunden",
     description:
-      "CRMs, Ticketsysteme, Postfächer und interne Workflows — der Agent arbeitet dort, wo Ihr Team arbeitet.",
+      "CRMs, Ticketsysteme, Postfächer und interne Workflows, der Agent arbeitet dort, wo Ihr Team arbeitet.",
   },
   {
     label: "Messbarkeit",
@@ -804,11 +806,11 @@ export const agentPrinciples = [
 ];
 
 export const agentBenefits = [
-  "Mehr Produktivität — Routine läuft automatisch",
-  "Weniger Aufwand — weniger Copy-Paste und Rückfragen",
-  "Schnellere Prozesse — Informationen fliessen automatisch",
-  "Bessere Entscheidungen — strukturierte, aktuelle Daten",
-  "Skalierbarkeit — mehr Volumen ohne mehr Personal",
+  "Mehr Produktivität, Routine läuft automatisch",
+  "Weniger Aufwand, weniger Copy-Paste und Rückfragen",
+  "Schnellere Prozesse, Informationen fliessen automatisch",
+  "Bessere Entscheidungen, strukturierte, aktuelle Daten",
+  "Skalierbarkeit, mehr Volumen ohne mehr Personal",
 ];
 
 export const agentFit = {
@@ -880,7 +882,7 @@ export const strategyFunnel = [
     description:
       "Überführung in eine quantitative Bewertung, um jeden Use Case im Portfolio einzuordnen.",
     detail:
-      "Fünf Dimensionen — Business Value, AI Fit, Feasibility & Cost, Time-to-Value, Risk & Compliance — liefern eine belastbare Entscheidungsgrundlage für die Investition.",
+      "Fünf Dimensionen, Business Value, AI Fit, Feasibility & Cost, Time-to-Value, Risk & Compliance, liefern eine belastbare Entscheidungsgrundlage für die Investition.",
     outcome: "Transparente Ranking-Heatmap statt Bauchgefühl",
   },
   {
@@ -902,7 +904,7 @@ export const strategyFunnel = [
     description:
       "Klare Portfolioentscheidung über Budget, Verantwortlichkeiten, Zeitplan und nächste Schritte.",
     detail:
-      "Jedes Vorhaben landet in einer der Optionen Build, Buy, Pivot, Kill oder Defer — mit Commitment der Entscheider und nachvollziehbarer Begründung.",
+      "Jedes Vorhaben landet in einer der Optionen Build, Buy, Pivot, Kill oder Defer, mit Commitment der Entscheider und nachvollziehbarer Begründung.",
     outcome: "Commitment, Budget und Owner sind gesetzt",
   },
   {
@@ -911,7 +913,7 @@ export const strategyFunnel = [
     icon: "build",
     phase: "Validierung in Produktion",
     description:
-      "Den kleinsten nutzbaren Scope bauen — und mit echten Nutzungsdaten entscheiden, ob weiter oder Abbruch.",
+      "Den kleinsten nutzbaren Scope bauen, und mit echten Nutzungsdaten entscheiden, ob weiter oder Abbruch.",
     detail:
       "Kurze Sprints, priorisierte Features, frühe Tests. Erfolgskriterien und Monitoring sind vor dem Start klar. Quality- und Compliance-Gates sichern die Produktionsreife.",
     outcome: "Messbarer MVP: Go, Anpassen oder Stop",
@@ -922,7 +924,7 @@ export const strategyFunnel = [
     icon: "rollout",
     phase: "Einführung",
     description:
-      "Gesteuertes Ausrollen in die Organisation — mit Enablement und klaren Verantwortlichkeiten.",
+      "Gesteuertes Ausrollen in die Organisation, mit Enablement und klaren Verantwortlichkeiten.",
     detail:
       "Dokumentation, Basistraining, AI Champions und rollenspezifische Workshops. Nutzer werden segmentiert, Adoption wird aktiv gesteuert.",
     outcome: "Kontrollierte Einführung mit messbarer Adoption",
@@ -933,7 +935,7 @@ export const strategyFunnel = [
     icon: "scale",
     phase: "Werthebel",
     description:
-      "Nur skalieren, was den Impact belegt hat — Adoption, Retention und Nutzen systematisch steigern.",
+      "Nur skalieren, was den Impact belegt hat, Adoption, Retention und Nutzen systematisch steigern.",
     detail:
       "Hürden beseitigen, Produkt und Prozesse verbessern, Reichweite erhöhen. Skalierung ist kein Automatismus, sondern die Folge belegten Werts.",
     outcome: "Skalierter Impact mit klarer Governance",
@@ -1016,7 +1018,7 @@ export const strategyPortfolioZones = [
     id: "kill",
     title: "Kill",
     label: "Niedriger Value · hohes Risiko",
-    description: "Bewusst stoppen — Kapazität für wirkungsvollere Cases freimachen.",
+    description: "Bewusst stoppen, Kapazität für wirkungsvollere Cases freimachen.",
   },
 ];
 
@@ -1043,7 +1045,7 @@ export const strategyDecisions = [
     id: "build",
     title: "Build",
     muted: false,
-    description: "Hoher Value, guter AI Fit, tragbare Risiken — intern oder mit Partner umsetzen.",
+    description: "Hoher Value, guter AI Fit, tragbare Risiken, intern oder mit Partner umsetzen.",
   },
   {
     id: "buy",
@@ -1061,7 +1063,7 @@ export const strategyDecisions = [
     id: "kill",
     title: "Kill",
     muted: false,
-    description: "Value zu niedrig oder Risiko/Komplexität zu hoch — bewusst stoppen.",
+    description: "Value zu niedrig oder Risiko/Komplexität zu hoch, bewusst stoppen.",
   },
   {
     id: "defer",
@@ -1075,7 +1077,7 @@ export const strategyGovernance = [
   {
     title: "Steuerbar & planbar",
     description:
-      "Durch klare Governance steuerbar. Frühzeitig Risiken minimieren und Abhängigkeiten erfassen — und so planbar bleiben.",
+      "Durch klare Governance steuerbar. Frühzeitig Risiken minimieren und Abhängigkeiten erfassen, und so planbar bleiben.",
   },
   {
     title: "Vertrauen & Ressourcen",
@@ -1122,7 +1124,7 @@ export const strategyRolloutLevers = [
 export const strategyScalingLevers = [
   {
     title: "Reichweite erhöhen",
-    description: "Von Pilotgruppen zu Organisationseinheiten — nur wo Nutzen belegt ist.",
+    description: "Von Pilotgruppen zu Organisationseinheiten, nur wo Nutzen belegt ist.",
   },
   {
     title: "Wert maximieren",
@@ -1226,4 +1228,194 @@ export const trainingImpact: ImpactRow[] = [
   { before: "Ad-hoc Prompting", after: "Klare Guardrails und QA" },
   { before: "Unklare Ownership", after: "Definierte Rollen und Escalation" },
   { before: "Einmalige Demo", after: "Nachhaltiges Enablement" },
+];
+
+export const giftingToday = [
+  "Bestellungen kommen unregelmäßig",
+  "Zu Weihnachten viel, den Rest des Jahres wenig",
+  "Geburtstage und Jubiläen gehen unter",
+  "Ihr Team sucht Anlässe und bestellt von Hand",
+];
+
+export const giftingWithUeberagent = [
+  "Jeden Monat planbare Aufträge",
+  "Budget vom Kunden, zu Ostern und Weihnachten höher",
+  "Vorschläge aus Ihrem Sortiment",
+  "Nach Freigabe Bestellung in Ihren Systemen",
+];
+
+export const giftingHowIntro =
+  "Fünf Schritte vom Marketplace bis zur Bestellung. Ihr Kunde legt Budget und Regeln fest. Vorschläge kommen aus Ihrem Sortiment. Der Account Manager Ihres Kunden bestätigt.";
+
+export const giftingFlow = [
+  {
+    step: "01",
+    title: "Installieren",
+    icon: "window" as const,
+    logos: true,
+    description:
+      "Die App kommt über den HubSpot Marketplace ins CRM Ihres Kunden. Nichts vor Ort, kein IT-Projekt. Salesforce, Pipedrive und Dynamics folgen.",
+    outcome: false,
+  },
+  {
+    step: "02",
+    title: "Budget und Regeln",
+    icon: "wallet" as const,
+    logos: false,
+    description:
+      "Ihr Kunde legt das monatliche Budget fest. Weihnachten und Ostern sind immer höher. Optionale Regeln kommen dazu. Ihr Sortiment hinterlegen Sie.",
+    outcome: false,
+  },
+  {
+    step: "03",
+    title: "Anlässe finden",
+    icon: "calendar" as const,
+    logos: false,
+    description:
+      "Jubiläum, Projektabschluss, Geburtstag. Jeden Monat, nicht nur zu Weihnachten.",
+    outcome: false,
+  },
+  {
+    step: "04",
+    title: "Vorschlagen",
+    icon: "gift" as const,
+    logos: false,
+    description:
+      "Nur Artikel aus Ihrem Sortiment. Im Budget Ihres Kunden und unter der 50-Euro-Grenze. Nur in Ausnahmen darüber.",
+    outcome: false,
+  },
+  {
+    step: "05",
+    title: "Bestätigen und bestellen",
+    icon: "check" as const,
+    logos: false,
+    description:
+      "Der Account Manager Ihres Kunden bestätigt. Die Bestellung landet automatisch in Ihren Systemen. Wird abgelehnt: neuer Vorschlag, oder Sie erarbeiten ihn gemeinsam.",
+    outcome: true,
+  },
+];
+
+/** Wer macht was: Hersteller vs. Kunde vs. Account Manager */
+export const giftingRoles = [
+  {
+    who: "Ihr Kunde",
+    title: "Budget, Regeln, HubSpot",
+    text: "Er lässt die App im eigenen HubSpot zu und legt monatliches Budget fest. Weihnachten und Ostern sind immer höher. Optionale Regeln dazu.",
+  },
+  {
+    who: "Sie",
+    title: "Ihr Sortiment",
+    text: "Sie hinterlegen die Artikel, aus denen vorgeschlagen wird. Nur Ihr Katalog, keine Fremdprodukte.",
+  },
+  {
+    who: "Account Manager",
+    title: "Bestätigt, dann Auftrag bei Ihnen",
+    text: "Der Account Manager Ihres Kunden gibt frei. Danach landet die Bestellung automatisch in Ihren Systemen. Ohne Bestätigung geht nichts raus.",
+  },
+];
+
+export const giftingRolesIntro =
+  "Das Produkt landet im HubSpot Ihres Kunden. Er steuert Budget und Regeln. Sie liefern das Sortiment. Nach Freigabe kommt die Bestellung bei Ihnen an.";
+
+/** Durchgespielter Monat statt Billboard-Annahmen */
+export const giftingScenario = {
+  title: "Ein Monat, konkret",
+  intro:
+    "Beispielrechnung für einen betreuten HubSpot-Kunden. Keine gemessenen Ergebnisse. Im Gespräch rechnen wir das an Ihrem Bestand durch.",
+  account: "Müller GmbH",
+  rows: [
+    { label: "Anlässe im Monat", value: "Jubiläum, Projektabschluss, Geburtstag" },
+    { label: "Vorschlag", value: "Leder-Notizbuch aus Ihrem Katalog" },
+    { label: "Preis", value: "48 € · unter der 50-Euro-Grenze" },
+    { label: "Freigabe", value: "Account Manager bestätigt · Bestellung in Ihren Systemen" },
+  ],
+  year: [
+    { value: "8 Anlässe", label: "pro betreutem Kunden und Jahr, statt einer Weihnachtssendung" },
+    { value: "12 Accounts", label: "Beispielbestand: so viele betreute HubSpot-Kunden" },
+    { value: "~6 Std.", label: "weniger Handarbeit im Innendienst pro Monat, sobald Anlässe nicht mehr gesucht werden" },
+  ],
+};
+
+export const giftingQuotes = [
+  {
+    quote: "Seit wir das einsetzen, ist unser Geschäft planbarer geworden.",
+    name: "Name",
+    role: "Position",
+    company: "Werbeartikelhersteller",
+  },
+  {
+    quote: "Unsere Kunden lieben es, keinen Anlass mehr zu verpassen.",
+    name: "Name",
+    role: "Position",
+    company: "Werbeartikelhersteller",
+  },
+];
+
+export const giftingPricing = {
+  rate: "10%",
+  note: "vom Warenwert je bestätigter Bestellung",
+  intro: "Keine Seat-Gebühr, keine Monatsstufen. Sie zahlen nur, wenn bestellt wird.",
+  items: [
+    "10% vom Warenwert jeder bestätigten Bestellung",
+    "Budget und Regeln legt Ihr Kunde fest",
+    "Vorschläge nur aus Ihrem Sortiment",
+    "Bestellung landet automatisch in Ihren Systemen",
+    "Daten in der EU, Vertrag nach DSGVO",
+  ],
+  footnote: "Preise verstehen sich zzgl. MwSt. Warenwert meint den bestätigten Geschenk-Auftrag.",
+};
+
+export const giftingFaq = [
+  {
+    question: "Muss das in das HubSpot meines Kunden?",
+    answer:
+      "Ja. Die App läuft im Cloud-CRM Ihres Kunden, nicht bei Ihnen. Er lässt sie über den Marketplace zu und legt Budget und Regeln fest. Sie hinterlegen das Sortiment.",
+  },
+  {
+    question: "Wer legt Budget und Regeln fest?",
+    answer:
+      "Ihr Kunde. Monatliches Budget, Weihnachten und Ostern immer höher. Optionale Regeln dazu. Das Sortiment kommt von Ihnen.",
+  },
+  {
+    question: "Wo landet die Bestellung?",
+    answer:
+      "Nach Freigabe durch den Account Manager Ihres Kunden automatisch in Ihren Systemen. Sie müssen nichts manuell umtippen.",
+  },
+  {
+    question: "Was, wenn der Kunde Salesforce nutzt?",
+    answer:
+      "Aktuell nur HubSpot. Salesforce, Pipedrive und Dynamics folgen. Wir starten mit HubSpot-Accounts zuerst.",
+  },
+  {
+    question: "Wer bestätigt die Bestellung?",
+    answer:
+      "Der Account Manager Ihres Kunden. Wird etwas nicht akzeptiert, kommt ein neuer Vorschlag, oder Sie erarbeiten ihn gemeinsam. Ohne Bestätigung geht nichts raus.",
+  },
+  {
+    question: "Was ist mit der 50-Euro-Grenze?",
+    answer:
+      "Vorschläge bleiben im Budget Ihres Kunden und unter der steuerlichen 50-Euro-Freigrenze. Nur in Ausnahmen gehen sie darüber.",
+  },
+  {
+    question: "Wie läuft die Rechnung?",
+    answer:
+      "10% vom Warenwert je bestätigter Bestellung. Keine Seat-Gebühr. Abrechnung klären wir im Gespräch.",
+  },
+  {
+    question: "Wie schnell sind wir startklar?",
+    answer:
+      "In der Regel in rund vier Wochen bis zum ersten echten Monatslauf.",
+  },
+  {
+    question: "Wie sicher sind die Daten?",
+    answer:
+      "Daten in der EU. Verarbeitung nach DSGVO. Ihre Daten und die Ihrer Kunden werden nicht weitergegeben.",
+  },
+];
+
+export const giftingFinalMeta = [
+  "Jetzt in HubSpot",
+  "Budget vom Kunden",
+  "Sortiment von Ihnen",
+  "Bestellung in Ihren Systemen",
 ];

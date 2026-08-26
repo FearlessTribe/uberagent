@@ -1,4 +1,4 @@
-# überagent Design System
+# uberagent Design System
 
 Implementierung: `website/src/motion/tokens.ts`, `website/src/motion/presets.ts`, `website/src/motion/reduced.ts` · CSS-Variablen in `website/src/index.css`
 

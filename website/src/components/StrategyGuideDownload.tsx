@@ -78,10 +78,10 @@ export function StrategyGuideDownload() {
             Der One-Pager für eure nächste AI-Portfolio-Entscheidung
           </h3>
           <p className={styles.lead}>
-            Von Ideen-Chaos zur priorisierten AI Strategy und Roadmap — als kompaktes
+            Von Ideen-Chaos zur priorisierten AI Strategy und Roadmap, als kompaktes
             Handout fürs Leadership-Meeting, nicht als weitere Folien-Lawine.
           </p>
-          <p className={styles.hook}>Nicht scrollen — mitnehmen und priorisieren.</p>
+          <p className={styles.hook}>Nicht scrollen, mitnehmen und priorisieren.</p>
           <ul className={styles.perks} aria-label="Inhalt">
             <li>Scoring-Heatmap</li>
             <li>Build / Buy / Kill</li>

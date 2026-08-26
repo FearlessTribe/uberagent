@@ -392,7 +392,7 @@ export function PainPoints() {
             <span className="em">Kennen</span> Sie das?
           </h2>
           <p className={styles.sub}>
-            Viele Unternehmen wissen, dass AI wichtig ist – aber nicht, wo sie anfangen
+            Viele Unternehmen wissen, dass AI wichtig ist, aber nicht, wo sie anfangen
             sollen.
           </p>
         </ScrollReveal>

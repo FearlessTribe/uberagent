@@ -87,7 +87,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
             />
             <div className={styles.profileInfo}>
               <p className={styles.profileName}>Laurens Lang, M.Sc. MBA</p>
-              <p className={styles.profileRole}>CEO · überagent</p>
+              <p className={styles.profileRole}>CEO · uberagent</p>
             </div>
           </MotionPressable>
         </ScrollReveal>
@@ -96,7 +96,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
           <div className={styles.detailBlock} id="impressum">
             <h3 className={styles.detailLabel}>Impressum</h3>
             <address className={styles.address}>
-              überagent<br />
+              uberagent<br />
               Laurens Lang<br />
               Eugen-Huber-Strasse 127<br />
               8048 Zürich<br />
@@ -106,8 +106,8 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
 
           <div className={styles.detailBlock}>
             <h3 className={styles.detailLabel}>E-Mail</h3>
-            <a href="mailto:info@überagent.com" className={styles.phone}>
-              info@überagent.com
+            <a href="mailto:info@uberagent.com" className={styles.phone}>
+              info@uberagent.com
             </a>
           </div>
 
@@ -134,7 +134,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
             <a href="/contact#impressum" className={styles.legalLink} onClick={openImpressum}>
               Impressum
             </a>
-            <p className={styles.copyright}>© überagent. 2026</p>
+            <p className={styles.copyright}>© uberagent. 2026</p>
           </div>
         </div>
       </div>

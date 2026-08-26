@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
@@ -16,6 +16,16 @@ import {
   agentPrinciples,
   businessExperiments,
   businessImpact,
+  giftingFaq,
+  giftingFinalMeta,
+  giftingFlow,
+  giftingHowIntro,
+  giftingPricing,
+  giftingRoles,
+  giftingRolesIntro,
+  giftingScenario,
+  giftingToday,
+  giftingWithUeberagent,
   gtmBenefits,
   gtmIdealFor,
   gtmImpact,
@@ -87,10 +97,14 @@ import {
 import { services } from "../data/services";
 import { fadeIn, slidePanel, DURATION, EASE } from "../motion";
 import { trackCalendlyClick } from "../lib/analytics";
+import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { teamMembers } from "../data/team";
 import { CtaButton } from "./CtaButton";
 import { RevenueScanVisual } from "./RevenueScanVisual";
 import { VibeChallengeVisual } from "./VibeChallengeVisual";
+import { GiftingAgentVisual } from "./GiftingAgentVisual";
+import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
+import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import styles from "./ServiceModal.module.css";
 
@@ -313,7 +327,7 @@ function StrategyProcessFlow() {
         <span className={styles.processEyebrow}>7-Phasen-Funnel</span>
         <p className={styles.processIntro}>
           Jeder Use Case durchläuft denselben Funnel. Stage-Gates verhindern, dass Initiativen
-          ohne Evidenz weiterrollen — von der Idee bis zur Skalierung.
+          ohne Evidenz weiterrollen, von der Idee bis zur Skalierung.
         </p>
       </div>
 
@@ -439,7 +453,7 @@ function StrategyPortfolioDiagram() {
     <div className={styles.portfolioBlock}>
       <div className={styles.portfolioHead}>
         <span className={styles.portfolioEyebrow}>Portfolio-Diagramm</span>
-        <p>Value vs. Risiko/Komplexität — Flächen zeigen die typische Einordnung.</p>
+        <p>Value vs. Risiko/Komplexität, Flächen zeigen die typische Einordnung.</p>
       </div>
       <div className={styles.portfolioMatrix} onMouseLeave={() => setHovered(null)}>
         <span className={styles.portfolioAxisY}>Business Value</span>
@@ -618,7 +632,7 @@ function RevenueEngineContent() {
           </div>
           <FlowArrow />
           <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit überagent</span>
+            <span className={styles.panelLabel}>Mit uberagent</span>
             <ul className={styles.panelList}>
               {revenueWithUeberagent.map((item) => (
                 <li key={item}>{item}</li>
@@ -931,7 +945,7 @@ function RevenueEngineContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>CEO · überagent</p>
+            <p className={styles.engineFinalRole}>CEO · uberagent</p>
           </div>
         </div>
       </section>
@@ -970,7 +984,7 @@ function VibeChallengeContent() {
           </div>
           <FlowArrow />
           <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit überagent</span>
+            <span className={styles.panelLabel}>Mit uberagent</span>
             <ul className={styles.panelList}>
               {vibeWithUeberagent.map((item) => (
                 <li key={item}>{item}</li>
@@ -1089,7 +1103,7 @@ function VibeChallengeContent() {
           </div>
           <div className={styles.roiPanel}>
             <span className={styles.roiK}>Der eigentliche Hebel</span>
-            <span className={styles.roiV}>5–10 Cases</span>
+            <span className={styles.roiV}>5-10 Cases</span>
             <p>{vibeRoiPanel}</p>
           </div>
         </div>
@@ -1304,7 +1318,7 @@ function VibeChallengeContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>CEO · überagent</p>
+            <p className={styles.engineFinalRole}>CEO · uberagent</p>
           </div>
         </div>
       </section>
@@ -1332,14 +1346,14 @@ function GtmContent() {
           <div className={styles.heroPanel}>
             <span className={styles.panelLabel}>Heute</span>
             <ul className={styles.panelList}>
-              <li>CRM, Sheets, Outreach — getrennt</li>
+              <li>CRM, Sheets, Outreach, getrennt</li>
               <li>Manuelle Recherche &amp; Briefings</li>
               <li>Unklare Signale, schwache Priorisierung</li>
             </ul>
           </div>
           <FlowArrow />
           <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit überagent</span>
+            <span className={styles.panelLabel}>Mit uberagent</span>
             <ul className={styles.panelList}>
               <li>Eine GTM-Ausführungsschicht</li>
               <li>Automatisiertes Enrichment &amp; Routing</li>
@@ -1374,14 +1388,14 @@ function GtmContent() {
         <SectionTitle>Die Transformation</SectionTitle>
         <ImpactTable rows={gtmImpact} />
         <Callout>
-          Mehr Pipeline pro Kopf — ohne zusätzliche operative Last in Marketing, Sales und RevOps.
+          Mehr Pipeline pro Kopf, ohne zusätzliche operative Last in Marketing, Sales und RevOps.
         </Callout>
       </section>
 
       <section>
         <SectionTitle>Prozess und Timeline</SectionTitle>
         <p className={styles.bodyText}>
-          In 6–8 Wochen von Discovery bis Rollout — mit Shadow-Runs, Governance und Enablement für Ihr Team.
+          In 6-8 Wochen von Discovery bis Rollout, mit Shadow-Runs, Governance und Enablement für Ihr Team.
         </p>
         <div className={styles.processWrap}>
           <ProcessSlider />
@@ -1414,7 +1428,7 @@ function McpContent() {
               <span /><span /><span /><span /><span />
             </div>
             <ul className={styles.panelList}>
-              <li>APIs, DBs, SaaS — verstreut</li>
+              <li>APIs, DBs, SaaS, verstreut</li>
               <li>Fragile Einzellösungen</li>
             </ul>
           </div>
@@ -1482,7 +1496,7 @@ function McpContent() {
         <SectionTitle>Die Transformation</SectionTitle>
         <ImpactTable rows={mcpImpact} />
         <Callout>
-          Ihre Systeme müssen nicht ersetzt werden — sie werden AI-ready angebunden.
+          Ihre Systeme müssen nicht ersetzt werden, sie werden AI-ready angebunden.
         </Callout>
       </section>
     </div>
@@ -1567,7 +1581,7 @@ function WorkflowAgentsContent() {
       </section>
 
       <section>
-        <SectionTitle>Wann es passt — und wann nicht</SectionTitle>
+        <SectionTitle>Wann es passt, und wann nicht</SectionTitle>
         <div className={styles.fitGrid}>
           <div className={styles.fitCard}>
             <span className={styles.fitLabelGood}>Geeignet</span>
@@ -1621,7 +1635,7 @@ function BusinessModelsContent() {
         <span className={styles.heroTag}>{meta.bannerTag}</span>
         <p className={styles.lead}>
           Produktentwicklung und neue Geschäftsmodelle sind zeit-, kosten- und risikointensiv.
-          Wir helfen Ihnen, die richtigen Entscheidungen zu treffen — bevor Sie skalieren.
+          Wir helfen Ihnen, die richtigen Entscheidungen zu treffen, bevor Sie skalieren.
         </p>
         <div className={styles.statsRow}>
           {meta.stats.map((s) => (
@@ -1663,7 +1677,7 @@ function BusinessModelsContent() {
           ))}
         </div>
         <p className={styles.bodyText}>
-          Mit klaren Hypothesen, schnellen Experimenten und messbaren Ergebnissen — statt Monate
+          Mit klaren Hypothesen, schnellen Experimenten und messbaren Ergebnissen, statt Monate
           in die falsche Richtung zu investieren.
         </p>
       </section>
@@ -1686,7 +1700,7 @@ function BusinessModelsContent() {
         <SectionTitle>Die Transformation</SectionTitle>
         <ImpactTable rows={businessImpact} />
         <Callout>
-          Validierung ist kein Bremsklotz — sie ist der schnellste Weg zu einem tragfähigen Geschäftsmodell.
+          Validierung ist kein Bremsklotz, sie ist der schnellste Weg zu einem tragfähigen Geschäftsmodell.
         </Callout>
       </section>
     </div>
@@ -1845,7 +1859,261 @@ function TrainingsContent() {
   );
 }
 
+function GiftingAgentContent() {
+  const meta = serviceModalMeta["corporate-gifting"];
+  const [openFaq, setOpenFaq] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  const scrollToHow = () => {
+    document.getElementById("gifting-how")?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
+  return (
+    <div className={styles.content}>
+      <section className={styles.heroSection}>
+        <span className={styles.heroTag}>
+          <span className={styles.liveDot} aria-hidden="true" />
+          {meta.bannerTag}
+        </span>
+        <h3 className={`${styles.heroHeadline} ${styles.heroHeadlineWide}`}>
+          Anlässe bei Ihren Kunden werden zu <em>Aufträgen</em> aus Ihrem
+          Sortiment.
+        </h3>
+        <p className={`${styles.lead} ${styles.leadFlush}`}>{meta.lead}</p>
+        <div className={styles.heroCtas}>
+          <CtaButton
+            size="md"
+            surface="accent"
+            showCalendar
+            href={CALENDLY_URL}
+            onClick={() => trackCalendlyClick("gifting_hero")}
+          >
+            15-Minuten-Demo buchen
+          </CtaButton>
+          <CtaButton size="md" surface="on-light-ghost" onClick={scrollToHow}>
+            So funktioniert&apos;s ansehen
+          </CtaButton>
+        </div>
+        <p className={styles.giftingHubSpotNote}>
+          Jetzt in HubSpot. Salesforce, Pipedrive und Dynamics folgen.
+        </p>
+        <div className={styles.heroVisual}>
+          <div className={styles.heroPanel}>
+            <span className={styles.panelLabel}>Heute</span>
+            <ul className={styles.panelList}>
+              {giftingToday.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <FlowArrow />
+          <div className={styles.heroPanelAccent}>
+            <span className={styles.panelLabel}>Mit uberagent</span>
+            <ul className={styles.panelList}>
+              {giftingWithUeberagent.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>{giftingScenario.title}</SectionTitle>
+        <p className={styles.bodyText}>{giftingScenario.intro}</p>
+        <div className={styles.giftingScenario}>
+          <div className={styles.giftingScenarioOrder}>
+            <span className={styles.giftingScenarioKicker}>Auftrag · {giftingScenario.account}</span>
+            <div className={styles.giftingScenarioGift}>
+              <span className={styles.giftingScenarioGiftMark} aria-hidden="true">
+                <span className={styles.giftingScenarioGiftSpine} />
+                <span className={styles.giftingScenarioGiftCover} />
+              </span>
+              <div>
+                <strong>Leder-Notizbuch</strong>
+                <p>Aus Ihrem Katalog · Jubiläum</p>
+              </div>
+              <span className={styles.giftingScenarioPrice}>48 €</span>
+            </div>
+            <dl className={styles.giftingScenarioRows}>
+              {giftingScenario.rows.map((row) => (
+                <div key={row.label} className={styles.giftingScenarioRow}>
+                  <dt>{row.label}</dt>
+                  <dd>{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className={styles.giftingScenarioYear}>
+            {giftingScenario.year.map((item) => (
+              <div key={item.value} className={styles.giftingScenarioYearItem}>
+                <span className={styles.giftingScenarioYearValue}>{item.value}</span>
+                <span className={styles.giftingScenarioYearLabel}>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="gifting-how" className={styles.giftingAnchor}>
+        <SectionTitle>So funktioniert&apos;s</SectionTitle>
+        <p className={styles.bodyText}>{giftingHowIntro}</p>
+        <div className={styles.engineSplit}>
+          <GiftingAgentVisual />
+          <div className={`${styles.engineFlow} ${styles.giftingFlow}`}>
+            {giftingFlow.map((step) => (
+              <div
+                key={step.step}
+                className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+              >
+                <div className={styles.engineFlowNum}>
+                  <GiftingGlyph name={step.icon} onDark={step.outcome} />
+                  {step.step}
+                </div>
+                <div className={styles.engineFlowBody}>
+                  <div className={styles.engineFlowTitle}>{step.title}</div>
+                  <p className={styles.engineFlowDesc}>{step.description}</p>
+                  {step.logos && <GiftingCrmLogos tone={step.outcome ? "dark" : "light"} />}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Ihr Kunde steuert Budget, Sie das Sortiment</SectionTitle>
+        <p className={styles.bodyText}>{giftingRolesIntro}</p>
+        <div className={styles.giftingRoleGrid}>
+          {giftingRoles.map((role) => (
+            <div key={role.who} className={styles.giftingRole}>
+              <span className={styles.giftingRoleWho}>{role.who}</span>
+              <h4 className={styles.giftingRoleTitle}>{role.title}</h4>
+              <p>{role.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Was das bedeuten kann</SectionTitle>
+        <p className={styles.bodyText}>
+          Annahme: Ihre Kunden (HubSpot), darunter deren Kontakte als Empfänger,
+          Anlässe und Durchschnittswert unter 50 Euro. Daraus Warenwert und 10%
+          für überagent. Keine gemessenen Ergebnisse.
+        </p>
+        <GiftingRevenueCalc />
+      </section>
+
+      <section>
+        <SectionTitle>Preise</SectionTitle>
+        <p className={styles.bodyText}>{giftingPricing.intro}</p>
+        <div className={styles.giftingPriceCard}>
+          <div className={styles.giftingPriceHead}>
+            <span className={styles.giftingPriceRate}>{giftingPricing.rate}</span>
+            <span className={styles.giftingPriceNote}>{giftingPricing.note}</span>
+          </div>
+          <ul className={styles.giftingPriceList}>
+            {giftingPricing.items.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          <div className={styles.giftingPriceFoot}>
+            <CtaButton
+              size="sm"
+              surface="on-dark"
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("gifting_pricing")}
+            >
+              15-Minuten-Demo buchen
+            </CtaButton>
+          </div>
+        </div>
+        <p className={styles.footnote}>{giftingPricing.footnote}</p>
+      </section>
+
+      <section>
+        <SectionTitle>Häufige Fragen</SectionTitle>
+        <div className={styles.engineFaq}>
+          {giftingFaq.map((item, index) => {
+            const isOpen = openFaq === index;
+            return (
+              <div key={item.question} className={styles.engineFaqItem}>
+                <button
+                  type="button"
+                  className={styles.engineFaqTrigger}
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                >
+                  {item.question}
+                  <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className={styles.engineFaqPanel}
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                      transition={{
+                        duration: reduceMotion ? 0 : DURATION.normal,
+                        ease: EASE.outExpo,
+                      }}
+                    >
+                      <p className={styles.engineFaqAnswer}>{item.answer}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <div className={styles.engineFinal}>
+          <div className={styles.engineFinalCopy}>
+            <h3>Bereit für planbaren Umsatz?</h3>
+            <p>
+              In 15 Minuten zeigen wir den Ablauf mit Ihrem Sortiment: HubSpot
+              beim Kunden, sein Budget, Freigabe, Bestellung in Ihren Systemen.
+            </p>
+            <CtaButton
+              size="md"
+              surface="on-dark"
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("gifting_final")}
+            >
+              15-Minuten-Demo buchen
+            </CtaButton>
+            <div className={styles.engineFinalMeta}>
+              {giftingFinalMeta.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.engineFinalProfile}>
+            <img
+              src={teamMembers[0].image}
+              alt={teamMembers[0].name}
+              className={styles.engineFinalPhoto}
+              width={320}
+              height={330}
+            />
+            <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
+            <p className={styles.engineFinalRole}>CEO · uberagent</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 const contentByService: Record<string, () => React.ReactNode> = {
+  "corporate-gifting": GiftingAgentContent,
   "ai-revenue-engine": RevenueEngineContent,
   "vibe-coding-challenge": VibeChallengeContent,
   "gtm-engineering": GtmContent,
@@ -1860,6 +2128,16 @@ export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
   const service = services.find((s) => s.id === serviceId);
   const meta = serviceId ? serviceModalMeta[serviceId] : null;
   const Content = serviceId ? contentByService[serviceId] : null;
+  const seo = useMemo(() => {
+    if (!service?.seoTitle || !service.seoDescription) return null;
+    return {
+      title: service.seoTitle,
+      description: service.seoDescription,
+      canonical: `${window.location.origin}/service/${service.slug}`,
+    };
+  }, [service]);
+
+  useDocumentSeo(seo);
 
   if (!service || !meta || !Content) return null;
 

@@ -58,7 +58,7 @@ export function Navigation() {
               e.preventDefault();
               handleNav("home");
             }}
-            aria-label="überagent – Startseite"
+            aria-label="uberagent | Startseite"
           >
             <span className={styles.logoIcon} aria-hidden="true">
               <img
@@ -76,7 +76,7 @@ export function Navigation() {
                 height={36}
               />
             </span>
-            <span className={styles.logoText}>überagent</span>
+            <span className={styles.logoText}>uberagent</span>
           </a>
 
           <ul className={styles.links} role="list">
@@ -150,7 +150,7 @@ export function Navigation() {
               >
                 <div className={styles.offCanvasBrand}>
                   <img src="/logoblack.svg" alt="" className={styles.offCanvasLogo} width={32} height={32} />
-                  <span className={styles.logoTextDark}>überagent</span>
+                  <span className={styles.logoTextDark}>uberagent</span>
                 </div>
                 <motion.ul
                   className={styles.offCanvasLinks}

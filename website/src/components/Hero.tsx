@@ -6,6 +6,7 @@ import { TrustBar } from "./TrustBar";
 import { ProofRow } from "./ProofRow";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
 import { heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
+import { HeroTermRain } from "./HeroTermRain";
 import styles from "./Hero.module.css";
 
 const HEADLINE_LEAD = "AI Engineering für ";
@@ -98,7 +99,7 @@ export function Hero() {
       >
         <motion.div className={styles.badge} variants={itemVariants}>
           <span className={styles.badgeDot} aria-hidden="true" />
-          Production-ready AI Engineering
+          Aktuell 2 von 5 Plätzen verfügbar
         </motion.div>
 
         <motion.h1
@@ -162,14 +163,15 @@ export function Hero() {
       ariaLabelledBy="hero-heading"
       contentClassName={styles.shellContent}
     >
+      <HeroTermRain />
       {reduce ? (
-        <div ref={contentRef} className={styles.main}>
+        <div ref={contentRef} className={`${styles.main} ${styles.foreground}`}>
           {layout}
         </div>
       ) : (
         <motion.div
           ref={contentRef}
-          className={styles.main}
+          className={`${styles.main} ${styles.foreground}`}
           style={{
             opacity: contentOpacity,
             y: contentY,
@@ -179,7 +181,9 @@ export function Hero() {
           {layout}
         </motion.div>
       )}
-      <TrustBar embedded />
+      <div className={styles.foreground}>
+        <TrustBar embedded />
+      </div>
     </SectionShell>
   );
 }

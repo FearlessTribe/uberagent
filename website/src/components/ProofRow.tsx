@@ -87,7 +87,7 @@ export function ProofRow({ variant = "dark" }: ProofRowProps) {
         <Stars reduce={Boolean(reduce)} />
         <span className={styles.linkText}>
           Bewertet auf <span className={styles.strong}>ProvenExpert</span>
-          <span className={styles.srOnly}> – 5 von 5 Sternen, Profil öffnen</span>
+          <span className={styles.srOnly}>, 5 von 5 Sternen, Profil öffnen</span>
         </span>
       </a>
       <div className={styles.srOnly}>

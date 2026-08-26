@@ -2,6 +2,8 @@
  * Cloudflare Worker: serves the Vite SPA assets and handles lead intake.
  * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID
  */
+import { getServiceBySlug } from "../src/data/services";
+
 export interface Env {
   ASSETS: Fetcher;
   NOTION_TOKEN: string;
@@ -23,7 +25,70 @@ type StrategyGuideBody = {
   phone?: string;
 };
 
-const NOTION_VERSION = "2022-06-28";
+function escapeHtmlAttr(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;");
+}
+
+function applyHtmlSeo(
+  html: string,
+  title: string,
+  description: string,
+  canonical: string,
+): string {
+  const safeTitle = escapeHtmlAttr(title);
+  const safeDesc = escapeHtmlAttr(description);
+  const safeCanon = escapeHtmlAttr(canonical);
+
+  return html
+    .replace(/<title>[^<]*<\/title>/, `<title>${safeTitle}</title>`)
+    .replace(
+      /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
+      `<meta name="description" content="${safeDesc}" />`,
+    )
+    .replace(
+      /<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/,
+      `<meta property="og:title" content="${safeTitle}" />`,
+    )
+    .replace(
+      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/,
+      `<meta property="og:description" content="${safeDesc}" />`,
+    )
+    .replace(
+      /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/,
+      `<meta property="og:url" content="${safeCanon}" />`,
+    )
+    .replace(
+      /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/,
+      `<link rel="canonical" href="${safeCanon}" />`,
+    );
+}
+
+async function serveAssets(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url);
+  const match = url.pathname.match(/^\/service\/([^/]+)\/?$/);
+  const service = match ? getServiceBySlug(match[1]) : undefined;
+  const res = await env.ASSETS.fetch(request);
+
+  if (!service?.seoTitle || !service.seoDescription) return res;
+
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("text/html")) return res;
+
+  const html = applyHtmlSeo(
+    await res.text(),
+    service.seoTitle,
+    service.seoDescription,
+    `${url.origin}/service/${service.slug}`,
+  );
+
+  return new Response(html, {
+    status: res.status,
+    headers: res.headers,
+  });
+}
 
 function corsHeaders(origin: string | null): HeadersInit {
   return {
@@ -236,6 +301,6 @@ export default {
       }
     }
 
-    return env.ASSETS.fetch(request);
+    return serveAssets(request, env);
   },
 };

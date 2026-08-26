@@ -23,7 +23,7 @@ const crmRows = [
 const locationRows = [
   { website: "baeckerei-meier.ch", google: "4.2 ★", bewertungen: "38", standort: "Bern", branche: "Gastronomie" },
   { website: "garage-brunner.ch", google: "3.1 ★", bewertungen: "12", standort: "Luzern", branche: "Automotive" },
-  { website: "coiffure-lumiere.ch", google: "—", bewertungen: "0", standort: "Zürich", branche: "Beauty" },
+  { website: "coiffure-lumiere.ch", google: "-", bewertungen: "0", standort: "Zürich", branche: "Beauty" },
 ];
 
 const pipelineSteps = [
@@ -64,31 +64,31 @@ const industries = [
     id: "restaurant",
     label: "Restaurant",
     output:
-      "Schwache mobile Darstellung, veraltete Speisekarte online, kein Reservierungs-CTA — hohes Potenzial für Website-Relaunch + Google-Profil.",
+      "Schwache mobile Darstellung, veraltete Speisekarte online, kein Reservierungs-CTA, hohes Potenzial für Website-Relaunch + Google-Profil.",
   },
   {
     id: "zahnarzt",
     label: "Zahnarzt",
     output:
-      "Langsame Ladezeit mobil, wenige aktuelle Bewertungen, kein Online-Termin — Empfehlung: Performance + Local SEO + Buchungssystem.",
+      "Langsame Ladezeit mobil, wenige aktuelle Bewertungen, kein Online-Termin, Empfehlung: Performance + Local SEO + Buchungssystem.",
   },
   {
     id: "coiffeur",
     label: "Coiffeur",
     output:
-      "Schwache mobile Darstellung, wenige aktuelle Bewertungen, kein klarer Buchungs-CTA — hohes Potenzial für Website-Relaunch + Google-Profil-Optimierung.",
+      "Schwache mobile Darstellung, wenige aktuelle Bewertungen, kein klarer Buchungs-CTA, hohes Potenzial für Website-Relaunch + Google-Profil-Optimierung.",
   },
   {
     id: "handwerker",
     label: "Handwerker",
     output:
-      "Kein strukturiertes Angebots-CTA, schwache lokale Sichtbarkeit, veraltete Referenzprojekte — Fokus: Conversion + Local Visibility.",
+      "Kein strukturiertes Angebots-CTA, schwache lokale Sichtbarkeit, veraltete Referenzprojekte, Fokus: Conversion + Local Visibility.",
   },
   {
     id: "physio",
     label: "Physiotherapie",
     output:
-      "Gute Inhalte, aber schwaches Tracking und kein Online-Termin — Upsell-Fit für Conversion-Optimierung und CRM-Anbindung.",
+      "Gute Inhalte, aber schwaches Tracking und kein Online-Termin, Upsell-Fit für Conversion-Optimierung und CRM-Anbindung.",
   },
 ];
 
@@ -167,7 +167,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <span className={styles.heroTag}>Vom Kundenstamm zum Sales-System</span>
           <p className={styles.lead}>
             Wie aus verstreuten CRM- und Standortdaten personalisierte Verkaufschancen
-            für zehntausende KMU-Kunden entstanden — und der Umsatz aus dem Bestandsstamm
+            für zehntausende KMU-Kunden entstanden, und der Umsatz aus dem Bestandsstamm
             systematisch skaliert wurde.
           </p>
           <div className={styles.statsRow}>
@@ -270,7 +270,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           <SectionTitle>Ein Agent, der nicht nur schreibt, sondern Verkaufschancen erkennt.</SectionTitle>
           <p className={styles.bodyText}>
             Der Agent verbindet Datenquellen, erkennt Kundensegmente, analysiert digitale Schwachstellen
-            und erzeugt daraus konkrete Gesprächsanlässe für den Vertrieb — in Deutsch, Französisch oder Italienisch.
+            und erzeugt daraus konkrete Gesprächsanlässe für den Vertrieb, in Deutsch, Französisch oder Italienisch.
           </p>
           <div className={styles.pipeline}>
             {pipelineSteps.map((step, i) => (
@@ -410,7 +410,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           </p>
           <p className={styles.bodyText}>
             Aus zwei unverbundenen Datenquellen wurde ein systematischer Sales-Prozess. Retention,
-            Upselling und Website-Neugeschäft werden in einem automatisierten Prozess verbunden —
+            Upselling und Website-Neugeschäft werden in einem automatisierten Prozess verbunden -
             präzise, mehrsprachig und skalierbar.
           </p>
         </section>

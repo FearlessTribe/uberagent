@@ -1,10 +1,10 @@
 ---
-description: Motion personality for überagent website animations
+description: Motion personality for uberagent website animations
 globs: website/src/**/*.{tsx,css}
 alwaysApply: false
 ---
 
-# Motion Personality (überagent)
+# Motion Personality (uberagent)
 
 Read `design/design.md` and use presets from `website/src/motion/`.
 

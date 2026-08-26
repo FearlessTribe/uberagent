@@ -15,7 +15,7 @@ interface FinanznomadeCaseModalProps {
 const LIVE_URL = "https://auslandsvergleich.finanznoma.de/";
 
 const QUOTE_TEXT =
-  "Laurens hat mit uns aus einem Prototypen einen voll funktionsfähigen Versicherungskonfigurator entwickelt — von Analyse und Konzeption über Datenstruktur und UX/UI bis zur technischen Umsetzung. Besonders stark: Er hat sich intensiv eingearbeitet, komplexe Leistungen strukturiert und daraus eine verständliche Lösung gemacht. Unkompliziert, schnell, lösungsorientiert. Klare Empfehlung.";
+  "Laurens hat mit uns aus einem Prototypen einen voll funktionsfähigen Versicherungskonfigurator entwickelt, von Analyse und Konzeption über Datenstruktur und UX/UI bis zur technischen Umsetzung. Besonders stark: Er hat sich intensiv eingearbeitet, komplexe Leistungen strukturiert und daraus eine verständliche Lösung gemacht. Unkompliziert, schnell, lösungsorientiert. Klare Empfehlung.";
 
 const navItems = [
   { id: "fn-produkt", label: "Produkt" },
@@ -131,7 +131,7 @@ const principles = [
   },
   {
     title: "Fehlende Information ≠ nicht versichert",
-    text: "Fünfwertiger Deckungsstatus statt Binärlogik — Unsicherheit wird sichtbar, nicht weggerechnet.",
+    text: "Fünfwertiger Deckungsstatus statt Binärlogik, Unsicherheit wird sichtbar, nicht weggerechnet.",
   },
   {
     title: "Quellenpflicht",
@@ -139,7 +139,7 @@ const principles = [
   },
   {
     title: "Produkt = Konfigurationsraum",
-    text: "Achsen und Constraints statt starrer Tarifliste — der Nutzer konfiguriert, das System berechnet.",
+    text: "Achsen und Constraints statt starrer Tarifliste, der Nutzer konfiguriert, das System berechnet.",
   },
 ];
 
@@ -156,14 +156,14 @@ const approachPhases = [
     number: "01",
     title: "Tiefe Analyse",
     description:
-      "Strukturanalyse über fünf Anbieter und 15+ Tarife: Gemeinsamkeiten, Sonderfälle, nicht Normalisierbares — dokumentiert, quellenbelegt, entscheidungsfähig.",
+      "Strukturanalyse über fünf Anbieter und 15+ Tarife: Gemeinsamkeiten, Sonderfälle, nicht Normalisierbares, dokumentiert, quellenbelegt, entscheidungsfähig.",
     extra: "insurers" as const,
   },
   {
     number: "02",
     title: "Konzeption",
     description:
-      "Produktlogik vor Interface: Personen, Region, Lebenssituation, gewünschtes Schutzniveau — und erst dann Vergleich. Rechtliche Gateways (VersVermV / VVG) als Teil der Journey, nicht als Afterthought.",
+      "Produktlogik vor Interface: Personen, Region, Lebenssituation, gewünschtes Schutzniveau, und erst dann Vergleich. Rechtliche Gateways (VersVermV / VVG) als Teil der Journey, nicht als Afterthought.",
     extra: null,
   },
   {
@@ -184,7 +184,7 @@ const approachPhases = [
     number: "05",
     title: "UX / UI",
     description:
-      "Editorial Design im Look von Finanznomade — warm, glaubwürdig, näher an Magazin als an Fintech-Dashboard. Fünf Schritte, eine Aufgabe pro Screen. Die Komplexität sitzt unter der Haube.",
+      "Editorial Design im Look von Finanznomade, warm, glaubwürdig, näher an Magazin als an Fintech-Dashboard. Fünf Schritte, eine Aufgabe pro Screen. Die Komplexität sitzt unter der Haube.",
     extra: "steps" as const,
   },
 ];
@@ -483,7 +483,7 @@ function AffiliateSystem() {
 
       <p className={styles.callout}>
         Der Konfigurator erzeugt qualifizierte Intent-Signale. Das Affiliate-System macht daraus
-        steuerbare Revenue-Infrastruktur — Schritt für Schritt.
+        steuerbare Revenue-Infrastruktur, Schritt für Schritt.
       </p>
     </div>
   );
@@ -591,7 +591,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
             </div>
             <p className={styles.videoCaption}>
               <strong>Produkt-Walkthrough</strong>
-              Konfigurator aus Kundensicht — vom Einstieg bis zum Vergleich
+              Konfigurator aus Kundensicht, vom Einstieg bis zum Vergleich
             </p>
             <div className={styles.videoCta}>
               <CtaButton href={LIVE_URL} size="md" surface="on-light">
@@ -607,7 +607,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
             <div className={styles.stackCard}>
               <h4 className={styles.stackTitle}>Datenprodukt</h4>
               <p>
-                Alle Versicherungen von fünf Anbietern systematisch und einheitlich strukturiert —
+                Alle Versicherungen von fünf Anbietern systematisch und einheitlich strukturiert -
                 vergleichbar und quellenbelegt.
               </p>
             </div>
@@ -617,7 +617,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
             <div className={styles.stackCard}>
               <h4 className={styles.stackTitle}>Konfigurator</h4>
               <p>
-                Guided Experience für Endkunden: intuitiv, klar geführt — in wenigen Schritten zum
+                Guided Experience für Endkunden: intuitiv, klar geführt, in wenigen Schritten zum
                 passenden Schutz statt PDF-Chaos.
               </p>
             </div>
@@ -627,7 +627,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
             <div className={styles.stackCard}>
               <h4 className={styles.stackTitle}>Affiliate-Netzwerk</h4>
               <p>
-                Partnersteuerung mit klarer Performance-Übersicht und Incentivierung nach Ergebnis —
+                Partnersteuerung mit klarer Performance-Übersicht und Incentivierung nach Ergebnis -
                 vom Click bis zur Provision.
               </p>
             </div>
@@ -638,7 +638,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
               <h4 className={styles.stackTitle}>Ergebnis</h4>
               <p>
                 Skalierbarer, hocheffizienter Vertrieb internationaler Krankenversicherungen für
-                Unternehmer — rechtlich sauber, conversion-orientiert, partnerfähig.
+                Unternehmer, rechtlich sauber, conversion-orientiert, partnerfähig.
               </p>
             </div>
           </div>
@@ -650,7 +650,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
             Finanznomade.de berät Unternehmerinnen und Unternehmer, die auswandern, remote arbeiten
             oder als Perpetual Traveler leben. Zentrale Frage:{" "}
             <em>Welche internationale Krankenversicherung passt zu meiner Situation?</em> Der Markt
-            antwortet mit PDFs — nicht mit Produkten.
+            antwortet mit PDFs, nicht mit Produkten.
           </p>
           <div className={styles.beforeAfter}>
             <div className={styles.beforeCard}>
@@ -682,7 +682,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
         <section>
           <SectionTitle>Herausforderung</SectionTitle>
           <p className={styles.bodyText}>
-            Internationale Expat-Krankenversicherungen sind kein Vergleichsprodukt „out of the box“ —
+            Internationale Expat-Krankenversicherungen sind kein Vergleichsprodukt „out of the box“ -
             und sollen trotzdem monetarisierbar und skalierbar werden.
           </p>
           <div className={styles.challengeGrid}>
@@ -700,7 +700,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
         <section id="fn-ansatz">
           <SectionTitle>Ansatz: Datenprodukt mit Oberfläche</SectionTitle>
           <p className={styles.bodyText}>
-            Nicht „UI mit Tabelle“, sondern strukturierte Wissensbasis — normalisiert, validiert und
+            Nicht „UI mit Tabelle“, sondern strukturierte Wissensbasis, normalisiert, validiert und
             so aufbereitet, dass sie Produkt, Beratung und Tracking gleichzeitig speisen kann.
           </p>
           <ApproachProcess />
@@ -710,7 +710,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
         <section id="fn-affiliate">
           <SectionTitle>Affiliate-Netzwerk &amp; Sales Tracking</SectionTitle>
           <p className={styles.bodyText}>
-            Zielbild: von der Besucherquelle bis zum Versicherungsabschluss alles nachvollziehbar —
+            Zielbild: von der Besucherquelle bis zum Versicherungsabschluss alles nachvollziehbar -
             inklusive Performance- und Provisionsplattform. Klar getrennt: was heute live ist, und was
             als nächste Stufe folgt.
           </p>

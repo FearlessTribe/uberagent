@@ -1,0 +1,120 @@
+.crmLogos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+@media (min-width: 520px) {
+  .crmLogos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.crmBrand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 10px 9px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  overflow: hidden;
+}
+
+.crmBrand img {
+  height: 22px;
+  width: auto;
+  max-width: 72px;
+  object-fit: contain;
+}
+
+.crmSoon {
+  cursor: default;
+}
+
+.crmSoon img,
+.crmSoon .crmName,
+.crmSoon .crmMarket {
+  filter: grayscale(1);
+  opacity: 0.42;
+}
+
+.crmSoonHint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: inherit;
+  background: rgba(25, 28, 33, 0.78);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out-smooth);
+}
+
+.crmSoon:hover .crmSoonHint,
+.crmSoon:focus-within .crmSoonHint {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crmSoonHint {
+    transition: none;
+  }
+}
+
+.crmName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.crmMarket {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.dark.crmLogos {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dark .crmBrand {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.glyph {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  color: var(--color-primary);
+  background: rgba(204, 128, 102, 0.12);
+  border: 1px solid rgba(204, 128, 102, 0.22);
+  flex-shrink: 0;
+}
+
+.glyphOnDark {
+  color: var(--color-primary-light);
+  background: rgba(204, 128, 102, 0.16);
+  border-color: rgba(204, 128, 102, 0.32);
+}

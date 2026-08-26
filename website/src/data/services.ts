@@ -26,9 +26,36 @@ export interface Service {
   ctaLabel: string;
   category: ServiceCategoryId;
   featured?: boolean;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export const services: Service[] = [
+  {
+    id: "corporate-gifting",
+    slug: "anlassgeschenke",
+    title: "Werbegeschenke zum Anlass",
+    shortDescription:
+      "Für Werbeartikelhersteller: planbare Aufträge aus Ihrem Sortiment. App im HubSpot Ihres Kunden. Er legt Budget fest. Nach Freigabe Bestellung in Ihren Systemen.",
+    cardHook:
+      "Anlässe bei Ihren Kunden werden zu Aufträgen aus Ihrem Sortiment.",
+    icon: "gifting",
+    eyebrow: "Für Werbeartikelhersteller",
+    bannerTag: "Jetzt in HubSpot",
+    lead: "Planbare Aufträge über das Jahr, aus Ihrem eigenen Sortiment. Anlässe finden wir. Der Account Manager Ihres Kunden gibt jede Bestellung frei.",
+    tags: ["Werbeartikel", "HubSpot", "Anlässe"],
+    stats: [
+      { value: "HubSpot", label: "Marketplace live" },
+      { value: "Kundenbudget", label: "Ostern und Weihnachten höher" },
+      { value: "10%", label: "vom Warenwert" },
+    ],
+    ctaLabel: "15-Minuten-Demo buchen",
+    category: "neu",
+    featured: true,
+    seoTitle: "Werbegeschenke zum Anlass | Für Werbeartikelhersteller",
+    seoDescription:
+      "Für Werbeartikelhersteller: planbare Aufträge aus Ihrem Sortiment. App im HubSpot Ihres Kunden. Budget vom Kunden. Bestellung landet in Ihren Systemen.",
+  },
   {
     id: "ai-revenue-engine",
     slug: "ai-revenue-engine",
@@ -80,14 +107,14 @@ export const services: Service[] = [
     shortDescription:
       "AI-gestützte GTM-Infrastruktur für B2B-SaaS-Teams: von ICP- und Signal-Logik bis zu Routing, Personalisierung und Reporting.",
     cardHook:
-      "Aus fragmentierten CRM-Daten und Signalen wird eine skalierbare GTM-Pipeline — mit QA, Governance und messbarer Pipeline pro Kopf.",
+      "Aus fragmentierten CRM-Daten und Signalen wird eine skalierbare GTM-Pipeline, mit QA, Governance und messbarer Pipeline pro Kopf.",
     icon: "gtm",
     eyebrow: "Go-to-Market",
     bannerTag: "Von fragmentierten Daten zu skalierbarer Pipeline",
-    lead: "Für RevOps, Marketing und Sales, die aus CRM, Signalen und Outreach endlich ein System machen wollen — nicht noch ein Tool.",
+    lead: "Für RevOps, Marketing und Sales, die aus CRM, Signalen und Outreach endlich ein System machen wollen, nicht noch ein Tool.",
     tags: ["GTM", "CRM", "Pipeline"],
     stats: [
-      { value: "6–8 Wo.", label: "Time-to-Value" },
+      { value: "6-8 Wo.", label: "Time-to-Value" },
       { value: "ICP + Signale", label: "Priorisierung" },
       { value: "QA + Governance", label: "Produktionsreif" },
     ],
@@ -101,7 +128,7 @@ export const services: Service[] = [
     shortDescription:
       "Sichere MCP-Server und Integrationen, damit AI Agents strukturiert mit Ihren Unternehmensdaten und Workflows interagieren.",
     cardHook:
-      "Ihre bestehenden Systeme werden AI-ready — standardisiert, sicher und erweiterbar statt fragiler Einzellösungen.",
+      "Ihre bestehenden Systeme werden AI-ready, standardisiert, sicher und erweiterbar statt fragiler Einzellösungen.",
     icon: "mcp",
     eyebrow: "Model Context Protocol",
     bannerTag: "Ihre Systeme, bereit für AI Agents",
@@ -120,12 +147,12 @@ export const services: Service[] = [
     slug: "workflow-agents",
     title: "AI Workflow Agents",
     shortDescription:
-      "AI Agents für Workflows, die nicht nur antworten, sondern handeln — mit Regeln, Freigaben und voller Nachvollziehbarkeit.",
+      "AI Agents für Workflows, die nicht nur antworten, sondern handeln, mit Regeln, Freigaben und voller Nachvollziehbarkeit.",
     cardHook:
-      "Digitale Mitarbeitende für konkrete Prozesse — mit Human-in-the-loop, Systemintegration und kontrollierter Skalierung.",
+      "Digitale Mitarbeitende für konkrete Prozesse, mit Human-in-the-loop, Systemintegration und kontrollierter Skalierung.",
     icon: "agents",
     eyebrow: "AI Workflow Agents",
-    bannerTag: "Agenten, die handeln — nicht nur antworten",
+    bannerTag: "Agenten, die handeln, nicht nur antworten",
     lead: "Digitale Mitarbeitende für konkrete Prozesse: Informationen sammeln, Entscheidungen im definierten Rahmen treffen und Aufgaben in Ihren Systemen ausführen.",
     tags: ["Agents", "Automation", "Operations"],
     stats: [
@@ -141,13 +168,13 @@ export const services: Service[] = [
     slug: "business-models",
     title: "Validieren von neuen Geschäftsmodellen",
     shortDescription:
-      "Strukturierte Validierung neuer Geschäftsmodelle — mit klaren Hypothesen, schnellen Experimenten und datenbasiertem Go/No-Go.",
+      "Strukturierte Validierung neuer Geschäftsmodelle, mit klaren Hypothesen, schnellen Experimenten und datenbasiertem Go/No-Go.",
     cardHook:
-      "Von der Idee zum validierten Geschäftsmodell — bevor Sie Zeit und Budget in die falsche Richtung investieren.",
+      "Von der Idee zum validierten Geschäftsmodell, bevor Sie Zeit und Budget in die falsche Richtung investieren.",
     icon: "validate",
     eyebrow: "Business Validation",
     bannerTag: "Validieren, bevor Sie Budget verbrennen",
-    lead: "Neue Geschäftsmodelle sind teuer und riskant. Wir helfen Ihnen, Ideen strukturiert zu testen — mit klaren Hypothesen, schnellen Experimenten und messbaren Ergebnissen.",
+    lead: "Neue Geschäftsmodelle sind teuer und riskant. Wir helfen Ihnen, Ideen strukturiert zu testen, mit klaren Hypothesen, schnellen Experimenten und messbaren Ergebnissen.",
     tags: ["Validation", "Strategy", "MVP"],
     stats: [
       { value: "↓ Risiko", label: "Vor Investition" },
@@ -164,7 +191,7 @@ export const services: Service[] = [
     shortDescription:
       "Klare AI-Strategie statt isolierter Cases: Portfolio aufbauen, quantitativ bewerten, entscheiden und messbar skalieren.",
     cardHook:
-      "Es braucht eine klare Strategie — nicht ein paar Cases, bei denen unklar bleibt, wie viel sie bringen. Wir machen AI planbar und messbar.",
+      "Es braucht eine klare Strategie, nicht ein paar Cases, bei denen unklar bleibt, wie viel sie bringen. Wir machen AI planbar und messbar.",
     icon: "strategy",
     eyebrow: "AI Strategy",
     bannerTag: "Von Ideen zum priorisierten AI-Portfolio",
@@ -192,7 +219,7 @@ export const services: Service[] = [
     lead: "Produktionstaugliche AI braucht Enablement. Wir schulen Fach- und Tech-Teams an Ihren Workflows, damit Wissen, Kontrolle und Verbesserung im Unternehmen bleiben.",
     tags: ["Enablement", "Workshops", "Operating Model"],
     stats: [
-      { value: "1–2 Tage", label: "Workshop" },
+      { value: "1-2 Tage", label: "Workshop" },
       { value: "Hands-on", label: "an echten Cases" },
       { value: "Docs", label: "für den Betrieb" },
     ],
@@ -202,3 +229,7 @@ export const services: Service[] = [
 ];
 
 export const serviceIds = services.map((s) => s.id);
+
+export function getServiceBySlug(slug: string): Service | undefined {
+  return services.find((s) => s.slug === slug);
+}
