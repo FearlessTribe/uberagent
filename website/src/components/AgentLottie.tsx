@@ -6,12 +6,21 @@ interface AgentLottieProps {
   poster: string;
   alt: string;
   className?: string;
+  /** When false, show static poster (side cards in carousel). */
+  playing?: boolean;
 }
 
-export function AgentLottie({ src, poster, alt, className }: AgentLottieProps) {
+export function AgentLottie({
+  src,
+  poster,
+  alt,
+  className,
+  playing = true,
+}: AgentLottieProps) {
   const reduce = useReducedMotion();
+  const shouldPlay = playing && !reduce;
 
-  if (reduce) {
+  if (!shouldPlay) {
     return (
       <img
         src={poster}

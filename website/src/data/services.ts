@@ -262,6 +262,7 @@ export interface ProductizedAgent {
   tagline: string;
   personality: string;
   bio: string;
+  audience: string;
   traits: string[];
   lottieSrc: string;
   posterSrc: string;
@@ -277,6 +278,7 @@ export const productizedAgents: ProductizedAgent[] = [
     personality:
       "Ruhig, präzise, unbestechlich. Leopold denkt in Daten, nicht in Bauchgefühl – und bleibt höflich, wenn der Vertrieb das nicht tut.",
     bio: "Leopold analysiert Ihren Kundenstamm, entdeckt Pain Points und Kaufsignale und leitet daraus konkrete Sales-Opportunities ab – inklusive Anlass und Outreach, zurück ins CRM.",
+    audience: "Für Agenturen",
     traits: ["Analytisch", "Opportunity Scout", "CRM-native"],
     lottieSrc: "/lottie/leopold-agent.json",
     posterSrc: "/lottie/leopold-agent.png",
@@ -289,6 +291,7 @@ export const productizedAgents: ProductizedAgent[] = [
     personality:
       "Warm, aufmerksam, nie aufdringlich. Helena kennt Geburtstage und Jubiläen besser als der Kalender und schlägt nur vor, was wirklich passt.",
     bio: "Helena lebt im HubSpot Ihrer Kunden, erkennt Anlässe und verwandelt sie in freigegebene Bestellungen aus Ihrem Sortiment – planbar über das Jahr.",
+    audience: "Für Werbemittelhersteller und Vertriebe",
     traits: ["Empathisch", "Anlass-Radar", "Sortiment first"],
     lottieSrc: "/lottie/gifting-agent.json",
     posterSrc: "/lottie/gifting-agent.png",
@@ -301,6 +304,7 @@ export const productizedAgents: ProductizedAgent[] = [
     personality:
       "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise – er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
     bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein – Teile, Arbeitszeit, Marge und Endpreis stehen.",
+    audience: "Für KMU",
     traits: ["Präzise", "Preislogik-treu", "Team-ready"],
     lottieSrc: "/lottie/maxim-agent.json",
     posterSrc: "/lottie/maxim-agent.png",
@@ -388,7 +392,7 @@ export const navServiceGroups: NavServiceGroup[] = [
   },
   {
     id: "agents",
-    label: "Productized Agenten",
+    label: "Unsere suprahumanistischen Agents",
     description: "Fertige Agenten mit klarem Job",
     items: [
       navItemFromService(
