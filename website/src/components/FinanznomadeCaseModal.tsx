@@ -1,16 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Modal } from "./Modal";
+import { PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { FinanznomadeScreenshotShowcase } from "./FinanznomadeScreenshotShowcase";
 import { CtaButton } from "./CtaButton";
+import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { resolveVariants, slidePanel } from "../motion";
 import styles from "./FinanznomadeCaseModal.module.css";
 
-interface FinanznomadeCaseModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const LIVE_URL = "https://auslandsvergleich.finanznoma.de/";
 
@@ -228,7 +225,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h3 className={styles.sectionTitle}>{children}</h3>;
 }
 
-function findScrollParent(el: HTMLElement | null): HTMLElement | null {
+function findScrollParent(el: HTMLElement | null): HTMLElement {
   let node = el?.parentElement ?? null;
   while (node) {
     const { overflowY } = getComputedStyle(node);
@@ -237,7 +234,14 @@ function findScrollParent(el: HTMLElement | null): HTMLElement | null {
     }
     node = node.parentElement;
   }
-  return null;
+  return document.documentElement;
+}
+
+function scrollEventTarget(scroller: HTMLElement): EventTarget {
+  if (scroller === document.documentElement || scroller === document.body) {
+    return window;
+  }
+  return scroller;
 }
 
 function TypedQuote({ active }: { active: boolean }) {
@@ -258,7 +262,7 @@ function TypedQuote({ active }: { active: boolean }) {
     const quote = quoteRef.current;
     if (!quote) return;
     const scroller = findScrollParent(quote);
-    if (!scroller) return;
+    const scrollTarget = scrollEventTarget(scroller);
 
     let raf = 0;
     const update = () => {
@@ -268,10 +272,15 @@ function TypedQuote({ active }: { active: boolean }) {
         setChars(0);
         return;
       }
-      const scrollRect = scroller.getBoundingClientRect();
+      const viewHeight =
+        scroller === document.documentElement
+          ? window.innerHeight
+          : scroller.getBoundingClientRect().height;
+      const viewTop =
+        scroller === document.documentElement ? 0 : scroller.getBoundingClientRect().top;
       const quoteRect = quote.getBoundingClientRect();
-      const start = scrollRect.top + scrollRect.height * 0.72;
-      const end = scrollRect.top + scrollRect.height * 0.22;
+      const start = viewTop + viewHeight * 0.72;
+      const end = viewTop + viewHeight * 0.22;
       const range = Math.max(160, start - end);
       const progress = Math.min(1, Math.max(0, (start - quoteRect.top) / range));
       setChars(Math.round(progress * QUOTE_TEXT.length));
@@ -282,12 +291,12 @@ function TypedQuote({ active }: { active: boolean }) {
       raf = window.requestAnimationFrame(update);
     };
 
-    scroller.addEventListener("scroll", onScroll, { passive: true });
+    scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     update();
 
     return () => {
-      scroller.removeEventListener("scroll", onScroll);
+      scrollTarget.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
@@ -495,12 +504,18 @@ function CaseNav({ scroller }: { scroller: HTMLElement | null }) {
   useEffect(() => {
     if (!scroller) return;
 
+    const root: ParentNode =
+      scroller === document.documentElement ? document : scroller;
     const sections = navItems
-      .map((item) => scroller.querySelector<HTMLElement>(`#${item.id}`))
+      .map((item) => root.querySelector<HTMLElement>(`#${item.id}`))
       .filter(Boolean) as HTMLElement[];
+    const scrollTarget = scrollEventTarget(scroller);
 
     const onScroll = () => {
-      const top = scroller.getBoundingClientRect().top + 120;
+      const top =
+        scroller === document.documentElement
+          ? 140
+          : scroller.getBoundingClientRect().top + 120;
       let current: string = navItems[0].id;
       for (const section of sections) {
         if (section.getBoundingClientRect().top <= top) current = section.id;
@@ -508,13 +523,15 @@ function CaseNav({ scroller }: { scroller: HTMLElement | null }) {
       setActive(current);
     };
 
-    scroller.addEventListener("scroll", onScroll, { passive: true });
+    scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => scroller.removeEventListener("scroll", onScroll);
+    return () => scrollTarget.removeEventListener("scroll", onScroll);
   }, [scroller]);
 
   const jump = (id: string) => {
-    const el = scroller?.querySelector(`#${id}`);
+    const root: ParentNode =
+      !scroller || scroller === document.documentElement ? document : scroller;
+    const el = root.querySelector(`#${id}`);
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -534,27 +551,29 @@ function CaseNav({ scroller }: { scroller: HTMLElement | null }) {
   );
 }
 
-export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModalProps) {
+export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [scroller, setScroller] = useState<HTMLElement | null>(null);
 
+  useDocumentSeo({
+    title: "Krankenversicherungs-Konfigurator | Success Story | uberagent",
+    description:
+      "Internationalen KV-Vergleich von der PDF-Welt in einen 5-Schritt-Konfigurator überführt.",
+    canonical: `${window.location.origin}/case/finanznomade-versicherungsrechner`,
+  });
+
   useEffect(() => {
-    if (!isOpen) {
-      setScroller(null);
-      return;
-    }
     const id = window.requestAnimationFrame(() => {
       setScroller(findScrollParent(contentRef.current));
     });
     return () => window.cancelAnimationFrame(id);
-  }, [isOpen]);
+  }, []);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <PageShell
       title="Internationaler Krankenversicherungs-Konfigurator"
       eyebrow="Success Story · Finanznomade"
+      onBack={onClose}
       footer={
         <ModalContactFooter onClose={onClose} label="Ähnliches Datenprodukt besprechen" />
       }
@@ -601,7 +620,7 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
           </div>
 
           <span className={styles.heroTag}>Von Tarif-PDFs zur Conversion-Maschine</span>
-          <TypedQuote active={isOpen} />
+          <TypedQuote active />
 
           <div className={styles.stackDiagram} aria-label="Produktbaukasten">
             <div className={styles.stackCard}>
@@ -735,6 +754,9 @@ export function FinanznomadeCaseModal({ isOpen, onClose }: FinanznomadeCaseModal
           </div>
         </section>
       </div>
-    </Modal>
+    </PageShell>
   );
 }
+
+/** @deprecated Use FinanznomadeCasePage */
+export const FinanznomadeCaseModal = FinanznomadeCasePage;

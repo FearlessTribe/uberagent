@@ -68,6 +68,13 @@ export function ServiceIcon({ type, className = "" }: ServiceIconProps) {
         <path d="M10 14c0-3 2.2-5 4.5-5 2.2 0 3.5 2 3.5 5M22 14c0-3-2.2-5-4.5-5C15.3 9 14 11 14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
+    calc: (
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="6" y="4" width="20" height="24" rx="3" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="9" y="8" width="14" height="5" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M10 17h2.5M14.75 17H17.5M19.5 17H22M10 21h2.5M14.75 21H17.5M19.5 21H22M10 25h2.5M14.75 25H17.5M19.5 25H22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
   };
 
   return (

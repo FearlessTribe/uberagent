@@ -20,12 +20,14 @@ export interface ServiceModalContent {
 const footerNotes: Record<string, string> = {
   "corporate-gifting": "10% vom Warenwert je bestätigter Bestellung. Landet automatisch in Ihren Systemen.",
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
+  "kalkulations-agent": "Fünf Anfragen. Eine Woche. Null Risiko.",
   "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
 };
 
 const ctaHrefs: Record<string, string> = {
   "corporate-gifting": "https://calendly.com/supraflow/30min",
   "ai-revenue-engine": "https://calendly.com/supraflow/30min",
+  "kalkulations-agent": "https://calendly.com/supraflow/30min",
   "vibe-coding-challenge": "https://calendly.com/supraflow/30min",
 };
 
@@ -770,13 +772,9 @@ export const mcpValueProps = [
     description:
       "MCP strukturiert Tools, Ressourcen und Aktionen, wartbar, erweiterbar, zukunftssicher.",
   },
-  {
-    title: "Bestehende Systeme nutzbar machen",
-    description:
-      "Kein Systemersatz nötig. CRM, ERP und Wissensdatenbanken werden AI-ready angebunden.",
-  },
 ];
 
+/** @deprecated Prefer use cases on the MCP page; kept for reference. */
 export const mcpImpact: ImpactRow[] = [
   { before: "Fragile Prompt-Basteleien", after: "Standardisierte MCP-Schnittstelle" },
   { before: "Unsichere API-Zugriffe", after: "OAuth, Rollen & Audit Logs" },

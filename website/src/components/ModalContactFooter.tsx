@@ -21,8 +21,8 @@ export function ModalContactFooter({
       trackCalendlyClick("modal_footer");
       return;
     }
-    scrollToContact("modal_footer");
     onClose();
+    window.setTimeout(() => scrollToContact("modal_footer"), 0);
   };
 
   return (

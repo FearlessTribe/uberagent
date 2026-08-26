@@ -11,7 +11,7 @@ import { lockScroll, unlockScroll } from "../hooks/scrollLock";
 import { useCaseRoute } from "../hooks/useCaseRoute";
 import { useServiceRoute } from "../hooks/useServiceRoute";
 
-export type OverlayType = "none" | "menu" | "service" | "project" | "laurens";
+export type OverlayType = "none" | "menu" | "laurens";
 
 interface OverlayContextValue {
   activeOverlay: OverlayType;
@@ -30,6 +30,8 @@ interface OverlayContextValue {
   openLaurens: () => void;
   closeLaurens: () => void;
   closeAll: () => void;
+  /** Clear detail pages and land on `/` without history.back(). */
+  navigateHome: () => void;
 }
 
 const OverlayContext = createContext<OverlayContextValue | null>(null);
@@ -57,17 +59,45 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
     setOpenProjectId(null);
   }, [setOpenServiceId, setOpenProjectId]);
 
-  const activeOverlay: OverlayType = menuOpen
-    ? "menu"
-    : openServiceId
-      ? "service"
-      : openProjectId
-        ? "project"
-        : laurensOpen
-          ? "laurens"
-          : "none";
+  const navigateHome = useCallback(() => {
+    setMenuOpen(false);
+    setLaurensOpen(false);
+    setOpenServiceId(null, { syncUrl: false });
+    setOpenProjectId(null, { syncUrl: false });
+    const path = window.location.pathname;
+    if (
+      path.startsWith("/service/") ||
+      path.startsWith("/case/") ||
+      path === "/contact" ||
+      path === "/contact/"
+    ) {
+      window.history.pushState(null, "", "/");
+    }
+  }, [setOpenServiceId, setOpenProjectId]);
 
+  const openService = useCallback(
+    (id: string) => {
+      setOpenProjectId(null, { syncUrl: false });
+      setLaurensOpen(false);
+      setMenuOpen(false);
+      setOpenServiceId(id);
+    },
+    [setOpenProjectId, setOpenServiceId],
+  );
+
+  const openProject = useCallback(
+    (id: string) => {
+      setOpenServiceId(null, { syncUrl: false });
+      setLaurensOpen(false);
+      setMenuOpen(false);
+      setOpenProjectId(id);
+    },
+    [setOpenServiceId, setOpenProjectId],
+  );
+
+  const activeOverlay: OverlayType = menuOpen ? "menu" : laurensOpen ? "laurens" : "none";
   const isOverlayOpen = activeOverlay !== "none";
+  const isDetailPage = Boolean(openServiceId || openProjectId);
 
   useEffect(() => {
     if (isOverlayOpen) {
@@ -77,10 +107,10 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
   }, [isOverlayOpen]);
 
   useEffect(() => {
-    if (openServiceId || openProjectId || laurensOpen) {
+    if (isDetailPage || laurensOpen) {
       setMenuOpen(false);
     }
-  }, [openServiceId, openProjectId, laurensOpen]);
+  }, [isDetailPage, laurensOpen]);
 
   const value = useMemo<OverlayContextValue>(
     () => ({
@@ -93,13 +123,14 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       openServiceId,
       openProjectId,
       laurensOpen,
-      openService: setOpenServiceId,
+      openService,
       closeService: () => setOpenServiceId(null),
-      openProject: setOpenProjectId,
+      openProject,
       closeProject: () => setOpenProjectId(null),
       openLaurens: () => setLaurensOpen(true),
       closeLaurens: () => setLaurensOpen(false),
       closeAll,
+      navigateHome,
     }),
     [
       activeOverlay,
@@ -108,9 +139,12 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       openServiceId,
       openProjectId,
       laurensOpen,
+      openService,
+      openProject,
       setOpenServiceId,
       setOpenProjectId,
       closeAll,
+      navigateHome,
     ],
   );
 

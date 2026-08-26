@@ -361,9 +361,11 @@ export function RevenueScanVisual() {
         })}
       </div>
 
-      <AnimatePresence mode="wait">
-        <PhaseDetail key={phase} phase={phase} reduce={!!reduce} scanIndex={scanIndex} />
-      </AnimatePresence>
+      <div className={styles.stage}>
+        <AnimatePresence mode="wait">
+          <PhaseDetail key={phase} phase={phase} reduce={!!reduce} scanIndex={scanIndex} />
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

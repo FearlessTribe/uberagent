@@ -1,19 +1,22 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Modal } from "./Modal";
+import { PageBreadcrumb, PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { ProcessSlider } from "./ProcessSlider";
+import { TypedHeadline } from "./TypedHeadline";
+import { LighthouseOffer } from "./LighthouseOffer";
+import { RoiCalculator } from "./RoiCalculator";
+import { useOverlay } from "../context/OverlayContext";
+import { scrollToContact } from "../hooks/useScrollReveal";
 import {
-  agentApproach,
-  agentUseCases,
+  agentWorkflowDemo,
+  mcpExampleFlow,
+  mcpSecurityHighlights,
   mcpServices,
   mcpUseCases,
 } from "../data/content";
 import {
-  agentBenefits,
   agentFit,
-  agentImpact,
-  agentPrinciples,
   businessExperiments,
   businessImpact,
   giftingFaq,
@@ -23,14 +26,9 @@ import {
   giftingPricing,
   giftingRoles,
   giftingRolesIntro,
-  giftingScenario,
-  giftingToday,
-  giftingWithUeberagent,
   gtmBenefits,
   gtmIdealFor,
   gtmImpact,
-  mcpImpact,
-  mcpValueProps,
   revenueFaq,
   revenueFinalMeta,
   revenueFlow,
@@ -44,8 +42,6 @@ import {
   revenuePathLead,
   revenueDrivers,
   revenueProductionRoi,
-  revenueToday,
-  revenueWithUeberagent,
   serviceModalMeta,
   strategyDecisions,
   strategyDeepDive,
@@ -71,7 +67,6 @@ import {
   vibeFlowIntro,
   vibeGovernance,
   vibeGuarantee,
-  vibeHeroNote,
   vibeIdealFor,
   vibeImpact,
   vibeMatrix,
@@ -89,8 +84,6 @@ import {
   vibeTiersIntro,
   vibeTimeline,
   vibeTimelineNote,
-  vibeToday,
-  vibeWithUeberagent,
   type ImpactRow,
   type ServiceStat,
 } from "../data/serviceModalContent";
@@ -103,33 +96,32 @@ import { CtaButton } from "./CtaButton";
 import { RevenueScanVisual } from "./RevenueScanVisual";
 import { VibeChallengeVisual } from "./VibeChallengeVisual";
 import { GiftingAgentVisual } from "./GiftingAgentVisual";
+import { GtmControlTowerVisual } from "./GtmControlTowerVisual";
+import { McpLayerVisual } from "./McpLayerVisual";
+import { WorkflowAgentDeskVisual } from "./WorkflowAgentDeskVisual";
+import { BusinessModelWindTunnelVisual } from "./BusinessModelWindTunnelVisual";
+import { StrategyCommandRoomVisual } from "./StrategyCommandRoomVisual";
+import { TrainingAcademyVisual } from "./TrainingAcademyVisual";
+import { AgentLottie } from "./AgentLottie";
 import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
+import {
+  maximFaq,
+  maximHeroAudience,
+  maximPricing,
+  maximPricingNote,
+  maximProblemCosts,
+  maximRoi,
+  maximStages,
+  maximTimeline,
+  maximTrust,
+} from "../data/maximCalc";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
+import { SectionBackground } from "./SectionBackground";
+import { HeroTermRain } from "./HeroTermRain";
 import styles from "./ServiceModal.module.css";
 
 const CALENDLY_URL = "https://calendly.com/supraflow/30min";
-
-interface ServiceModalProps {
-  serviceId: string | null;
-  onClose: () => void;
-}
-
-function FlowArrow() {
-  return (
-    <div className={styles.flowArrow} aria-hidden="true">
-      <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
-        <path
-          d="M0 8h28M24 3l5 5-5 5"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
-  );
-}
 
 function StatPill({ value, label }: ServiceStat) {
   return (
@@ -164,6 +156,74 @@ function ImpactTable({ rows }: { rows: ImpactRow[] }) {
 
 function Callout({ children }: { children: React.ReactNode }) {
   return <p className={styles.callout}>{children}</p>;
+}
+
+function ServiceHeroLayout({
+  tag,
+  title,
+  lead,
+  note,
+  stats,
+  mark,
+  ctas,
+  visual,
+  leadClassName,
+  titleClassName,
+  centerCopy,
+}: {
+  tag: React.ReactNode;
+  title?: React.ReactNode;
+  lead: React.ReactNode;
+  note?: React.ReactNode;
+  stats?: ServiceStat[];
+  mark?: React.ReactNode;
+  ctas?: React.ReactNode;
+  visual: React.ReactNode;
+  leadClassName?: string;
+  titleClassName?: string;
+  centerCopy?: boolean;
+}) {
+  return (
+    <>
+      <section className={`${styles.heroSection} ${styles.serviceHero}`}>
+        <SectionBackground variant="static-hero" />
+        <HeroTermRain variant="section" />
+        <div className={styles.serviceHeroInner}>
+          <PageBreadcrumb tone="dark" />
+          <div className={styles.heroIntro}>
+            {tag}
+            {title ? (
+              <TypedHeadline
+                as="h3"
+                className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
+              >
+                {title}
+              </TypedHeadline>
+            ) : null}
+          </div>
+          <div
+            className={`${styles.heroBody} ${centerCopy ? styles.heroBodyCenter : ""}`.trim()}
+          >
+            <div className={styles.heroCopy}>
+              <p className={`${styles.lead} ${leadClassName ?? ""}`.trim()}>{lead}</p>
+              {note ? <p className={styles.heroNote}>{note}</p> : null}
+              {mark ? <div className={styles.heroMark}>{mark}</div> : null}
+              {!mark && stats?.length ? (
+                <div className={styles.statsRow}>
+                  {stats.map((s) => (
+                    <StatPill key={s.label} {...s} />
+                  ))}
+                </div>
+              ) : null}
+              {ctas ? <div className={styles.heroCtas}>{ctas}</div> : null}
+            </div>
+            <div className={styles.heroStage}>{visual}</div>
+          </div>
+        </div>
+      </section>
+      <div className={styles.contentGrid} aria-hidden="true" />
+    </>
+  );
 }
 
 const funnelStepIcons: Record<string, React.ReactNode> = {
@@ -612,35 +672,25 @@ function RevenueEngineContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>
-          <span className={styles.liveDot} aria-hidden="true" />
-          {meta.bannerTag}
-        </span>
-        <p className={styles.lead}>
-          Ihr größter ungenutzter Vertriebskanal ist Ihr{" "}
-          <strong>bestehender Kundenstamm</strong>. {meta.lead}
-        </p>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Heute</span>
-            <ul className={styles.panelList}>
-              {revenueToday.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit uberagent</span>
-            <ul className={styles.panelList}>
-              {revenueWithUeberagent.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={
+          <span className={styles.heroTag}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            {meta.bannerTag}
+          </span>
+        }
+        title={
+          <>
+            Ihr größter ungenutzter Vertriebskanal ist Ihr{" "}
+            <em>bestehender Kundenstamm</em>.
+          </>
+        }
+        lead={meta.lead}
+        note="Proof: 200 Bestandskunden im Pilot, Ergebnis in 10 Arbeitstagen."
+        stats={meta.stats}
+        visual={<RevenueScanVisual />}
+        centerCopy
+      />
 
       <section>
         <SectionTitle>Wie die Engine arbeitet</SectionTitle>
@@ -648,22 +698,26 @@ function RevenueEngineContent() {
           Sieben Schritte, vollständig automatisiert. Sie liefern die Kundendaten, Ihr Vertrieb
           bekommt fertige Gespräche. Alles dazwischen läuft im System.
         </p>
-        <div className={styles.engineSplit}>
-          <RevenueScanVisual />
-          <div className={styles.engineFlow}>
-            {revenueFlow.map((step) => (
-              <div
-                key={step.step}
-                className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
-              >
-                <div className={styles.engineFlowNum}>{step.step}</div>
-                <div className={styles.engineFlowBody}>
-                  <div className={styles.engineFlowTitle}>{step.title}</div>
-                  <p className={styles.engineFlowDesc}>{step.description}</p>
-                </div>
+        <div className={styles.heroProofStrip}>
+          <span>CRM</span>
+          <span>Signale</span>
+          <span>Scoring</span>
+          <span>Outreach</span>
+          <span>CRM Write-back</span>
+        </div>
+        <div className={styles.engineFlow}>
+          {revenueFlow.map((step) => (
+            <div
+              key={step.step}
+              className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+            >
+              <div className={styles.engineFlowNum}>{step.step}</div>
+              <div className={styles.engineFlowBody}>
+                <div className={styles.engineFlowTitle}>{step.title}</div>
+                <p className={styles.engineFlowDesc}>{step.description}</p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -962,37 +1016,23 @@ function VibeChallengeContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>
-          <span className={styles.liveDot} aria-hidden="true" />
-          {meta.bannerTag}
-        </span>
-        <h3 className={styles.heroHeadline}>
-          Ihr größtes Automatisierungspotenzial kennt längst ein Mitarbeiter.{" "}
-          <em>Gefragt hat ihn nur nie jemand.</em>
-        </h3>
-        <p className={styles.lead}>{meta.lead}</p>
-        <p className={styles.heroNote}>{vibeHeroNote}</p>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Heute</span>
-            <ul className={styles.panelList}>
-              {vibeToday.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit uberagent</span>
-            <ul className={styles.panelList}>
-              {vibeWithUeberagent.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={
+          <span className={styles.heroTag}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            {meta.bannerTag}
+          </span>
+        }
+        title={
+          <>
+            Ihr größtes Automatisierungspotenzial kennt längst ein Mitarbeiter.{" "}
+            <em>Gefragt hat ihn nur nie jemand.</em>
+          </>
+        }
+        lead={meta.lead}
+        stats={meta.stats}
+        visual={<VibeChallengeVisual />}
+      />
 
       <section>
         <SectionTitle>Warum Mitarbeiter die besseren Ideen haben</SectionTitle>
@@ -1028,25 +1068,29 @@ function VibeChallengeContent() {
       <section>
         <SectionTitle>Wie die Challenge abläuft</SectionTitle>
         <p className={styles.bodyText}>{vibeFlowIntro}</p>
-        <div className={styles.engineSplit}>
-          <VibeChallengeVisual />
-          <div className={`${styles.engineFlow} ${styles.engineFlowWide}`}>
-            {vibeFlow.map((step) => (
-              <div
-                key={step.step}
-                className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
-              >
-                <div className={styles.engineFlowNum}>
-                  {step.step}
-                  <span className={styles.engineFlowWhen}>{step.when}</span>
-                </div>
-                <div className={styles.engineFlowBody}>
-                  <div className={styles.engineFlowTitle}>{step.title}</div>
-                  <p className={styles.engineFlowDesc}>{step.description}</p>
-                </div>
+        <div className={styles.heroProofStrip}>
+          <span>Kickoff</span>
+          <span>Ideen</span>
+          <span>Build</span>
+          <span>Jury</span>
+          <span>Produktisierung</span>
+        </div>
+        <div className={`${styles.engineFlow} ${styles.engineFlowWide}`}>
+          {vibeFlow.map((step) => (
+            <div
+              key={step.step}
+              className={`${styles.engineFlowRow} ${step.outcome ? styles.engineFlowRowOut : ""}`}
+            >
+              <div className={styles.engineFlowNum}>
+                {step.step}
+                <span className={styles.engineFlowWhen}>{step.when}</span>
               </div>
-            ))}
-          </div>
+              <div className={styles.engineFlowBody}>
+                <div className={styles.engineFlowTitle}>{step.title}</div>
+                <p className={styles.engineFlowDesc}>{step.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -1331,37 +1375,22 @@ function GtmContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          Wir bauen AI-gestützte GTM-Infrastruktur: von ICP- und Signal-Logik über Research
-          und Enrichment bis zu Routing, Personalisierung, QA und Reporting.
-        </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Heute</span>
-            <ul className={styles.panelList}>
-              <li>CRM, Sheets, Outreach, getrennt</li>
-              <li>Manuelle Recherche &amp; Briefings</li>
-              <li>Unklare Signale, schwache Priorisierung</li>
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit uberagent</span>
-            <ul className={styles.panelList}>
-              <li>Eine GTM-Ausführungsschicht</li>
-              <li>Automatisiertes Enrichment &amp; Routing</li>
-              <li>Signal-basierte Priorisierung</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        title={
+          <>
+            Aus fragmentierten Signalen wird ein <em>operatives GTM-System</em>.
+          </>
+        }
+        lead={
+          <>
+            Wir bauen AI-gestützte GTM-Infrastruktur: von ICP- und Signal-Logik über Research
+            und Enrichment bis zu Routing, Personalisierung, QA und Reporting.
+          </>
+        }
+        stats={meta.stats}
+        visual={<GtmControlTowerVisual />}
+      />
 
       <section>
         <SectionTitle>Was Sie konkret gewinnen</SectionTitle>
@@ -1407,81 +1436,125 @@ function GtmContent() {
 
 function McpContent() {
   const meta = serviceModalMeta.mcp;
+  const { openService, navigateHome } = useOverlay();
+  const [openAccordionId, setOpenAccordionId] = useState(mcpServices[0]?.id ?? "assess");
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          AI Agents werden nur produktiv, wenn sie sicher auf echte Systeme zugreifen können.
-          MCP schliesst die Lücke zwischen Modellen und Ihrer operativen Infrastruktur.
+      <ServiceHeroLayout
+        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        title={
+          <>
+            Ihre Systeme werden <em>AI-ready</em>, nicht ersetzt.
+          </>
+        }
+        lead={
+          <>
+            AI Agents werden nur produktiv, wenn sie sicher auf echte Systeme zugreifen können.
+            MCP schließt die Lücke zwischen Modellen und Ihrer operativen Infrastruktur.
+          </>
+        }
+        stats={meta.stats}
+        visual={<McpLayerVisual />}
+        centerCopy
+      />
+
+      <section>
+        <SectionTitle>Vom fragmentierten Stack zum kontrollierten Layer</SectionTitle>
+        <p className={styles.bodyText}>
+          Fragile Einzel-APIs und Prompt-Basteleien skalieren nicht. MCP standardisiert,
+          wie Agents lesen, prüfen und schreiben – ohne Ihre Systeme auszutauschen.
         </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Ohne MCP</span>
-            <div className={styles.chaosDots} aria-hidden="true">
-              <span /><span /><span /><span /><span />
-            </div>
-            <ul className={styles.panelList}>
-              <li>APIs, DBs, SaaS, verstreut</li>
-              <li>Fragile Einzellösungen</li>
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>MCP Layer</span>
-            <div className={styles.miniStack}>
-              <span>Agent</span>
-              <span>Tools</span>
-              <span>Resources</span>
-            </div>
-            <ul className={styles.panelList}>
-              <li>Standardisiert &amp; kontrolliert</li>
-              <li>Erweiterbar &amp; auditierbar</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Was MCP für Ihr Unternehmen möglich macht</SectionTitle>
-        <div className={styles.valueGrid}>
-          {mcpValueProps.map((prop) => (
-            <div key={prop.title} className={styles.valueCard}>
-              <h4 className={styles.valueTitle}>{prop.title}</h4>
-              <p className={styles.valueDesc}>{prop.description}</p>
+        <div className={styles.mcpFlow}>
+          {mcpExampleFlow.map((step, index) => (
+            <div key={step.label} className={styles.mcpFlowStep}>
+              <span className={styles.mcpFlowNum}>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{step.label}</strong>
+              <span>{step.text}</span>
             </div>
           ))}
         </div>
       </section>
 
       <section>
-        <SectionTitle>Unsere MCP Services</SectionTitle>
-        {mcpServices.map((svc, i) => (
-          <div key={svc.title} className={styles.serviceCard}>
-            <div className={styles.serviceCardHeader}>
-              <span className={styles.serviceNum}>{String(i + 1).padStart(2, "0")}</span>
-              <h4 className={styles.serviceCardTitle}>{svc.title}</h4>
+        <SectionTitle>Security by Design</SectionTitle>
+        <p className={styles.bodyText}>
+          Enterprise-tauglich von Anfang an: Identität, Rechte und Nachvollziehbarkeit
+          sind Teil des Layers – nicht ein Nachtrag.
+        </p>
+        <div className={styles.mcpSecurity}>
+          {mcpSecurityHighlights.map((item) => (
+            <div key={item.label} className={styles.mcpSecurityCard}>
+              <span className={styles.mcpSecurityLabel}>{item.label}</span>
+              <p>{item.text}</p>
             </div>
-            <p className={styles.bodyText}>{svc.description}</p>
-            {svc.items && (
-              <ul className={styles.compactList}>
-                {svc.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
 
       <section>
-        <SectionTitle>Typische Use Cases</SectionTitle>
+        <SectionTitle>Assess · Build · Operate</SectionTitle>
+        <p className={styles.bodyText}>
+          Drei Phasen statt Service-Katalog. Agent-Design und Workflow-Logik liegen bei{" "}
+          <button
+            type="button"
+            className={styles.inlineLink}
+            onClick={() => openService("workflow-agents")}
+          >
+            AI Workflow Agents
+          </button>
+          .
+        </p>
+        <div className={styles.mcpAccordion}>
+          {mcpServices.map((svc) => {
+            const isOpen = openAccordionId === svc.id;
+            return (
+              <div
+                key={svc.id}
+                className={`${styles.mcpAccordionItem} ${isOpen ? styles.mcpAccordionItemOpen : ""}`}
+              >
+                <button
+                  type="button"
+                  className={styles.mcpAccordionTrigger}
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenAccordionId(svc.id)}
+                >
+                  <span className={styles.mcpAccordionTitle}>{svc.title}</span>
+                  <span className={styles.mcpAccordionHint}>{svc.description}</span>
+                  <span className={styles.mcpAccordionChevron} aria-hidden="true">
+                    {isOpen ? "−" : "+"}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className={styles.mcpAccordionPanel}
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className={styles.mcpAccordionBody}>
+                        {svc.items && (
+                          <ul className={styles.compactList}>
+                            {svc.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Wo MCP produktiv wird</SectionTitle>
         <div className={styles.useCaseGrid}>
           {mcpUseCases.map((uc) => (
             <div key={uc.title} className={styles.useCase}>
@@ -1492,12 +1565,25 @@ function McpContent() {
         </div>
       </section>
 
-      <section>
-        <SectionTitle>Die Transformation</SectionTitle>
-        <ImpactTable rows={mcpImpact} />
-        <Callout>
-          Ihre Systeme müssen nicht ersetzt werden, sie werden AI-ready angebunden.
-        </Callout>
+      <section className={styles.mcpCtaBand}>
+        <div>
+          <h3 className={styles.sectionTitle}>MCP-Potenzial prüfen</h3>
+          <p className={styles.bodyText}>
+            In einem kurzen Gespräch klären wir, welche Systeme zuerst AI-ready werden
+            und welcher Connector den schnellsten Hebel hat.
+          </p>
+        </div>
+        <CtaButton
+          size="md"
+          surface="accent"
+          showCalendar
+          onClick={() => {
+            navigateHome();
+            window.setTimeout(() => scrollToContact("mcp_inline"), 0);
+          }}
+        >
+          {meta.ctaLabel}
+        </CtaButton>
       </section>
     </div>
   );
@@ -1505,124 +1591,85 @@ function McpContent() {
 
 function WorkflowAgentsContent() {
   const meta = serviceModalMeta["workflow-agents"];
+  const { navigateHome } = useOverlay();
 
   return (
-    <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          KI-Agenten sind wertvoll, wenn sie einen klar begrenzten Workflow besser, schneller
-          und konsistenter ausführen als manuelle Koordination. Genau dort setzen wir an.
-        </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Eingang</span>
-            <ul className={styles.panelList}>
-              <li>E-Mail, Ticket, CRM-Signal</li>
-              <li>Mehrere Quellen, manuelle Triage</li>
-            </ul>
+    <>
+      <div className={styles.content}>
+        <ServiceHeroLayout
+          tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+          title={
+            <>
+              Agenten, die nicht chatten, sondern <em>operative Arbeit</em> erledigen.
+            </>
+          }
+          lead={
+            <>
+              KI-Agenten sind wertvoll, wenn sie einen klar begrenzten Workflow besser, schneller
+              und konsistenter ausführen als manuelle Koordination. Genau dort setzen wir an.
+            </>
+          }
+          stats={meta.stats}
+          visual={<WorkflowAgentDeskVisual />}
+          centerCopy
+        />
+
+        <section>
+          <SectionTitle>Ein Workflow, konkret</SectionTitle>
+          <p className={styles.bodyText}>
+            Statt abstrakter Pain-Points: so arbeitet ein Operations-Agent von Inbox bis Done –
+            mit Regeln, Freigabe und Schreibrechten in Ihren Systemen.
+          </p>
+          <div className={styles.mcpFlow}>
+            {agentWorkflowDemo.map((step, index) => (
+              <div key={step.label} className={styles.mcpFlowStep}>
+                <span className={styles.mcpFlowNum}>{String(index + 1).padStart(2, "0")}</span>
+                <strong>
+                  {step.label} · {step.title}
+                </strong>
+                <span>{step.text}</span>
+              </div>
+            ))}
           </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Workflow Agent</span>
-            <div className={styles.miniStack}>
-              <span>Analysieren</span>
-              <span>Entscheiden</span>
-              <span>Ausführen</span>
+        </section>
+
+        <section>
+          <SectionTitle>Wann es passt, und wann nicht</SectionTitle>
+          <div className={styles.fitGrid}>
+            <div className={styles.fitCard}>
+              <span className={styles.fitLabelGood}>Geeignet</span>
+              <ul className={styles.compactList}>
+                {agentFit.good.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
-            <ul className={styles.panelList}>
-              <li>Mit Freigaben &amp; Logging</li>
-              <li>Direkt in Ihren Systemen</li>
-            </ul>
+            <div className={styles.fitCard}>
+              <span className={styles.fitLabelBad}>Weniger geeignet</span>
+              <ul className={styles.compactList}>
+                {agentFit.bad.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <section>
-        <SectionTitle>Das Prinzip: operatives System, kein Chatbot</SectionTitle>
-        <div className={styles.principleGrid}>
-          {agentPrinciples.map((p) => (
-            <div key={p.title} className={styles.miniCard}>
-              <span className={styles.featureLabel}>{p.label}</span>
-              <h4 className={styles.miniTitle}>{p.title}</h4>
-              <p className={styles.miniBody}>{p.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <LighthouseOffer
+        onCta={() => {
+          navigateHome();
+          window.setTimeout(() => scrollToContact("kickstart_offer_workflow"), 0);
+        }}
+      />
 
-      <section>
-        <SectionTitle>Was AI Agents leisten</SectionTitle>
-        <div className={styles.benefitGrid}>
-          {agentBenefits.map((b) => (
-            <div key={b} className={styles.benefitItem}>
-              <span className={styles.benefitDot} aria-hidden="true" />
-              {b}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Wo KI-Agenten wirken</SectionTitle>
-        <div className={styles.useCaseGrid}>
-          {agentUseCases.map((uc) => (
-            <div key={uc.title} className={styles.useCase}>
-              <h4 className={styles.useCaseTitle}>{uc.title}</h4>
-              <p className={styles.bodyText}>{uc.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Wann es passt, und wann nicht</SectionTitle>
-        <div className={styles.fitGrid}>
-          <div className={styles.fitCard}>
-            <span className={styles.fitLabelGood}>Geeignet</span>
-            <ul className={styles.compactList}>
-              {agentFit.good.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className={styles.fitCard}>
-            <span className={styles.fitLabelBad}>Weniger geeignet</span>
-            <ul className={styles.compactList}>
-              {agentFit.bad.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Unser Vorgehen</SectionTitle>
-        <div className={styles.pipeline}>
-          {agentApproach.map((step) => (
-            <div key={step.number} className={styles.pipelineStep}>
-              <span className={styles.pipelineNum}>{step.number}</span>
-              <span className={styles.pipelineLabel}>{step.title}</span>
-              <p className={styles.pipelineDesc}>{step.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Die Transformation</SectionTitle>
-        <ImpactTable rows={agentImpact} />
-        <Callout>
-          Weniger Copy-Paste, schnellere Abläufe und mehr Fokus auf wertschöpfende Arbeit.
-        </Callout>
-      </section>
-    </div>
+      <RoiCalculator
+        onCta={() => {
+          navigateHome();
+          window.setTimeout(() => scrollToContact("roi_calculator"), 0);
+        }}
+      />
+    </>
   );
 }
 
@@ -1631,40 +1678,22 @@ function BusinessModelsContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          Produktentwicklung und neue Geschäftsmodelle sind zeit-, kosten- und risikointensiv.
-          Wir helfen Ihnen, die richtigen Entscheidungen zu treffen, bevor Sie skalieren.
-        </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Hypothese</span>
-            <ul className={styles.panelList}>
-              <li>Annahmen statt Evidenz</li>
-              <li>Hoher Invest vor Validierung</li>
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Validiert</span>
-            <div className={styles.miniStack}>
-              <span>Experiment</span>
-              <span>Messung</span>
-              <span>Go / No-Go</span>
-            </div>
-            <ul className={styles.panelList}>
-              <li>Klare Entscheidungsgrundlage</li>
-              <li>Skalierung mit Daten</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        title={
+          <>
+            <span className="mark">Derisking</span> your business models
+          </>
+        }
+        lead={
+          <>
+            Produktentwicklung und neue Geschäftsmodelle sind zeit-, kosten- und risikointensiv.
+            Wir helfen Ihnen, die richtigen Entscheidungen zu treffen, bevor Sie skalieren.
+          </>
+        }
+        stats={meta.stats}
+        visual={<BusinessModelWindTunnelVisual />}
+      />
 
       <section>
         <SectionTitle>Von der Idee zum validierten Geschäftsmodell</SectionTitle>
@@ -1712,35 +1741,30 @@ function AiStrategyContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          Wie Ihr Unternehmen <strong>PowerPoint-Folien bricht</strong>,{" "}
-          <strong>langwierige Strategie-Diskussionen verkürzt</strong> und{" "}
-          <strong>produktive AI-Agenten entwickelt</strong>, die{" "}
-          <strong>operative Kosten senken</strong> und{" "}
-          <strong>Wachstum maximieren</strong>. Messbar und planbar.
+      <ServiceHeroLayout
+        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        title={
+          <>
+            Von Ideen zum <em>priorisierten AI-Portfolio</em>.
+          </>
+        }
+        lead={
+          <>
+            Statt isolierter Use Cases bauen wir einen Entscheidungsrahmen, mit dem Sie
+            AI-Initiativen bewerten, priorisieren und nur dort skalieren, wo Impact, Machbarkeit
+            und Governance zusammenpassen.
+          </>
+        }
+        stats={meta.stats}
+        visual={<StrategyCommandRoomVisual />}
+      />
+
+      <section>
+        <SectionTitle>Governance-Rahmen</SectionTitle>
+        <p className={styles.bodyText}>
+          Damit aus AI nicht eine lose Sammlung von Ideen wird, braucht es klare
+          Entscheidungsregeln, Verantwortlichkeiten und Stage-Gates.
         </p>
-
-        <div className={styles.strategyPromise}>
-          <span className={styles.strategyPromiseIcon} aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M8 10h8M8 14h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M12 18v3M9 21h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </span>
-          <div>
-            <h3 className={styles.strategyPromiseTitle}>
-              Von Ideen zum priorisierten AI-Portfolio
-            </h3>
-            <p className={styles.strategyPromiseText}>
-              Die wirkungsvollsten Use Cases werden gezielt selektiert, der Gesamtimpact der
-              AI Strategy messbar maximiert.
-            </p>
-          </div>
-        </div>
-
         <div className={styles.strategyPillarGrid}>
           {strategyGovernance.map((item, i) => (
             <div key={item.title} className={styles.strategyPillar}>
@@ -1800,40 +1824,23 @@ function TrainingsContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>{meta.bannerTag}</span>
-        <p className={styles.lead}>
-          AI-Systeme bleiben nur produktiv, wenn Teams sie verstehen und steuern können.
-          Wir machen Enablement praxisnah: an Ihren Cases, mit klaren Rollen und dokumentiertem Betrieb.
-        </p>
-        <div className={styles.statsRow}>
-          {meta.stats.map((s) => (
-            <StatPill key={s.label} {...s} />
-          ))}
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Ohne Enablement</span>
-            <ul className={styles.panelList}>
-              <li>Wissen hängt an Einzelpersonen</li>
-              <li>Unklare Freigaben und Fehlerpfade</li>
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit Workshop</span>
-            <div className={styles.miniStack}>
-              <span>Rollen</span>
-              <span>QA &amp; Monitoring</span>
-              <span>Runbooks</span>
-            </div>
-            <ul className={styles.panelList}>
-              <li>Team kann Systeme betreiben</li>
-              <li>Klarer Operating Model</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        title={
+          <>
+            Enablement für Teams, die AI <em>nicht nur testen</em>, sondern betreiben wollen.
+          </>
+        }
+        lead={
+          <>
+            AI-Systeme bleiben nur produktiv, wenn Teams sie verstehen und steuern können.
+            Wir machen Enablement praxisnah: an Ihren Cases, mit klaren Rollen und dokumentiertem
+            Betrieb.
+          </>
+        }
+        stats={meta.stats}
+        visual={<TrainingAcademyVisual />}
+      />
 
       <section>
         <SectionTitle>Was wir vermitteln</SectionTitle>
@@ -1873,89 +1880,57 @@ function GiftingAgentContent() {
 
   return (
     <div className={styles.content}>
-      <section className={styles.heroSection}>
-        <span className={styles.heroTag}>
-          <span className={styles.liveDot} aria-hidden="true" />
-          {meta.bannerTag}
-        </span>
-        <h3 className={`${styles.heroHeadline} ${styles.heroHeadlineWide}`}>
-          Anlässe bei Ihren Kunden werden zu <em>Aufträgen</em> aus Ihrem
-          Sortiment.
-        </h3>
-        <p className={`${styles.lead} ${styles.leadFlush}`}>{meta.lead}</p>
-        <div className={styles.heroCtas}>
-          <CtaButton
-            size="md"
-            surface="accent"
-            showCalendar
-            href={CALENDLY_URL}
-            onClick={() => trackCalendlyClick("gifting_hero")}
-          >
-            15-Minuten-Demo buchen
-          </CtaButton>
-          <CtaButton size="md" surface="on-light-ghost" onClick={scrollToHow}>
-            So funktioniert&apos;s ansehen
-          </CtaButton>
-        </div>
-        <p className={styles.giftingHubSpotNote}>
-          Jetzt in HubSpot. Salesforce, Pipedrive und Dynamics folgen.
-        </p>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroPanel}>
-            <span className={styles.panelLabel}>Heute</span>
-            <ul className={styles.panelList}>
-              {giftingToday.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <FlowArrow />
-          <div className={styles.heroPanelAccent}>
-            <span className={styles.panelLabel}>Mit uberagent</span>
-            <ul className={styles.panelList}>
-              {giftingWithUeberagent.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <ServiceHeroLayout
+        tag={
+          <span className={styles.heroTag}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            {meta.bannerTag}
+          </span>
+        }
+        title={
+          <>
+            Anlässe bei Ihren Kunden werden zu <em>Aufträgen</em> aus Ihrem Sortiment.
+          </>
+        }
+        titleClassName={styles.heroHeadlineWide}
+        lead={meta.lead}
+        leadClassName={styles.leadFlush}
+        mark={
+          <img
+            src="/logos/hubspot.svg"
+            alt="HubSpot"
+            width={36}
+            height={36}
+            className={styles.heroMarkLogo}
+          />
+        }
+        ctas={
+          <>
+            <CtaButton
+              size="md"
+              surface="accent"
+              showCalendar
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("gifting_hero")}
+            >
+              15-Minuten-Demo buchen
+            </CtaButton>
+            <CtaButton size="md" surface="on-dark-ghost" onClick={scrollToHow}>
+              So funktioniert&apos;s ansehen
+            </CtaButton>
+          </>
+        }
+        visual={<GiftingAgentVisual />}
+      />
 
       <section>
-        <SectionTitle>{giftingScenario.title}</SectionTitle>
-        <p className={styles.bodyText}>{giftingScenario.intro}</p>
-        <div className={styles.giftingScenario}>
-          <div className={styles.giftingScenarioOrder}>
-            <span className={styles.giftingScenarioKicker}>Auftrag · {giftingScenario.account}</span>
-            <div className={styles.giftingScenarioGift}>
-              <span className={styles.giftingScenarioGiftMark} aria-hidden="true">
-                <span className={styles.giftingScenarioGiftSpine} />
-                <span className={styles.giftingScenarioGiftCover} />
-              </span>
-              <div>
-                <strong>Leder-Notizbuch</strong>
-                <p>Aus Ihrem Katalog · Jubiläum</p>
-              </div>
-              <span className={styles.giftingScenarioPrice}>48 €</span>
-            </div>
-            <dl className={styles.giftingScenarioRows}>
-              {giftingScenario.rows.map((row) => (
-                <div key={row.label} className={styles.giftingScenarioRow}>
-                  <dt>{row.label}</dt>
-                  <dd>{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-          <div className={styles.giftingScenarioYear}>
-            {giftingScenario.year.map((item) => (
-              <div key={item.value} className={styles.giftingScenarioYearItem}>
-                <span className={styles.giftingScenarioYearValue}>{item.value}</span>
-                <span className={styles.giftingScenarioYearLabel}>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <SectionTitle>Was das bedeuten kann</SectionTitle>
+        <p className={styles.bodyText}>
+          Annahme: Ihre Kunden (HubSpot), darunter deren Kontakte als Empfänger,
+          Anlässe und Durchschnittswert unter 50 Euro. Daraus Warenwert und 10%
+          für überagent. Keine gemessenen Ergebnisse.
+        </p>
+        <GiftingRevenueCalc />
       </section>
 
       <section id="gifting-how" className={styles.giftingAnchor}>
@@ -1996,16 +1971,6 @@ function GiftingAgentContent() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section>
-        <SectionTitle>Was das bedeuten kann</SectionTitle>
-        <p className={styles.bodyText}>
-          Annahme: Ihre Kunden (HubSpot), darunter deren Kontakte als Empfänger,
-          Anlässe und Durchschnittswert unter 50 Euro. Daraus Warenwert und 10%
-          für überagent. Keine gemessenen Ergebnisse.
-        </p>
-        <GiftingRevenueCalc />
       </section>
 
       <section>
@@ -2112,9 +2077,232 @@ function GiftingAgentContent() {
   );
 }
 
+function MaximCalcContent() {
+  const meta = serviceModalMeta["kalkulations-agent"];
+  const [openFaq, setOpenFaq] = useState(0);
+  const reduce = useReducedMotion();
+
+  const scrollToHow = () => {
+    document.getElementById("maxim-how")?.scrollIntoView({
+      behavior: reduce ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
+  return (
+    <div className={styles.content}>
+      <ServiceHeroLayout
+        tag={
+          <span className={styles.heroTag}>
+            <span className={styles.liveDot} aria-hidden="true" />
+            {meta.bannerTag}
+          </span>
+        }
+        title={
+          <>
+            Angebote in <em>20 Sekunden</em> statt in 15 Minuten.
+          </>
+        }
+        lead={meta.lead}
+        note={maximHeroAudience}
+        stats={meta.stats}
+        centerCopy
+        ctas={
+          <>
+            <CtaButton
+              size="md"
+              surface="accent"
+              showCalendar
+              href={CALENDLY_URL}
+              onClick={() => trackCalendlyClick("maxim_hero")}
+            >
+              Kostenlosen Kalkulations-Check anfragen
+            </CtaButton>
+            <CtaButton size="md" surface="on-dark-ghost" onClick={scrollToHow}>
+              So funktioniert es
+            </CtaButton>
+          </>
+        }
+        visual={
+          <div className={styles.maximHeroStage}>
+            <AgentLottie
+              src="/lottie/maxim-agent.json"
+              poster="/lottie/maxim-agent.png"
+              alt="Maxim, der Kalkulations-Agent"
+              className={styles.maximHeroLottie}
+            />
+          </div>
+        }
+      />
+
+      <section>
+        <SectionTitle>
+          Sie verlieren jeden Tag zwei bis drei Stunden an Angebote, die Sie nie bezahlt bekommen.
+        </SectionTitle>
+        <p className={styles.bodyText}>
+          Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
+          schicken raus. 10 bis 15 Minuten. Zwanzig bis dreißig Mal am Tag. Über 550 Stunden im Jahr.
+        </p>
+        <div className={styles.maximCostGrid}>
+          {maximProblemCosts.map((item) => (
+            <div key={item.title} className={styles.maximCostCard}>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="maxim-how" className={styles.giftingAnchor}>
+        <SectionTitle>Ein Agent, der so kalkuliert wie Sie. Nur schneller.</SectionTitle>
+        <p className={styles.bodyText}>
+          Maxim erfindet keine Zahlen. Er rechnet mit Ihren Stundensätzen, Ihren Aufschlagsregeln und
+          den Tagespreisen Ihres Lieferanten. Jede Position ist nachvollziehbar, jede Kalkulation wird gespeichert.
+        </p>
+        <div className={styles.maximStageList}>
+          {maximStages.map((stage) => (
+            <div key={stage.stage} className={styles.maximStageCard}>
+              <span className={styles.maximStageNum}>Stufe {stage.stage}</span>
+              <h4>{stage.title}</h4>
+              <p>{stage.lead}</p>
+              <p className={styles.maximStageResult}>
+                <strong>Ergebnis:</strong> {stage.result}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>In sechs Wochen von der Preisliste zum laufenden Agenten.</SectionTitle>
+        <div className={`${styles.mcpFlow} ${styles.maximTimeline}`}>
+          {maximTimeline.map((step) => (
+            <div key={step.step} className={styles.mcpFlowStep}>
+              <span className={styles.mcpFlowNum}>{step.step}</span>
+              <strong>{step.title}</strong>
+              <span>{step.text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Rechnet sich das? Rechnen Sie selbst.</SectionTitle>
+        <div className={styles.maximRoiPanel}>
+          <div className={styles.maximRoiRow}>
+            <span>Zeit für Angebote heute</span>
+            <strong>{maximRoi.hoursDay}</strong>
+          </div>
+          <div className={styles.maximRoiRow}>
+            <span>Stunden pro Jahr</span>
+            <strong>{maximRoi.hoursYear}</strong>
+          </div>
+          <div className={styles.maximRoiRow}>
+            <span>Wert Ihrer Stunde</span>
+            <strong>{maximRoi.hourlyValue}</strong>
+          </div>
+          <div className={`${styles.maximRoiRow} ${styles.maximRoiTotal}`}>
+            <span>Zeitwert pro Jahr</span>
+            <strong>{maximRoi.timeValue}</strong>
+          </div>
+          <p className={styles.bodyText}>{maximRoi.extra}</p>
+          <p className={styles.bodyText}>{maximRoi.note}</p>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle>Klare Preise. Keine Überraschungen.</SectionTitle>
+        <div className={styles.maximPriceGrid}>
+          {maximPricing.map((tier) => (
+            <div key={tier.name} className={styles.maximPriceCard}>
+              <span className={styles.maximPriceName}>{tier.name}</span>
+              <h4>{tier.detail}</h4>
+              <div className={styles.maximPriceMeta}>
+                <div>
+                  <span>Einrichtung</span>
+                  <strong>{tier.setup}</strong>
+                </div>
+                <div>
+                  <span>Betrieb / Monat</span>
+                  <strong>{tier.monthly}</strong>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className={styles.maximPriceNote}>{maximPricingNote}</p>
+      </section>
+
+      <section>
+        <SectionTitle>Ihre Daten bleiben Ihre Daten.</SectionTitle>
+        <ul className={styles.list}>
+          {maximTrust.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <SectionTitle>Häufige Fragen</SectionTitle>
+        <div className={styles.maximFaq}>
+          {maximFaq.map((item, index) => {
+            const open = openFaq === index;
+            return (
+              <div key={item.q} className={styles.maximFaqItem}>
+                <button
+                  type="button"
+                  className={styles.maximFaqTrigger}
+                  aria-expanded={open}
+                  onClick={() => setOpenFaq(open ? -1 : index)}
+                >
+                  {item.q}
+                  <span aria-hidden="true">{open ? "−" : "+"}</span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {open && (
+                    <motion.div
+                      initial={reduce ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduce ? undefined : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={styles.maximFaqPanel}
+                    >
+                      <p className={styles.bodyText}>{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.mcpCtaBand}>
+        <div>
+          <h3 className={styles.sectionTitle}>Fünf Anfragen. Eine Woche. Null Risiko.</h3>
+          <p className={styles.bodyText}>
+            Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen.
+            Wenn es nicht passt, hören Sie nie wieder von uns.
+          </p>
+        </div>
+        <CtaButton
+          size="md"
+          surface="accent"
+          showCalendar
+          href={CALENDLY_URL}
+          onClick={() => trackCalendlyClick("maxim_cta")}
+        >
+          Kalkulations-Check starten
+        </CtaButton>
+      </section>
+    </div>
+  );
+}
+
 const contentByService: Record<string, () => React.ReactNode> = {
   "corporate-gifting": GiftingAgentContent,
   "ai-revenue-engine": RevenueEngineContent,
+  "kalkulations-agent": MaximCalcContent,
   "vibe-coding-challenge": VibeChallengeContent,
   "gtm-engineering": GtmContent,
   mcp: McpContent,
@@ -2124,10 +2312,10 @@ const contentByService: Record<string, () => React.ReactNode> = {
   trainings: TrainingsContent,
 };
 
-export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
+export function ServicePage({ serviceId, onClose }: { serviceId: string; onClose: () => void }) {
   const service = services.find((s) => s.id === serviceId);
-  const meta = serviceId ? serviceModalMeta[serviceId] : null;
-  const Content = serviceId ? contentByService[serviceId] : null;
+  const meta = serviceModalMeta[serviceId];
+  const Content = contentByService[serviceId];
   const seo = useMemo(() => {
     if (!service?.seoTitle || !service.seoDescription) return null;
     return {
@@ -2142,11 +2330,11 @@ export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
   if (!service || !meta || !Content) return null;
 
   return (
-    <Modal
-      isOpen={!!serviceId}
-      onClose={onClose}
+    <PageShell
       title={service.title}
       eyebrow={meta.eyebrow}
+      onBack={onClose}
+      variant="flush"
       footer={
         <ModalContactFooter
           onClose={onClose}
@@ -2157,6 +2345,9 @@ export function ServiceModal({ serviceId, onClose }: ServiceModalProps) {
       }
     >
       <Content />
-    </Modal>
+    </PageShell>
   );
 }
+
+/** @deprecated Use ServicePage */
+export const ServiceModal = ServicePage;

@@ -189,9 +189,11 @@ export function GiftingAgentVisual() {
         })}
       </div>
 
-      <AnimatePresence mode="wait">
-        <PhaseDetail key={phase} phase={phase} reduce={!!reduce} />
-      </AnimatePresence>
+      <div className={styles.stage}>
+        <AnimatePresence mode="wait">
+          <PhaseDetail key={phase} phase={phase} reduce={!!reduce} />
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

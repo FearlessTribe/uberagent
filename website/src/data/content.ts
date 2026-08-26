@@ -98,6 +98,30 @@ export const agentUseCases: AgentUseCase[] = [
   },
 ];
 
+/** Guided example flow for the Workflow Agents page (mirrors Operations Desk). */
+export const agentWorkflowDemo = [
+  {
+    label: "Inbox",
+    title: "Eingang",
+    text: "E-Mails, Tickets und CRM-Signale landen in einer Warteschlange statt in fünf Postfächern.",
+  },
+  {
+    label: "Triage",
+    title: "Klassifizieren",
+    text: "Der Agent erkennt Thema und Dringlichkeit und routet an Support, Sales oder Ops.",
+  },
+  {
+    label: "Handoff",
+    title: "Human-in-the-loop",
+    text: "Wo Regeln enden, holt er Freigabe ein – mit Entwurf, Kontext und klarem Owner.",
+  },
+  {
+    label: "Done",
+    title: "Ausführen",
+    text: "Ticket aktualisiert, CRM geschrieben, Mail vorbereitet – nachvollziehbar und im Scope.",
+  },
+] as const;
+
 export interface AgentApproach {
   number: string;
   title: string;
@@ -132,77 +156,48 @@ export const agentApproach: AgentApproach[] = [
 ];
 
 export interface McpService {
+  id: string;
   title: string;
   description: string;
   items?: string[];
 }
 
+/** Verdichtet auf Assess · Build · Operate (statt 6 Katalog-Karten). */
 export const mcpServices: McpService[] = [
   {
-    title: "MCP Strategy & Use Case Assessment",
+    id: "assess",
+    title: "Assess",
     description:
-      "Wir analysieren Ihre Systeme, Datenquellen und Geschäftsprozesse und identifizieren die MCP-Use-Cases mit dem höchsten operativen Nutzen.",
+      "Wir klären Systeme, Datengrenzen und den Use Case mit dem höchsten operativen Nutzen – inklusive Security-Rahmen.",
     items: [
-      "Welche Systeme sollen AI Agents nutzen können?",
-      "Welche Daten dürfen gelesen werden?",
-      "Welche Aktionen dürfen ausgeführt werden?",
-      "Welche Rollen, Rechte und Sicherheitsgrenzen sind nötig?",
-      "Wo entsteht echter Business Value statt nur technischer Spielerei?",
+      "Welche Systeme sollen Agents nutzen können?",
+      "Lesen vs. Schreiben: was ist erlaubt?",
+      "Rollen, Rechte und Audit-Anforderungen",
+      "Business Value statt technischer Spielerei",
     ],
   },
   {
-    title: "MCP Server Entwicklung",
-    description: "Wir entwickeln produktionsreife MCP-Server für Ihre internen und externen Systeme.",
-    items: [
-      "MCP-Server-Setup",
-      "API- und Datenquellen-Anbindung",
-      "Tool-Definitionen für AI Agents",
-      "Authentifizierung und Rechtekonzept",
-      "Logging, Monitoring und Fehlerbehandlung",
-      "Deployment in Ihre bestehende Infrastruktur",
-    ],
-  },
-  {
-    title: "Connectoren für Ihre Systeme",
+    id: "build",
+    title: "Build",
     description:
-      "Wir verbinden MCP mit den Systemen, die in Ihrem Unternehmen wirklich zählen.",
+      "Produktionsreife MCP-Server und Connectoren für die Systeme, die in Ihrem Unternehmen zählen.",
     items: [
-      "CRM-, ERP- und E-Commerce-Systeme",
-      "Wissensdatenbanken & CMS",
-      "Support- und Ticketing-Systeme",
-      "Interne APIs, Datenbanken & Dokumentenablagen",
+      "MCP-Server-Setup und Tool-Definitionen",
+      "CRM, ERP, Tickets, CMS, interne APIs",
+      "Auth, Logging und Fehlerbehandlung",
+      "Deployment in Ihre Infrastruktur",
     ],
   },
   {
-    title: "Security, Governance & Compliance",
+    id: "operate",
+    title: "Operate",
     description:
-      "MCP-Integrationen müssen sicher, nachvollziehbar und kontrollierbar sein.",
+      "MCP bleibt Teil Ihrer AI-Infrastruktur: Monitoring, Updates und gezielte Erweiterung.",
     items: [
-      "OAuth2 / OIDC Integration",
-      "Rollen- und Rechtekonzepte",
-      "Audit Logs & Rate Limits",
-      "Umgebungstrennung für Dev, Staging und Production",
-    ],
-  },
-  {
-    title: "Conversational & Agent Design",
-    description:
-      "Technische Anbindung allein reicht nicht. AI Agents brauchen klare Aufgabenlogik, Kontext und Grenzen.",
-    items: [
-      "Agent-Use-Case-Design",
-      "Prompt- und Tool-Design",
-      "Fallbacks und Eskalationen",
-      "Testfälle und Evaluierung",
-    ],
-  },
-  {
-    title: "Betrieb, Monitoring & Weiterentwicklung",
-    description: "MCP ist kein einmaliges Setup, sondern Teil Ihrer AI-Infrastruktur.",
-    items: [
-      "Monitoring & Fehleranalyse",
+      "Monitoring und Fehleranalyse",
       "Connector-Updates",
-      "Erweiterung neuer Tools",
-      "Strategische AI-Advisory",
+      "Neue Tools und Systeme anbinden",
+      "Laufende Advisory für den Stack",
     ],
   },
 ];
@@ -216,21 +211,30 @@ export const mcpUseCases: McpUseCase[] = [
   {
     title: "Interner Wissensagent",
     description:
-      "Ein AI Agent greift auf interne Dokumentationen, Prozesswissen und Richtlinien zu und beantwortet Mitarbeiterfragen kontextbezogen.",
+      "Greift auf Docs, Prozesswissen und Richtlinien zu und beantwortet Mitarbeiterfragen kontextbezogen.",
   },
   {
     title: "Sales & CRM Agent",
     description:
-      "Ein Agent kann Kundendaten abrufen, Opportunities vorbereiten und nächste Schritte im CRM vorschlagen.",
+      "Liest Kundendaten, bereitet Opportunities vor und schlägt nächste Schritte im CRM vor – kontrolliert.",
   },
   {
     title: "Support Agent",
     description:
-      "Ein Agent liest Tickets, erkennt ähnliche Fälle, schlägt Antworten vor und aktualisiert Support-Systeme kontrolliert.",
-  },
-  {
-    title: "Workflow Agent",
-    description:
-      "Ein Agent löst definierte Aktionen aus: Aufgaben erstellen, Daten aktualisieren, Status ändern oder Freigabeprozesse vorbereiten.",
+      "Liest Tickets, erkennt ähnliche Fälle, schlägt Antworten vor und aktualisiert Systeme nur innerhalb klarer Rechte.",
   },
 ];
+
+export const mcpSecurityHighlights = [
+  { label: "OAuth / OIDC", text: "Identität und Tokens statt Shared Keys" },
+  { label: "Scopes", text: "Lesen und Schreiben getrennt freigeben" },
+  { label: "Audit Log", text: "Jede Agent-Aktion nachvollziehbar" },
+  { label: "Read + Write", text: "Grenzen pro Tool und Umgebung" },
+] as const;
+
+export const mcpExampleFlow = [
+  { label: "Systeme", text: "HubSpot · Tickets · Docs" },
+  { label: "MCP Layer", text: "Resources · Tools · Auth" },
+  { label: "Policy", text: "Scope prüfen · Audit" },
+  { label: "Agent", text: "Lesen · Vorschlagen · Schreiben" },
+] as const;

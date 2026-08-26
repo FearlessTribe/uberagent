@@ -1,0 +1,61 @@
+.headline {
+  position: relative;
+}
+
+.measure {
+  display: block;
+  visibility: hidden;
+}
+
+.live {
+  position: absolute;
+  inset: 0;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.82em;
+  margin-left: 0.06em;
+  vertical-align: baseline;
+  background: var(--color-primary-light);
+  animation: typed-caret-blink 1.05s steps(1) infinite;
+}
+
+.caretDone {
+  animation: typed-caret-fade 0.55s var(--ease-out-smooth) 0.7s forwards;
+}
+
+@keyframes typed-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes typed-caret-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .measure {
+    visibility: visible;
+  }
+
+  .live {
+    display: none;
+  }
+}

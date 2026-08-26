@@ -13,7 +13,7 @@ function formatMoney(value: number, currency: RoiCurrency, locale: string) {
   }).format(value);
 }
 
-export function RoiCalculator() {
+export function RoiCalculator({ onCta }: { onCta?: () => void } = {}) {
   const [teamSize, setTeamSize] = useState(roiDefaults.teamSize);
   const [hoursPerWeek, setHoursPerWeek] = useState(roiDefaults.hoursPerWeek);
   const [hourlyRate, setHourlyRate] = useState(roiDefaults.hourlyRate);
@@ -121,7 +121,7 @@ export function RoiCalculator() {
             <CtaButton
               size="md"
               surface="on-dark"
-              onClick={() => scrollToContact("roi_calculator")}
+              onClick={() => (onCta ? onCta() : scrollToContact("roi_calculator"))}
             >
               Individuellen Plan besprechen
             </CtaButton>

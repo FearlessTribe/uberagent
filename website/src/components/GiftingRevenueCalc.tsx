@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { DURATION, EASE, STAGGER, viewport } from "../motion";
 import styles from "./GiftingRevenueCalc.module.css";
 
 const FEE_RATE = 0.1;
@@ -15,16 +17,44 @@ function formatInt(value: number) {
   return new Intl.NumberFormat("de-DE").format(value);
 }
 
+const RESULT_SHIFTS = [-18, 16, -14, 20] as const;
+
 export function GiftingRevenueCalc() {
-  const [customers, setCustomers] = useState(20);
-  const [contactsPerCustomer, setContactsPerCustomer] = useState(50);
-  const [occasions, setOccasions] = useState(2);
+  const reduce = useReducedMotion();
+  const [customers, setCustomers] = useState(550);
+  const [contactsPerCustomer, setContactsPerCustomer] = useState(500);
+  const [occasions, setOccasions] = useState(8);
   const [avgValue, setAvgValue] = useState(40);
 
-  const recipients = customers * contactsPerCustomer;
-  const giftsYear = recipients * occasions;
-  const volumeYear = giftsYear * avgValue;
-  const feeYear = volumeYear * FEE_RATE;
+  const results = useMemo(() => {
+    const recipients = customers * contactsPerCustomer;
+    const giftsYear = recipients * occasions;
+    const volumeYear = giftsYear * avgValue;
+    const feeYear = volumeYear * FEE_RATE;
+    return [
+      {
+        label: "Empfänger gesamt",
+        value: formatInt(recipients),
+        accent: false,
+      },
+      {
+        label: "Geschenke / Jahr",
+        value: formatInt(giftsYear),
+        accent: false,
+      },
+      {
+        label: "Warenwert / Jahr",
+        value: formatEuro(volumeYear),
+        hint: "Aufträge aus Ihrem Sortiment",
+        accent: true,
+      },
+      {
+        label: "überagent · 10%",
+        value: formatEuro(feeYear),
+        accent: false,
+      },
+    ] as const;
+  }, [avgValue, contactsPerCustomer, customers, occasions]);
 
   return (
     <div className={styles.wrap}>
@@ -36,13 +66,13 @@ export function GiftingRevenueCalc() {
           </span>
           <input
             type="range"
-            min={10}
-            max={200}
-            step={5}
+            min={100}
+            max={1000}
+            step={50}
             value={customers}
             onChange={(e) => setCustomers(Number(e.target.value))}
           />
-          <span className={styles.fieldRange}>HubSpot-Accounts · 10 bis 200</span>
+          <span className={styles.fieldRange}>HubSpot-Accounts · 100 bis 1.000</span>
         </label>
 
         <label className={styles.field}>
@@ -52,13 +82,13 @@ export function GiftingRevenueCalc() {
           </span>
           <input
             type="range"
-            min={10}
-            max={500}
-            step={10}
+            min={50}
+            max={1000}
+            step={25}
             value={contactsPerCustomer}
             onChange={(e) => setContactsPerCustomer(Number(e.target.value))}
           />
-          <span className={styles.fieldRange}>Empfänger pro Kunde · 10 bis 500</span>
+          <span className={styles.fieldRange}>Empfänger pro Kunde · 50 bis 1.000</span>
         </label>
 
         <label className={styles.field}>
@@ -68,13 +98,13 @@ export function GiftingRevenueCalc() {
           </span>
           <input
             type="range"
-            min={1}
-            max={4}
+            min={4}
+            max={12}
             step={1}
             value={occasions}
             onChange={(e) => setOccasions(Number(e.target.value))}
           />
-          <span className={styles.fieldRange}>1 bis 4 · z. B. Geburtstag, Jubiläum, Weihnachten</span>
+          <span className={styles.fieldRange}>4 bis 12 · Geburtstag, Jubiläum, Weihnachten…</span>
         </label>
 
         <label className={styles.field}>
@@ -95,23 +125,36 @@ export function GiftingRevenueCalc() {
       </div>
 
       <div className={styles.results}>
-        <div className={styles.resultCard}>
-          <span className={styles.resultLabel}>Empfänger gesamt</span>
-          <span className={styles.resultValue}>{formatInt(recipients)}</span>
-        </div>
-        <div className={styles.resultCard}>
-          <span className={styles.resultLabel}>Geschenke / Jahr</span>
-          <span className={styles.resultValue}>{formatInt(giftsYear)}</span>
-        </div>
-        <div className={`${styles.resultCard} ${styles.resultAccent}`}>
-          <span className={styles.resultLabel}>Warenwert / Jahr</span>
-          <span className={styles.resultValue}>{formatEuro(volumeYear)}</span>
-          <span className={styles.resultHint}>Aufträge aus Ihrem Sortiment</span>
-        </div>
-        <div className={styles.resultCard}>
-          <span className={styles.resultLabel}>überagent · 10%</span>
-          <span className={styles.resultValue}>{formatEuro(feeYear)}</span>
-        </div>
+        {results.map((result, index) => (
+          <div
+            key={result.label}
+            className={`${styles.resultCard} ${result.accent ? styles.resultAccent : ""}`}
+          >
+            <span className={styles.resultLabel}>{result.label}</span>
+            <motion.span
+              className={styles.resultValue}
+              initial={reduce ? false : { x: 0 }}
+              whileInView={
+                reduce
+                  ? undefined
+                  : {
+                      x: RESULT_SHIFTS[index] ?? 0,
+                      transition: {
+                        duration: DURATION.slow,
+                        ease: EASE.outExpo,
+                        delay: index * STAGGER.section,
+                      },
+                    }
+              }
+              viewport={{ ...viewport, once: true }}
+            >
+              {result.value}
+            </motion.span>
+            {"hint" in result && result.hint ? (
+              <span className={styles.resultHint}>{result.hint}</span>
+            ) : null}
+          </div>
+        ))}
       </div>
     </div>
   );

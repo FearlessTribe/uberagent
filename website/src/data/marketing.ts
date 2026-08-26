@@ -77,7 +77,7 @@ export interface CaseStudyCard {
   quote: string;
   person: string;
   role: string;
-  primaryOutcome: { value: string; label: string };
+  primaryOutcome?: { value: string; label: string };
   metrics: { value: string; label: string }[];
   tags: string[];
   openId?: string;
@@ -85,28 +85,27 @@ export interface CaseStudyCard {
     src: string;
     alt: string;
   };
+  video?: {
+    src: string;
+    poster: string;
+  };
 }
 
 export const caseStudies: CaseStudyCard[] = [
   {
     id: "finanznomade",
     industry: "Finanzen · Insurance · Expat",
-    title: "Internationaler KV-Konfigurator für Finanznomade",
+    title: "Konfigurator für internationale Krankenversicherungen",
     quote:
       "Besonders stark fand ich, dass er nicht einfach nur Anforderungen umgesetzt hat, sondern sich intensiv in das Thema eingearbeitet […] Die Zusammenarbeit war unkompliziert, schnell und sehr lösungsorientiert.",
     person: "Kim Elsholz",
     role: "CEO von finanznoma.de der FINO Media LLC",
-    primaryOutcome: { value: "5 Schritte", label: "Konfigurator live" },
-    metrics: [
-      { value: "5 Schritte", label: "Konfigurator" },
-      { value: "5 Anbieter", label: "vergleichbar" },
-      { value: "Funnel", label: "Affiliate-ready" },
-    ],
+    metrics: [],
     tags: ["Konfigurator", "Insurance Tech", "Affiliate"],
     openId: "finanznomade-kv",
-    preview: {
-      src: "/cases/finanznomade/screenshots/05-vergleich.png",
-      alt: "Finanznomade Konfigurator, Tarifvergleich",
+    video: {
+      src: "/cases/finanznomade/konfigurator.mp4",
+      poster: "/cases/finanznomade/poster.jpg",
     },
   },
   {

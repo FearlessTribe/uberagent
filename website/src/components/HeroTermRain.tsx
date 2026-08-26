@@ -59,12 +59,12 @@ const TERMS = [
   "Opportunity",
 ] as const;
 
-const TRAIL = "rgba(25, 28, 33, 0.11)";
-const MUTED_A = "rgba(255, 255, 255, 0.28)";
-const MUTED_B = "rgba(255, 255, 255, 0.15)";
-const MUTED_C = "rgba(148, 163, 184, 0.26)";
-const ACCENT_A = "rgba(232, 168, 146, 0.7)";
-const ACCENT_B = "rgba(204, 128, 102, 0.5)";
+const TRAIL = "rgba(25, 28, 33, 0.12)";
+const MUTED_A = "rgba(255, 255, 255, 0.24)";
+const MUTED_B = "rgba(255, 255, 255, 0.12)";
+const MUTED_C = "rgba(148, 163, 184, 0.2)";
+const ACCENT_A = "rgba(232, 168, 146, 0.48)";
+const ACCENT_B = "rgba(204, 128, 102, 0.36)";
 const FONT = '"JetBrains Mono", ui-monospace, monospace';
 
 function pickTerm() {
@@ -73,27 +73,47 @@ function pickTerm() {
 
 function pickHead() {
   const roll = Math.random();
-  if (roll < 0.22) return ACCENT_A;
-  if (roll < 0.36) return ACCENT_B;
-  if (roll < 0.62) return MUTED_A;
-  if (roll < 0.82) return MUTED_C;
+  if (roll < 0.14) return ACCENT_A;
+  if (roll < 0.24) return ACCENT_B;
+  if (roll < 0.52) return MUTED_A;
+  if (roll < 0.76) return MUTED_C;
   return MUTED_B;
 }
 
-function layoutForWidth(width: number) {
+function layoutForWidth(width: number, denser = false) {
   if (width < 640) {
-    return { fontSize: 11, stride: 26, stepMs: 112, activeChance: 0.62 };
+    return {
+      fontSize: denser ? 12 : 11,
+      stride: denser ? 28 : 32,
+      stepMs: denser ? 112 : 122,
+      activeChance: denser ? 0.56 : 0.46,
+    };
   }
   if (width < 960) {
-    return { fontSize: 12, stride: 24, stepMs: 100, activeChance: 0.7 };
+    return {
+      fontSize: denser ? 13 : 12,
+      stride: denser ? 24 : 28,
+      stepMs: denser ? 102 : 110,
+      activeChance: denser ? 0.62 : 0.52,
+    };
   }
-  return { fontSize: 13, stride: 22, stepMs: 92, activeChance: 0.74 };
+  return {
+    fontSize: denser ? 14 : 13,
+    stride: denser ? 22 : 26,
+    stepMs: denser ? 92 : 102,
+    activeChance: denser ? 0.66 : 0.56,
+  };
 }
 
-export function HeroTermRain() {
+export function HeroTermRain({
+  variant = "page",
+}: {
+  variant?: "page" | "section";
+}) {
   const reduce = useReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const denser = variant === "section";
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -108,10 +128,10 @@ export function HeroTermRain() {
     let dpr = 1;
     let cssW = 0;
     let cssH = 0;
-    let fontSize = 13;
-    let stride = 28;
-    let stepMs = 98;
-    let activeChance = 0.52;
+    let fontSize = denser ? 14 : 13;
+    let stride = denser ? 22 : 26;
+    let stepMs = denser ? 92 : 102;
+    let activeChance = denser ? 0.66 : 0.56;
     let visible = true;
     let raf = 0;
     let last = 0;
@@ -146,7 +166,7 @@ export function HeroTermRain() {
       canvas.style.height = `${cssH}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const layout = layoutForWidth(cssW);
+      const layout = layoutForWidth(cssW, denser);
       fontSize = layout.fontSize;
       stride = layout.stride;
       stepMs = layout.stepMs;
@@ -164,9 +184,9 @@ export function HeroTermRain() {
     };
 
     const fillField = () => {
-      ctx.fillStyle = "rgba(25, 28, 33, 0.28)";
+      ctx.fillStyle = "rgba(25, 28, 33, 0.22)";
       ctx.fillRect(0, 0, cssW, cssH);
-      for (let i = 0; i < 22; i += 1) tick();
+      for (let i = 0; i < 26; i += 1) tick();
     };
 
     const tick = () => {
@@ -253,18 +273,21 @@ export function HeroTermRain() {
       io.disconnect();
       ro.disconnect();
     };
-  }, [reduce]);
+  }, [denser, reduce]);
 
   return (
     <motion.div
       ref={wrapRef}
-      className={styles.wrap}
+      className={`${styles.wrap} ${variant === "section" ? styles.wrapSection : ""}`}
       aria-hidden="true"
       initial={reduce ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: DURATION.hero, ease: EASE.outExpo }}
     >
-      <canvas ref={canvasRef} className={styles.canvas} />
+      <canvas
+        ref={canvasRef}
+        className={`${styles.canvas} ${variant === "section" ? styles.canvasSection : ""}`}
+      />
     </motion.div>
   );
 }

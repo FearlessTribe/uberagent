@@ -2,8 +2,11 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { SectionShell } from "./SectionShell";
 import {
+  productizedAgentIds,
+  productizedAgents,
   serviceCategories,
   services,
+  type ProductizedAgent,
   type Service,
   type ServiceCategoryId,
 } from "../data/services";
@@ -11,7 +14,9 @@ import { useCardGlow } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import { MotionPressable } from "./MotionPressable";
 import { ServiceIcon } from "./ServiceIcon";
-import { fadeIn, slidePanel, fadeUpItem, staggerContainer } from "../motion";
+import { AgentLottie } from "./AgentLottie";
+import { HeroTermRain } from "./HeroTermRain";
+import { fadeIn, slidePanel, fadeUpItem, staggerContainer, resolveVariants, viewport } from "../motion";
 import styles from "./Services.module.css";
 
 interface ServicesProps {
@@ -38,11 +43,11 @@ function ServiceCard({
     >
       <div className={styles.cardMain}>
         <div className={styles.tags}>
-          {service.featured && (
-            <span className={styles.newBadge}>Neu</span>
-          )}
+          {service.featured && <span className={styles.newBadge}>Neu</span>}
           {service.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{tag}</span>
+            <span key={tag} className={styles.tag}>
+              {tag}
+            </span>
           ))}
         </div>
         <div className={styles.titleRow}>
@@ -62,7 +67,74 @@ function ServiceCard({
         <span className={styles.readMore}>
           {service.ctaLabel}
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      </div>
+    </MotionPressable>
+  );
+}
+
+function AgentPersona({
+  agent,
+  service,
+  onOpen,
+  onMouseMove,
+}: {
+  agent: ProductizedAgent;
+  service: Service | undefined;
+  onOpen: (id: string) => void;
+  onMouseMove: (event: React.MouseEvent<HTMLElement>) => void;
+}) {
+  return (
+    <MotionPressable
+      className={`card card-dark ${styles.persona}`}
+      onClick={() => onOpen(agent.serviceId)}
+      onMouseMove={onMouseMove}
+      aria-haspopup="dialog"
+      aria-label={`${agent.name}, ${agent.role} kennenlernen`}
+    >
+      <div className={styles.personaStage} aria-hidden="true">
+        <AgentLottie
+          src={agent.lottieSrc}
+          poster={agent.posterSrc}
+          alt=""
+          className={styles.personaLottie}
+        />
+      </div>
+
+      <div className={styles.personaBody}>
+        <div className={styles.personaIdentity}>
+          <span className={styles.personaRole}>{agent.role}</span>
+          <h3 className={styles.personaName}>{agent.name}</h3>
+          <p className={styles.personaTagline}>{agent.tagline}</p>
+        </div>
+
+        <p className={styles.personaPersonality}>{agent.personality}</p>
+        <p className={styles.personaBio}>{agent.bio}</p>
+
+        <ul className={styles.personaTraits}>
+          {agent.traits.map((trait) => (
+            <li key={trait}>{trait}</li>
+          ))}
+        </ul>
+
+        <span className={styles.personaCta}>
+          {service?.ctaLabel ?? "Kennenlernen"}
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </span>
       </div>
@@ -73,11 +145,15 @@ function ServiceCard({
 export function Services({ onOpenService }: ServicesProps) {
   const { handleMouseMove } = useCardGlow();
   const reduceMotion = useReducedMotion();
-  const [activeCategory, setActiveCategory] = useState<ServiceCategoryId>("neu");
+  const [activeCategory, setActiveCategory] = useState<ServiceCategoryId>("engineering");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const filteredServices = useMemo(
-    () => services.filter((service) => service.category === activeCategory),
+    () =>
+      services.filter(
+        (service) =>
+          service.category === activeCategory && !productizedAgentIds.has(service.id),
+      ),
     [activeCategory],
   );
 
@@ -110,28 +186,53 @@ export function Services({ onOpenService }: ServicesProps) {
   const gridVariants = reduceMotion ? undefined : staggerContainer;
 
   return (
-    <SectionShell
-      id="services"
-      background="static"
-      ariaLabelledBy="services-heading"
-    >
+    <SectionShell id="services" background="static" ariaLabelledBy="services-heading">
+      <HeroTermRain variant="section" />
       <div className="container">
-        <ScrollReveal className={styles.header}>
-          <span className="eyebrow">Leistungen</span>
+        <ScrollReveal className={styles.agentsHeader}>
+          <span className="eyebrow">Productized Agents</span>
           <h2 id="services-heading" className="display-md">
-            Services
+            Lernen Sie unser Team kennen
           </h2>
           <p className={styles.subline}>
-            Drei Wege, wie wir AI produktionsreif machen: schnelle Einstiege, Engineering und Strategy.
+            Fertige Agenten mit eigenem Job, eigener Persönlichkeit und klarem Output –
+            als wären sie Teil Ihres Teams.
+          </p>
+        </ScrollReveal>
+
+        <motion.div
+          className={styles.personaGrid}
+          variants={resolveVariants(Boolean(reduceMotion), staggerContainer)}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={viewport}
+        >
+          {productizedAgents.map((agent) => (
+            <motion.div
+              key={agent.serviceId}
+              className={styles.personaItem}
+              variants={resolveVariants(Boolean(reduceMotion), fadeUpItem)}
+            >
+              <AgentPersona
+                agent={agent}
+                service={services.find((service) => service.id === agent.serviceId)}
+                onOpen={onOpenService}
+                onMouseMove={handleMouseMove}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <ScrollReveal className={styles.header}>
+          <span className="eyebrow">Leistungen</span>
+          <h2 className="display-md">Weitere Services</h2>
+          <p className={styles.subline}>
+            Engineering und Beratung rund um die Agenten – vom Workflow bis zur AI-Strategie.
           </p>
         </ScrollReveal>
 
         <div className={styles.tabsWrap}>
-          <div
-            className={styles.tabs}
-            role="tablist"
-            aria-label="Service-Kategorien"
-          >
+          <div className={styles.tabs} role="tablist" aria-label="Service-Kategorien">
             {serviceCategories.map((category, index) => {
               const isActive = activeCategory === category.id;
               return (
@@ -177,7 +278,7 @@ export function Services({ onOpenService }: ServicesProps) {
                 {filteredServices.map((service) => (
                   <motion.div
                     key={service.id}
-                    className={`${styles.gridItem} ${service.id === "corporate-gifting" ? styles.gridItemWide : ""}`}
+                    className={styles.gridItem}
                     variants={reduceMotion ? undefined : fadeUpItem}
                   >
                     <ServiceCard
@@ -195,3 +296,4 @@ export function Services({ onOpenService }: ServicesProps) {
     </SectionShell>
   );
 }
+

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Modal } from "./Modal";
+import { PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
+import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import styles from "./ProjectModal.module.css";
 
-interface ProjectModalProps {
-  isOpen: boolean;
+interface ProjectPageProps {
   onClose: () => void;
 }
 
@@ -142,18 +142,24 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h3 className={styles.sectionTitle}>{children}</h3>;
 }
 
-export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
+export function ProjectPage({ onClose }: ProjectPageProps) {
   const [activeIndustry, setActiveIndustry] = useState(industries[2].id);
   const [activeTab, setActiveTab] = useState<AgentTab>("segment");
+
+  useDocumentSeo({
+    title: "KI-Sales-Agent | Success Story | uberagent",
+    description:
+      "Wie aus CRM- und Standortdaten personalisierte Verkaufschancen für zehntausende KMU entstanden.",
+    canonical: `${window.location.origin}/case/sales-ai-agent`,
+  });
 
   const industry = industries.find((i) => i.id === activeIndustry) ?? industries[0];
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <PageShell
       title="KI-Sales-Agent für datenbasierte Kundenaktivierung"
       eyebrow="Success Story"
+      onBack={onClose}
       footer={
         <ModalContactFooter
           onClose={onClose}
@@ -431,6 +437,9 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
           </p>
         </section>
       </div>
-    </Modal>
+    </PageShell>
   );
 }
+
+/** @deprecated Use ProjectPage */
+export const ProjectModal = ProjectPage;

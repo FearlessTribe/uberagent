@@ -4,7 +4,11 @@ import { kickstartOffer } from "../data/marketing";
 import { scrollToContact } from "../hooks/useScrollReveal";
 import styles from "./LighthouseOffer.module.css";
 
-export function LighthouseOffer() {
+interface LighthouseOfferProps {
+  onCta?: () => void;
+}
+
+export function LighthouseOffer({ onCta }: LighthouseOfferProps) {
   return (
     <section id="offer" className={styles.section} aria-labelledby="offer-heading">
       <div className={styles.bg} aria-hidden="true" />
@@ -19,7 +23,10 @@ export function LighthouseOffer() {
           <CtaButton
             size="md"
             surface="on-dark"
-            onClick={() => scrollToContact("kickstart_offer")}
+            onClick={() => {
+              if (onCta) onCta();
+              else scrollToContact("kickstart_offer");
+            }}
           >
             {kickstartOffer.cta}
           </CtaButton>

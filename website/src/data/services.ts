@@ -8,7 +8,7 @@ export type ServiceCategoryId = "neu" | "engineering" | "strategy";
 export const serviceCategories = [
   { id: "neu" as const, label: "Neu" },
   { id: "engineering" as const, label: "Engineering" },
-  { id: "strategy" as const, label: "Strategy" },
+  { id: "strategy" as const, label: "Beratung" },
 ];
 
 export interface Service {
@@ -29,6 +29,7 @@ export interface Service {
   seoTitle?: string;
   seoDescription?: string;
 }
+
 
 export const services: Service[] = [
   {
@@ -77,6 +78,31 @@ export const services: Service[] = [
     ctaLabel: "Pilot-Termin buchen",
     category: "neu",
     featured: true,
+  },
+  {
+    id: "kalkulations-agent",
+    slug: "kalkulations-agent",
+    title: "KI-Kalkulationsagent",
+    shortDescription:
+      "Angebote in 20 Sekunden statt in 15 Minuten. Maxim rechnet nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen – für Werkstätten und Handwerk.",
+    cardHook:
+      "Ihr Team tippt das Anliegen ein, das Angebot steht. Mit Ihren Regeln, Ihren Preisen, Ihrer Marge.",
+    icon: "calc",
+    eyebrow: "Für Werkstätten & Handwerk",
+    bannerTag: "Angebote in ~20 Sekunden",
+    lead: "Ihr Betrieb kalkuliert jeden Tag Dutzende Preisanfragen. Maxim rechnet nach Ihren Stundensätzen, Ihren Aufschlägen und den aktuellen Preisen Ihres Lieferanten. Ihr Team gibt das Anliegen ein, das Angebot steht.",
+    tags: ["Kalkulation", "Handwerk", "Angebote"],
+    stats: [
+      { value: "~20 Sek.", label: "pro Kalkulation" },
+      { value: "6 Wochen", label: "bis Go-live" },
+      { value: "3 Stufen", label: "Team · Web · Telefon" },
+    ],
+    ctaLabel: "Kalkulations-Check anfragen",
+    category: "neu",
+    featured: true,
+    seoTitle: "KI-Kalkulationsagent | Angebote in Sekunden",
+    seoDescription:
+      "Maxim kalkuliert nach Ihrer Preislogik: Stundensätze, Aufschläge, Lieferantenpreise. Für KFZ-Werkstätten und Handwerksbetriebe. Kostenloser Kalkulations-Check.",
   },
   {
     id: "vibe-coding-challenge",
@@ -228,8 +254,177 @@ export const services: Service[] = [
   },
 ];
 
+
+export interface ProductizedAgent {
+  serviceId: string;
+  name: string;
+  role: string;
+  tagline: string;
+  personality: string;
+  bio: string;
+  traits: string[];
+  lottieSrc: string;
+  posterSrc: string;
+}
+
+/** Productized agents shown as personas (not as category mascots). */
+export const productizedAgents: ProductizedAgent[] = [
+  {
+    serviceId: "ai-revenue-engine",
+    name: "Leopold",
+    role: "Revenue Agent",
+    tagline: "Analytisches Schwergewicht für Ihren Bestand.",
+    personality:
+      "Ruhig, präzise, unbestechlich. Leopold denkt in Daten, nicht in Bauchgefühl – und bleibt höflich, wenn der Vertrieb das nicht tut.",
+    bio: "Leopold analysiert Ihren Kundenstamm, entdeckt Pain Points und Kaufsignale und leitet daraus konkrete Sales-Opportunities ab – inklusive Anlass und Outreach, zurück ins CRM.",
+    traits: ["Analytisch", "Opportunity Scout", "CRM-native"],
+    lottieSrc: "/lottie/leopold-agent.json",
+    posterSrc: "/lottie/leopold-agent.png",
+  },
+  {
+    serviceId: "corporate-gifting",
+    name: "Helena",
+    role: "Geschenk-Agentin",
+    tagline: "Empathisch. Merkt jeden Anlass – und Ihr Sortiment.",
+    personality:
+      "Warm, aufmerksam, nie aufdringlich. Helena kennt Geburtstage und Jubiläen besser als der Kalender und schlägt nur vor, was wirklich passt.",
+    bio: "Helena lebt im HubSpot Ihrer Kunden, erkennt Anlässe und verwandelt sie in freigegebene Bestellungen aus Ihrem Sortiment – planbar über das Jahr.",
+    traits: ["Empathisch", "Anlass-Radar", "Sortiment first"],
+    lottieSrc: "/lottie/gifting-agent.json",
+    posterSrc: "/lottie/gifting-agent.png",
+  },
+  {
+    serviceId: "kalkulations-agent",
+    name: "Maxim",
+    role: "Kalkulations-Agent",
+    tagline: "Rechnet wie Sie. Nur in 20 Sekunden.",
+    personality:
+      "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise – er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
+    bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein – Teile, Arbeitszeit, Marge und Endpreis stehen.",
+    traits: ["Präzise", "Preislogik-treu", "Team-ready"],
+    lottieSrc: "/lottie/maxim-agent.json",
+    posterSrc: "/lottie/maxim-agent.png",
+  },
+];
+
+export const productizedAgentIds = new Set(
+  productizedAgents.map((agent) => agent.serviceId),
+);
+
+export interface NavServiceItem {
+  serviceId: string;
+  title: string;
+  blurb: string;
+  icon: string;
+  avatarSrc?: string;
+  subtitle?: string;
+}
+
+export interface NavServiceGroup {
+  id: "engineering" | "beratung" | "agents";
+  label: string;
+  description: string;
+  items: NavServiceItem[];
+}
+
+function navItemFromService(
+  serviceId: string,
+  blurb: string,
+  extras?: Pick<NavServiceItem, "avatarSrc" | "subtitle" | "title">,
+): NavServiceItem {
+  const service = services.find((entry) => entry.id === serviceId);
+  if (!service) {
+    throw new Error(`Unknown service for nav: ${serviceId}`);
+  }
+  return {
+    serviceId,
+    title: extras?.title ?? service.title,
+    blurb,
+    icon: service.icon,
+    avatarSrc: extras?.avatarSrc,
+    subtitle: extras?.subtitle,
+  };
+}
+
+export const navServiceGroups: NavServiceGroup[] = [
+  {
+    id: "engineering",
+    label: "Engineering",
+    description: "Systeme, die im Stack produktiv laufen",
+    items: [
+      navItemFromService(
+        "workflow-agents",
+        "Digitale Mitarbeitende für konkrete Prozesse",
+      ),
+      navItemFromService("mcp", "Sichere Anbindung Ihrer Systeme an AI Agents"),
+      navItemFromService(
+        "gtm-engineering",
+        "Skalierbare Pipeline aus CRM, Signalen und Outreach",
+      ),
+    ],
+  },
+  {
+    id: "beratung",
+    label: "Beratung",
+    description: "Entscheidungen vor dem Bau",
+    items: [
+      navItemFromService(
+        "ai-strategy",
+        "Vom Case-Chaos zum priorisierten AI-Portfolio",
+      ),
+      navItemFromService(
+        "business-models",
+        "Hypothesen testen, bevor Budget verbrennt",
+      ),
+      navItemFromService(
+        "trainings",
+        "Teams befähigen, Systeme zu betreiben",
+      ),
+      navItemFromService(
+        "vibe-coding-challenge",
+        "Mitarbeiter bauen die Prototypen selbst",
+      ),
+    ],
+  },
+  {
+    id: "agents",
+    label: "Productized Agenten",
+    description: "Fertige Agenten mit klarem Job",
+    items: [
+      navItemFromService(
+        "ai-revenue-engine",
+        "Analysiert Bestand und findet Sales-Opportunities",
+        {
+          title: "Leopold",
+          subtitle: "Revenue Agent",
+          avatarSrc: "/lottie/leopold-agent.png",
+        },
+      ),
+      navItemFromService(
+        "corporate-gifting",
+        "Anlässe werden zu Aufträgen aus Ihrem Sortiment",
+        {
+          title: "Helena",
+          subtitle: "Geschenk-Agentin",
+          avatarSrc: "/lottie/gifting-agent.png",
+        },
+      ),
+      navItemFromService(
+        "kalkulations-agent",
+        "Angebote in Sekunden nach Ihrer Preislogik",
+        {
+          title: "Maxim",
+          subtitle: "Kalkulations-Agent",
+          avatarSrc: "/lottie/maxim-agent.png",
+        },
+      ),
+    ],
+  },
+];
+
 export const serviceIds = services.map((s) => s.id);
 
 export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
+

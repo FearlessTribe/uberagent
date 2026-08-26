@@ -97,11 +97,6 @@ export function Hero() {
         initial={reduce ? false : "hidden"}
         animate="visible"
       >
-        <motion.div className={styles.badge} variants={itemVariants}>
-          <span className={styles.badgeDot} aria-hidden="true" />
-          Aktuell 2 von 5 Plätzen verfügbar
-        </motion.div>
-
         <motion.h1
           id="hero-heading"
           className={styles.headline}
