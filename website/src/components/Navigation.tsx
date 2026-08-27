@@ -17,7 +17,6 @@ import { navServiceGroups, type NavServiceItem } from "../data/services";
 import { CtaButton } from "./CtaButton";
 import { ServiceIcon } from "./ServiceIcon";
 import {
-  EASE,
   fadeIn,
   menuContainer,
   menuItem,
@@ -92,12 +91,15 @@ export function Navigation() {
   const onDarkNav = !useSolidNav;
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  // Start over the hero headline, then dock into the nav slot on scroll
-  const logoYRaw = useTransform(scrollY, [0, 140, 280], [200, 72, 0]);
-  const logoScaleRaw = useTransform(scrollY, [0, 140, 280], [2.55, 1.45, 1]);
-  const logoY = useSolidNav || reduce ? 0 : logoYRaw;
-  const logoScale = useSolidNav || reduce ? 1 : logoScaleRaw;
-  const [wordmark, setWordmark] = useState("uberagent");
+  // Desktop homepage: brand lives in the hero block; nav logo fades in on scroll.
+  const [desktopHeroLogo, setDesktopHeroLogo] = useState(false);
+  const navBrandOpacityRaw = useTransform(scrollY, [0, 80, 160], [0, 0.45, 1]);
+  const hideNavBrand =
+    desktopHeroLogo &&
+    !useSolidNav &&
+    !reduce &&
+    activeSection === "home";
+  const navBrandOpacity = hideNavBrand ? navBrandOpacityRaw : 1;
   const servicesMenuId = useId();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -107,36 +109,13 @@ export function Navigation() {
   const servicesActive =
     activeSection === "services" || Boolean(openServiceId);
 
-  // Brief u ↔ ü flicker a few times on first hero view
   useEffect(() => {
-    if (reduce) {
-      setWordmark("uberagent");
-      return;
-    }
-
-    const sequence = [
-      { text: "überagent", delay: 420 },
-      { text: "uberagent", delay: 90 },
-      { text: "überagent", delay: 70 },
-      { text: "uberagent", delay: 110 },
-      { text: "überagent", delay: 60 },
-      { text: "uberagent", delay: 140 },
-    ] as const;
-
-    const timers: number[] = [];
-    let wait = 0;
-
-    sequence.forEach((step) => {
-      wait += step.delay;
-      timers.push(
-        window.setTimeout(() => {
-          setWordmark(step.text);
-        }, wait),
-      );
-    });
-
-    return () => timers.forEach((id) => window.clearTimeout(id));
-  }, [reduce]);
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setDesktopHeroLogo(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (!servicesOpen) return;
@@ -221,27 +200,9 @@ export function Navigation() {
           >
             <motion.span
               className={styles.logoBrand}
-              style={{ y: logoY, scale: logoScale }}
+              style={{ opacity: navBrandOpacity }}
             >
-              <motion.span
-                className={styles.logoIcon}
-                aria-hidden="true"
-                initial={reduce ? false : { y: 0, rotate: 0 }}
-                animate={
-                  reduce
-                    ? undefined
-                    : {
-                        y: [0, -7, 0, -3.5, 0],
-                        rotate: [0, -3, 2.5, -1.2, 0],
-                        transition: {
-                          duration: 1.5,
-                          delay: 0.45,
-                          ease: EASE.outSmooth,
-                          times: [0, 0.28, 0.52, 0.78, 1],
-                        },
-                      }
-                }
-              >
+              <span className={styles.logoIcon} aria-hidden="true">
                 <span className={styles.logoFace}>
                   <img
                     src="/logowhite.svg"
@@ -258,9 +219,9 @@ export function Navigation() {
                     height={36}
                   />
                 </span>
-              </motion.span>
+              </span>
               <span className={styles.logoText} aria-hidden="true">
-                {wordmark}
+                uberagent
               </span>
             </motion.span>
           </a>

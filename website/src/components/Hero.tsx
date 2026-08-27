@@ -4,7 +4,7 @@ import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { ProofRow } from "./ProofRow";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
-import { heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
+import { EASE, heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
 import { HeroTermRain } from "./HeroTermRain";
 import styles from "./Hero.module.css";
 
@@ -44,13 +44,29 @@ function useTypedHeadline(reduce: boolean) {
   return chars;
 }
 
+function useDesktopBrand() {
+  const [desktop, setDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const sync = () => setDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return desktop;
+}
+
 export function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const desktopBrand = useDesktopBrand();
   const { scrollY } = useScroll();
   const contentOpacity = useTransform(scrollY, [0, 700], [1, 0.4]);
   const contentY = useTransform(scrollY, [0, 700], [0, -32]);
   const contentScale = useTransform(scrollY, [0, 700], [1, 0.985]);
+  const brandOpacity = useTransform(scrollY, [0, 80, 160], [1, 0.35, 0]);
+  const brandY = useTransform(scrollY, [0, 160], [0, -20]);
+  const [wordmark, setWordmark] = useState("uberagent");
 
   useEffect(() => {
     document.body.classList.add("hero-active");
@@ -69,6 +85,37 @@ export function Hero() {
       document.body.classList.remove("hero-active");
     };
   }, []);
+
+  // Brief u ↔ ü flicker on first hero view (desktop brand only)
+  useEffect(() => {
+    if (reduce || !desktopBrand) {
+      setWordmark("uberagent");
+      return;
+    }
+
+    const sequence = [
+      { text: "überagent", delay: 420 },
+      { text: "uberagent", delay: 90 },
+      { text: "überagent", delay: 70 },
+      { text: "uberagent", delay: 110 },
+      { text: "überagent", delay: 60 },
+      { text: "uberagent", delay: 140 },
+    ] as const;
+
+    const timers: number[] = [];
+    let wait = 0;
+
+    sequence.forEach((step) => {
+      wait += step.delay;
+      timers.push(
+        window.setTimeout(() => {
+          setWordmark(step.text);
+        }, wait),
+      );
+    });
+
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, [reduce, desktopBrand]);
 
   const itemVariants = resolveVariants(reduce, heroItem);
   const containerVariants = resolveVariants(reduce, heroContainer);
@@ -96,6 +143,39 @@ export function Hero() {
         initial={reduce ? false : "hidden"}
         animate="visible"
       >
+        <motion.div
+          className={styles.brand}
+          variants={itemVariants}
+          style={
+            reduce || !desktopBrand
+              ? undefined
+              : { opacity: brandOpacity, y: brandY }
+          }
+          aria-hidden="true"
+        >
+          <motion.span
+            className={styles.brandIcon}
+            initial={reduce ? false : { y: 0, rotate: 0 }}
+            animate={
+              reduce
+                ? undefined
+                : {
+                    y: [0, -7, 0, -3.5, 0],
+                    rotate: [0, -3, 2.5, -1.2, 0],
+                    transition: {
+                      duration: 1.5,
+                      delay: 0.45,
+                      ease: EASE.outSmooth,
+                      times: [0, 0.28, 0.52, 0.78, 1],
+                    },
+                  }
+            }
+          >
+            <img src="/logowhite.svg" alt="" width={44} height={44} />
+          </motion.span>
+          <span className={styles.brandWordmark}>{wordmark}</span>
+        </motion.div>
+
         <motion.h1
           id="hero-heading"
           className={styles.headline}
