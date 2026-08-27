@@ -97,6 +97,7 @@ export function Navigation() {
   const logoScaleRaw = useTransform(scrollY, [0, 140, 280], [2.55, 1.45, 1]);
   const logoY = useSolidNav || reduce ? 0 : logoYRaw;
   const logoScale = useSolidNav || reduce ? 1 : logoScaleRaw;
+  const [wordmark, setWordmark] = useState("uberagent");
   const servicesMenuId = useId();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -105,6 +106,37 @@ export function Navigation() {
 
   const servicesActive =
     activeSection === "services" || Boolean(openServiceId);
+
+  // Brief u ↔ ü flicker a few times on first hero view
+  useEffect(() => {
+    if (reduce) {
+      setWordmark("uberagent");
+      return;
+    }
+
+    const sequence = [
+      { text: "überagent", delay: 420 },
+      { text: "uberagent", delay: 90 },
+      { text: "überagent", delay: 70 },
+      { text: "uberagent", delay: 110 },
+      { text: "überagent", delay: 60 },
+      { text: "uberagent", delay: 140 },
+    ] as const;
+
+    const timers: number[] = [];
+    let wait = 0;
+
+    sequence.forEach((step) => {
+      wait += step.delay;
+      timers.push(
+        window.setTimeout(() => {
+          setWordmark(step.text);
+        }, wait),
+      );
+    });
+
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, [reduce]);
 
   useEffect(() => {
     if (!servicesOpen) return;
@@ -227,7 +259,9 @@ export function Navigation() {
                   />
                 </span>
               </motion.span>
-              <span className={styles.logoText}>uberagent</span>
+              <span className={styles.logoText} aria-hidden="true">
+                {wordmark}
+              </span>
             </motion.span>
           </a>
 

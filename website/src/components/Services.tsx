@@ -116,7 +116,7 @@ function AgentFocus({
       onClick={() => onOpen(agent.serviceId)}
       onMouseMove={onMouseMove}
       aria-haspopup="dialog"
-      aria-label={`${agent.name}, ${agent.role} – Service öffnen`}
+      aria-label={`${agent.name}, ${agent.role} – Lerne ${agent.name} besser kennen`}
     >
       <div className={styles.personaStage} aria-hidden="true">
         <AgentLottie
@@ -141,7 +141,7 @@ function AgentFocus({
         <span className={styles.audienceBadge}>{agent.audience}</span>
 
         <span className={styles.personaCta}>
-          Mehr erfahren
+          Lerne {agent.name} besser kennen
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M3 8h10M9 4l4 4-4 4"
@@ -292,13 +292,14 @@ function AgentCarousel({
         </div>
 
         <div className={styles.carouselFocusSlot} aria-live="polite">
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={focusAgent.serviceId}
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-              transition={{ duration: DURATION.normal, ease: EASE.outExpo }}
+              className={styles.carouselFocusPane}
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: DURATION.slow, ease: EASE.outSmooth }}
             >
               <AgentFocus
                 agent={focusAgent}
