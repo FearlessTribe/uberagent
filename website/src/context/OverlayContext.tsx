@@ -42,6 +42,10 @@ export function useOverlay() {
   return ctx;
 }
 
+export function useOverlayOptional() {
+  return useContext(OverlayContext);
+}
+
 interface OverlayProviderProps {
   children: ReactNode;
 }

@@ -6,6 +6,7 @@ import { trackCalendlyClick } from "../lib/analytics";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
+import { BrandMark } from "./BrandMark";
 import { MotionPressable } from "./MotionPressable";
 import styles from "./ContactFooter.module.css";
 
@@ -87,7 +88,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
             />
             <div className={styles.profileInfo}>
               <p className={styles.profileName}>Laurens Lang, M.Sc. MBA</p>
-              <p className={styles.profileRole}>CEO · uberagent</p>
+              <p className={styles.profileRole}>Founder · uberagent</p>
             </div>
           </MotionPressable>
         </ScrollReveal>
@@ -129,7 +130,7 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
         </ScrollReveal>
 
         <div className={styles.bottom}>
-          <img src="/logowhite.svg" alt="" className={styles.footerLogo} width={32} height={32} aria-hidden="true" />
+          <BrandMark tone="on-dark" size="sm" withWordmark decorative className={styles.footerBrand} />
           <div className={styles.bottomMeta}>
             <a href="/contact#impressum" className={styles.legalLink} onClick={openImpressum}>
               Impressum

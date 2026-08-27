@@ -1003,7 +1003,7 @@ function RevenueEngineContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>CEO · uberagent</p>
+            <p className={styles.engineFinalRole}>Founder · uberagent</p>
           </div>
         </div>
       </section>
@@ -1366,7 +1366,7 @@ function VibeChallengeContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>CEO · uberagent</p>
+            <p className={styles.engineFinalRole}>Founder · uberagent</p>
           </div>
         </div>
       </section>
@@ -2073,7 +2073,7 @@ function GiftingAgentContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>CEO · uberagent</p>
+            <p className={styles.engineFinalRole}>Founder · uberagent</p>
           </div>
         </div>
       </section>

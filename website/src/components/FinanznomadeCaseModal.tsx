@@ -247,13 +247,18 @@ function scrollEventTarget(scroller: HTMLElement): EventTarget {
 function TypedQuote({ active }: { active: boolean }) {
   const reduce = useReducedMotion();
   const quoteRef = useRef<HTMLQuoteElement>(null);
+  const startedRef = useRef(false);
   const [chars, setChars] = useState(reduce ? QUOTE_TEXT.length : 0);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     if (!active) {
+      startedRef.current = false;
+      setInView(false);
       setChars(reduce ? QUOTE_TEXT.length : 0);
       return;
     }
+
     if (reduce) {
       setChars(QUOTE_TEXT.length);
       return;
@@ -261,46 +266,48 @@ function TypedQuote({ active }: { active: boolean }) {
 
     const quote = quoteRef.current;
     if (!quote) return;
+
     const scroller = findScrollParent(quote);
-    const scrollTarget = scrollEventTarget(scroller);
+    const root =
+      scroller === document.documentElement || scroller === document.body
+        ? null
+        : scroller;
 
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      // Wait until the user has scrolled a bit before typing starts
-      if (scroller.scrollTop < 140) {
-        setChars(0);
-        return;
-      }
-      const viewHeight =
-        scroller === document.documentElement
-          ? window.innerHeight
-          : scroller.getBoundingClientRect().height;
-      const viewTop =
-        scroller === document.documentElement ? 0 : scroller.getBoundingClientRect().top;
-      const quoteRect = quote.getBoundingClientRect();
-      const start = viewTop + viewHeight * 0.72;
-      const end = viewTop + viewHeight * 0.22;
-      const range = Math.max(160, start - end);
-      const progress = Math.min(1, Math.max(0, (start - quoteRect.top) / range));
-      setChars(Math.round(progress * QUOTE_TEXT.length));
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      {
+        root,
+        threshold: [0.25, 0.4],
+        // Trigger when the quote sits in the mid/lower viewport, independent of page height
+        rootMargin: "0px 0px -18% 0px",
+      },
+    );
 
-    const onScroll = () => {
-      if (raf) return;
-      raf = window.requestAnimationFrame(update);
-    };
-
-    scrollTarget.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    update();
-
-    return () => {
-      scrollTarget.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) window.cancelAnimationFrame(raf);
-    };
+    observer.observe(quote);
+    return () => observer.disconnect();
   }, [active, reduce]);
+
+  useEffect(() => {
+    if (!active || reduce || !inView || startedRef.current) return;
+    startedRef.current = true;
+
+    setChars(0);
+    let i = 0;
+    let timeout = 0;
+
+    const tick = () => {
+      i += 1;
+      setChars(i);
+      if (i >= QUOTE_TEXT.length) return;
+      const next = QUOTE_TEXT[i - 1] === " " ? 6 : 11;
+      timeout = window.setTimeout(tick, next);
+    };
+
+    timeout = window.setTimeout(tick, 160);
+    return () => window.clearTimeout(timeout);
+  }, [active, reduce, inView]);
 
   const shown = QUOTE_TEXT.slice(0, chars);
   const done = chars >= QUOTE_TEXT.length;
@@ -622,43 +629,111 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
           <span className={styles.heroTag}>Von Tarif-PDFs zur Conversion-Maschine</span>
           <TypedQuote active />
 
-          <div className={styles.stackDiagram} aria-label="Produktbaukasten">
+          <div className={styles.stackBlock}>
+            <p className={styles.stackFormulaLabel}>Produktformel</p>
+            <div
+              className={styles.stackDiagram}
+              role="group"
+              aria-label="Produktformel: Datenprodukt plus Konfigurator plus Affiliate-Netzwerk ergibt Ergebnis"
+            >
             <div className={styles.stackCard}>
+              <span className={styles.stackIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <ellipse cx="12" cy="6" rx="7" ry="2.5" stroke="currentColor" strokeWidth="1.5" />
+                  <path
+                    d="M5 6v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6M5 10v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4M5 14v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <h4 className={styles.stackTitle}>Datenprodukt</h4>
               <p>
                 Alle Versicherungen von fünf Anbietern systematisch und einheitlich strukturiert -
                 vergleichbar und quellenbelegt.
               </p>
             </div>
+
             <span className={styles.stackOp} aria-hidden="true">
-              +
+              <span className={styles.stackOpGlyph}>+</span>
             </span>
+
             <div className={styles.stackCard}>
+              <span className={styles.stackIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                  <rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                  <path
+                    d="M16.5 14.5v4M14.5 16.5h4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <h4 className={styles.stackTitle}>Konfigurator</h4>
               <p>
                 Guided Experience für Endkunden: intuitiv, klar geführt, in wenigen Schritten zum
                 passenden Schutz statt PDF-Chaos.
               </p>
             </div>
+
             <span className={styles.stackOp} aria-hidden="true">
-              +
+              <span className={styles.stackOpGlyph}>+</span>
             </span>
+
             <div className={styles.stackCard}>
+              <span className={styles.stackIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="6.5" cy="7" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="17.5" cy="7" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="12" cy="17" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+                  <path
+                    d="M8.4 8.4 10.4 15.2M15.6 8.4 13.6 15.2M8.8 7h6.4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
               <h4 className={styles.stackTitle}>Affiliate-Netzwerk</h4>
               <p>
                 Partnersteuerung mit klarer Performance-Übersicht und Incentivierung nach Ergebnis -
                 vom Click bis zur Provision.
               </p>
             </div>
-            <span className={styles.stackEquals} aria-hidden="true">
-              =
+
+            <span className={`${styles.stackOp} ${styles.stackEquals}`} aria-hidden="true">
+              <span className={styles.stackOpGlyph}>=</span>
             </span>
+
             <div className={`${styles.stackCard} ${styles.stackResult}`}>
+              <span className={styles.stackIcon} aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 16.5 9.2 11l3.3 3.2L20 7"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M15.5 7H20v4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
               <h4 className={styles.stackTitle}>Ergebnis</h4>
               <p>
                 Skalierbarer, hocheffizienter Vertrieb internationaler Krankenversicherungen für
                 Unternehmer, rechtlich sauber, conversion-orientiert, partnerfähig.
               </p>
+            </div>
             </div>
           </div>
         </section>

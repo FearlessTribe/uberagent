@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { CtaButton } from "./CtaButton";
+import { BrandMark } from "./BrandMark";
 import { scrollToContact } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import styles from "./GrowthBanner.module.css";
@@ -22,7 +23,7 @@ export function GrowthBanner({
       <div className={styles.container}>
         <ScrollReveal className={styles.inner}>
           <div className={styles.textRow}>
-            <span className={styles.line} aria-hidden="true" />
+            <BrandMark tone="on-dark" size="sm" decorative className={styles.brand} />
             <div className={styles.textBlock}>
               <p className={styles.headline}>
                 {headline ?? (

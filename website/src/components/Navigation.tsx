@@ -1,5 +1,11 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import {
   useActiveSection,
   useScrollProgress,
@@ -11,6 +17,7 @@ import { navServiceGroups, type NavServiceItem } from "../data/services";
 import { CtaButton } from "./CtaButton";
 import { ServiceIcon } from "./ServiceIcon";
 import {
+  EASE,
   fadeIn,
   menuContainer,
   menuItem,
@@ -84,6 +91,12 @@ export function Navigation() {
   const useSolidNav = scrolled || menuOpen || Boolean(openProjectId) || Boolean(openServiceId);
   const onDarkNav = !useSolidNav;
   const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  // Start over the hero headline, then dock into the nav slot on scroll
+  const logoYRaw = useTransform(scrollY, [0, 140, 280], [200, 72, 0]);
+  const logoScaleRaw = useTransform(scrollY, [0, 140, 280], [2.55, 1.45, 1]);
+  const logoY = useSolidNav || reduce ? 0 : logoYRaw;
+  const logoScale = useSolidNav || reduce ? 1 : logoScaleRaw;
   const servicesMenuId = useId();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -174,23 +187,48 @@ export function Navigation() {
             }}
             aria-label="uberagent | Startseite"
           >
-            <span className={styles.logoIcon} aria-hidden="true">
-              <img
-                src="/logowhite.svg"
-                alt=""
-                className={`${styles.logo} ${onDarkNav ? styles.logoVisible : styles.logoHidden}`}
-                width={36}
-                height={36}
-              />
-              <img
-                src="/logoblack.svg"
-                alt=""
-                className={`${styles.logo} ${onDarkNav ? styles.logoHidden : styles.logoVisible}`}
-                width={36}
-                height={36}
-              />
-            </span>
-            <span className={styles.logoText}>uberagent</span>
+            <motion.span
+              className={styles.logoBrand}
+              style={{ y: logoY, scale: logoScale }}
+            >
+              <motion.span
+                className={styles.logoIcon}
+                aria-hidden="true"
+                initial={reduce ? false : { y: 0, rotate: 0 }}
+                animate={
+                  reduce
+                    ? undefined
+                    : {
+                        y: [0, -7, 0, -3.5, 0],
+                        rotate: [0, -3, 2.5, -1.2, 0],
+                        transition: {
+                          duration: 1.5,
+                          delay: 0.45,
+                          ease: EASE.outSmooth,
+                          times: [0, 0.28, 0.52, 0.78, 1],
+                        },
+                      }
+                }
+              >
+                <span className={styles.logoFace}>
+                  <img
+                    src="/logowhite.svg"
+                    alt=""
+                    className={`${styles.logo} ${onDarkNav ? styles.logoVisible : styles.logoHidden}`}
+                    width={36}
+                    height={36}
+                  />
+                  <img
+                    src="/logoblack.svg"
+                    alt=""
+                    className={`${styles.logo} ${onDarkNav ? styles.logoHidden : styles.logoVisible}`}
+                    width={36}
+                    height={36}
+                  />
+                </span>
+              </motion.span>
+              <span className={styles.logoText}>uberagent</span>
+            </motion.span>
           </a>
 
           <ul className={styles.links} role="list">

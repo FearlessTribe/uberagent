@@ -132,50 +132,73 @@
 
 @media (min-width: 640px) {
   .modalHero {
-    grid-template-columns: 140px 1fr;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 28px;
   }
 }
 
 .modalHeroImage {
-  width: 140px;
-  height: 140px;
-  border-radius: 12px;
+  width: 100%;
+  max-width: 180px;
+  aspect-ratio: 1;
+  border-radius: 14px;
   object-fit: cover;
-  border: 2px solid var(--color-border);
+  border: 1px solid var(--color-border);
 }
 
 .modalHeroText {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
 }
 
-.respTags {
+.modalHeadline {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+.modalBio {
+  margin: 0;
+  font-size: 0.975rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.proofPoints {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 18px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.respTag {
-  font-size: 0.8125rem;
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  background: var(--color-surface);
-  color: var(--color-secondary);
-  font-weight: 500;
+.proofPoints li {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
 }
 
 .modalSection {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .sectionHeader {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-bottom: 12px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -189,63 +212,218 @@
 }
 
 .sectionTitle {
-  font-size: 1rem;
+  margin: 0;
+  font-size: 1.0625rem;
   font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
-.timelineCards {
+.timelineBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.timelineBlock .modalSection {
+  gap: 12px;
+}
+
+.timelineBlock .sectionHeader {
+  padding-bottom: 8px;
+}
+
+.timelineBlock .sectionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.sectionIcon {
   display: grid;
-  gap: 10px;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: var(--color-primary);
 }
 
-@media (min-width: 640px) {
-  .timelineCards {
-    grid-template-columns: repeat(2, 1fr);
+.sectionIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.timelineGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .timelineGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (min-width: 820px) {
+  .timelineGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
   }
 }
 
 .timelineCard {
-  padding: 16px 18px;
-  background: #FAFAFA;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-control);
-  border-left: 3px solid var(--color-primary);
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  min-width: 0;
+  padding: 12px 0 0;
 }
 
-.timelineCardDark {
-  background: var(--color-surface);
-  border-color: rgba(255, 255, 255, 0.08);
-  border-left-color: var(--color-primary-light);
+.timelineLogo {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(25, 28, 33, 0.08);
+  background: #fff;
+  padding: 6px;
 }
 
-.timelineCardDark .timelineTitle {
-  color: var(--color-secondary);
+.timelineLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.timelineCardDark .timelineSub {
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.timelineCardDark .timelinePeriod {
-  color: var(--color-primary-light);
+.timelineBody {
+  min-width: 0;
 }
 
 .timelinePeriod {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--color-text-muted);
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 3px;
 }
 
 .timelineTitle {
+  margin: 0;
   font-size: 0.875rem;
   font-weight: 500;
-  margin-bottom: 2px;
+  color: var(--color-text-primary);
+  line-height: 1.3;
 }
 
 .timelineSub {
+  margin: 2px 0 0;
   font-size: 0.8125rem;
+  line-height: 1.35;
   color: var(--color-text-secondary);
+}
+
+.timelineLocation {
+  margin: 3px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--color-text-muted);
+}
+
+.timelineHighlight {
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.principleList {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .principleList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+.principleItem h5 {
+  margin: 0 0 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.principleItem p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.caseProof {
+  display: grid;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: var(--radius-card, 14px);
+  border: 1px solid var(--color-border);
+  background: #f7f5f3;
+}
+
+.caseQuote {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.caseLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: gap var(--duration-normal) var(--ease-out-expo);
+}
+
+.caseLink:hover {
+  gap: 10px;
+}
+
+.modalCta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-card, 14px);
+  border: 1px solid rgba(204, 128, 102, 0.28);
+  background: rgba(204, 128, 102, 0.06);
+}
+
+.modalCta p {
+  margin: 0;
+  max-width: 36ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
 }

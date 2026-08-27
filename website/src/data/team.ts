@@ -11,62 +11,111 @@ export const teamMembers: TeamMember[] = [
   {
     id: "laurens",
     name: "Laurens Lang, M.Sc. MBA",
-    role: "CEO",
+    role: "Founder",
     image: laurensPhoto,
   },
 ];
 
+export interface LaurensEducation {
+  period: string;
+  institution: string;
+  degree: string;
+  logoSrc: string;
+}
+
+export interface LaurensExperience {
+  period: string;
+  company: string;
+  role: string;
+  location: string;
+  highlight: string;
+  logoSrc: string;
+}
+
 export const laurensProfile = {
-  bio: [
-    "Ich helfe Unternehmen, AI Automation Workflows dort einzusetzen, wo sie echten operativen Hebel erzeugen: weniger manuelle Arbeit, klarere Prozesse, schnellere Entscheidungen und mehr Raum für Wachstum.",
-    "Dabei verbinde ich technisches Verständnis, Geschäftsprozess Management und starken Fokus auf relevante KPIs mit einem Master in Informatik, einem Master in Business Administration und fünf Jahren Erfahrung im High-Tech-Produktmanagement.",
-  ],
+  headline: "AI-Agenten, die im Betrieb spürbar entlasten.",
+  bio: "Ich baue AI-Agenten und Automation dort, wo manueller Aufwand, unklare Prozesse und langsame Entscheidungen Wachstum bremsen. Fokus: KPIs, Ownership und messbare Wirkung.",
+  proofPoints: ["M.Sc. Informatik", "MBA", "5+ Jahre Product"],
   education: [
     {
-      period: "2017-2020",
-      institution: "TU Wien, Austria",
-      degree: "Master of Science: Computer Science",
+      period: "2017–2020",
+      institution: "TU Wien",
+      degree: "Master of Science · Informatik",
+      logoSrc: "/logos/profile/tu-wien.svg",
     },
     {
-      period: "2023-2025",
+      period: "2023–2025",
       institution: "Quantic School of Business & Technology",
       degree: "Master of Business Administration",
+      logoSrc: "/logos/profile/quantic.svg",
     },
     {
-      period: "2010-2014",
-      institution: "Ulm University, Germany",
-      degree: "Bachelor of Science: Computer Science",
+      period: "2010–2014",
+      institution: "Universität Ulm",
+      degree: "Bachelor of Science · Informatik",
+      logoSrc: "/logos/profile/uni-ulm.png",
     },
-  ],
+  ] satisfies LaurensEducation[],
   experience: [
     {
-      period: "2025-2026",
-      company: "Cistec AG, Switzerland",
+      period: "2025–2026",
+      company: "Cistec AG",
       role: "Product Owner SaMD",
+      location: "Zürich, Schweiz",
+      highlight: "Medizinprodukt-Software mit klarer Delivery und regulatorischem Fokus.",
+      logoSrc: "/logos/profile/cistec.png",
     },
     {
-      period: "2023-2025",
-      company: "Derisky.ai, Switzerland",
+      period: "2023–2025",
+      company: "Derisky.ai",
       role: "Founder",
+      location: "Zürich, Schweiz",
+      highlight: "Produkt und GTM für AI-gestütztes Derisking von Geschäftsmodellen.",
+      logoSrc: "/logos/profile/derisky.png",
     },
     {
-      period: "2021-2023",
+      period: "2021–2023",
       company: "Gerresheimer Advanced Technologies",
       role: "Product Owner Digital Health & Manufacturing",
+      location: "Schweiz",
+      highlight: "Digitale Health- und Fertigungsprodukte von Konzept bis Release.",
+      logoSrc: "/logos/profile/gerresheimer.png",
     },
     {
-      period: "2020-2021",
+      period: "2020–2021",
       company: "Adesso Schweiz AG",
       role: "Requirements Software Engineer Consultant",
+      location: "Zürich, Schweiz",
+      highlight: "Anforderungen und Umsetzung in Enterprise-Softwareprojekten.",
+      logoSrc: "/logos/profile/adesso.png",
     },
     {
-      period: "2019-2020",
-      company: "Christian-Doppler-Institut, Austria",
+      period: "2019–2020",
+      company: "Christian-Doppler-Institut",
       role: "Researcher & Usability Engineer",
+      location: "Wien, Österreich",
+      highlight: "Forschung und Usability für datengetriebene Systeme.",
+      logoSrc: "/logos/profile/cdi.png",
+    },
+  ] satisfies LaurensExperience[],
+  principles: [
+    {
+      title: "Zuerst Prozess und KPI",
+      text: "Erst der operative Hebel, dann der Agent. Nicht andersherum.",
+    },
+    {
+      title: "Kalibrierung vor Go-live",
+      text: "Mit echten Fällen prüfen, justieren, dann erst skalieren.",
+    },
+    {
+      title: "Ownership bis Wirkung",
+      text: "Nicht nur liefern, sondern bis zur messbaren Entlastung begleiten.",
     },
   ],
-  responsibilities: [
-    "Onboarding & Workshops",
-    "Concepts & Development",
-  ],
-};
+  caseProof: {
+    client: "Finanznomade",
+    quote:
+      "Aus einem Prototypen wurde ein voll funktionsfähiger Versicherungskonfigurator: unkompliziert, schnell, lösungsorientiert.",
+    projectId: "finanznomade-kv",
+  },
+} as const;

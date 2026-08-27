@@ -15,6 +15,7 @@ import { ScrollReveal } from "./ScrollReveal";
 import { MotionPressable } from "./MotionPressable";
 import { ServiceIcon } from "./ServiceIcon";
 import { AgentLottie } from "./AgentLottie";
+import { BrandMark } from "./BrandMark";
 import { HeroTermRain } from "./HeroTermRain";
 import {
   fadeIn,
@@ -100,24 +101,22 @@ function ServiceCard({
 
 function AgentFocus({
   agent,
-  service,
   onOpen,
   onMouseMove,
 }: {
   agent: ProductizedAgent;
-  service: Service | undefined;
   onOpen: (id: string) => void;
   onMouseMove: (event: React.MouseEvent<HTMLElement>) => void;
 }) {
   const accent = AGENT_ACCENTS[agent.serviceId] ?? "blue";
 
   return (
-    <motion.article
+    <MotionPressable
       className={`card card-dark ${styles.personaFocus} ${styles[`accent-${accent}`]}`}
-      layout
-      initial={{ opacity: 0.85, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: DURATION.normal, ease: EASE.outExpo }}
+      onClick={() => onOpen(agent.serviceId)}
+      onMouseMove={onMouseMove}
+      aria-haspopup="dialog"
+      aria-label={`${agent.name}, ${agent.role} – Service öffnen`}
     >
       <div className={styles.personaStage} aria-hidden="true">
         <AgentLottie
@@ -141,14 +140,8 @@ function AgentFocus({
 
         <span className={styles.audienceBadge}>{agent.audience}</span>
 
-        <MotionPressable
-          className={styles.personaCtaButton}
-          onClick={() => onOpen(agent.serviceId)}
-          onMouseMove={onMouseMove}
-          aria-haspopup="dialog"
-          aria-label={`${agent.name} kennenlernen`}
-        >
-          {service?.ctaLabel ?? "Kennenlernen"}
+        <span className={styles.personaCta}>
+          Mehr erfahren
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M3 8h10M9 4l4 4-4 4"
@@ -158,18 +151,18 @@ function AgentFocus({
               strokeLinejoin="round"
             />
           </svg>
-        </MotionPressable>
+        </span>
       </div>
-    </motion.article>
+    </MotionPressable>
   );
 }
 
 function AgentSide({
   agent,
-  onSelect,
+  onFocus,
 }: {
   agent: ProductizedAgent;
-  onSelect: () => void;
+  onFocus: () => void;
 }) {
   const accent = AGENT_ACCENTS[agent.serviceId] ?? "blue";
 
@@ -177,7 +170,7 @@ function AgentSide({
     <button
       type="button"
       className={`${styles.personaSide} ${styles[`accent-${accent}`]}`}
-      onClick={onSelect}
+      onClick={onFocus}
       aria-label={`${agent.name} in den Fokus holen`}
     >
       <div className={styles.personaSideStage} aria-hidden="true">
@@ -221,6 +214,21 @@ function AgentCarousel({
   const goNext = useCallback(() => {
     setFocusIndex((current) => wrapIndex(current + 1, count));
   }, [count]);
+
+  const focusAgentAt = useCallback((index: number) => {
+    setFocusIndex(wrapIndex(index, count));
+  }, [count]);
+
+  const handleThumbClick = useCallback(
+    (index: number, serviceId: string) => {
+      if (index === focusIndex) {
+        onOpenService(serviceId);
+        return;
+      }
+      setFocusIndex(index);
+    },
+    [focusIndex, onOpenService],
+  );
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -280,7 +288,7 @@ function AgentCarousel({
 
       <div className={styles.carouselTrack}>
         <div className={styles.carouselSideSlot}>
-          <AgentSide agent={prevAgent} onSelect={() => setFocusIndex(prevIndex)} />
+          <AgentSide agent={prevAgent} onFocus={() => focusAgentAt(prevIndex)} />
         </div>
 
         <div className={styles.carouselFocusSlot} aria-live="polite">
@@ -294,7 +302,6 @@ function AgentCarousel({
             >
               <AgentFocus
                 agent={focusAgent}
-                service={services.find((service) => service.id === focusAgent.serviceId)}
                 onOpen={onOpenService}
                 onMouseMove={onMouseMove}
               />
@@ -303,21 +310,28 @@ function AgentCarousel({
         </div>
 
         <div className={styles.carouselSideSlot}>
-          <AgentSide agent={nextAgent} onSelect={() => setFocusIndex(nextIndex)} />
+          <AgentSide agent={nextAgent} onFocus={() => focusAgentAt(nextIndex)} />
         </div>
       </div>
 
-      <div className={styles.carouselThumbs} role="tablist" aria-label="Agent wählen">
+      <div className={styles.carouselThumbs} role="list" aria-label="Agents">
         {productizedAgents.map((agent, index) => {
-          const isActive = index === focusIndex;
+          const isFocused = agent.serviceId === focusAgent.serviceId;
           return (
             <button
               key={agent.serviceId}
               type="button"
-              role="tab"
-              aria-selected={isActive}
-              className={`${styles.carouselThumb} ${isActive ? styles.carouselThumbActive : ""}`}
-              onClick={() => setFocusIndex(index)}
+              className={`${styles.carouselThumb} ${
+                isFocused ? styles.carouselThumbActive : ""
+              }`}
+              onClick={() => handleThumbClick(index, agent.serviceId)}
+              aria-current={isFocused ? "true" : undefined}
+              aria-haspopup={isFocused ? "dialog" : undefined}
+              aria-label={
+                isFocused
+                  ? `${agent.name} – Service öffnen`
+                  : `${agent.name} in den Fokus holen`
+              }
             >
               <img
                 src={agent.posterSrc}
@@ -384,7 +398,10 @@ export function Services({ onOpenService }: ServicesProps) {
       <HeroTermRain variant="section" />
       <div className="container">
         <ScrollReveal className={styles.agentsHeader}>
-          <span className="eyebrow">Unsere suprahumanistischen Agents</span>
+          <div className={styles.sectionBrand}>
+            <BrandMark tone="on-light" size="sm" decorative />
+            <span className="eyebrow">Unsere suprahumanistischen Agents</span>
+          </div>
           <h2 id="services-heading" className="display-md">
             Lernen Sie unsere Agenten kennen.
           </h2>

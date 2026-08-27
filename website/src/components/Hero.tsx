@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
-import { TrustBar } from "./TrustBar";
 import { ProofRow } from "./ProofRow";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
 import { heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
@@ -176,9 +175,6 @@ export function Hero() {
           {layout}
         </motion.div>
       )}
-      <div className={styles.foreground}>
-        <TrustBar embedded />
-      </div>
     </SectionShell>
   );
 }

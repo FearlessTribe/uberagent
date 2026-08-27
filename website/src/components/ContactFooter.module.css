@@ -160,6 +160,10 @@
   gap: 16px;
 }
 
+.footerBrand {
+  opacity: 0.95;
+}
+
 .footerLogo {
   height: 32px;
   width: auto;
