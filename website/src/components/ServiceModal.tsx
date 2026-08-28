@@ -2330,7 +2330,6 @@ function MaximCalcContent() {
         }
         lead={meta.lead}
         stats={meta.stats}
-        centerCopy
         ctas={
           <>
             <CtaButton
