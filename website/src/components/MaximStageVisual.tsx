@@ -39,16 +39,10 @@ export function MaximStageVisual({ stage }: MaximStageVisualProps) {
     />
   );
 
-  const framed = (
-    <div className={styles.frame}>
-      <div className={styles.frameInner}>{img}</div>
-    </div>
-  );
-
   return (
     <div className={styles.wrap}>
       {reduce ? (
-        framed
+        img
       ) : (
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -56,7 +50,7 @@ export function MaximStageVisual({ stage }: MaximStageVisualProps) {
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: DURATION.normal, ease: EASE.outSmooth }}
         >
-          {framed}
+          {img}
         </motion.div>
       )}
     </div>

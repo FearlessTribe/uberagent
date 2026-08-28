@@ -349,6 +349,20 @@
     justify-content: center;
   }
 
+  .heroBodyNoVisual {
+    grid-template-columns: 1fr;
+  }
+
+  .heroBodyNoVisual.heroBodyCenter .heroCopy {
+    max-width: 42rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .heroBodyNoVisual.heroBodyCenter .heroCtas {
+    justify-content: center;
+  }
+
   .heroStage {
     max-width: none;
     margin-inline: 0;
@@ -5081,30 +5095,17 @@
 .maximStageCard {
   display: grid;
   gap: 20px;
-  padding: clamp(18px, 3vw, 24px);
-  border-radius: var(--radius-card);
-  border: 1px solid rgba(25, 28, 33, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 249, 248, 0.98));
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 16px 40px rgba(20, 18, 16, 0.06);
-  overflow: hidden;
-  transition:
-    transform 0.4s var(--ease-out-smooth),
-    box-shadow 0.4s var(--ease-out-smooth);
-}
-
-.maximStageCard:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 22px 48px rgba(20, 18, 16, 0.09);
+  padding: clamp(18px, 3vw, 24px) 0;
+  background: transparent;
+  overflow: visible;
 }
 
 .maximStageVisual {
   order: 1;
   min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
 }
 
 .maximStageCopy {
@@ -5120,7 +5121,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
     gap: 28px;
-    padding: 24px 28px;
+    padding: 12px 0;
   }
 
   .maximStageCardReversed .maximStageVisual {

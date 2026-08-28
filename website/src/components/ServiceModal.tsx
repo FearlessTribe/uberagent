@@ -105,7 +105,6 @@ import { WorkflowAgentDeskVisual } from "./WorkflowAgentDeskVisual";
 import { BusinessModelWindTunnelVisual } from "./BusinessModelWindTunnelVisual";
 import { StrategyCommandRoomVisual } from "./StrategyCommandRoomVisual";
 import { TrainingAcademyVisual } from "./TrainingAcademyVisual";
-import { AgentLottie } from "./AgentLottie";
 import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import {
@@ -234,7 +233,7 @@ function ServiceHeroLayout({
   mark?: React.ReactNode;
   ctas?: React.ReactNode;
   proof?: React.ReactNode;
-  visual: React.ReactNode;
+  visual?: React.ReactNode;
   leadClassName?: string;
   titleClassName?: string;
   centerCopy?: boolean;
@@ -271,7 +270,7 @@ function ServiceHeroLayout({
             ) : null}
           </div>
           <div
-            className={`${styles.heroBody} ${centerCopy ? styles.heroBodyCenter : ""}`.trim()}
+            className={`${styles.heroBody} ${centerCopy ? styles.heroBodyCenter : ""} ${visual ? "" : styles.heroBodyNoVisual}`.trim()}
           >
             <div className={styles.heroCopy}>
               <p className={`${styles.lead} ${leadClassName ?? ""}`.trim()}>{lead}</p>
@@ -287,7 +286,7 @@ function ServiceHeroLayout({
               {ctas ? <div className={styles.heroCtas}>{ctas}</div> : null}
               {proof ? <div className={styles.heroProof}>{proof}</div> : null}
             </div>
-            <div className={styles.heroStage}>{visual}</div>
+            {visual ? <div className={styles.heroStage}>{visual}</div> : null}
           </div>
         </div>
       </section>
@@ -2343,16 +2342,6 @@ function MaximCalcContent() {
             </CtaButton>
             <ProofRow />
           </>
-        }
-        visual={
-          <div className={styles.maximHeroStage}>
-            <AgentLottie
-              src="/lottie/maxim-agent.json"
-              poster="/lottie/maxim-agent.png"
-              alt="Maxim, der Kalkulations-Agent"
-              className={styles.maximHeroLottie}
-            />
-          </div>
         }
       />
 

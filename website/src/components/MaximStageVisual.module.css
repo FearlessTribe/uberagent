@@ -3,30 +3,6 @@
   width: 100%;
 }
 
-.frame {
-  display: block;
-  width: 100%;
-  padding: 3px;
-  border-radius: 14px;
-  background: linear-gradient(
-    145deg,
-    rgba(204, 128, 102, 0.38),
-    rgba(25, 28, 33, 0.08) 55%,
-    rgba(204, 128, 102, 0.18)
-  );
-  box-shadow:
-    0 20px 48px rgba(20, 18, 16, 0.12),
-    0 1px 0 rgba(255, 255, 255, 0.65) inset;
-}
-
-.frameInner {
-  overflow: hidden;
-  border-radius: 11px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 28%),
-    #f6f5f3;
-}
-
 .image {
   display: block;
   width: 100%;
@@ -34,9 +10,6 @@
   aspect-ratio: 16 / 9;
   object-fit: contain;
   object-position: center;
-  transition: transform 0.55s var(--ease-out-smooth);
-}
-
-.frame:hover .image {
-  transform: scale(1.015);
+  border: none;
+  background: transparent;
 }
