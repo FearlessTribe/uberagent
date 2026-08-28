@@ -109,6 +109,7 @@ import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import {
   maximCapabilitiesSection,
+  maximClosingCta,
   maximFaq,
   maximKalkulationscheck,
   maximProblemCosts,
@@ -2550,11 +2551,8 @@ function MaximCalcContent() {
       <MaximReveal>
         <section className={styles.mcpCtaBand}>
           <div>
-            <h3 className={styles.sectionTitle}>Fünf Anfragen. Eine Woche. Null Risiko.</h3>
-            <p className={styles.bodyText}>
-              Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen. Wenn es
-              nicht passt, hören Sie nie wieder von uns.
-            </p>
+            <h3 className={styles.sectionTitle}>{maximClosingCta.title}</h3>
+            <p className={styles.bodyText}>{maximClosingCta.lead}</p>
           </div>
           <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
             Kalkulations-Check starten

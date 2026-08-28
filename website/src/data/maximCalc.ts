@@ -337,7 +337,12 @@ export const maximFaq = [
     a: "Maxim rechnet nach Ihren freigegebenen Regeln. Die Verantwortung für verbindliche Angebote bleibt bei Ihnen. Er nimmt Ihnen die Rechenarbeit ab, nicht die Entscheidung.",
   },
   {
-    q: "Kann ich erst mal testen?",
-    a: "Ja. Schicken Sie uns fünf echte Anfragen. Wir kalkulieren sie, Sie vergleichen. Kostenlos, unverbindlich, eine Woche.",
+    q: "Was, wenn die Preise nicht stimmen?",
+    a: "Maxim rechnet nach Ihren freigegebenen Regeln und genau nach Ihrer Preisstruktur. Er erfindet nichts dazu, sondern übernimmt die Rechenarbeit. Entscheidungen bleiben bei Ihnen. Bei Unklarheiten greifen klare Regeln: Maxim zieht Sie ein, statt zu raten.",
   },
 ] as const;
+
+export const maximClosingCta = {
+  title: "Lohnt es sich für mich?",
+  lead: "Machen Sie den Kalkulationscheck und finden Sie heraus, wie viel Geld und Zeit Sie sparen.",
+} as const;

@@ -20,7 +20,7 @@ export interface ServiceModalContent {
 const footerNotes: Record<string, string> = {
   "corporate-gifting": "10% vom Warenwert je bestätigter Bestellung. Landet automatisch in Ihren Systemen.",
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
-  "kalkulations-agent": "Fünf Anfragen. Eine Woche. Null Risiko.",
+  "kalkulations-agent": "Kalkulationscheck: Zeit und Geld im Blick.",
   "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
 };
 
