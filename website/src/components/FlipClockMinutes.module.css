@@ -1,0 +1,91 @@
+.wrap {
+  display: inline;
+  white-space: nowrap;
+}
+
+.clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  vertical-align: -0.08em;
+  margin-inline: 0.06em;
+}
+
+.clockSubtle {
+  vertical-align: -0.04em;
+  margin-inline: 0.04em;
+  gap: 0.06em;
+}
+
+.digitSlot {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 0.68em;
+  height: 1.12em;
+  perspective: 320px;
+  border-radius: 0.14em;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 52%, rgba(0, 0, 0, 0.18) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.digitSlotSubtle {
+  width: 0.62em;
+  height: 1em;
+  perspective: 180px;
+  border-radius: 0.1em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.digitSlotSubtle::after {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.digitSlot::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  margin-top: -0.5px;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.digit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+  backface-visibility: hidden;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digitSlot {
+    box-shadow: none;
+  }
+}

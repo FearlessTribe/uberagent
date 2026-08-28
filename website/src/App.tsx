@@ -1,5 +1,6 @@
 import { lazy, Suspense, type ReactNode } from "react";
 import { OverlayProvider, useOverlay } from "./context/OverlayContext";
+import { useTabAwayTitle } from "./hooks/useTabAwayTitle";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { Intro } from "./components/Intro";
@@ -56,6 +57,7 @@ function HomePage() {
 
 function AppContent() {
   const overlay = useOverlay();
+  useTabAwayTitle();
   const { openServiceId, openProjectId, closeService, closeProject } = overlay;
 
   let detailPage: ReactNode = null;

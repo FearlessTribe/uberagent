@@ -39,6 +39,10 @@
   opacity: 0.78;
 }
 
+.canvasQuiet.canvasSection {
+  opacity: 0.24;
+}
+
 .wrapSection::after {
   background: linear-gradient(
     105deg,

@@ -84,12 +84,12 @@ export const services: Service[] = [
     slug: "kalkulations-agent",
     title: "KI-Kalkulationsagent",
     shortDescription:
-      "Angebote in 20 Sekunden statt in 15 Minuten. Maxim rechnet nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen – für Werkstätten und Handwerk.",
+      "Angebote in 20 Sekunden statt in 15 Minuten. Maxim rechnet nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen für Werkstätten und Handwerk.",
     cardHook:
       "Ihr Team tippt das Anliegen ein, das Angebot steht. Mit Ihren Regeln, Ihren Preisen, Ihrer Marge.",
     icon: "calc",
     eyebrow: "Für Werkstätten & Handwerk",
-    bannerTag: "Angebote in ~20 Sekunden",
+    bannerTag: "KI-Kalkulationsagent",
     lead: "Ihr Betrieb kalkuliert jeden Tag Dutzende Preisanfragen. Maxim rechnet nach Ihren Stundensätzen, Ihren Aufschlägen und den aktuellen Preisen Ihres Lieferanten. Ihr Team gibt das Anliegen ein, das Angebot steht.",
     tags: ["Kalkulation", "Handwerk", "Angebote"],
     stats: [
@@ -302,8 +302,8 @@ export const productizedAgents: ProductizedAgent[] = [
     role: "Kalkulations-Agent",
     tagline: "Rechnet wie Sie. Nur in 20 Sekunden.",
     personality:
-      "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise – er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
-    bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein – Teile, Arbeitszeit, Marge und Endpreis stehen.",
+      "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise. Er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
+    bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein. Teile, Arbeitszeit, Marge und Endpreis stehen.",
     audience: "Für KMU",
     traits: ["Präzise", "Preislogik-treu", "Team-ready"],
     lottieSrc: "/lottie/maxim-agent.json",
@@ -392,7 +392,7 @@ export const navServiceGroups: NavServiceGroup[] = [
   },
   {
     id: "agents",
-    label: "Unsere suprahumanistischen Agents",
+    label: "Unsere Agents",
     description: "Fertige Agenten mit klarem Job",
     items: [
       navItemFromService(

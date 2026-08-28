@@ -1,0 +1,315 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(204, 128, 102, 0.05), transparent 42%),
+    #fff;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(204, 128, 102, 0.35);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .live {
+    animation: maxim-agent-live 2.4s ease-out infinite;
+  }
+}
+
+@keyframes maxim-agent-live {
+  0% {
+    box-shadow: 0 0 0 0 rgba(204, 128, 102, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(204, 128, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(204, 128, 102, 0);
+  }
+}
+
+.headLabel {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.headPhase {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 58%;
+  text-align: right;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.step {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px 2px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  background: #faf9f8;
+}
+
+.stepActive {
+  color: var(--color-text-primary);
+  border-color: rgba(204, 128, 102, 0.35);
+  background: rgba(204, 128, 102, 0.1);
+}
+
+.stepDone {
+  color: var(--color-primary);
+  border-color: rgba(204, 128, 102, 0.22);
+  background: rgba(204, 128, 102, 0.06);
+}
+
+.stage {
+  position: relative;
+  min-height: 228px;
+  overflow: hidden;
+}
+
+.detail {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.insight {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.supplierRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.liveBadge {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  color: #047857;
+  background: rgba(52, 211, 153, 0.12);
+}
+
+.supplierLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.supplierChips,
+.ruleGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip,
+.ruleChip {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  background: rgba(204, 128, 102, 0.08);
+}
+
+.priceList,
+.appointmentList {
+  display: grid;
+  gap: 8px;
+}
+
+.priceRow,
+.appointment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f6f5f3;
+}
+
+.priceRow div,
+.appointment {
+  display: grid;
+  gap: 4px;
+}
+
+.priceRow strong,
+.appointment strong {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.priceRow span,
+.appointment span {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.chat {
+  display: grid;
+  gap: 8px;
+}
+
+.bubble {
+  display: grid;
+  gap: 4px;
+  max-width: 92%;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.bubbleTeam {
+  justify-self: start;
+  background: #f6f5f3;
+}
+
+.bubbleMaxim {
+  justify-self: end;
+  background: rgba(204, 128, 102, 0.1);
+}
+
+.bubbleFrom {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.bubble p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+
+.flagged {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.handoffCard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f6f5f3;
+}
+
+.handoffCard div {
+  display: grid;
+  gap: 4px;
+}
+
+.handoffCard strong {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.handoffCard span {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.handoffStatus {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  background: rgba(204, 128, 102, 0.12);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .headPhase {
+    max-width: 48%;
+  }
+
+  .handoffCard {
+    grid-template-columns: 1fr;
+  }
+
+  .handoffStatus {
+    justify-self: start;
+  }
+}

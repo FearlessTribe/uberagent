@@ -4006,6 +4006,22 @@
   margin-top: -2px;
 }
 
+.heroProof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.heroBodyCenter .heroCtas {
+  justify-content: center;
+}
+
+.heroBodyCenter .heroProof {
+  justify-content: center;
+}
+
 .leadFlush {
   border-bottom: 0;
   padding-bottom: 0;
@@ -4490,57 +4506,107 @@
 }
 
 /* Maxim / Kalkulationsagent */
+.serviceHeroQuiet .liveDot {
+  animation: none;
+  box-shadow: none;
+}
+
 .maximHeroStage {
-  width: min(100%, 360px);
+  position: relative;
+  width: min(100%, 260px);
   margin-inline: auto;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
 }
 
+.maximHeroStage::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 42%, rgba(204, 128, 102, 0.08), transparent 72%);
+  pointer-events: none;
+}
+
 .maximHeroLottie {
-  width: 100%;
-  height: 100%;
+  position: relative;
+  z-index: 1;
+  width: 88%;
+  height: 88%;
   object-fit: contain;
+  opacity: 0.86;
+  filter: drop-shadow(0 10px 24px rgba(20, 18, 16, 0.08));
+}
+
+@media (min-width: 980px) {
+  .serviceHeroQuiet .maximHeroStage {
+    width: min(100%, 220px);
+  }
 }
 
 .maximCostGrid {
   display: grid;
-  gap: 0;
+  gap: 12px;
   margin-top: 28px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 @media (min-width: 760px) {
   .maximCostGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
   }
 }
 
 .maximCostCard {
-  padding: 18px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 20px;
+  border: 1px solid rgba(25, 28, 33, 0.08);
+  border-radius: var(--radius-card);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+  transition:
+    transform 0.35s var(--ease-out-smooth),
+    box-shadow 0.35s var(--ease-out-smooth),
+    border-color 0.35s var(--ease-out-smooth);
 }
 
-@media (min-width: 760px) {
-  .maximCostCard {
-    padding: 18px 20px 18px 0;
-    border-bottom: 0;
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
-  }
+.maximCostCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(204, 128, 102, 0.22);
+  box-shadow:
+    0 14px 32px rgba(20, 18, 16, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
 
-  .maximCostCard:last-child {
-    border-right: 0;
-    padding-right: 0;
-  }
+.maximCostIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(204, 128, 102, 0.1);
+  color: var(--color-primary);
+}
 
-  .maximCostCard:first-child {
-    padding-left: 0;
-  }
+.maximCostIcon svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.maximCostBody {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
 }
 
 .maximCostCard h4 {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 1rem;
   font-weight: 500;
   color: var(--color-text-primary);
@@ -4564,45 +4630,62 @@
 }
 
 .maximProblemBand {
-  padding: 28px 24px;
+  padding: clamp(24px, 4vw, 36px);
   margin-inline: -8px;
   border-radius: var(--radius-card);
+  border: 1px solid rgba(25, 28, 33, 0.06);
   background:
-    linear-gradient(180deg, rgba(20, 18, 16, 0.03), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 12% 0%, rgba(204, 128, 102, 0.08), transparent 55%),
+    linear-gradient(180deg, rgba(20, 18, 16, 0.025), transparent 55%),
     #f3f1ef;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset;
+}
+
+.maximTimeHitRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 24px;
+  margin-top: 22px;
 }
 
 .maximTimeHit {
-  display: grid;
-  gap: 8px;
-  margin-top: 22px;
-  max-width: 36ch;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.maximTimeHit strong {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 12px;
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+.maximTimeHitLine {
+  margin: 0;
+  font-size: clamp(1.125rem, 2.4vw, 2.25rem);
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
   color: var(--color-text-primary);
+  white-space: normal;
 }
 
-.maximTimeHit strong span {
-  font-size: 1.0625rem;
+@media (min-width: 640px) {
+  .maximTimeHitLine {
+    white-space: nowrap;
+  }
+}
+
+.maximTimeHitEmphasis {
+  color: var(--color-primary);
+}
+
+.maximCapabilitiesSubtitle {
+  margin: -4px 0 12px;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
   font-weight: 500;
   letter-spacing: -0.02em;
+  line-height: 1.3;
   color: var(--color-text-secondary);
 }
 
-.maximTimeHit p {
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--color-text-secondary);
+.maximCapabilitiesVisual {
+  margin-top: 20px;
 }
 
 .maximDemo {
@@ -4822,9 +4905,44 @@
 
 .maximCluster {
   display: grid;
-  gap: 8px;
-  padding: 22px 0;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  padding: 22px 18px;
   border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition:
+    background 0.35s var(--ease-out-smooth),
+    box-shadow 0.35s var(--ease-out-smooth);
+}
+
+.maximCluster:hover {
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 28px rgba(20, 18, 16, 0.05);
+}
+
+.maximClusterIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(204, 128, 102, 0.1);
+  color: var(--color-primary);
+}
+
+.maximClusterIcon svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.maximClusterBody {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
 }
 
 .maximCluster h4 {
@@ -4865,10 +4983,13 @@
   justify-content: space-between;
   gap: 16px;
   margin-top: 24px;
-  padding: 18px 20px;
+  padding: 20px 22px;
   border-radius: var(--radius-card);
   border: 1px solid rgba(204, 128, 102, 0.28);
-  background: rgba(204, 128, 102, 0.06);
+  background:
+    linear-gradient(135deg, rgba(204, 128, 102, 0.1), rgba(204, 128, 102, 0.04)),
+    #fff;
+  box-shadow: 0 12px 32px rgba(204, 128, 102, 0.08);
 }
 
 .maximMidCta p {
@@ -4885,6 +5006,51 @@
   margin-top: 16px;
 }
 
+.maximTrustItem {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid rgba(25, 28, 33, 0.08);
+  border-radius: var(--radius-card);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+  transition:
+    transform 0.35s var(--ease-out-smooth),
+    border-color 0.35s var(--ease-out-smooth),
+    box-shadow 0.35s var(--ease-out-smooth);
+}
+
+.maximTrustItem:hover {
+  transform: translateY(-2px);
+  border-color: rgba(204, 128, 102, 0.22);
+  box-shadow: 0 12px 28px rgba(20, 18, 16, 0.07);
+}
+
+.maximTrustIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(204, 128, 102, 0.1);
+  color: var(--color-primary);
+}
+
+.maximTrustIcon svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.maximTrustBody {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
 @media (min-width: 720px) {
   .maximTrustGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4893,7 +5059,7 @@
 }
 
 .maximTrustItem h4 {
-  margin: 0 0 6px;
+  margin: 0;
   font-size: 0.975rem;
   font-weight: 500;
   color: var(--color-text-primary);
@@ -4908,20 +5074,67 @@
 
 .maximStageList {
   display: grid;
-  gap: 12px;
+  gap: 20px;
   margin-top: 16px;
 }
 
 .maximStageCard {
-  padding: 20px 22px;
+  display: grid;
+  gap: 20px;
+  padding: clamp(18px, 3vw, 24px);
   border-radius: var(--radius-card);
-  border: 1px solid var(--color-border);
-  background: #fff;
+  border: 1px solid rgba(25, 28, 33, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 249, 248, 0.98));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 16px 40px rgba(20, 18, 16, 0.06);
+  overflow: hidden;
+  transition:
+    transform 0.4s var(--ease-out-smooth),
+    box-shadow 0.4s var(--ease-out-smooth);
+}
+
+.maximStageCard:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 22px 48px rgba(20, 18, 16, 0.09);
+}
+
+.maximStageVisual {
+  order: 1;
+  min-width: 0;
+}
+
+.maximStageCopy {
+  order: 2;
+  display: grid;
+  gap: 10px;
+  align-content: center;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .maximStageCard {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 28px;
+    padding: 24px 28px;
+  }
+
+  .maximStageCardReversed .maximStageVisual {
+    order: 2;
+  }
+
+  .maximStageCardReversed .maximStageCopy {
+    order: 1;
+  }
 }
 
 .maximStageNum {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 600;
@@ -4931,7 +5144,7 @@
 }
 
 .maximStageCard h4 {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 1.0625rem;
   font-weight: 500;
   color: var(--color-text-primary);
@@ -4945,7 +5158,7 @@
 }
 
 .maximStageResult {
-  margin-top: 12px !important;
+  margin-top: 4px !important;
   padding-top: 12px;
   border-top: 1px solid var(--color-border);
 }
@@ -4956,8 +5169,41 @@
 
 @media (min-width: 900px) {
   .maximTimeline {
+    position: relative;
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+
+  .maximTimeline::before {
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(204, 128, 102, 0.28) 15%,
+      rgba(204, 128, 102, 0.28) 85%,
+      transparent
+    );
+    pointer-events: none;
+  }
+}
+
+.maximTimeline .mcpFlowStep {
+  position: relative;
+  z-index: 1;
+  transition:
+    transform 0.35s var(--ease-out-smooth),
+    border-color 0.35s var(--ease-out-smooth),
+    box-shadow 0.35s var(--ease-out-smooth);
+}
+
+.maximTimeline .mcpFlowStep:hover {
+  transform: translateY(-2px);
+  border-color: rgba(204, 128, 102, 0.24);
+  box-shadow: 0 12px 28px rgba(20, 18, 16, 0.07);
 }
 
 .maximPriceGrid {
@@ -5042,10 +5288,18 @@
 }
 
 .maximFaqItem {
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(25, 28, 33, 0.08);
   border-radius: var(--radius-card);
   background: #fff;
   overflow: hidden;
+  transition:
+    border-color 0.3s var(--ease-out-smooth),
+    box-shadow 0.3s var(--ease-out-smooth);
+}
+
+.maximFaqItem:has(.maximFaqTrigger[aria-expanded="true"]) {
+  border-color: rgba(204, 128, 102, 0.28);
+  box-shadow: 0 10px 28px rgba(20, 18, 16, 0.06);
 }
 
 .maximFaqTrigger {
@@ -5059,6 +5313,14 @@
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s var(--ease-out-smooth);
+}
+
+.maximFaqTrigger:hover {
+  color: var(--color-primary);
 }
 
 .maximFaqTrigger span {

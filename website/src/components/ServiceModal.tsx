@@ -4,6 +4,9 @@ import { PageBreadcrumb, PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { ProcessSlider } from "./ProcessSlider";
 import { TypedHeadline } from "./TypedHeadline";
+import { FlipClockMinutes } from "./FlipClockMinutes";
+import { ProofRow } from "./ProofRow";
+import { MaximStageVisual } from "./MaximStageVisual";
 import { LighthouseOffer } from "./LighthouseOffer";
 import { RoiCalculator } from "./RoiCalculator";
 import { useOverlay } from "../context/OverlayContext";
@@ -88,7 +91,7 @@ import {
   type ServiceStat,
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
-import { fadeIn, slidePanel, DURATION, EASE } from "../motion";
+import { fadeIn, slidePanel, fadeUp, fadeUpItem, staggerContainer, viewport, DURATION, EASE } from "../motion";
 import { trackCalendlyClick } from "../lib/analytics";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { teamMembers } from "../data/team";
@@ -106,11 +109,9 @@ import { AgentLottie } from "./AgentLottie";
 import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import {
-  maximDemoIntro,
+  maximCapabilitiesSection,
   maximFaq,
-  maximHeroAudience,
-  maximPricing,
-  maximPricingNote,
+  maximKalkulationscheck,
   maximProblemCosts,
   maximSolutionClusters,
   maximStages,
@@ -119,7 +120,7 @@ import {
   maximTrust,
 } from "../data/maximCalc";
 import { MaximRoiCalc } from "./MaximRoiCalc";
-import { MaximDemoCarousel } from "./MaximDemoCarousel";
+import { MaximAgentVisual } from "./MaximAgentVisual";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import { SectionBackground } from "./SectionBackground";
 import { HeroTermRain } from "./HeroTermRain";
@@ -162,6 +163,52 @@ function Callout({ children }: { children: React.ReactNode }) {
   return <p className={styles.callout}>{children}</p>;
 }
 
+function MaximReveal({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
+
+  return (
+    <motion.div
+      className={className}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function MaximStagger({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
+
+  return (
+    <motion.div
+      className={className}
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function ServiceHeroLayout({
   tag,
   title,
@@ -170,10 +217,14 @@ function ServiceHeroLayout({
   stats,
   mark,
   ctas,
+  proof,
   visual,
   leadClassName,
   titleClassName,
   centerCopy,
+  rawTitle = false,
+  hideBreadcrumb = false,
+  quietHero = false,
 }: {
   tag: React.ReactNode;
   title?: React.ReactNode;
@@ -182,27 +233,41 @@ function ServiceHeroLayout({
   stats?: ServiceStat[];
   mark?: React.ReactNode;
   ctas?: React.ReactNode;
+  proof?: React.ReactNode;
   visual: React.ReactNode;
   leadClassName?: string;
   titleClassName?: string;
   centerCopy?: boolean;
+  rawTitle?: boolean;
+  hideBreadcrumb?: boolean;
+  quietHero?: boolean;
 }) {
   return (
     <>
-      <section className={`${styles.heroSection} ${styles.serviceHero}`}>
+      <section
+        className={`${styles.heroSection} ${styles.serviceHero} ${quietHero ? styles.serviceHeroQuiet : ""}`.trim()}
+      >
         <SectionBackground variant="static-hero" />
-        <HeroTermRain variant="section" />
+        <HeroTermRain variant="section" quiet={quietHero} />
         <div className={styles.serviceHeroInner}>
-          <PageBreadcrumb tone="dark" />
+          {!hideBreadcrumb && <PageBreadcrumb tone="dark" />}
           <div className={styles.heroIntro}>
             {tag}
             {title ? (
-              <TypedHeadline
-                as="h3"
-                className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
-              >
-                {title}
-              </TypedHeadline>
+              rawTitle ? (
+                <h3
+                  className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
+                >
+                  {title}
+                </h3>
+              ) : (
+                <TypedHeadline
+                  as="h3"
+                  className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
+                >
+                  {title}
+                </TypedHeadline>
+              )
             ) : null}
           </div>
           <div
@@ -220,6 +285,7 @@ function ServiceHeroLayout({
                 </div>
               ) : null}
               {ctas ? <div className={styles.heroCtas}>{ctas}</div> : null}
+              {proof ? <div className={styles.heroProof}>{proof}</div> : null}
             </div>
             <div className={styles.heroStage}>{visual}</div>
           </div>
@@ -2081,13 +2147,165 @@ function GiftingAgentContent() {
   );
 }
 
+const maximProblemIcons: Record<string, React.ReactNode> = {
+  Aufträge: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M13 3 5 7v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V7l-8-4Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9 12 2 2 4-4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Freiheit: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path
+        d="m9 15 2 2 4-5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  Überblick: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+};
+
+const maximClusterIcons: Record<string, React.ReactNode> = {
+  zeit: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 8v4.5l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  team: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M4 18c.8-2.8 2.8-4.5 5-4.5s4.2 1.7 5 4.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="17" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M14.5 18c.5-1.8 1.8-3 3.5-3s3 1.2 3.5 3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  vertrauen: (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 3.5 5 6.5v5.8c0 4.2 2.8 7.4 7 8.7 4.2-1.3 7-4.5 7-8.7V6.5L12 3.5z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9.2 12.2 1.8 1.8 3.8-4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+};
+
+const maximTrustIcons: Record<string, React.ReactNode> = {
+  "EU-Hosting": (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M3.5 12h17M12 3.5c2.5 2.8 4 6.2 4 8.5s-1.5 5.7-4 8.5M12 3.5c-2.5 2.8-4 6.2-4 8.5s1.5 5.7 4 8.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
+    </svg>
+  ),
+  "Keine Trainingsnutzung": (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <ellipse cx="12" cy="7.5" rx="6.5" ry="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M5.5 7.5v5.5c0 1.8 2.9 3.2 6.5 3.2s6.5-1.4 6.5-3.2V7.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m5 5 14 14"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  "Interne Zahlen unsichtbar": (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 10c1.8-3.2 4.8-5 8-5s6.2 1.8 8 5c-1.8 3.2-4.8 5-8 5s-6.2-1.8-8-5z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="m4 4 16 16"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  "Als KI gekennzeichnet": (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M6 5h8l4 4v8.5a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 17.5v-11A1.5 1.5 0 0 1 6 5z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M14 5v4h4" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path
+        d="M8.5 11.5h5M8.5 14.5h3.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="17.5" cy="7" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+};
+
 function MaximCalcContent() {
   const meta = serviceModalMeta["kalkulations-agent"];
   const [openFaq, setOpenFaq] = useState(0);
   const reduce = useReducedMotion();
 
-  const scrollToHow = () => {
-    document.getElementById("maxim-how")?.scrollIntoView({
+  const scrollToCheck = () => {
+    document.getElementById("kalkulations-check")?.scrollIntoView({
       behavior: reduce ? "auto" : "smooth",
       block: "start",
     });
@@ -2096,6 +2314,9 @@ function MaximCalcContent() {
   return (
     <div className={styles.content}>
       <ServiceHeroLayout
+        rawTitle
+        hideBreadcrumb
+        quietHero
         tag={
           <span className={styles.heroTag}>
             <span className={styles.liveDot} aria-hidden="true" />
@@ -2104,11 +2325,11 @@ function MaximCalcContent() {
         }
         title={
           <>
-            Angebote in <em>20 Sekunden</em> statt in 15 Minuten.
+            Angebote in <em>20 Sekunden</em> statt in{" "}
+            <FlipClockMinutes from={15} to={30} subtle /> Minuten.
           </>
         }
         lead={meta.lead}
-        note={maximHeroAudience}
         stats={meta.stats}
         centerCopy
         ctas={
@@ -2116,15 +2337,11 @@ function MaximCalcContent() {
             <CtaButton
               size="md"
               surface="accent"
-              showCalendar
-              href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("maxim_hero")}
+              onClick={scrollToCheck}
             >
-              Kostenlosen Kalkulations-Check anfragen
+              Kostenlosen Kalkulations-Check starten
             </CtaButton>
-            <CtaButton size="md" surface="on-dark-ghost" onClick={scrollToHow}>
-              So funktioniert es
-            </CtaButton>
+            <ProofRow />
           </>
         }
         visual={
@@ -2140,151 +2357,175 @@ function MaximCalcContent() {
       />
 
       <section className={styles.maximProblemBand}>
-        <p className={styles.maximSectionEyebrow}>Das Problem</p>
-        <SectionTitle>
-          Sie verlieren jeden Tag zwei bis drei Stunden an Angebote, die Sie nie bezahlt bekommen.
-        </SectionTitle>
-        <p className={styles.bodyText}>
-          Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
-          schicken raus. Zwanzig bis dreißig Mal am Tag.
-        </p>
+        <MaximReveal>
+          <p className={styles.maximSectionEyebrow}>Das Problem</p>
+          <SectionTitle>
+            Sie verlieren jeden Tag Stunden an Angebote, die Sie nie bezahlt bekommen.
+          </SectionTitle>
+          <p className={styles.bodyText}>
+            Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
+            schicken raus. Zwanzig bis dreißig Mal am Tag.
+          </p>
 
-        <div className={styles.maximTimeHit}>
-          <strong>
-            {maximTimeProof.value}
-            <span>{maximTimeProof.unit}</span>
-          </strong>
-          <p>{maximTimeProof.detail}</p>
-        </div>
-
-        <div className={styles.maximCostGrid}>
-          {maximProblemCosts.map((item) => (
-            <div key={item.title} className={styles.maximCostCard}>
-              <h4>{item.title}</h4>
-              <p>{item.text}</p>
+          <div className={styles.maximTimeHitRow}>
+            <div className={styles.maximTimeHit}>
+              <p className={styles.maximTimeHitLine}>
+                <span className={styles.maximTimeHitEmphasis}>{maximTimeProof.emphasis}</span>{" "}
+                {maximTimeProof.text}
+              </p>
             </div>
+            <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
+              Kalkulationscheck starten
+            </CtaButton>
+          </div>
+        </MaximReveal>
+
+        <MaximStagger className={styles.maximCostGrid}>
+          {maximProblemCosts.map((item) => (
+            <motion.div
+              key={item.title}
+              className={styles.maximCostCard}
+              variants={fadeUpItem}
+            >
+              <div className={styles.maximCostIcon} aria-hidden="true">
+                {maximProblemIcons[item.title]}
+              </div>
+              <div className={styles.maximCostBody}>
+                <h4>{item.title}</h4>
+                <p>{item.text}</p>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </MaximStagger>
       </section>
 
       <section>
-        <p className={styles.maximSectionEyebrow}>{maximDemoIntro.eyebrow}</p>
-        <SectionTitle>{maximDemoIntro.title}</SectionTitle>
-        <p className={styles.bodyText}>{maximDemoIntro.lead}</p>
-        <MaximDemoCarousel />
+        <MaximReveal>
+          <p className={styles.maximSectionEyebrow}>{maximCapabilitiesSection.eyebrow}</p>
+          <SectionTitle>{maximCapabilitiesSection.title}</SectionTitle>
+          <p className={styles.maximCapabilitiesSubtitle}>{maximCapabilitiesSection.subtitle}</p>
+          <p className={styles.bodyText}>{maximCapabilitiesSection.lead}</p>
+        </MaximReveal>
+        <MaximReveal className={styles.maximCapabilitiesVisual}>
+          <MaximAgentVisual />
+        </MaximReveal>
       </section>
 
       <section>
-        <p className={styles.maximSectionEyebrow}>Schmerz und Lösung</p>
-        <SectionTitle>Drei Engpässe. Drei praktische Antworten.</SectionTitle>
-        <div className={styles.maximClusterList}>
+        <MaximReveal>
+          <p className={styles.maximSectionEyebrow}>Schmerz und Lösung</p>
+          <SectionTitle>Drei Engpässe. Drei praktische Antworten.</SectionTitle>
+        </MaximReveal>
+        <MaximStagger className={styles.maximClusterList}>
           {maximSolutionClusters.map((cluster) => (
-            <article key={cluster.id} className={styles.maximCluster}>
-              <h4>{cluster.title}</h4>
-              <p className={styles.maximClusterPain}>{cluster.pain}</p>
-              <p className={styles.maximClusterSolution}>{cluster.solution}</p>
-              <span className={styles.maximClusterProof}>{cluster.proof}</span>
-            </article>
+            <motion.article
+              key={cluster.id}
+              className={styles.maximCluster}
+              variants={fadeUpItem}
+            >
+              <div className={styles.maximClusterIcon} aria-hidden="true">
+                {maximClusterIcons[cluster.id]}
+              </div>
+              <div className={styles.maximClusterBody}>
+                <h4>{cluster.title}</h4>
+                <p className={styles.maximClusterPain}>{cluster.pain}</p>
+                <p className={styles.maximClusterSolution}>{cluster.solution}</p>
+                <span className={styles.maximClusterProof}>{cluster.proof}</span>
+              </div>
+            </motion.article>
           ))}
-        </div>
+        </MaximStagger>
 
-        <div className={styles.maximMidCta}>
+        <MaximReveal className={styles.maximMidCta}>
           <p>Passt das zu Ihrem Betrieb? Fünf echte Anfragen reichen für den Check.</p>
-          <CtaButton
-            size="md"
-            surface="accent"
-            showCalendar
-            href={CALENDLY_URL}
-            onClick={() => trackCalendlyClick("maxim_mid")}
-          >
+          <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
             Kalkulations-Check starten
           </CtaButton>
-        </div>
+        </MaximReveal>
       </section>
 
       <section id="maxim-how" className={styles.giftingAnchor}>
-        <p className={styles.maximSectionEyebrow}>So arbeitet Maxim</p>
-        <SectionTitle>Ein Agent, der so kalkuliert wie Sie. Nur schneller.</SectionTitle>
-        <p className={styles.bodyText}>
-          Maxim erfindet keine Zahlen. Er rechnet mit Ihren Regeln. Jede Position ist
-          nachvollziehbar, jede Kalkulation wird gespeichert.
-        </p>
-        <div className={styles.maximStageList}>
+        <MaximReveal>
+          <p className={styles.maximSectionEyebrow}>So arbeitet Maxim</p>
+          <SectionTitle>Ein Agent, der so kalkuliert wie Sie. Nur schneller.</SectionTitle>
+          <p className={styles.bodyText}>
+            Maxim erfindet keine Zahlen. Er rechnet mit Ihren Regeln. Jede Position ist
+            nachvollziehbar, jede Kalkulation wird gespeichert.
+          </p>
+        </MaximReveal>
+        <MaximStagger className={styles.maximStageList}>
           {maximStages.map((stage) => (
-            <div key={stage.stage} className={styles.maximStageCard}>
-              <span className={styles.maximStageNum}>Stufe {stage.stage}</span>
-              <h4>{stage.title}</h4>
-              <p>{stage.lead}</p>
-              <p className={styles.maximStageResult}>
-                <strong>Ergebnis:</strong> {stage.result}
-              </p>
-            </div>
+            <motion.div
+              key={stage.stage}
+              className={`${styles.maximStageCard} ${
+                stage.stage === "02" ? styles.maximStageCardReversed : ""
+              }`.trim()}
+              variants={fadeUpItem}
+            >
+              <div className={styles.maximStageVisual}>
+                <MaximStageVisual stage={stage.stage} />
+              </div>
+              <div className={styles.maximStageCopy}>
+                <span className={styles.maximStageNum}>Stufe {stage.stage}</span>
+                <h4>{stage.title}</h4>
+                <p>{stage.lead}</p>
+                <p className={styles.maximStageResult}>
+                  <strong>Ergebnis:</strong> {stage.result}
+                </p>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </MaximStagger>
       </section>
 
       <section>
-        <SectionTitle>In sechs Wochen von der Preisliste zum laufenden Agenten.</SectionTitle>
-        <div className={`${styles.mcpFlow} ${styles.maximTimeline}`}>
+        <MaximReveal>
+          <SectionTitle>{maximKalkulationscheck.title}</SectionTitle>
+          <p className={styles.bodyText}>{maximKalkulationscheck.lead}</p>
+        </MaximReveal>
+        <MaximReveal>
+          <MaximRoiCalc />
+        </MaximReveal>
+      </section>
+
+      <section>
+        <MaximReveal>
+          <SectionTitle>In sechs Wochen von der Preisliste zum laufenden Agenten.</SectionTitle>
+        </MaximReveal>
+        <MaximStagger className={`${styles.mcpFlow} ${styles.maximTimeline}`}>
           {maximTimeline.map((step) => (
-            <div key={step.step} className={styles.mcpFlowStep}>
+            <motion.div key={step.step} className={styles.mcpFlowStep} variants={fadeUpItem}>
               <span className={styles.mcpFlowNum}>{step.step}</span>
               <strong>{step.title}</strong>
               <span>{step.text}</span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </MaximStagger>
       </section>
 
       <section>
-        <SectionTitle>Ihre Daten bleiben Ihre Daten.</SectionTitle>
-        <div className={styles.maximTrustGrid}>
+        <MaximReveal>
+          <SectionTitle>Ihre Daten bleiben Ihre Daten.</SectionTitle>
+        </MaximReveal>
+        <MaximStagger className={styles.maximTrustGrid}>
           {maximTrust.map((item) => (
-            <div key={item.title} className={styles.maximTrustItem}>
-              <h4>{item.title}</h4>
-              <p>{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle>Rechnet sich das? Rechnen Sie selbst.</SectionTitle>
-        <p className={styles.bodyText}>
-          Stellen Sie Ihre Realität ein. Die Rechnung aktualisiert sich sofort – inklusive Extra-Aufträge
-          durch schnellere Angebote.
-        </p>
-        <MaximRoiCalc />
-      </section>
-
-      <section>
-        <SectionTitle>Klare Preise. Keine Überraschungen.</SectionTitle>
-        <div className={styles.maximPriceGrid}>
-          {maximPricing.map((tier) => (
-            <div
-              key={tier.name}
-              className={`${styles.maximPriceCard} ${tier.featured ? styles.maximPriceFeatured : ""}`}
-            >
-              <span className={styles.maximPriceName}>{tier.name}</span>
-              <h4>{tier.detail}</h4>
-              <div className={styles.maximPriceMeta}>
-                <div>
-                  <span>Einrichtung</span>
-                  <strong>{tier.setup}</strong>
-                </div>
-                <div>
-                  <span>Betrieb / Monat</span>
-                  <strong>{tier.monthly}</strong>
-                </div>
+            <motion.div key={item.title} className={styles.maximTrustItem} variants={fadeUpItem}>
+              <div className={styles.maximTrustIcon} aria-hidden="true">
+                {maximTrustIcons[item.title]}
               </div>
-            </div>
+              <div className={styles.maximTrustBody}>
+                <h4>{item.title}</h4>
+                <p>{item.text}</p>
+              </div>
+            </motion.div>
           ))}
-        </div>
-        <p className={styles.maximPriceNote}>{maximPricingNote}</p>
+        </MaximStagger>
       </section>
 
       <section>
-        <SectionTitle>Häufige Fragen</SectionTitle>
+        <MaximReveal>
+          <SectionTitle>Häufige Fragen</SectionTitle>
+        </MaximReveal>
         <div className={styles.maximFaq}>
           {maximFaq.map((item, index) => {
             const open = openFaq === index;
@@ -2305,7 +2546,7 @@ function MaximCalcContent() {
                       initial={reduce ? false : { height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={reduce ? undefined : { height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: DURATION.modal, ease: EASE.outSmooth }}
                       className={styles.maximFaqPanel}
                     >
                       <p className={styles.bodyText}>{item.a}</p>
@@ -2318,24 +2559,20 @@ function MaximCalcContent() {
         </div>
       </section>
 
-      <section className={styles.mcpCtaBand}>
-        <div>
-          <h3 className={styles.sectionTitle}>Fünf Anfragen. Eine Woche. Null Risiko.</h3>
-          <p className={styles.bodyText}>
-            Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen. Wenn es
-            nicht passt, hören Sie nie wieder von uns.
-          </p>
-        </div>
-        <CtaButton
-          size="md"
-          surface="accent"
-          showCalendar
-          href={CALENDLY_URL}
-          onClick={() => trackCalendlyClick("maxim_cta")}
-        >
-          Kalkulations-Check starten
-        </CtaButton>
-      </section>
+      <MaximReveal>
+        <section className={styles.mcpCtaBand}>
+          <div>
+            <h3 className={styles.sectionTitle}>Fünf Anfragen. Eine Woche. Null Risiko.</h3>
+            <p className={styles.bodyText}>
+              Sie schicken uns fünf echte Preisanfragen. Maxim kalkuliert sie. Sie vergleichen. Wenn es
+              nicht passt, hören Sie nie wieder von uns.
+            </p>
+          </div>
+          <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
+            Kalkulations-Check starten
+          </CtaButton>
+        </section>
+      </MaximReveal>
     </div>
   );
 }

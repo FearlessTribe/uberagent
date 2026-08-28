@@ -107,8 +107,10 @@ function layoutForWidth(width: number, denser = false) {
 
 export function HeroTermRain({
   variant = "page",
+  quiet = false,
 }: {
   variant?: "page" | "section";
+  quiet?: boolean;
 }) {
   const reduce = useReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -286,7 +288,7 @@ export function HeroTermRain({
     >
       <canvas
         ref={canvasRef}
-        className={`${styles.canvas} ${variant === "section" ? styles.canvasSection : ""}`}
+        className={`${styles.canvas} ${variant === "section" ? styles.canvasSection : ""} ${quiet ? styles.canvasQuiet : ""}`}
       />
     </motion.div>
   );

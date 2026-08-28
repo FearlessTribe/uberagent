@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:worker": "wrangler dev",
+    "dev:local-api": "VITE_USE_LOCAL_WORKER=1 vite",
     "build": "tsc -b && vite build",
     "deploy": "wrangler deploy",
     "lint": "eslint .",

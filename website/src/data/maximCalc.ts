@@ -1,11 +1,7 @@
-export const maximHeroAudience =
-  "Für KFZ-Werkstätten, Handwerksbetriebe und alle, die täglich Preise nennen müssen.";
-
 /** Eine harte Zahl im Problem-Beat – nicht dreifach wiederholen. */
 export const maximTimeProof = {
-  value: "550+",
-  unit: "Stunden im Jahr",
-  detail: "10–15 Minuten × 20–30 Anfragen am Tag – für Angebote, die niemand bezahlt.",
+  emphasis: "Tausende",
+  text: "Stunden im Jahr summieren sich auf.",
 } as const;
 
 /** Drei Kernfolgen – Probleme einmal klar benennen. */
@@ -116,6 +112,64 @@ export const maximDemoExamples = [
   },
 ] as const;
 
+export const maximCapabilitiesSection = {
+  eyebrow: "Was Maxim kann",
+  title: "Anliegen tippen. In etwa 20 Sekunden steht die Kalkulation.",
+  subtitle: "Mehr als schnell rechnen.",
+  lead: "Maxim kennt Ihre Preislogik, holt aktuelle Herstellerpreise und bleibt transparent, wenn etwas offen ist.",
+} as const;
+
+export const maximAgentPhases = [
+  {
+    id: "prices",
+    label: "Preise",
+    kicker: "Tagesaktuelle Herstellerpreise",
+    insight: "Lieferantenpreise werden täglich abgeglichen, nicht aus alter Excel.",
+    suppliers: ["Bosch", "Valeo", "Febi"],
+    priceRows: [
+      { part: "Bremsbeläge VA", price: "86,40 €", updated: "heute 06:12" },
+      { part: "Bremsscheiben VA", price: "142,00 €", updated: "heute 06:12" },
+    ],
+  },
+  {
+    id: "logic",
+    label: "Preislogik",
+    kicker: "Ihre gesamte Preisstruktur",
+    insight: "Stundensätze, Aufschläge und Margen kommen aus Ihrer freigegebenen Logik.",
+    rules: ["Stundensatz Werkstatt 118 €", "Aufschlag Teile 18 %", "Marge Mindest 22 %", "Lieferantenrabatt −4 %"],
+  },
+  {
+    id: "clarify",
+    label: "Rückfrage",
+    kicker: "Bei Unklarheiten fragt Maxim nach",
+    insight: "Lieber eine Rückfrage als eine falsche Position in der Kalkulation.",
+    messages: [
+      { from: "team", text: "Golf VII, Bremsen vorne quietschen, Scheiben prüfen" },
+      { from: "maxim", text: "Welche Scheibengröße VA? 288 mm oder 312 mm?" },
+    ],
+    flagged: "Position „Bremsscheiben VA“ als zu prüfen markiert",
+  },
+  {
+    id: "handoff",
+    label: "Einbindung",
+    kicker: "Offene Punkte mit Ihnen klären",
+    insight: "Maxim zieht Sie oder Ihr Team ein, wenn eine Entscheidung fehlt.",
+    openPoint: "Sonderfarbe: Metallic-Lackcode unklar",
+    assignee: "M. Keller, Werkstattleitung",
+    status: "Freigabe angefragt",
+  },
+  {
+    id: "schedule",
+    label: "Termine",
+    kicker: "Termine für Sie oder Ihr Team",
+    insight: "Kundentermine und interne Slots direkt aus dem laufenden Anliegen.",
+    appointments: [
+      { who: "Kunde Müller GmbH", slot: "Do 14:30 · Werkstatttermin" },
+      { who: "Intern · Team B", slot: "Fr 08:00 · Einbau Fenster" },
+    ],
+  },
+] as const;
+
 /**
  * Drei Cluster statt 8er-Matrix.
  * Einwände (Haftung, Technik, Daten, Samstag) sitzen in der jeweiligen Lösung.
@@ -126,7 +180,7 @@ export const maximSolutionClusters = [
     title: "Zeit & Aufträge",
     pain: "Zwei bis drei Stunden täglich für Angebote. Wer zu spät kommt, verliert den Job.",
     solution:
-      "Etwa 20 Sekunden pro Kalkulation – und mit Stufe 2 Sofortpreis auf der Website auch um 21 Uhr.",
+      "Etwa 20 Sekunden pro Kalkulation. Mit Stufe 2 Sofortpreis auf der Website auch um 21 Uhr.",
     proof: "Kalibriert an Ihren echten Angeboten · Sofortpreis rund um die Uhr",
   },
   {
@@ -142,7 +196,7 @@ export const maximSolutionClusters = [
     title: "Vertrauen",
     pain: "Angst vor falschen Preisen, Haftung, Technik-Chaos und Daten, die irgendwo landen.",
     solution:
-      "30–50 echte Anfragen zur Kalibrierung, eine Woche Parallelbetrieb, EU-Hosting ohne Trainingsnutzung. Keine Schnittstelle nötig – zwei Stunden Workshop reichen zum Start.",
+      "30 bis 50 echte Anfragen zur Kalibrierung, eine Woche Parallelbetrieb, EU-Hosting ohne Trainingsnutzung. Keine Schnittstelle nötig. Zwei Stunden Workshop reichen zum Start.",
     proof: "Testbetrieb parallel · AV-Vertrag · interne Zahlen technisch unsichtbar",
   },
 ] as const;
@@ -163,7 +217,7 @@ export const maximStages = [
   {
     stage: "03",
     title: "Preisauskunft am Telefon",
-    lead: "Ein KI-Telefonassistent an derselben Kalkulation. Nimmt das Anliegen auf, nennt einen Richtpreis, bietet Termin oder Rückruf an – klar als KI gekennzeichnet.",
+    lead: "Ein KI-Telefonassistent an derselben Kalkulation. Nimmt das Anliegen auf, nennt einen Richtpreis, bietet Termin oder Rückruf an, klar als KI gekennzeichnet.",
     result: "Kein Anruf ohne Antwort. Auch samstags.",
   },
 ] as const;
@@ -177,7 +231,7 @@ export const maximTimeline = [
   {
     step: "02",
     title: "Aufbau",
-    text: "Wir richten die Wissensbasis ein und binden Lieferant und CRM an – oder arbeiten mit Preisliste und Katalog.",
+    text: "Wir richten die Wissensbasis ein und binden Lieferant und CRM an oder arbeiten mit Preisliste und Katalog.",
   },
   {
     step: "03",
@@ -197,12 +251,19 @@ export const maximTimeline = [
 ] as const;
 
 export const MAXIM_ROI_DEFAULTS = {
-  hoursDay: 2.5,
+  requestsPerDay: 15,
+  minutesPerQuote: 10,
   workDays: 220,
   hourlyRate: 75,
   extraOrdersWeek: 1,
   /** 1 Auftrag/Woche × 52 × ~385 € ≈ 20.000 € Deckungsbeitrag */
   marginPerOrder: 385,
+} as const;
+
+export const maximKalkulationscheck = {
+  title: "Kostenloser kalkulationscheck: Wieviel Geld verlieren Sie jedes Jahr?",
+  lead:
+    "Zuerst Anfragen und Zeit pro Angebot, dann Ihre Kontaktdaten. Danach Schritt für Schritt die restlichen Zahlen. Am Ende sehen Sie Ihr Potenzial.",
 } as const;
 
 /** Stufe 1: 9.900 € Setup + 12 × 990 € */
@@ -246,7 +307,7 @@ export const maximTrust = [
   },
   {
     title: "Interne Zahlen unsichtbar",
-    text: "Website und Telefon sehen nur, was freigegeben ist – nie Ihre Margenlogik.",
+    text: "Website und Telefon sehen nur, was freigegeben ist. Nie Ihre Margenlogik.",
   },
   {
     title: "Als KI gekennzeichnet",

@@ -2,9 +2,11 @@ name = "uberagent"
 main = "worker/index.ts"
 compatibility_date = "2024-11-01"
 workers_dev = true
+account_id = "1474c48fb17c976ac5f4a3d197323f27"
 
 [vars]
 NOTION_DATABASE_ID = "39e0da11-e074-805d-8333-f56a136309d2"
+NOTION_KALKULATIONSCHECK_DATABASE_ID = "19cf29fd-2ffb-44f8-a8a2-b32d5d1c2441"
 
 [assets]
 directory = "./dist"

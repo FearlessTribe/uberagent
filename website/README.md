@@ -24,6 +24,22 @@ Secrets (nie committen):
 
 API-Route: `POST /api/potential-check`
 
+## Kalkulationscheck → Notion
+
+Leads landen in der Notion-Datenbank **Kalkulationscheck Leads** (separat vom Potenzial-Check).
+
+Datenbank-ID (in `wrangler.toml`): `19cf29fd-2ffb-44f8-a8a2-b32d5d1c2441`
+
+Falls neu anlegen:
+
+```bash
+NOTION_TOKEN='…' node scripts/create-kalkulationscheck-notion-db.mjs
+```
+
+Danach die Datenbank mit der Integration **uberagent website** verbinden (Teilen → Connections).
+
+API-Route: `POST /api/kalkulations-check` (`stage: contact` | `complete`)
+
 ## Lokal
 
 ```bash
@@ -31,7 +47,13 @@ npm install
 npm run dev
 ```
 
-Für lokale API-Tests: `website/.dev.vars` (gitignored) mit denselben Secrets.
+`npm run dev` leitet `/api` standardmäßig an den **deployten Worker** weiter (Secrets liegen dort). Kein lokaler Worker nötig.
+
+**Lokalen Worker testen** (z. B. Worker-Code ändern):
+
+1. `cp .dev.vars.example .dev.vars` und `NOTION_TOKEN` eintragen (von [notion.so/my-integrations](https://www.notion.so/my-integrations) → Integration **uberagent website**).
+2. Terminal 1: `npm run dev:worker`
+3. Terminal 2: `npm run dev:local-api`
 
 ## Cloudflare Workers (dein aktuelles Setup)
 

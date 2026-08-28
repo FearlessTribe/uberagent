@@ -45,6 +45,18 @@ export function trackPotentialCheckLead() {
   });
 }
 
+/** Kalkulations-Check: metric step completed */
+export function trackKalkulationsCheckStep(step: string) {
+  trackEvent("kalkulations_check_step", { step });
+}
+
+/** Kalkulations-Check: lead submitted */
+export function trackKalkulationsCheckLead() {
+  trackEvent("kalkulations_check_lead", {
+    step: "submit",
+  });
+}
+
 /** AI Strategy Guide one-pager download */
 export function trackStrategyGuideDownload() {
   trackEvent("strategy_guide_download", {

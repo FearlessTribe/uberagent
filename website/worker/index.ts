@@ -8,7 +8,10 @@ export interface Env {
   ASSETS: Fetcher;
   NOTION_TOKEN: string;
   NOTION_DATABASE_ID: string;
+  NOTION_KALKULATIONSCHECK_DATABASE_ID: string;
 }
+
+const NOTION_VERSION = "2022-06-28";
 
 type PotentialCheckBody = {
   website?: string;
@@ -23,6 +26,27 @@ type StrategyGuideBody = {
   company?: string;
   email?: string;
   phone?: string;
+};
+
+type KalkulationsCheckBody = {
+  stage?: "contact" | "complete";
+  pageId?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  consent?: boolean;
+  requestsPerDay?: number;
+  minutesPerQuote?: number;
+  hoursDay?: number;
+  workDays?: number;
+  hourlyRate?: number;
+  extraOrdersWeek?: number;
+  marginPerOrder?: number;
+  hoursYear?: number;
+  timeValue?: number;
+  extraContribution?: number;
+  total?: number;
 };
 
 function escapeHtmlAttr(value: string): string {
@@ -119,8 +143,21 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function notionSaveError(err: unknown, fallback: string): string {
+  const message = err instanceof Error ? err.message : String(err);
+  if (
+    message.includes("404") ||
+    message.includes("object_not_found") ||
+    message.includes("restricted_resource")
+  ) {
+    return "Notion-Datenbank ist nicht mit der Integration „uberagent website“ verbunden.";
+  }
+  return fallback;
+}
+
 async function createNotionPage(
   env: Env,
+  databaseId: string,
   properties: Record<string, unknown>,
   children?: unknown[],
 ) {
@@ -132,10 +169,33 @@ async function createNotionPage(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      parent: { database_id: env.NOTION_DATABASE_ID },
+      parent: { database_id: databaseId },
       properties,
       ...(children?.length ? { children } : {}),
     }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Notion error ${res.status}: ${err}`);
+  }
+
+  return res.json() as Promise<{ id: string }>;
+}
+
+async function updateNotionPage(
+  env: Env,
+  pageId: string,
+  properties: Record<string, unknown>,
+) {
+  const res = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${env.NOTION_TOKEN}`,
+      "Notion-Version": NOTION_VERSION,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ properties }),
   });
 
   if (!res.ok) {
@@ -150,7 +210,7 @@ async function createPotentialCheckLead(
   env: Env,
   payload: Required<PotentialCheckBody>,
 ) {
-  return createNotionPage(env, {
+  return createNotionPage(env, env.NOTION_DATABASE_ID, {
     Name: {
       title: [{ text: { content: payload.name } }],
     },
@@ -173,6 +233,7 @@ async function createStrategyGuideLead(
 
   return createNotionPage(
     env,
+    env.NOTION_DATABASE_ID,
     {
       Name: {
         title: [
@@ -202,12 +263,87 @@ async function createStrategyGuideLead(
   );
 }
 
+async function createKalkulationsCheckLead(
+  env: Env,
+  payload: Required<
+    Pick<
+      KalkulationsCheckBody,
+      "name" | "email" | "phone" | "consent" | "requestsPerDay" | "minutesPerQuote" | "hoursDay"
+    > & {
+      website?: string;
+    }
+  >,
+) {
+  const detail = [
+    `Anfragen/Tag: ${payload.requestsPerDay}`,
+    `Minuten/Angebot: ${payload.minutesPerQuote}`,
+    `Std./Tag (berechnet): ${Number(payload.hoursDay.toFixed(1))}`,
+  ].join("\n");
+
+  return createNotionPage(
+    env,
+    env.NOTION_KALKULATIONSCHECK_DATABASE_ID,
+    {
+      Name: {
+        title: [{ text: { content: payload.name } }],
+      },
+      "E-Mail": { email: payload.email },
+      Telefon: { phone_number: payload.phone },
+      ...(payload.website ? { Website: { url: payload.website } } : {}),
+      "Kontakt erlaubt": { checkbox: payload.consent },
+      Status: { select: { name: "Neu" } },
+      "Std./Tag Angebote": { number: payload.hoursDay },
+    },
+    [
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: {
+          rich_text: [{ type: "text", text: { content: detail } }],
+        },
+      },
+    ],
+  );
+}
+
+async function completeKalkulationsCheckLead(
+  env: Env,
+  pageId: string,
+  payload: Required<
+    Pick<
+      KalkulationsCheckBody,
+      | "workDays"
+      | "hourlyRate"
+      | "extraOrdersWeek"
+      | "marginPerOrder"
+      | "hoursYear"
+      | "timeValue"
+      | "extraContribution"
+      | "total"
+    >
+  >,
+) {
+  return updateNotionPage(env, pageId, {
+    Arbeitstage: { number: payload.workDays },
+    Stundenwert: { number: payload.hourlyRate },
+    "Extra Aufträge/Woche": { number: payload.extraOrdersWeek },
+    Deckungsbeitrag: { number: payload.marginPerOrder },
+    "Zeitwert/Jahr": { number: payload.timeValue },
+    "Nutzen gesamt": { number: payload.total },
+    Status: { select: { name: "Metriken erfasst" } },
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin");
 
-    if (url.pathname === "/api/potential-check" || url.pathname === "/api/strategy-guide") {
+    if (
+      url.pathname === "/api/potential-check" ||
+      url.pathname === "/api/strategy-guide" ||
+      url.pathname === "/api/kalkulations-check"
+    ) {
       if (request.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: corsHeaders(origin) });
       }
@@ -263,6 +399,150 @@ export default {
         } catch (err) {
           console.error(err);
           return json({ error: "Lead konnte nicht gespeichert werden." }, 502, origin);
+        }
+      }
+
+      if (url.pathname === "/api/kalkulations-check") {
+        if (!env.NOTION_TOKEN || !env.NOTION_KALKULATIONSCHECK_DATABASE_ID) {
+          const missing = [
+            !env.NOTION_TOKEN ? "NOTION_TOKEN" : null,
+            !env.NOTION_KALKULATIONSCHECK_DATABASE_ID
+              ? "NOTION_KALKULATIONSCHECK_DATABASE_ID"
+              : null,
+          ].filter(Boolean);
+          return json(
+            {
+              error: "Kalkulationscheck ist nicht konfiguriert",
+              missing,
+            },
+            503,
+            origin,
+          );
+        }
+
+        let body: KalkulationsCheckBody;
+        try {
+          body = (await request.json()) as KalkulationsCheckBody;
+        } catch {
+          return json({ error: "Invalid JSON" }, 400, origin);
+        }
+
+        const stage = body.stage || "contact";
+
+        if (stage === "contact") {
+          const name = (body.name || "").trim();
+          const email = (body.email || "").trim();
+          const phone = (body.phone || "").trim();
+          const website = normalizeWebsite(body.website || "");
+          const consent = body.consent === true;
+          const requestsPerDay = Number(body.requestsPerDay);
+          const minutesPerQuote = Number(body.minutesPerQuote);
+          const hoursDay = Number(body.hoursDay);
+
+          if (!name || !email || !phone) {
+            return json(
+              { error: "Name, E-Mail und Telefon sind erforderlich." },
+              400,
+              origin,
+            );
+          }
+
+          if (!consent) {
+            return json(
+              { error: "Bitte bestätigen Sie, dass wir Sie kontaktieren dürfen." },
+              400,
+              origin,
+            );
+          }
+
+          if (!isValidEmail(email)) {
+            return json({ error: "Bitte eine gültige E-Mail angeben." }, 400, origin);
+          }
+
+          if (!Number.isFinite(requestsPerDay) || !Number.isFinite(minutesPerQuote)) {
+            return json({ error: "Bitte Anfragen und Zeit pro Angebot angeben." }, 400, origin);
+          }
+
+          if (!Number.isFinite(hoursDay)) {
+            return json({ error: "Bitte die Stunden pro Tag angeben." }, 400, origin);
+          }
+
+          if (website) {
+            try {
+              new URL(website);
+            } catch {
+              return json({ error: "Bitte eine gültige Website-URL angeben." }, 400, origin);
+            }
+          }
+
+          try {
+            const page = await createKalkulationsCheckLead(env, {
+              name,
+              email,
+              phone,
+              consent,
+              requestsPerDay,
+              minutesPerQuote,
+              hoursDay,
+              ...(website ? { website } : {}),
+            });
+            return json({ ok: true, pageId: page.id }, 200, origin);
+          } catch (err) {
+            console.error(err);
+            return json(
+              { error: notionSaveError(err, "Lead konnte nicht gespeichert werden.") },
+              502,
+              origin,
+            );
+          }
+        }
+
+        const pageId = (body.pageId || "").trim();
+        const workDays = Number(body.workDays);
+        const hourlyRate = Number(body.hourlyRate);
+        const extraOrdersWeek = Number(body.extraOrdersWeek);
+        const marginPerOrder = Number(body.marginPerOrder);
+        const hoursYear = Number(body.hoursYear);
+        const timeValue = Number(body.timeValue);
+        const extraContribution = Number(body.extraContribution);
+        const total = Number(body.total);
+
+        if (!pageId) {
+          return json({ error: "Lead-Referenz fehlt." }, 400, origin);
+        }
+
+        if (
+          !Number.isFinite(workDays) ||
+          !Number.isFinite(hourlyRate) ||
+          !Number.isFinite(extraOrdersWeek) ||
+          !Number.isFinite(marginPerOrder) ||
+          !Number.isFinite(hoursYear) ||
+          !Number.isFinite(timeValue) ||
+          !Number.isFinite(extraContribution) ||
+          !Number.isFinite(total)
+        ) {
+          return json({ error: "Bitte alle Metriken ausfüllen." }, 400, origin);
+        }
+
+        try {
+          await completeKalkulationsCheckLead(env, pageId, {
+            workDays,
+            hourlyRate,
+            extraOrdersWeek,
+            marginPerOrder,
+            hoursYear,
+            timeValue,
+            extraContribution,
+            total,
+          });
+          return json({ ok: true }, 200, origin);
+        } catch (err) {
+          console.error(err);
+          return json(
+            { error: notionSaveError(err, "Auswertung konnte nicht gespeichert werden.") },
+            502,
+            origin,
+          );
         }
       }
 
