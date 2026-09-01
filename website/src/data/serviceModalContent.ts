@@ -18,10 +18,11 @@ export interface ServiceModalContent {
 }
 
 const footerNotes: Record<string, string> = {
-  "corporate-gifting": "10% vom Warenwert je bestätigter Bestellung. Landet automatisch in Ihren Systemen.",
+  "corporate-gifting": "Planbare Aufträge aus Ihrem Sortiment. Budget vom Kunden. Bestellung in Ihren Systemen.",
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
   "kalkulations-agent": "Kalkulationscheck: Zeit und Geld im Blick.",
   "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
+  "copilot-agents": "Blueprint ab 2.400 €. Sprint zum Festpreis ab Tenant-Zugang.",
 };
 
 const ctaHrefs: Record<string, string> = {
@@ -29,6 +30,7 @@ const ctaHrefs: Record<string, string> = {
   "ai-revenue-engine": "https://calendly.com/supraflow/30min",
   "kalkulations-agent": "https://calendly.com/supraflow/30min",
   "vibe-coding-challenge": "https://calendly.com/supraflow/30min",
+  "copilot-agents": "https://calendly.com/supraflow/30min",
 };
 
 export const serviceModalMeta: Record<string, ServiceModalContent> = Object.fromEntries(
@@ -1397,7 +1399,7 @@ export const giftingFaq = [
   {
     question: "Wie läuft die Rechnung?",
     answer:
-      "10% vom Warenwert je bestätigter Bestellung. Keine Seat-Gebühr. Abrechnung klären wir im Gespräch.",
+      "Abrechnung klären wir im Gespräch. Keine Seat-Gebühr. Sie zahlen nur, wenn bestellt wird.",
   },
   {
     question: "Wie schnell sind wir startklar?",

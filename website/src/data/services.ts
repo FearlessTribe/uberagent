@@ -48,7 +48,7 @@ export const services: Service[] = [
     stats: [
       { value: "HubSpot", label: "Marketplace live" },
       { value: "Kundenbudget", label: "Ostern und Weihnachten höher" },
-      { value: "10%", label: "vom Warenwert" },
+      { value: "Sortiment", label: "von Ihnen" },
     ],
     ctaLabel: "15-Minuten-Demo buchen",
     category: "neu",
@@ -188,6 +188,30 @@ export const services: Service[] = [
     ],
     ctaLabel: "Workflow-Agent konzipieren",
     category: "engineering",
+  },
+  {
+    id: "copilot-agents",
+    slug: "copilot-agenten",
+    title: "Copilot-Agenten für Microsoft 365",
+    shortDescription:
+      "Copilot-Studio-Agenten, die einen Workflow in Ihrem Microsoft 365 übernehmen – mit Freigabe, Rechten und Protokoll.",
+    cardHook:
+      "Ein klar begrenzter Ablauf in Teams, Outlook und SharePoint – nicht nur Chat, sondern sortieren, anlegen, entwerfen, Freigabe einholen.",
+    icon: "agents",
+    eyebrow: "Copilot-Agenten",
+    bannerTag: "Copilot-Agenten für Microsoft 365",
+    lead: "Ein klar begrenzter Workflow – Posteingang, Anfragen, Belege – wird von einem Agenten in Copilot Studio übernommen: sortieren, anlegen, entwerfen, Freigabe einholen.",
+    tags: ["Copilot Studio", "Microsoft 365", "Agents"],
+    stats: [
+      { value: "1 Workflow", label: "10–15 AT ab Zugang" },
+      { value: "Freigabe in Teams", label: "vor jedem Schreibvorgang" },
+      { value: "Ihr Tenant", label: "Ihre Berechtigungen" },
+    ],
+    ctaLabel: "Workflow in 30 Minuten prüfen",
+    category: "engineering",
+    seoTitle: "Copilot-Agenten für Microsoft 365 | uberagent",
+    seoDescription:
+      "Wir bauen Copilot-Studio-Agenten, die einen Workflow in Ihrem Microsoft 365 übernehmen – mit Freigabe, Rechten und Protokoll. Festpreis-Sprint, Übergabe, Betrieb. Zürich.",
   },
   {
     id: "business-models",
@@ -359,6 +383,10 @@ export const navServiceGroups: NavServiceGroup[] = [
       navItemFromService(
         "workflow-agents",
         "Digitale Mitarbeitende für konkrete Prozesse",
+      ),
+      navItemFromService(
+        "copilot-agents",
+        "Copilot-Studio-Agenten in Teams, Outlook und SharePoint",
       ),
       navItemFromService("mcp", "Sichere Anbindung Ihrer Systeme an AI Agents"),
       navItemFromService(

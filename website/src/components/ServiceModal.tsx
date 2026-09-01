@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { PageBreadcrumb, PageShell } from "./PageShell";
+import { PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { ProcessSlider } from "./ProcessSlider";
-import { TypedHeadline } from "./TypedHeadline";
 import { FlipClockMinutes } from "./FlipClockMinutes";
 import { ProofRow } from "./ProofRow";
 import { MaximStageVisual } from "./MaximStageVisual";
@@ -26,7 +25,6 @@ import {
   giftingFinalMeta,
   giftingFlow,
   giftingHowIntro,
-  giftingPricing,
   giftingRoles,
   giftingRolesIntro,
   gtmBenefits,
@@ -88,7 +86,6 @@ import {
   vibeTimeline,
   vibeTimelineNote,
   type ImpactRow,
-  type ServiceStat,
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
 import { fadeIn, slidePanel, fadeUp, fadeUpItem, staggerContainer, viewport, DURATION, EASE } from "../motion";
@@ -122,24 +119,11 @@ import {
 import { MaximRoiCalc } from "./MaximRoiCalc";
 import { MaximAgentVisual } from "./MaximAgentVisual";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
-import { SectionBackground } from "./SectionBackground";
-import { HeroTermRain } from "./HeroTermRain";
+import { CopilotAgentsContent } from "./CopilotAgentsContent";
+import { SectionTitle, ServiceHeroLayout } from "./ServicePageParts";
 import styles from "./ServiceModal.module.css";
 
 const CALENDLY_URL = "https://calendly.com/supraflow/30min";
-
-function StatPill({ value, label }: ServiceStat) {
-  return (
-    <div className={styles.statPill}>
-      <span className={styles.statValue}>{value}</span>
-      <span className={styles.statLabel}>{label}</span>
-    </div>
-  );
-}
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className={styles.sectionTitle}>{children}</h3>;
-}
 
 function ImpactTable({ rows }: { rows: ImpactRow[] }) {
   return (
@@ -206,93 +190,6 @@ function MaximStagger({
     >
       {children}
     </motion.div>
-  );
-}
-
-function ServiceHeroLayout({
-  tag,
-  title,
-  lead,
-  note,
-  stats,
-  mark,
-  ctas,
-  proof,
-  visual,
-  leadClassName,
-  titleClassName,
-  centerCopy,
-  rawTitle = false,
-  hideBreadcrumb = false,
-  quietHero = false,
-}: {
-  tag: React.ReactNode;
-  title?: React.ReactNode;
-  lead: React.ReactNode;
-  note?: React.ReactNode;
-  stats?: ServiceStat[];
-  mark?: React.ReactNode;
-  ctas?: React.ReactNode;
-  proof?: React.ReactNode;
-  visual?: React.ReactNode;
-  leadClassName?: string;
-  titleClassName?: string;
-  centerCopy?: boolean;
-  rawTitle?: boolean;
-  hideBreadcrumb?: boolean;
-  quietHero?: boolean;
-}) {
-  return (
-    <>
-      <section
-        className={`${styles.heroSection} ${styles.serviceHero} ${quietHero ? styles.serviceHeroQuiet : ""}`.trim()}
-      >
-        <SectionBackground variant="static-hero" />
-        <HeroTermRain variant="section" quiet={quietHero} />
-        <div className={styles.serviceHeroInner}>
-          {!hideBreadcrumb && <PageBreadcrumb tone="dark" />}
-          <div className={styles.heroIntro}>
-            {tag}
-            {title ? (
-              rawTitle ? (
-                <h3
-                  className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
-                >
-                  {title}
-                </h3>
-              ) : (
-                <TypedHeadline
-                  as="h3"
-                  className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
-                >
-                  {title}
-                </TypedHeadline>
-              )
-            ) : null}
-          </div>
-          <div
-            className={`${styles.heroBody} ${centerCopy ? styles.heroBodyCenter : ""} ${visual ? "" : styles.heroBodyNoVisual}`.trim()}
-          >
-            <div className={styles.heroCopy}>
-              <p className={`${styles.lead} ${leadClassName ?? ""}`.trim()}>{lead}</p>
-              {note ? <p className={styles.heroNote}>{note}</p> : null}
-              {mark ? <div className={styles.heroMark}>{mark}</div> : null}
-              {!mark && stats?.length ? (
-                <div className={styles.statsRow}>
-                  {stats.map((s) => (
-                    <StatPill key={s.label} {...s} />
-                  ))}
-                </div>
-              ) : null}
-              {ctas ? <div className={styles.heroCtas}>{ctas}</div> : null}
-              {proof ? <div className={styles.heroProof}>{proof}</div> : null}
-            </div>
-            {visual ? <div className={styles.heroStage}>{visual}</div> : null}
-          </div>
-        </div>
-      </section>
-      <div className={styles.contentGrid} aria-hidden="true" />
-    </>
   );
 }
 
@@ -1661,7 +1558,7 @@ function McpContent() {
 
 function WorkflowAgentsContent() {
   const meta = serviceModalMeta["workflow-agents"];
-  const { navigateHome } = useOverlay();
+  const { navigateHome, openService } = useOverlay();
 
   return (
     <>
@@ -1723,6 +1620,21 @@ function WorkflowAgentsContent() {
               </ul>
             </div>
           </div>
+        </section>
+
+        <section>
+          <SectionTitle>Microsoft 365?</SectionTitle>
+          <p className={styles.bodyText}>
+            Für Teams, Outlook und SharePoint bauen wir{" "}
+            <button
+              type="button"
+              className={styles.inlineLinkBtn}
+              onClick={() => openService("copilot-agents")}
+            >
+              Copilot-Agenten in Copilot Studio
+            </button>{" "}
+            – mit Festpreis-Blueprint, Sprint und optionalem Betrieb.
+          </p>
         </section>
       </div>
 
@@ -1994,11 +1906,10 @@ function GiftingAgentContent() {
       />
 
       <section>
-        <SectionTitle>Was das bedeuten kann</SectionTitle>
+        <SectionTitle>Kostenloser Check: Wieviel verdienen Sie damit?</SectionTitle>
         <p className={styles.bodyText}>
-          Annahme: Ihre Kunden (HubSpot), darunter deren Kontakte als Empfänger,
-          Anlässe und Durchschnittswert unter 50 Euro. Daraus Warenwert und 10%
-          für überagent. Keine gemessenen Ergebnisse.
+          Ihre Kunden, deren Kontakte, Anlässe und Durchschnittswert. Am Ende sehen Sie das
+          Auftragsvolumen aus Ihrem Sortiment. E-Mail und Telefon für die Auswertung.
         </p>
         <GiftingRevenueCalc />
       </section>
@@ -2007,7 +1918,9 @@ function GiftingAgentContent() {
         <SectionTitle>So funktioniert&apos;s</SectionTitle>
         <p className={styles.bodyText}>{giftingHowIntro}</p>
         <div className={styles.engineSplit}>
-          <GiftingAgentVisual />
+          <div className={styles.giftingHowVisual}>
+            <GiftingAgentVisual />
+          </div>
           <div className={`${styles.engineFlow} ${styles.giftingFlow}`}>
             {giftingFlow.map((step) => (
               <div
@@ -2041,33 +1954,6 @@ function GiftingAgentContent() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section>
-        <SectionTitle>Preise</SectionTitle>
-        <p className={styles.bodyText}>{giftingPricing.intro}</p>
-        <div className={styles.giftingPriceCard}>
-          <div className={styles.giftingPriceHead}>
-            <span className={styles.giftingPriceRate}>{giftingPricing.rate}</span>
-            <span className={styles.giftingPriceNote}>{giftingPricing.note}</span>
-          </div>
-          <ul className={styles.giftingPriceList}>
-            {giftingPricing.items.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          <div className={styles.giftingPriceFoot}>
-            <CtaButton
-              size="sm"
-              surface="on-dark"
-              href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("gifting_pricing")}
-            >
-              15-Minuten-Demo buchen
-            </CtaButton>
-          </div>
-        </div>
-        <p className={styles.footnote}>{giftingPricing.footnote}</p>
       </section>
 
       <section>
@@ -2316,7 +2202,6 @@ function MaximCalcContent() {
       <ServiceHeroLayout
         rawTitle
         hideBreadcrumb
-        quietHero
         tag={
           <span className={styles.heroTag}>
             <span className={styles.liveDot} aria-hidden="true" />
@@ -2571,6 +2456,7 @@ const contentByService: Record<string, () => React.ReactNode> = {
   "gtm-engineering": GtmContent,
   mcp: McpContent,
   "workflow-agents": WorkflowAgentsContent,
+  "copilot-agents": CopilotAgentsContent,
   "business-models": BusinessModelsContent,
   "ai-strategy": AiStrategyContent,
   trainings: TrainingsContent,

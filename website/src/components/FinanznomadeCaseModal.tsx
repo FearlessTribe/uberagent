@@ -5,6 +5,7 @@ import { ModalContactFooter } from "./ModalContactFooter";
 import { FinanznomadeScreenshotShowcase } from "./FinanznomadeScreenshotShowcase";
 import { CtaButton } from "./CtaButton";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
+import { finanznomadeCaseVideo } from "../data/marketing";
 import { resolveVariants, slidePanel } from "../motion";
 import styles from "./FinanznomadeCaseModal.module.css";
 
@@ -602,9 +603,9 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
                       loop
                       playsInline
                       preload="auto"
-                      poster="/cases/finanznomade/poster.jpg"
+                      poster={finanznomadeCaseVideo.poster}
                     >
-                      <source src="/cases/finanznomade/konfigurator.mp4" type="video/mp4" />
+                      <source src={finanznomadeCaseVideo.src} type="video/mp4" />
                     </video>
                   </div>
                 </div>

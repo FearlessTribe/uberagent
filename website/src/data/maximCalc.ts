@@ -261,7 +261,7 @@ export const MAXIM_ROI_DEFAULTS = {
 } as const;
 
 export const maximKalkulationscheck = {
-  title: "Kostenloser kalkulationscheck: Wieviel Geld verlieren Sie jedes Jahr?",
+  title: "Kostenloser Check: Wieviel sparen Sie damit?",
   lead:
     "Zuerst Anfragen und Zeit pro Angebot, dann Ihre Kontaktdaten. Danach Schritt für Schritt die restlichen Zahlen. Am Ende sehen Sie Ihr Potenzial.",
 } as const;

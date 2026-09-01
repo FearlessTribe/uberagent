@@ -1,4 +1,4 @@
-import { type CSSProperties, type FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CtaButton } from "./CtaButton";
 import { MAXIM_ROI_DEFAULTS } from "../data/maximCalc";
@@ -17,12 +17,8 @@ type MetricStepConfig = {
   id: MetricKey;
   label: string;
   hint: string;
-  input: "slider" | "number";
-  min?: number;
-  max?: number;
-  step?: number;
-  format: (v: number) => string;
-  rangeLabel?: string;
+  min: number;
+  suffix?: string;
   placeholder?: string;
 };
 
@@ -31,23 +27,16 @@ const INTRO_METRIC_STEPS: MetricStepConfig[] = [
     id: "requestsPerDay",
     label: "Wie viele Angebotsanfragen bekommen Sie pro Tag?",
     hint: "Zählen Sie alles mit: Telefon, E-Mail, WhatsApp und Walk-in.",
-    input: "slider",
-    min: 5,
-    max: 40,
-    step: 1,
-    format: (v: number) => (v >= 40 ? "40+ Anfragen" : `${v} Anfragen`),
-    rangeLabel: "5 bis 40 Anfragen, danach 40+",
+    min: 1,
+    placeholder: "z. B. 15",
   },
   {
     id: "minutesPerQuote",
     label: "Wie lange dauert ein Angebot realistisch?",
     hint: "Inklusive Teile suchen, Nachrechnen und Versand.",
-    input: "slider",
-    min: 5,
-    max: 45,
-    step: 5,
-    format: (v: number) => `${v} Min.`,
-    rangeLabel: "5 bis 45 Minuten pro Angebot",
+    min: 1,
+    suffix: "Min.",
+    placeholder: "z. B. 10",
   },
 ];
 
@@ -56,47 +45,32 @@ const METRIC_STEPS: MetricStepConfig[] = [
     id: "workDays",
     label: "Wie viele Arbeitstage haben Sie im Jahr?",
     hint: "Ohne Urlaub und Feiertage, typisch sind 220 Tage.",
-    input: "slider",
-    min: 200,
-    max: 250,
-    step: 5,
-    format: (v: number) => `${v} Tage`,
-    rangeLabel: "200 bis 250 · Standard 220",
+    min: 1,
+    suffix: "Tage",
+    placeholder: "z. B. 220",
   },
   {
     id: "hourlyRate",
     label: "Was ist der Wert Ihrer Stunde?",
     hint: "Kalkulierter Stundensatz inklusive Gemeinkosten, konservativ rechnen.",
-    input: "slider",
-    min: 40,
-    max: 150,
-    step: 5,
-    format: (v: number) => `${v} €`,
-    rangeLabel: "40 bis 150 € · konservativ 75 €",
+    min: 1,
+    suffix: "€",
+    placeholder: "z. B. 75",
   },
   {
     id: "extraOrdersWeek",
     label: "Wie viele Extra-Aufträge pro Woche sind realistisch?",
     hint: "Durch schnellere Preise, die sonst an den Wettbewerb gehen.",
-    input: "slider",
     min: 1,
-    max: 10,
-    step: 1,
-    format: (v: number) => `${v} Aufträge`,
-    rangeLabel: "1 bis 10",
+    placeholder: "z. B. 2",
   },
   {
     id: "marginPerOrder",
     label: "Welcher Deckungsbeitrag pro Auftrag?",
     hint: "Was bleibt nach Material und Fremdleistung übrig?",
-    input: "number",
+    min: 1,
+    suffix: "€",
     placeholder: "z. B. 385",
-    format: (v: number) =>
-      new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "EUR",
-        maximumFractionDigits: 0,
-      }).format(v),
   },
 ];
 
@@ -248,13 +222,14 @@ export function MaximRoiCalc() {
 
   const handleMetricNext = () => {
     const metric = ALL_METRIC_STEPS.find((m) => m.id === step);
-    if (metric?.id === "marginPerOrder") {
-      if (!Number.isFinite(metrics.marginPerOrder) || metrics.marginPerOrder <= 0) {
-        setError("Bitte einen Deckungsbeitrag größer als 0 € eingeben.");
+    if (metric) {
+      const value = metrics[metric.id];
+      if (!Number.isFinite(value) || value < metric.min) {
+        setError("Bitte einen Wert größer als 0 eingeben.");
         return;
       }
+      trackKalkulationsCheckStep(metric.id);
     }
-    if (metric) trackKalkulationsCheckStep(metric.id);
     goNext();
   };
 
@@ -301,10 +276,6 @@ export function MaximRoiCalc() {
 
   const activeMetric = ALL_METRIC_STEPS.find((m) => m.id === step);
   const metricValue = activeMetric ? metrics[activeMetric.id] : 0;
-  const sliderFill =
-    activeMetric?.input === "slider" && activeMetric.min != null && activeMetric.max != null
-      ? ((metricValue - activeMetric.min) / (activeMetric.max - activeMetric.min)) * 100
-      : 0;
 
   return (
     <div className={styles.wrap} id="kalkulations-check">
@@ -335,60 +306,33 @@ export function MaximRoiCalc() {
               </p>
             )}
 
-            {activeMetric.input === "number" ? (
-              <label className={styles.field}>
-                <span className={styles.textLabel}>Deckungsbeitrag in Euro</span>
-                <div className={styles.numberInputWrap}>
-                  <input
-                    id={`maxim-metric-${activeMetric.id}`}
-                    className={styles.textInput}
-                    type="number"
-                    inputMode="numeric"
-                    min={1}
-                    step={1}
-                    placeholder={activeMetric.placeholder}
-                    value={metrics.marginPerOrder || ""}
-                    onChange={(e) => {
-                      setError(null);
-                      setMetrics((prev) => ({
-                        ...prev,
-                        marginPerOrder: Number(e.target.value),
-                      }));
-                    }}
-                  />
-                  <span className={styles.numberSuffix} aria-hidden="true">
-                    €
-                  </span>
-                </div>
-              </label>
-            ) : (
-              <label className={styles.field}>
-                <span className={styles.fieldTop}>
-                  <span>Aktueller Wert</span>
-                  <strong>{activeMetric.format(metricValue)}</strong>
-                </span>
+            <label className={styles.field}>
+              <span className={styles.textLabel}>Ihr Wert</span>
+              <div className={styles.numberInputWrap}>
                 <input
-                  type="range"
-                  className={styles.rangeInput}
-                  style={
-                    {
-                      "--range-fill": `${sliderFill}%`,
-                    } as CSSProperties
-                  }
+                  id={`maxim-metric-${activeMetric.id}`}
+                  className={styles.textInput}
+                  type="number"
+                  inputMode="numeric"
                   min={activeMetric.min}
-                  max={activeMetric.max}
-                  step={activeMetric.step}
-                  value={metricValue}
-                  onChange={(e) =>
+                  step={1}
+                  placeholder={activeMetric.placeholder}
+                  value={metricValue || ""}
+                  onChange={(e) => {
+                    setError(null);
                     setMetrics((prev) => ({
                       ...prev,
                       [activeMetric.id]: Number(e.target.value),
-                    }))
-                  }
+                    }));
+                  }}
                 />
-                <span className={styles.fieldRange}>{activeMetric.rangeLabel}</span>
-              </label>
-            )}
+                {activeMetric.suffix ? (
+                  <span className={styles.numberSuffix} aria-hidden="true">
+                    {activeMetric.suffix}
+                  </span>
+                ) : null}
+              </div>
+            </label>
 
             {error && (
               <p className={styles.error} role="alert">
@@ -431,7 +375,7 @@ export function MaximRoiCalc() {
               Zahlen weiter.
             </p>
             <p className={styles.stepSummary}>
-              Bisher: <strong>{metrics.requestsPerDay >= 40 ? "40+" : metrics.requestsPerDay} Anfragen</strong>{" "}
+              Bisher: <strong>{metrics.requestsPerDay} Anfragen</strong>{" "}
               à <strong>{metrics.minutesPerQuote} Min.</strong> ={" "}
               <strong>{formatHours(computed.hoursDay)} / Tag</strong>
             </p>

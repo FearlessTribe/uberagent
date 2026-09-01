@@ -22,14 +22,14 @@ function CaseMedia({ study }: { study: CaseStudyCard }) {
           <span />
           <span />
         </div>
-        <div className={styles.previewViewport}>
+        <div className={`${styles.previewViewport} ${styles.previewViewportVideo}`}>
           <video
             className={styles.previewVideo}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             poster={study.video.poster}
           >
             <source src={study.video.src} type="video/mp4" />

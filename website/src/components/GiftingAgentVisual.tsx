@@ -151,15 +151,25 @@ function PhaseDetail({ phase, reduce }: { phase: number; reduce: boolean }) {
 
 export function GiftingAgentVisual() {
   const reduce = useReducedMotion();
+  const [narrow, setNarrow] = useState(true);
   const [phase, setPhase] = useState(reduce ? STEPS.length - 1 : 0);
+  const pauseCycle = reduce || narrow;
 
   useEffect(() => {
-    if (reduce) return undefined;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setNarrow(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (pauseCycle) return undefined;
     const id = window.setInterval(() => {
       setPhase((current) => (current + 1) % STEPS.length);
     }, PHASE_MS);
     return () => window.clearInterval(id);
-  }, [reduce]);
+  }, [pauseCycle]);
 
   const active = STEPS[phase];
 
@@ -191,7 +201,7 @@ export function GiftingAgentVisual() {
 
       <div className={styles.stage}>
         <AnimatePresence mode="wait">
-          <PhaseDetail key={phase} phase={phase} reduce={!!reduce} />
+          <PhaseDetail key={phase} phase={phase} reduce={pauseCycle} />
         </AnimatePresence>
       </div>
     </div>

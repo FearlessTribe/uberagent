@@ -170,6 +170,10 @@
   background: #0b0c0e;
 }
 
+.previewViewportVideo {
+  aspect-ratio: 16 / 10;
+}
+
 .previewViewport img,
 .previewVideo {
   display: block;
@@ -182,6 +186,8 @@
 
 .previewVideo {
   background: #0b0c0e;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .card:hover .previewViewport img,

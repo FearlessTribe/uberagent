@@ -28,6 +28,20 @@ type StrategyGuideBody = {
   phone?: string;
 };
 
+type HelenaCheckBody = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  consent?: boolean;
+  customers?: number;
+  contactsPerCustomer?: number;
+  occasions?: number;
+  avgValue?: number;
+  recipients?: number;
+  giftsYear?: number;
+  volumeYear?: number;
+};
+
 type KalkulationsCheckBody = {
   stage?: "contact" | "complete";
   pageId?: string;
@@ -263,6 +277,55 @@ async function createStrategyGuideLead(
   );
 }
 
+async function createHelenaCheckLead(
+  env: Env,
+  payload: {
+    name: string;
+    email: string;
+    phone: string;
+    customers: number;
+    contactsPerCustomer: number;
+    occasions: number;
+    avgValue: number;
+    recipients: number;
+    giftsYear: number;
+    volumeYear: number;
+  },
+) {
+  const detail = [
+    `Quelle: Helena kostenloser Check`,
+    `Kunden: ${payload.customers}`,
+    `Ø Kunden ihrer Kunden: ${payload.contactsPerCustomer}`,
+    `Anlässe/Jahr: ${payload.occasions}`,
+    `Durchschnittswert: ${payload.avgValue} €`,
+    `Empfänger: ${payload.recipients}`,
+    `Geschenke/Jahr: ${payload.giftsYear}`,
+    `Warenwert/Jahr: ${Math.round(payload.volumeYear)} €`,
+  ].join("\n");
+
+  return createNotionPage(
+    env,
+    env.NOTION_DATABASE_ID,
+    {
+      Name: {
+        title: [{ text: { content: payload.name } }],
+      },
+      "E-Mail": { email: payload.email },
+      Status: { select: { name: "Neu" } },
+      Telefon: { phone_number: payload.phone },
+    },
+    [
+      {
+        object: "block",
+        type: "paragraph",
+        paragraph: {
+          rich_text: [{ type: "text", text: { content: detail } }],
+        },
+      },
+    ],
+  );
+}
+
 async function createKalkulationsCheckLead(
   env: Env,
   payload: Required<
@@ -342,7 +405,8 @@ export default {
     if (
       url.pathname === "/api/potential-check" ||
       url.pathname === "/api/strategy-guide" ||
-      url.pathname === "/api/kalkulations-check"
+      url.pathname === "/api/kalkulations-check" ||
+      url.pathname === "/api/helena-check"
     ) {
       if (request.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: corsHeaders(origin) });
@@ -399,6 +463,83 @@ export default {
         } catch (err) {
           console.error(err);
           return json({ error: "Lead konnte nicht gespeichert werden." }, 502, origin);
+        }
+      }
+
+      if (url.pathname === "/api/helena-check") {
+        let body: HelenaCheckBody;
+        try {
+          body = (await request.json()) as HelenaCheckBody;
+        } catch {
+          return json({ error: "Invalid JSON" }, 400, origin);
+        }
+
+        const name = (body.name || "").trim();
+        const email = (body.email || "").trim();
+        const phone = (body.phone || "").trim();
+        const consent = body.consent === true;
+        const customers = Number(body.customers);
+        const contactsPerCustomer = Number(body.contactsPerCustomer);
+        const occasions = Number(body.occasions);
+        const avgValue = Number(body.avgValue);
+        const recipients = Number(body.recipients);
+        const giftsYear = Number(body.giftsYear);
+        const volumeYear = Number(body.volumeYear);
+
+        if (!name || !email || !phone) {
+          return json(
+            { error: "Name, E-Mail und Telefon sind erforderlich." },
+            400,
+            origin,
+          );
+        }
+
+        if (!isValidEmail(email)) {
+          return json({ error: "Bitte eine gültige E-Mail angeben." }, 400, origin);
+        }
+
+        if (!consent) {
+          return json({ error: "Bitte die Kontaktaufnahme bestätigen." }, 400, origin);
+        }
+
+        if (
+          !Number.isFinite(customers) ||
+          !Number.isFinite(contactsPerCustomer) ||
+          !Number.isFinite(occasions) ||
+          !Number.isFinite(avgValue) ||
+          customers <= 0 ||
+          contactsPerCustomer <= 0 ||
+          occasions <= 0 ||
+          avgValue <= 0
+        ) {
+          return json({ error: "Bitte alle Kennzahlen ausfüllen." }, 400, origin);
+        }
+
+        try {
+          await createHelenaCheckLead(env, {
+            name,
+            email,
+            phone,
+            customers,
+            contactsPerCustomer,
+            occasions,
+            avgValue,
+            recipients: Number.isFinite(recipients) ? recipients : customers * contactsPerCustomer,
+            giftsYear: Number.isFinite(giftsYear)
+              ? giftsYear
+              : customers * contactsPerCustomer * occasions,
+            volumeYear: Number.isFinite(volumeYear)
+              ? volumeYear
+              : customers * contactsPerCustomer * occasions * avgValue,
+          });
+          return json({ ok: true }, 200, origin);
+        } catch (err) {
+          console.error(err);
+          return json(
+            { error: notionSaveError(err, "Lead konnte nicht gespeichert werden.") },
+            502,
+            origin,
+          );
         }
       }
 

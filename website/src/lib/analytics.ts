@@ -57,6 +57,13 @@ export function trackKalkulationsCheckLead() {
   });
 }
 
+/** Helena Anlass-Check: lead submitted */
+export function trackHelenaCheckLead() {
+  trackEvent("helena_check_lead", {
+    step: "submit",
+  });
+}
+
 /** AI Strategy Guide one-pager download */
 export function trackStrategyGuideDownload() {
   trackEvent("strategy_guide_download", {

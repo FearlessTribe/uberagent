@@ -4,6 +4,11 @@ export const trustClients = [
   { name: "Digitalagentur CH", logo: null },
 ] as const;
 
+export const finanznomadeCaseVideo = {
+  src: "/cases/finanznomade/konfigurator.mp4",
+  poster: "/cases/finanznomade/poster.jpg",
+} as const;
+
 export const trustTools = [
   { name: "Salesforce", icon: "salesforce" },
   { name: "HubSpot", icon: "hubspot" },
@@ -103,10 +108,7 @@ export const caseStudies: CaseStudyCard[] = [
     metrics: [],
     tags: ["Konfigurator", "Insurance Tech", "Affiliate"],
     openId: "finanznomade-kv",
-    video: {
-      src: "/cases/finanznomade/konfigurator.mp4",
-      poster: "/cases/finanznomade/poster.jpg",
-    },
+    video: finanznomadeCaseVideo,
   },
   {
     id: "digital-agency",
