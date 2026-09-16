@@ -325,11 +325,6 @@ export const copilotFaq = [
       "Für Richtlinien-Fragen ist Agent Builder der richtige Weg. Sobald der Agent Vorgänge anlegen, Systeme beschreiben, Freigaben einholen und Fehler abfangen soll, wird es Engineering: Agent Flows, Connectoren, Berechtigungen, Testfälle, Betrieb.",
   },
   {
-    question: "Sind Sie Microsoft-Partner?",
-    answer:
-      "Wir sind ein Engineering-Unternehmen, kein Lizenzhändler: keine Partnerdesignation, keine Lizenzvergütung. Sie bekommen eine Empfehlung ohne Lizenzinteresse – einschließlich der Aussage, wenn ein Workflow außerhalb von Copilot Studio besser läuft.",
-  },
-  {
     question: "Können wir mehrere Workflows auf einmal starten?",
     answer:
       "Nein – absichtlich. Der erste Agent zeigt, wie Rechte, Freigaben und Betrieb in Ihrem Haus funktionieren. Danach ist jeder weitere Workflow ein Sprint zum Festpreis, mit deutlich kürzerem Vorlauf.",
