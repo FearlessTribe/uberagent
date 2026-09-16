@@ -1,13 +1,14 @@
-import { useEffect, type MouseEvent } from "react";
+import { useEffect } from "react";
 import { SectionShell } from "./SectionShell";
 import { teamMembers } from "../data/team";
-import { services } from "../data/services";
+import { navServiceGroups } from "../data/services";
 import { trackCalendlyClick } from "../lib/analytics";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
 import { CtaButton } from "./CtaButton";
 import { BrandMark } from "./BrandMark";
 import { MotionPressable } from "./MotionPressable";
+import { ServiceIcon } from "./ServiceIcon";
 import styles from "./ContactFooter.module.css";
 
 interface ContactFooterProps {
@@ -34,14 +35,6 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
     window.addEventListener("popstate", scrollIfContact);
     return () => window.removeEventListener("popstate", scrollIfContact);
   }, []);
-
-  const openImpressum = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (!isContactPath()) {
-      window.history.pushState(null, "", "/contact");
-    }
-    scrollToSection("impressum", "smooth");
-  };
 
   return (
     <SectionShell
@@ -94,50 +87,68 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
         </ScrollReveal>
 
         <ScrollReveal className={styles.details}>
-          <div className={styles.detailBlock} id="impressum">
+          <div className={styles.contactDetails}>
             <h3 className={styles.detailLabel}>Impressum</h3>
-            <address className={styles.address}>
-              uberagent<br />
-              Laurens Lang<br />
-              Eugen-Huber-Strasse 127<br />
-              8048 Zürich<br />
-              Schweiz
-            </address>
+            <BrandMark
+              tone="on-dark"
+              size="sm"
+              withWordmark
+              decorative
+              className={styles.contactBrand}
+            />
+
+            <div className={styles.contactCopy} id="impressum">
+              <a href="mailto:info@uberagent.com" className={styles.phone}>
+                info@uberagent.com
+              </a>
+              <address className={styles.address}>
+                uberagent<br />
+                Laurens Lang<br />
+                Eugen-Huber-Strasse 127<br />
+                8048 Zürich<br />
+                Schweiz
+              </address>
+            </div>
           </div>
 
-          <div className={styles.detailBlock}>
-            <h3 className={styles.detailLabel}>E-Mail</h3>
-            <a href="mailto:info@uberagent.com" className={styles.phone}>
-              info@uberagent.com
-            </a>
-          </div>
-
-          <div className={styles.detailBlock}>
+          <div className={styles.servicesBlock}>
             <h3 className={styles.detailLabel}>Services</h3>
-            <ul className={styles.serviceLinks} role="list">
-              {services.map((s) => (
-                <li key={s.id}>
-                  <button
-                    className={styles.serviceLink}
-                    onClick={() => onOpenService(s.id)}
-                  >
-                    {s.title}
-                  </button>
-                </li>
+            <div className={styles.serviceGroups}>
+              {navServiceGroups.map((group) => (
+                <div key={group.id} className={styles.serviceGroup}>
+                  <div className={styles.serviceGroupHead}>
+                    <h4>{group.label}</h4>
+                    <p>{group.description}</p>
+                  </div>
+                  <ul className={styles.serviceLinks} role="list">
+                    {group.items.map((item) => (
+                      <li key={item.serviceId}>
+                        <button
+                          className={styles.serviceLink}
+                          onClick={() => onOpenService(item.serviceId)}
+                        >
+                          {item.avatarSrc ? (
+                            <span className={styles.serviceAvatar}>
+                              <img src={item.avatarSrc} alt="" width={34} height={34} />
+                            </span>
+                          ) : (
+                            <span className={styles.serviceIcon}>
+                              <ServiceIcon type={item.icon} />
+                            </span>
+                          )}
+                          <span className={styles.serviceLinkCopy}>
+                            <span>{item.title}</span>
+                            {item.subtitle ? <small>{item.subtitle}</small> : null}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </ScrollReveal>
-
-        <div className={styles.bottom}>
-          <BrandMark tone="on-dark" size="sm" withWordmark decorative className={styles.footerBrand} />
-          <div className={styles.bottomMeta}>
-            <a href="/contact#impressum" className={styles.legalLink} onClick={openImpressum}>
-              Impressum
-            </a>
-            <p className={styles.copyright}>© uberagent. 2026</p>
-          </div>
-        </div>
       </div>
     </SectionShell>
   );

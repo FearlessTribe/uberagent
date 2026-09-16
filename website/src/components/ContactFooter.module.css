@@ -95,16 +95,35 @@
 
 .details {
   display: grid;
-  gap: 32px;
+  gap: clamp(40px, 6vw, 72px);
   padding: clamp(48px, 8vw, 64px) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: clamp(40px, 6vw, 56px);
 }
 
 @media (min-width: 768px) {
   .details {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: minmax(180px, 1fr) minmax(0, 4fr);
+    align-items: start;
   }
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.contactBrand {
+  opacity: 0.95;
+}
+
+.contactDetails .detailLabel {
+  margin: 0 0 -6px;
+}
+
+.contactCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .detailLabel {
@@ -119,14 +138,17 @@
 
 .address {
   font-style: normal;
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
 }
 
 .phone {
+  display: inline-block;
+  width: fit-content;
   font-size: 0.9375rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
   transition: color var(--duration-fast);
 }
 
@@ -138,59 +160,134 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+}
+
+.serviceGroups {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .serviceGroups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+.serviceGroup {
+  min-width: 0;
+  padding: 0 clamp(12px, 2vw, 22px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.serviceGroupHead {
+  min-height: 66px;
+  margin-bottom: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.serviceGroupHead h4 {
+  margin: 0 0 6px;
+  color: var(--color-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.serviceGroupHead p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.775rem;
+  line-height: 1.45;
 }
 
 .serviceLink {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 7px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
   text-align: left;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.7);
-  transition: color var(--duration-fast);
+  transition:
+    color var(--duration-fast),
+    background var(--duration-fast),
+    transform var(--duration-fast);
   line-height: 1.4;
 }
 
 .serviceLink:hover {
   color: var(--color-primary-light);
+  background: rgba(255, 255, 255, 0.055);
+  transform: translateX(2px);
 }
 
-.bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.serviceIcon,
+.serviceAvatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast),
+    background var(--duration-fast);
 }
 
-.footerBrand {
-  opacity: 0.95;
+.serviceIcon svg {
+  width: 20px;
+  height: 20px;
 }
 
-.footerLogo {
-  height: 32px;
-  width: auto;
-  opacity: 1;
+.serviceAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.bottomMeta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.legalLink {
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  color: rgba(255, 255, 255, 0.45);
-  transition: color var(--duration-fast);
-}
-
-.legalLink:hover {
+.serviceLink:hover .serviceIcon,
+.serviceLink:hover .serviceAvatar {
   color: var(--color-primary-light);
+  border-color: rgba(204, 128, 102, 0.38);
+  background: rgba(204, 128, 102, 0.1);
 }
 
-.copyright {
+.serviceLinkCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.serviceLinkCopy > span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.825rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.serviceLink small {
+  color: rgba(255, 255, 255, 0.44);
   font-family: var(--font-mono);
-  font-size: var(--text-label);
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.625rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 639px) {
+  .serviceGroup {
+    padding: 0;
+    border-left: 0;
+  }
 }
