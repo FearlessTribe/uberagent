@@ -4,7 +4,7 @@ export const copilotHeroHeadline =
   "Copilot-Agenten, die in Ihrem Microsoft 365 arbeiten. Nicht nur antworten.";
 
 export const copilotHeroLead =
-  "Ein klar begrenzter Workflow – Posteingang, Anfragen, Belege – wird von einem Agenten in Copilot Studio übernommen: sortieren, anlegen, entwerfen, Freigabe einholen. In Teams, Outlook und SharePoint, mit den Rechten, die Ihr Team ohnehin hat.";
+  "Ein klar begrenzter Workflow wird von einem Agenten in Copilot Studio übernommen: sortieren, anlegen, entwerfen, Freigabe einholen. In Teams, Outlook und SharePoint, mit den Rechten, die Ihr Team ohnehin hat.";
 
 export const copilotHeroNote =
   "1 Workflow · 10–15 Arbeitstage ab Zugang · Festpreis";
@@ -12,9 +12,9 @@ export const copilotHeroNote =
 export const copilotProblemTitle = "Copilot ist da. Die Arbeit auch.";
 
 export const copilotProblemBody = [
-  "Viele Unternehmen haben Microsoft 365 Copilot eingeführt oder prüfen die Lizenzen. Copilot Chat fasst zusammen, schreibt Entwürfe, beantwortet Fragen. Was er nicht tut: das geteilte Service-Postfach abarbeiten, aus einer Anfrage ein Angebot vorbereiten, eine Rechnung mit der Bestellung abgleichen. Diese Arbeit liegt weiter bei Ihrem Team – Vorgang für Vorgang, mit Copy-and-paste zwischen Outlook, SharePoint und dem Fachsystem.",
-  "Erste eigene Agenten, mit Agent Builder oder Copilot Studio geklickt, beantworten Fragen zu Richtlinien. Sobald sie handeln sollen – ein Ticket anlegen, ein Feld im CRM schreiben, eine Mail versenden – fehlen Regeln, Freigaben, Fehlerpfade und jemand, der den Agenten betreibt. Die IT sieht Agenten entstehen, die niemand freigegeben hat.",
-  "Ein Copilot-Agent ist wertvoll, wenn er einen abgegrenzten Ablauf besser, schneller und nachvollziehbarer erledigt als manuelle Koordination – und wenn ein Mensch an den Stellen entscheidet, an denen Regeln enden. Genau diesen Agenten bauen wir.",
+  "Copilot fasst Inhalte zusammen und erstellt Entwürfe. Wiederkehrende Abläufe wie Anfragen bearbeiten, Angebote vorbereiten oder Daten ins CRM übertragen bleiben jedoch beim Team.",
+  "Sobald ein Agent selbst handeln soll, braucht er klare Regeln, passende Zugriffsrechte und menschliche Freigaben.",
+  "Wir bauen genau solche Copilot-Agenten: Sie bereiten Vorgänge vor, holen bei Bedarf eine Freigabe ein und protokollieren jeden Schritt.",
 ];
 
 export type CopilotWorkflowIcon = "inbox" | "document" | "receipt";
@@ -80,10 +80,28 @@ export const copilotWorkflows = [
 ] as const;
 
 export const copilotWorkflowPatternSteps = [
-  "Inbox",
-  "Triage",
-  "Handoff",
-  "Done",
+  { label: "Inbox", icon: "inbox" as const },
+  { label: "Triage", icon: "triage" as const },
+  { label: "Handoff", icon: "handoff" as const },
+  { label: "Done", icon: "done" as const },
+] as const;
+
+export const copilotHeroStats = [
+  {
+    value: "1 Workflow",
+    label: "10–15 AT ab Zugang",
+    icon: "workflow" as const,
+  },
+  {
+    value: "Freigabe in Teams",
+    label: "vor jedem Schreibvorgang",
+    icon: "approval" as const,
+  },
+  {
+    value: "Ihr Tenant",
+    label: "Ihre Berechtigungen",
+    icon: "tenant" as const,
+  },
 ] as const;
 
 export const copilotWorkflowPatternNote =
@@ -114,14 +132,17 @@ export const copilotKpiMetrics = [
   {
     value: "Korrekte Zuordnung",
     label: "Anteil der Fälle ohne Fehlzuordnung am Testset",
+    icon: "target" as const,
   },
   {
     value: "Zeit bis Freigabe",
     label: "Vom Eingang bis zum Freigabe-Entwurf in Teams",
+    icon: "clock" as const,
   },
   {
     value: "Credits/Vorgang",
     label: "Microsoft-Copilot-Kosten pro abgeschlossenem Vorgang",
+    icon: "credits" as const,
   },
 ] as const;
 
@@ -130,6 +151,27 @@ export const copilotKpiNote =
 
 export const copilotOfferIntro =
   "Drei Stufen. Sie entscheiden nach jeder anhand von Ergebnissen.";
+
+export const copilotOfferExplainer = [
+  {
+    id: "blueprint",
+    title: "Blueprint – 2.400 €",
+    icon: "blueprint" as const,
+    text: "Wir prüfen und planen zuerst den gewünschten Arbeitsablauf – ohne Zugriff auf Ihre Microsoft-Umgebung. Ergebnis: Konzept, Demo, Rechteplanung, Kostenschätzung und verbindliches Angebot für die Umsetzung.",
+  },
+  {
+    id: "sprint",
+    title: "Kickstart Sprint – 9.800–16.000 €",
+    icon: "sprint" as const,
+    text: "Wir bauen den geplanten Agenten tatsächlich in Ihrer Microsoft-Umgebung. Er arbeitet zum Beispiel mit Teams, Outlook und SharePoint, holt Freigaben ein und wird anhand realer Testfälle geprüft.",
+  },
+  {
+    id: "ops",
+    title: "Agent Ops – 900–2.400 €/Monat",
+    icon: "care" as const,
+    text: "Optionaler laufender Betrieb: Wir überwachen Nutzung und Kosten, pflegen Regeln und Datenquellen und testen den Agenten nach Änderungen.",
+  },
+] as const;
 
 export const copilotTiers = [
   {
@@ -186,30 +228,35 @@ export const copilotProcess = [
   {
     title: "Erstgespräch",
     when: "30 Minuten",
+    icon: "talk" as const,
     detail:
       "Sie beschreiben den Workflow, wir prüfen Eingang, Regeln, Quellen und Schreibvorgänge – oder sagen, dass es sich nicht lohnt.",
   },
   {
     title: "Blueprint",
     when: "5 Arbeitstage",
+    icon: "blueprint" as const,
     detail:
       "Zwei Termine mit Prozessverantwortlichen und IT. Danach: Workflow-Karte, Rechtekonzept, Kostenrechnung, Demo und Festpreisangebot.",
   },
   {
     title: "Zugang",
     when: "Ihre IT",
+    icon: "key" as const,
     detail:
       "Umgebung und Berechtigungen nach unserer Checkliste. Erst danach beginnt die Sprint-Uhr.",
   },
   {
     title: "Sprint",
     when: "10–15 Arbeitstage",
+    icon: "sprint" as const,
     detail:
       "Bau, Anbindung, Freigabe, Testfälle, Abnahme am Testset, Übergabe an Ihren Owner.",
   },
   {
     title: "Nachbetreuung",
     when: "30 Tage",
+    icon: "care" as const,
     detail:
       "Begleitung, dann Ihre Entscheidung: Betrieb durch uns, durch Ihr Team oder nächster Workflow.",
   },
@@ -226,18 +273,22 @@ export const copilotWhyLead = {
 export const copilotWhyTiles = [
   {
     title: "Freigabe und Protokoll sind Lieferumfang",
+    icon: "shield" as const,
     text: "Rechteumfang, Freigabeschritt, Logging und Fehlerpfade stehen im Blueprint, bevor gebaut wird. Unser MCP-Service bindet Fachsysteme außerhalb von Microsoft 365 mit OAuth, Scopes und Audit Log an.",
   },
   {
     title: "Sie sprechen mit dem, der baut",
+    icon: "founder" as const,
     text: "Blueprint, Sprint und Übergabe macht der Gründer persönlich. Keine Übergabe an ein Juniorteam nach dem Kickoff.",
   },
   {
     title: "Microsoft-Plattform, mit Quellen statt Versprechen",
+    icon: "platform" as const,
     text: "Ihr Agent läuft in Ihrem Tenant. Copilot zeigt nur Daten, für die der Nutzer Leserechte hat; Prompts und Graph-Daten werden laut Microsoft nicht zum Training der Basismodelle verwendet.",
   },
   {
     title: "Wir sagen ab, wenn es nicht passt",
+    icon: "decline" as const,
     text: "Im Blueprint steht auch: nicht mit Copilot Studio oder nicht jetzt – Sie behalten Workflow-Karte, Konzept und Kostenrechnung.",
   },
 ] as const;

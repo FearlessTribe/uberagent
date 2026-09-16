@@ -200,7 +200,7 @@ export const services: Service[] = [
     icon: "agents",
     eyebrow: "Copilot-Agenten",
     bannerTag: "Copilot-Agenten für Microsoft 365",
-    lead: "Ein klar begrenzter Workflow – Posteingang, Anfragen, Belege – wird von einem Agenten in Copilot Studio übernommen: sortieren, anlegen, entwerfen, Freigabe einholen.",
+    lead: "Ein klar begrenzter Workflow wird von einem Agenten in Copilot Studio übernommen: sortieren, anlegen, entwerfen, Freigabe einholen.",
     tags: ["Copilot Studio", "Microsoft 365", "Agents"],
     stats: [
       { value: "1 Workflow", label: "10–15 AT ab Zugang" },

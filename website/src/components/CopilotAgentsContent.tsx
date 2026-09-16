@@ -3,11 +3,11 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useOverlay } from "../context/OverlayContext";
 import { CtaButton } from "./CtaButton";
 import { CopilotAgentVisual } from "./CopilotAgentVisual";
+import { CopilotIcon, CopilotMark } from "./CopilotIcons";
 import { ScrollReveal } from "./ScrollReveal";
 import { SectionTitle, ServiceHeroLayout } from "./ServicePageParts";
 import {
   type CopilotWorkflowIcon,
-  copilotBenefitsIntro,
   copilotFaq,
   copilotFinalLead,
   copilotFinalMeta,
@@ -16,8 +16,8 @@ import {
   copilotFitNote,
   copilotHeroLead,
   copilotHeroNote,
-  copilotKpiMetrics,
-  copilotKpiNote,
+  copilotHeroStats,
+  copilotOfferExplainer,
   copilotOfferIntro,
   copilotProblemBody,
   copilotProcess,
@@ -33,37 +33,31 @@ import {
 import { serviceModalMeta } from "../data/serviceModalContent";
 import { teamMembers } from "../data/team";
 import { trackCalendlyClick } from "../lib/analytics";
-import { DURATION, EASE } from "../motion";
+import { DURATION, EASE, slidePanel } from "../motion";
 import copilotStyles from "./CopilotAgentsContent.module.css";
 import styles from "./ServiceModal.module.css";
 
 const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 
 function WorkflowIcon({ icon }: { icon: CopilotWorkflowIcon }) {
-  if (icon === "inbox") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-        <path d="M4 6h16v12H4z" />
-        <path d="M4 9l8 5 8-5" />
-      </svg>
-    );
-  }
+  return <CopilotIcon id={icon} />;
+}
 
-  if (icon === "document") {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-        <path d="M8 3h7l4 4v14H8z" />
-        <path d="M15 3v5h5" />
-        <path d="M11 13h6M11 17h6" />
-      </svg>
-    );
-  }
-
+function CopilotHeroStats() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-      <path d="M6 4h12v16H6z" />
-      <path d="M9 9h6M9 13h6M9 17h4" />
-    </svg>
+    <div className={copilotStyles.heroStats}>
+      {copilotHeroStats.map((stat) => (
+        <div key={stat.value} className={copilotStyles.heroStat}>
+          <span className={copilotStyles.heroStatIcon}>
+            <CopilotIcon id={stat.icon} />
+          </span>
+          <span className={copilotStyles.heroStatText}>
+            <span className={copilotStyles.heroStatValue}>{stat.value}</span>
+            <span className={copilotStyles.heroStatLabel}>{stat.label}</span>
+          </span>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -71,12 +65,21 @@ export function CopilotAgentsContent() {
   const meta = serviceModalMeta["copilot-agents"];
   const { openService, openProject } = useOverlay();
   const [openFaq, setOpenFaq] = useState(0);
+  const [activeWorkflow, setActiveWorkflow] = useState(0);
   const reduceMotion = useReducedMotion();
+  const selectedWorkflow = copilotWorkflows[activeWorkflow];
 
   return (
     <div className={`${styles.content} ${copilotStyles.page}`}>
       <ServiceHeroLayout
-        tag={<span className={styles.heroTag}>{meta.bannerTag}</span>}
+        tag={
+          <div className={copilotStyles.heroBrand}>
+            <span className={copilotStyles.heroLogo} aria-hidden="true">
+              <CopilotMark size={30} />
+            </span>
+            <span className={styles.heroTag}>{meta.bannerTag}</span>
+          </div>
+        }
         title={
           <>
             Copilot-Agenten, die in Ihrem Microsoft 365 <em>arbeiten</em>. Nicht nur
@@ -85,9 +88,7 @@ export function CopilotAgentsContent() {
         }
         lead={copilotHeroLead}
         note={copilotHeroNote}
-        stats={meta.stats}
-        visual={<CopilotAgentVisual />}
-        centerCopy
+        mark={<CopilotHeroStats />}
         ctas={
           <>
             <CtaButton
@@ -116,60 +117,116 @@ export function CopilotAgentsContent() {
       />
 
       <ScrollReveal as="section" className={copilotStyles.problemBand}>
-        <p className={copilotStyles.eyebrow}>Das Problem</p>
-        <h3 className={copilotStyles.problemLead}>
-          Copilot ist da. Die <em>Arbeit auch</em>.
-        </h3>
-        {copilotProblemBody.map((paragraph) => (
-          <p key={paragraph.slice(0, 40)} className={copilotStyles.problemBody}>
-            {paragraph}
-          </p>
-        ))}
-        <p className={copilotStyles.problemBody}>{copilotBenefitsIntro}</p>
-        <div className={copilotStyles.metricsRow}>
-          {copilotKpiMetrics.map((metric) => (
-            <div key={metric.value} className={copilotStyles.metric}>
-              <span className={copilotStyles.metricValue}>{metric.value}</span>
-              <span className={copilotStyles.metricLabel}>{metric.label}</span>
-            </div>
-          ))}
+        <div className={copilotStyles.problemLayout}>
+          <div className={copilotStyles.problemCopy}>
+            <p className={copilotStyles.eyebrow}>Das Problem</p>
+            <h3 className={copilotStyles.problemLead}>
+              Copilot ist da. Die <em>Arbeit auch</em>.
+            </h3>
+            {copilotProblemBody.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)} className={copilotStyles.problemBody}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <div className={copilotStyles.problemVisual}>
+            <CopilotAgentVisual />
+          </div>
         </div>
-        <p className={copilotStyles.problemBody}>{copilotKpiNote}</p>
       </ScrollReveal>
 
       <ScrollReveal as="section" className={copilotStyles.section}>
-        <SectionTitle>Drei Workflows, konkret</SectionTitle>
-        <ScrollReveal className={copilotStyles.workflowGrid} stagger>
-          {copilotWorkflows.map((workflow) => (
-            <article key={workflow.num} className={copilotStyles.workflowCard}>
-              <div className={copilotStyles.workflowTop}>
-                <span className={copilotStyles.workflowIcon}>
-                  <WorkflowIcon icon={workflow.icon} />
-                </span>
-                <span className={copilotStyles.workflowNum}>{workflow.num}</span>
-              </div>
-              <h4 className={copilotStyles.workflowTitle}>{workflow.title}</h4>
-              <p className={copilotStyles.workflowSummary}>{workflow.summary}</p>
-              <dl className={copilotStyles.workflowSteps}>
-                {workflow.steps.map((step) => (
-                  <div key={step.label} className={copilotStyles.workflowStep}>
-                    <dt>{step.label}</dt>
-                    <dd>{step.text}</dd>
+        <SectionTitle>Drei Beispiel-Workflows, konkret</SectionTitle>
+        <div className={copilotStyles.workflowExplorer}>
+          <div
+            className={copilotStyles.workflowTabs}
+            role="tablist"
+            aria-label="Beispiel-Workflow auswählen"
+          >
+            {copilotWorkflows.map((workflow, index) => {
+              const isActive = activeWorkflow === index;
+              return (
+                <button
+                  key={workflow.num}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="copilot-workflow-panel"
+                  className={`${copilotStyles.workflowTab} ${
+                    isActive ? copilotStyles.workflowTabActive : ""
+                  }`}
+                  onClick={() => setActiveWorkflow(index)}
+                >
+                  <span className={copilotStyles.workflowIcon}>
+                    <WorkflowIcon icon={workflow.icon} />
+                  </span>
+                  <span className={copilotStyles.workflowTabCopy}>
+                    <span className={copilotStyles.workflowNum}>{workflow.num}</span>
+                    <span className={copilotStyles.workflowTabTitle}>{workflow.title}</span>
+                  </span>
+                  <span className={copilotStyles.workflowTabArrow} aria-hidden="true">
+                    →
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className={copilotStyles.workflowPanelWrap}>
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={selectedWorkflow.num}
+                id="copilot-workflow-panel"
+                role="tabpanel"
+                className={copilotStyles.workflowPanel}
+                variants={slidePanel}
+                initial={reduceMotion ? false : "hidden"}
+                animate="visible"
+                exit={reduceMotion ? undefined : "exit"}
+              >
+                <div className={copilotStyles.workflowPanelHead}>
+                  <span className={copilotStyles.workflowPanelIcon}>
+                    <WorkflowIcon icon={selectedWorkflow.icon} />
+                  </span>
+                  <div>
+                    <span className={copilotStyles.workflowNum}>
+                      Beispiel {selectedWorkflow.num}
+                    </span>
+                    <h4 className={copilotStyles.workflowTitle}>
+                      {selectedWorkflow.title}
+                    </h4>
                   </div>
-                ))}
-              </dl>
-            </article>
-          ))}
-        </ScrollReveal>
+                </div>
+                <p className={copilotStyles.workflowSummary}>
+                  {selectedWorkflow.summary}
+                </p>
+                <dl className={copilotStyles.workflowSteps}>
+                  {selectedWorkflow.steps.map((step) => (
+                    <div key={step.label} className={copilotStyles.workflowStep}>
+                      <dt>{step.label}</dt>
+                      <dd>{step.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </motion.article>
+            </AnimatePresence>
+          </div>
+        </div>
         <div className={copilotStyles.patternStrip} aria-hidden>
           {copilotWorkflowPatternSteps.flatMap((step, index) => [
             index > 0 ? (
-              <span key={`${step}-arrow`} className={copilotStyles.patternArrow}>
+              <span key={`${step.label}-arrow`} className={copilotStyles.patternArrow}>
                 →
               </span>
             ) : null,
-            <span key={step} className={copilotStyles.patternStep}>
-              {step}
+            <span key={step.label} className={copilotStyles.patternStep}>
+              <span
+                className={`${copilotStyles.patternStepIcon} ${
+                  index === 2 ? copilotStyles.patternStepIconActive : ""
+                }`}
+              >
+                <CopilotIcon id={step.icon} />
+              </span>
+              {step.label}
             </span>,
           ])}
         </div>
@@ -181,17 +238,27 @@ export function CopilotAgentsContent() {
         <div className={styles.fitGrid}>
           <div className={styles.fitCard}>
             <span className={styles.fitLabelGood}>Geeignet</span>
-            <ul className={styles.compactList}>
+            <ul className={copilotStyles.fitList}>
               {copilotFit.good.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item} className={copilotStyles.fitItem}>
+                  <span className={copilotStyles.fitIconGood}>
+                    <CopilotIcon id="check" />
+                  </span>
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </div>
           <div className={styles.fitCard}>
             <span className={styles.fitLabelBad}>Weniger geeignet</span>
-            <ul className={styles.compactList}>
+            <ul className={copilotStyles.fitList}>
               {copilotFit.bad.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item} className={copilotStyles.fitItem}>
+                  <span className={copilotStyles.fitIconBad}>
+                    <CopilotIcon id="cross" />
+                  </span>
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -223,52 +290,76 @@ export function CopilotAgentsContent() {
       >
         <ScrollReveal className={copilotStyles.offerInner}>
           <SectionTitle>Angebot und Lieferumfang</SectionTitle>
-          <p className={copilotStyles.offerIntro}>{copilotOfferIntro}</p>
+          <p className={copilotStyles.offerIntro}>
+            <strong>
+              Das ist das dreistufige Angebot von uberagent für einen individuellen
+              Microsoft-Copilot-Agenten.
+            </strong>{" "}
+            {copilotOfferIntro}
+          </p>
           <div className={styles.tiers}>
-            {copilotTiers.map((tier) => (
-              <div
-                key={tier.id}
-                className={`${styles.tier} ${tier.featured ? styles.tierHero : ""}`}
-              >
-                <span className={styles.tierCap}>{tier.cap}</span>
-                <div className={styles.tierPrice}>
-                  {tier.price}
-                  <small>{tier.note}</small>
+            {copilotTiers.map((tier) => {
+              const explanation = copilotOfferExplainer.find(
+                (item) => item.id === tier.id,
+              );
+
+              return (
+                <div
+                  key={tier.id}
+                  className={`${styles.tier} ${tier.featured ? styles.tierHero : ""}`}
+                >
+                  <span className={copilotStyles.tierIntroIcon}>
+                    {explanation ? <CopilotIcon id={explanation.icon} /> : null}
+                  </span>
+                  <span className={styles.tierCap}>{tier.cap}</span>
+                  <div className={styles.tierPrice}>
+                    {tier.price}
+                    <small>{tier.note}</small>
+                  </div>
+                  {explanation ? (
+                    <p
+                      className={`${copilotStyles.tierSimple} ${
+                        tier.featured ? copilotStyles.tierSimpleOnDark : ""
+                      }`}
+                    >
+                      {explanation.text}
+                    </p>
+                  ) : null}
+                  <ul className={styles.tierList}>
+                    {tier.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  {tier.featured && (
+                    <div className={styles.tierFoot}>
+                      <CtaButton
+                        size="sm"
+                        surface="on-dark"
+                        href={CALENDLY_URL}
+                        onClick={() => trackCalendlyClick("copilot_sprint")}
+                      >
+                        Sprint besprechen
+                      </CtaButton>
+                      {"gate" in tier && tier.gate && (
+                        <p className={styles.tierGate}>{tier.gate}</p>
+                      )}
+                    </div>
+                  )}
+                  {tier.id === "blueprint" && (
+                    <div className={styles.tierFoot}>
+                      <CtaButton
+                        size="sm"
+                        surface="on-dark"
+                        href={CALENDLY_URL}
+                        onClick={() => trackCalendlyClick("copilot_blueprint")}
+                      >
+                        Blueprint anfragen
+                      </CtaButton>
+                    </div>
+                  )}
                 </div>
-                <ul className={styles.tierList}>
-                  {tier.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                {tier.featured && (
-                  <div className={styles.tierFoot}>
-                    <CtaButton
-                      size="sm"
-                      surface="on-dark"
-                      href={CALENDLY_URL}
-                      onClick={() => trackCalendlyClick("copilot_sprint")}
-                    >
-                      Sprint besprechen
-                    </CtaButton>
-                    {"gate" in tier && tier.gate && (
-                      <p className={styles.tierGate}>{tier.gate}</p>
-                    )}
-                  </div>
-                )}
-                {tier.id === "blueprint" && (
-                  <div className={styles.tierFoot}>
-                    <CtaButton
-                      size="sm"
-                      surface="on-dark"
-                      href={CALENDLY_URL}
-                      onClick={() => trackCalendlyClick("copilot_blueprint")}
-                    >
-                      Blueprint anfragen
-                    </CtaButton>
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
           <p className={copilotStyles.offerFootnote}>{copilotTiersFootnote}</p>
         </ScrollReveal>
@@ -279,6 +370,9 @@ export function CopilotAgentsContent() {
         <div className={copilotStyles.processTrack}>
           {copilotProcess.map((step, index) => (
             <div key={step.title} className={copilotStyles.processStep}>
+              <span className={copilotStyles.processIcon}>
+                <CopilotIcon id={step.icon} />
+              </span>
               <span className={copilotStyles.processIndex}>
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -308,6 +402,9 @@ export function CopilotAgentsContent() {
           <div className={copilotStyles.proofGrid}>
             {copilotWhyTiles.map((point) => (
               <div key={point.title} className={copilotStyles.proofTile}>
+                <span className={copilotStyles.proofTileIcon}>
+                  <CopilotIcon id={point.icon} />
+                </span>
                 <span className={copilotStyles.proofTileTitle}>{point.title}</span>
                 <p>{point.text}</p>
               </div>
