@@ -20,7 +20,7 @@ export interface ServiceModalContent {
 const footerNotes: Record<string, string> = {
   "corporate-gifting": "Planbare Aufträge aus Ihrem Sortiment. Budget vom Kunden. Bestellung in Ihren Systemen.",
   "ai-revenue-engine": "Pilot für 1.000 €. Ergebnis in 10 Arbeitstagen.",
-  "kalkulations-agent": "Kalkulationscheck: Zeit und Geld im Blick.",
+  "kalkulations-agent": "Lieber direkt klären? Buchen Sie ein persönliches Gespräch.",
   "vibe-coding-challenge": "Vibe Coding Challenge. 4 Wochen, bewertete Cases.",
   "copilot-agents": "Blueprint ab 2.400 €. Sprint zum Festpreis ab Tenant-Zugang.",
 };

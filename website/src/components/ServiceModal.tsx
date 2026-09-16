@@ -118,6 +118,12 @@ import {
 } from "../data/maximCalc";
 import { MaximRoiCalc } from "./MaximRoiCalc";
 import { MaximAgentVisual } from "./MaximAgentVisual";
+import { MaximDemoCarousel } from "./MaximDemoCarousel";
+import {
+  MaximIndustryContent,
+  MaximIndustryLinks,
+} from "./MaximIndustryPages";
+import { getMaximIndustryBySlug } from "../data/maximIndustryContent";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import { CopilotAgentsContent } from "./CopilotAgentsContent";
 import { SectionTitle, ServiceHeroLayout } from "./ServicePageParts";
@@ -2198,7 +2204,7 @@ function MaximCalcContent() {
   };
 
   return (
-    <div className={styles.content}>
+    <div className={`${styles.content} ${styles.maximPage}`}>
       <ServiceHeroLayout
         rawTitle
         hideBreadcrumb
@@ -2229,6 +2235,8 @@ function MaximCalcContent() {
           </>
         }
       />
+
+      <MaximIndustryLinks />
 
       <section className={styles.maximProblemBand}>
         <MaximReveal>
@@ -2282,6 +2290,20 @@ function MaximCalcContent() {
         </MaximReveal>
         <MaximReveal className={styles.maximCapabilitiesVisual}>
           <MaximAgentVisual />
+        </MaximReveal>
+      </section>
+
+      <section>
+        <MaximReveal>
+          <p className={styles.maximSectionEyebrow}>Beispiele aus der Praxis</p>
+          <SectionTitle>So kalkuliert Maxim für unterschiedliche Gewerke.</SectionTitle>
+          <p className={styles.bodyText}>
+            Anliegen, Material, Arbeitszeit und Aufschläge sehen in jeder Branche anders aus.
+            Maxim wendet jeweils das Regelwerk des Betriebs an.
+          </p>
+        </MaximReveal>
+        <MaximReveal className={styles.maximCapabilitiesVisual}>
+          <MaximDemoCarousel />
         </MaximReveal>
       </section>
 
@@ -2462,27 +2484,46 @@ const contentByService: Record<string, () => React.ReactNode> = {
   trainings: TrainingsContent,
 };
 
-export function ServicePage({ serviceId, onClose }: { serviceId: string; onClose: () => void }) {
+export function ServicePage({
+  serviceId,
+  subpath,
+  onClose,
+}: {
+  serviceId: string;
+  subpath?: string | null;
+  onClose: () => void;
+}) {
   const service = services.find((s) => s.id === serviceId);
   const meta = serviceModalMeta[serviceId];
-  const Content = contentByService[serviceId];
+  const industryPage =
+    serviceId === "kalkulations-agent" ? getMaximIndustryBySlug(subpath) : undefined;
+  const Content = industryPage
+    ? null
+    : contentByService[serviceId];
   const seo = useMemo(() => {
+    if (industryPage) {
+      return {
+        title: industryPage.seoTitle,
+        description: industryPage.seoDescription,
+        canonical: `${window.location.origin}/service/kalkulations-agent/${industryPage.slug}`,
+      };
+    }
     if (!service?.seoTitle || !service.seoDescription) return null;
     return {
       title: service.seoTitle,
       description: service.seoDescription,
       canonical: `${window.location.origin}/service/${service.slug}`,
     };
-  }, [service]);
+  }, [industryPage, service]);
 
   useDocumentSeo(seo);
 
-  if (!service || !meta || !Content) return null;
+  if (!service || !meta || (!Content && !industryPage)) return null;
 
   return (
     <PageShell
-      title={service.title}
-      eyebrow={meta.eyebrow}
+      title={industryPage?.title ?? service.title}
+      eyebrow={industryPage?.eyebrow ?? meta.eyebrow}
       onBack={onClose}
       variant="flush"
       footer={
@@ -2494,7 +2535,11 @@ export function ServicePage({ serviceId, onClose }: { serviceId: string; onClose
         />
       }
     >
-      <Content />
+      {industryPage ? (
+        <MaximIndustryContent page={industryPage} />
+      ) : Content ? (
+        <Content />
+      ) : null}
     </PageShell>
   );
 }

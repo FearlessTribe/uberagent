@@ -34,6 +34,7 @@ export function ServiceHeroLayout({
   centerCopy,
   rawTitle = false,
   hideBreadcrumb = false,
+  titleAsH1 = false,
 }: {
   tag: ReactNode;
   title?: ReactNode;
@@ -49,6 +50,8 @@ export function ServiceHeroLayout({
   centerCopy?: boolean;
   rawTitle?: boolean;
   hideBreadcrumb?: boolean;
+  /** Hero-Headline trägt die h1, der Breadcrumb-Titel wird zum Absatz. */
+  titleAsH1?: boolean;
 }) {
   return (
     <section className={`${styles.heroSection} ${styles.serviceHero}`.trim()}>
@@ -56,7 +59,9 @@ export function ServiceHeroLayout({
       <HeroTermRain />
       <div className={styles.heroBottomFade} aria-hidden="true" />
       <div className={styles.serviceHeroInner}>
-        {!hideBreadcrumb && <PageBreadcrumb tone="dark" />}
+        {!hideBreadcrumb && (
+          <PageBreadcrumb tone="dark" titleAs={titleAsH1 ? "p" : "h1"} />
+        )}
         <div className={styles.heroIntro}>
           {tag}
           {title ? (
@@ -66,7 +71,7 @@ export function ServiceHeroLayout({
               </h3>
             ) : (
               <TypedHeadline
-                as="h3"
+                as={titleAsH1 ? "h1" : "h3"}
                 className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}
               >
                 {title}

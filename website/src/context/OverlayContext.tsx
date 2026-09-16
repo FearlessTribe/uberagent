@@ -21,9 +21,11 @@ interface OverlayContextValue {
   closeMenu: () => void;
   toggleMenu: () => void;
   openServiceId: string | null;
+  openServiceSubpath: string | null;
   openProjectId: string | null;
   laurensOpen: boolean;
   openService: (id: string) => void;
+  openServiceSubpage: (id: string, subpath: string) => void;
   closeService: () => void;
   openProject: (id: string) => void;
   closeProject: () => void;
@@ -53,7 +55,12 @@ interface OverlayProviderProps {
 export function OverlayProvider({ children }: OverlayProviderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [laurensOpen, setLaurensOpen] = useState(false);
-  const { openServiceId, setOpenServiceId } = useServiceRoute();
+  const {
+    openServiceId,
+    openServiceSubpath,
+    setOpenServiceId,
+    openServiceSubpage,
+  } = useServiceRoute();
   const { openProjectId, setOpenProjectId } = useCaseRoute();
 
   const closeAll = useCallback(() => {
@@ -125,9 +132,11 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       closeMenu: () => setMenuOpen(false),
       toggleMenu: () => setMenuOpen((o) => !o),
       openServiceId,
+      openServiceSubpath,
       openProjectId,
       laurensOpen,
       openService,
+      openServiceSubpage,
       closeService: () => setOpenServiceId(null),
       openProject,
       closeProject: () => setOpenProjectId(null),
@@ -141,9 +150,11 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       isOverlayOpen,
       menuOpen,
       openServiceId,
+      openServiceSubpath,
       openProjectId,
       laurensOpen,
       openService,
+      openServiceSubpage,
       openProject,
       setOpenServiceId,
       setOpenProjectId,

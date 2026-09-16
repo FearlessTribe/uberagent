@@ -114,9 +114,9 @@ export const maximDemoExamples = [
 
 export const maximCapabilitiesSection = {
   eyebrow: "Was Maxim kann",
-  title: "Anliegen tippen. In etwa 20 Sekunden steht die Kalkulation.",
+  title: "Ihre Preislogik. Klare Rückfragen, wenn etwas fehlt.",
   subtitle: "Mehr als schnell rechnen.",
-  lead: "Maxim kennt Ihre Preislogik, holt aktuelle Herstellerpreise und bleibt transparent, wenn etwas offen ist.",
+  lead: "Maxim kennt Ihre Sätze, Aufschläge und Lieferantenpreise. Jede Position bleibt nachvollziehbar; offene Angaben werden markiert statt geschätzt.",
 } as const;
 
 export const maximAgentPhases = [
@@ -189,7 +189,7 @@ export const maximSolutionClusters = [
     pain: "Nur Sie trauen sich die Kalkulation zu. Sind Sie weg, gehen keine Angebote raus.",
     solution:
       "Jeder im Team kalkuliert so wie Sie. Fehlt etwas, fragt Maxim nach oder markiert „zu prüfen“.",
-    proof: "Stufe 01 fürs Team · FAQ: Rechnet die KI wirklich so wie ich?",
+    proof: "Ihre Regeln werden einmal dokumentiert und anschließend konsistent angewandt.",
   },
   {
     id: "vertrauen",
@@ -224,27 +224,27 @@ export const maximStages = [
 
 export const maximTimeline = [
   {
-    step: "01",
+    step: "Woche 1",
     title: "Datenaufnahme",
     text: "Zwei Stunden Workshop zu Ihrer Preislogik. Sie bringen Preisliste, Stundensätze und 20 bis 30 echte Angebote mit.",
   },
   {
-    step: "02",
+    step: "Woche 2",
     title: "Aufbau",
     text: "Wir richten die Wissensbasis ein und binden Lieferant und CRM an oder arbeiten mit Preisliste und Katalog.",
   },
   {
-    step: "03",
+    step: "Woche 3–4",
     title: "Kalibrierung",
     text: "Maxim rechnet 30 bis 50 Ihrer echten Anfragen nach. Sie vergleichen, wir justieren, bis es stimmt.",
   },
   {
-    step: "04",
+    step: "Woche 5",
     title: "Testbetrieb",
     text: "Ihr Team arbeitet eine Woche parallel zum alten Prozess.",
   },
   {
-    step: "05",
+    step: "Woche 6",
     title: "Go-live",
     text: "Einweisung, Übergabe, fertig. Danach: monatliche Genauigkeitsprüfung und Support.",
   },
@@ -265,36 +265,6 @@ export const maximKalkulationscheck = {
   lead:
     "Zuerst Anfragen und Zeit pro Angebot, dann Ihre Kontaktdaten. Danach Schritt für Schritt die restlichen Zahlen. Am Ende sehen Sie Ihr Potenzial.",
 } as const;
-
-/** Stufe 1: 9.900 € Setup + 12 × 990 € */
-export const MAXIM_STAGE1_YEAR1_COST = 9900 + 990 * 12;
-
-export const maximPricing = [
-  {
-    name: "Stufe 1",
-    detail: "Kalkulation für Ihr Team",
-    setup: "9.900 €",
-    monthly: "990 €",
-    featured: true,
-  },
-  {
-    name: "Stufe 1 + 2",
-    detail: "plus Website",
-    setup: "14.800 €",
-    monthly: "1.490 €",
-    featured: false,
-  },
-  {
-    name: "Stufe 1 + 2 + 3",
-    detail: "plus Telefon",
-    setup: "19.900 €",
-    monthly: "1.990 €",
-    featured: false,
-  },
-] as const;
-
-export const maximPricingNote =
-  "Alle Preise netto. Einrichtung: 50 % bei Auftrag, 50 % bei Go-live. Betrieb: 12 Monate Mindestlaufzeit, danach monatlich kündbar. Enthalten: EU-Hosting, KI-Lizenzkosten, monatliche Genauigkeitsprüfung, Anpassungen Ihrer Preislogik, Support.";
 
 export const maximTrust = [
   {
@@ -334,15 +304,11 @@ export const maximFaq = [
   },
   {
     q: "Wer haftet für den Preis im Angebot?",
-    a: "Maxim rechnet nach Ihren freigegebenen Regeln. Die Verantwortung für verbindliche Angebote bleibt bei Ihnen. Er nimmt Ihnen die Rechenarbeit ab, nicht die Entscheidung.",
-  },
-  {
-    q: "Was, wenn die Preise nicht stimmen?",
-    a: "Maxim rechnet nach Ihren freigegebenen Regeln und genau nach Ihrer Preisstruktur. Er erfindet nichts dazu, sondern übernimmt die Rechenarbeit. Entscheidungen bleiben bei Ihnen. Bei Unklarheiten greifen klare Regeln: Maxim zieht Sie ein, statt zu raten.",
+    a: "Die Verantwortung für verbindliche Angebote bleibt bei Ihnen. Maxim rechnet nach Ihren freigegebenen Regeln, zeigt die Herkunft jeder Position und zieht Ihr Team bei fehlenden oder widersprüchlichen Angaben ein, statt einen Preis zu erfinden.",
   },
 ] as const;
 
 export const maximClosingCta = {
-  title: "Lohnt es sich für mich?",
-  lead: "Machen Sie den Kalkulationscheck und finden Sie heraus, wie viel Geld und Zeit Sie sparen.",
+  title: "Fünf echte Anfragen. Ein konkreter Vergleich.",
+  lead: "Schicken Sie uns fünf bereits beantwortete Anfragen – gern anonymisiert. Wir zeigen, wie Maxim mit Ihren Regeln kalkuliert hätte.",
 } as const;

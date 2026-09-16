@@ -7,10 +7,20 @@ const slugToServiceId = Object.fromEntries(
 
 type ServiceHistoryState = { uberagent?: boolean; serviceId?: string };
 
-function readServiceFromPath(): string | null {
-  const match = window.location.pathname.match(/^\/service\/([^/]+)\/?$/);
-  if (!match) return null;
-  return slugToServiceId[match[1]] ?? null;
+type ServiceRoute = {
+  serviceId: string | null;
+  subpath: string | null;
+};
+
+function readServiceFromPath(): ServiceRoute {
+  const match = window.location.pathname.match(
+    /^\/service\/([^/]+)(?:\/([^/]+))?\/?$/,
+  );
+  if (!match) return { serviceId: null, subpath: null };
+  return {
+    serviceId: slugToServiceId[match[1]] ?? null,
+    subpath: match[2] ?? null,
+  };
 }
 
 function leaveServiceRoute() {
@@ -31,9 +41,11 @@ export function getServiceUrl(serviceId: string): string {
 export type SetServiceIdOptions = { syncUrl?: boolean };
 
 export function useServiceRoute() {
-  const [openServiceId, setOpenServiceIdState] = useState<string | null>(
+  const [route, setRoute] = useState<ServiceRoute>(
     () => readServiceFromPath(),
   );
+  const openServiceId = route.serviceId;
+  const openServiceSubpath = route.subpath;
 
   const setOpenServiceId = useCallback((id: string | null, options?: SetServiceIdOptions) => {
     const syncUrl = options?.syncUrl !== false;
@@ -42,7 +54,7 @@ export function useServiceRoute() {
       const service = services.find((s) => s.id === id);
       if (!service) return;
       const url = `/service/${service.slug}`;
-      setOpenServiceIdState(id);
+      setRoute({ serviceId: id, subpath: null });
       if (!syncUrl) return;
       if (window.location.pathname !== url) {
         const onDetail =
@@ -58,17 +70,36 @@ export function useServiceRoute() {
       return;
     }
 
-    setOpenServiceIdState(null);
+    setRoute({ serviceId: null, subpath: null });
     if (syncUrl) leaveServiceRoute();
+  }, []);
+
+  const openServiceSubpage = useCallback((serviceId: string, subpath: string) => {
+    const service = services.find((s) => s.id === serviceId);
+    if (!service || !/^[a-z0-9-]+$/.test(subpath)) return;
+    const url = `/service/${service.slug}/${subpath}`;
+    setRoute({ serviceId, subpath });
+    const state = { uberagent: true, serviceId };
+    if (window.location.pathname.startsWith("/service/")) {
+      window.history.replaceState(state, "", url);
+    } else {
+      window.history.pushState(state, "", url);
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
   useEffect(() => {
     const onPopState = () => {
-      setOpenServiceIdState(readServiceFromPath());
+      setRoute(readServiceFromPath());
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  return { openServiceId, setOpenServiceId };
+  return {
+    openServiceId,
+    openServiceSubpath,
+    setOpenServiceId,
+    openServiceSubpage,
+  };
 }

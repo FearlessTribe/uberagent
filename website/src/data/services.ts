@@ -97,7 +97,7 @@ export const services: Service[] = [
       { value: "6 Wochen", label: "bis Go-live" },
       { value: "3 Stufen", label: "Team · Web · Telefon" },
     ],
-    ctaLabel: "Kalkulations-Check anfragen",
+    ctaLabel: "Lieber persönlich sprechen",
     category: "neu",
     featured: true,
     seoTitle: "KI-Kalkulationsagent | Angebote in Sekunden",

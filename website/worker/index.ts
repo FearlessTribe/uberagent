@@ -3,6 +3,7 @@
  * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID
  */
 import { getServiceBySlug } from "../src/data/services";
+import { getMaximIndustryBySlug } from "../src/data/maximIndustryContent";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -106,20 +107,28 @@ function applyHtmlSeo(
 
 async function serveAssets(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
-  const match = url.pathname.match(/^\/service\/([^/]+)\/?$/);
+  const match = url.pathname.match(/^\/service\/([^/]+)(?:\/([^/]+))?\/?$/);
   const service = match ? getServiceBySlug(match[1]) : undefined;
+  const industryPage =
+    match?.[1] === "kalkulations-agent"
+      ? getMaximIndustryBySlug(match[2])
+      : undefined;
   const res = await env.ASSETS.fetch(request);
 
-  if (!service?.seoTitle || !service.seoDescription) return res;
+  const seoTitle = industryPage?.seoTitle ?? service?.seoTitle;
+  const seoDescription = industryPage?.seoDescription ?? service?.seoDescription;
+  if (!seoTitle || !seoDescription) return res;
 
   const contentType = res.headers.get("content-type") || "";
   if (!contentType.includes("text/html")) return res;
 
   const html = applyHtmlSeo(
     await res.text(),
-    service.seoTitle,
-    service.seoDescription,
-    `${url.origin}/service/${service.slug}`,
+    seoTitle,
+    seoDescription,
+    industryPage
+      ? `${url.origin}/service/kalkulations-agent/${industryPage.slug}`
+      : `${url.origin}/service/${service?.slug}`,
   );
 
   return new Response(html, {

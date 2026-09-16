@@ -58,11 +58,23 @@ function HomePage() {
 function AppContent() {
   const overlay = useOverlay();
   useTabAwayTitle();
-  const { openServiceId, openProjectId, closeService, closeProject } = overlay;
+  const {
+    openServiceId,
+    openServiceSubpath,
+    openProjectId,
+    closeService,
+    closeProject,
+  } = overlay;
 
   let detailPage: ReactNode = null;
   if (openServiceId) {
-    detailPage = <ServicePage serviceId={openServiceId} onClose={closeService} />;
+    detailPage = (
+      <ServicePage
+        serviceId={openServiceId}
+        subpath={openServiceSubpath}
+        onClose={closeService}
+      />
+    );
   } else if (openProjectId === "ai-sales-agent") {
     detailPage = <ProjectPage onClose={closeProject} />;
   } else if (openProjectId === "finanznomade-kv") {

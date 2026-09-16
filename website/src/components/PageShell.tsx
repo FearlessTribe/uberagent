@@ -25,9 +25,18 @@ export function usePageChrome() {
   return useContext(PageChromeContext);
 }
 
-export function PageBreadcrumb({ tone = "light" }: { tone?: "light" | "dark" }) {
+export function PageBreadcrumb({
+  tone = "light",
+  titleAs = "h1",
+}: {
+  tone?: "light" | "dark";
+  /** "p", wenn die Seite ihre h1 selbst in der Hero-Headline führt. */
+  titleAs?: "h1" | "p";
+}) {
   const chrome = usePageChrome();
   if (!chrome) return null;
+
+  const Title = titleAs;
 
   return (
     <nav
@@ -53,9 +62,9 @@ export function PageBreadcrumb({ tone = "light" }: { tone?: "light" | "dark" }) 
       <span className={styles.breadcrumbSep} aria-hidden="true">
         /
       </span>
-      <h1 id="page-title" className={styles.title}>
+      <Title id="page-title" className={styles.title}>
         {chrome.title}
-      </h1>
+      </Title>
     </nav>
   );
 }
