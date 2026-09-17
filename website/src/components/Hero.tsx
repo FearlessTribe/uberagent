@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { SectionShell } from "./SectionShell";
 import { CtaButton } from "./CtaButton";
 import { ProofRow } from "./ProofRow";
+import { trackSectionNav } from "../lib/analytics";
 import { scrollToContact, scrollToSection } from "../hooks/useScrollReveal";
 import { EASE, heroContainer, heroHeadline, heroItem, resolveVariants } from "../motion";
 import { HeroTermRain } from "./HeroTermRain";
@@ -208,6 +209,7 @@ export function Hero() {
             surface="accent"
             showCalendar
             sublabel
+            analyticsLocation="hero"
             onClick={() => scrollToContact("hero", "smooth")}
           >
             Jetzt Erstgespräch sichern
@@ -215,7 +217,10 @@ export function Hero() {
           <CtaButton
             size="md"
             surface="on-dark-ghost"
-            onClick={() => scrollToSection("services", "smooth")}
+            onClick={() => {
+              trackSectionNav("services", "hero");
+              scrollToSection("services", "smooth");
+            }}
           >
             Services entdecken
           </CtaButton>

@@ -13,6 +13,7 @@ import {
   scrollToSection,
 } from "../hooks/useScrollReveal";
 import { useOverlay } from "../context/OverlayContext";
+import { trackSectionNav } from "../lib/analytics";
 import { navServiceGroups, type NavServiceItem } from "../data/services";
 import { CtaButton } from "./CtaButton";
 import { ServiceIcon } from "./ServiceIcon";
@@ -158,6 +159,7 @@ export function Navigation() {
     setServicesOpen(false);
     closeMenu();
     navigateHome();
+    trackSectionNav(id, menuOpen ? "nav_mobile" : "nav");
     scrollToSection(id, "smooth");
   };
 
@@ -349,6 +351,7 @@ export function Navigation() {
               size="sm"
               surface={onDarkNav ? "accent" : "on-light"}
               showCalendar={onDarkNav}
+              analyticsLocation="nav"
               onClick={handleContact}
             >
               Jetzt Erstgespräch sichern
@@ -509,6 +512,7 @@ export function Navigation() {
                   surface="accent"
                   showCalendar
                   sublabel
+                  analyticsLocation="nav_mobile"
                   onClick={() => {
                     navigateHome();
                     scrollToContact("nav_mobile", "smooth");

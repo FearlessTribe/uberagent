@@ -1,6 +1,5 @@
 import { scrollToContact } from "../hooks/useScrollReveal";
 import { CtaButton } from "./CtaButton";
-import { trackCalendlyClick } from "../lib/analytics";
 import styles from "./ModalContactFooter.module.css";
 
 interface ModalContactFooterProps {
@@ -17,10 +16,7 @@ export function ModalContactFooter({
   href,
 }: ModalContactFooterProps) {
   const handleClick = () => {
-    if (href) {
-      trackCalendlyClick("modal_footer");
-      return;
-    }
+    if (href) return;
     onClose();
     window.setTimeout(() => scrollToContact("modal_footer"), 0);
   };
@@ -30,7 +26,13 @@ export function ModalContactFooter({
       <div className={styles.smokeBg} aria-hidden="true" />
       <div className={styles.footerContent}>
         <p className={styles.footerText}>{note}</p>
-        <CtaButton size="md" surface="on-dark" href={href} onClick={handleClick}>
+        <CtaButton
+          size="md"
+          surface="on-dark"
+          href={href}
+          analyticsLocation={href ? "modal_footer" : undefined}
+          onClick={handleClick}
+        >
           {label}
         </CtaButton>
       </div>

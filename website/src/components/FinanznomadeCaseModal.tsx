@@ -5,6 +5,7 @@ import { ModalContactFooter } from "./ModalContactFooter";
 import { FinanznomadeScreenshotShowcase } from "./FinanznomadeScreenshotShowcase";
 import { CtaButton } from "./CtaButton";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
+import { trackOutboundClick } from "../lib/analytics";
 import { finanznomadeCaseVideo } from "../data/marketing";
 import { resolveVariants, slidePanel } from "../motion";
 import styles from "./FinanznomadeCaseModal.module.css";
@@ -621,7 +622,17 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
               Konfigurator aus Kundensicht, vom Einstieg bis zum Vergleich
             </p>
             <div className={styles.videoCta}>
-              <CtaButton href={LIVE_URL} size="md" surface="on-light">
+              <CtaButton
+                href={LIVE_URL}
+                size="md"
+                surface="on-light"
+                onClick={() =>
+                  trackOutboundClick("live_demo", {
+                    url: LIVE_URL,
+                    location: "finanznomade_case",
+                  })
+                }
+              >
                 Konfigurator internationale Krankenversicherung
               </CtaButton>
             </div>

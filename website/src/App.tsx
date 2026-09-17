@@ -9,6 +9,7 @@ import { GrowthBanner } from "./components/GrowthBanner";
 import { CaseStudies } from "./components/CaseStudies";
 import { Team } from "./components/Team";
 import { ContactFooter } from "./components/ContactFooter";
+import { CookieConsent } from "./components/CookieConsent";
 
 const ServicePage = lazy(() =>
   import("./components/ServiceModal").then((m) => ({ default: m.ServicePage })),
@@ -98,6 +99,8 @@ function AppContent() {
       <Suspense fallback={null}>
         <LaurensModal isOpen={overlay.laurensOpen} onClose={overlay.closeLaurens} />
       </Suspense>
+
+      <CookieConsent />
     </>
   );
 }

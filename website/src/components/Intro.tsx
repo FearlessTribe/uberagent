@@ -96,6 +96,7 @@ export function Intro() {
             surface="accent"
             showCalendar
             sublabel
+            analyticsLocation="intro"
             onClick={() => scrollToContact("intro")}
           >
             Jetzt Erstgespräch sichern

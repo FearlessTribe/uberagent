@@ -2,7 +2,7 @@ import { Modal } from "./Modal";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { CtaButton } from "./CtaButton";
 import { useOverlayOptional } from "../context/OverlayContext";
-import { trackCalendlyClick } from "../lib/analytics";
+import { CALENDLY_URL } from "../lib/analytics";
 import { laurensProfile, teamMembers } from "../data/team";
 import styles from "./Team.module.css";
 
@@ -11,7 +11,6 @@ interface LaurensModalProps {
   onClose: () => void;
 }
 
-const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 const laurens = teamMembers.find((m) => m.id === "laurens")!;
 
 export function LaurensModal({ isOpen, onClose }: LaurensModalProps) {
@@ -183,7 +182,7 @@ export function LaurensModal({ isOpen, onClose }: LaurensModalProps) {
             surface="accent"
             showCalendar
             href={CALENDLY_URL}
-            onClick={() => trackCalendlyClick("laurens_modal")}
+            analyticsLocation="laurens_modal"
           >
             Gespräch buchen
           </CtaButton>

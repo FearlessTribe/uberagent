@@ -42,6 +42,7 @@ export function GrowthBanner({
               size="sm"
               surface="accent"
               showCalendar
+              analyticsLocation={ctaLocation}
               onClick={() => scrollToContact(ctaLocation)}
             >
               Jetzt Erstgespräch sichern

@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { SectionShell } from "./SectionShell";
 import { teamMembers } from "../data/team";
 import { navServiceGroups } from "../data/services";
-import { trackCalendlyClick } from "../lib/analytics";
 import { scrollToSection } from "../hooks/useScrollReveal";
 import { ScrollReveal } from "./ScrollReveal";
+import { CALENDLY_URL, trackOutboundClick } from "../lib/analytics";
 import { CtaButton } from "./CtaButton";
 import { BrandMark } from "./BrandMark";
 import { MotionPressable } from "./MotionPressable";
@@ -57,8 +57,8 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
               surface="accent"
               showCalendar
               sublabel
-              href="https://calendly.com/supraflow/30min"
-              onClick={() => trackCalendlyClick("footer")}
+              analyticsLocation="footer"
+              href={CALENDLY_URL}
             >
               Jetzt Erstgespräch sichern
             </CtaButton>
@@ -98,7 +98,16 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
             />
 
             <div className={styles.contactCopy} id="impressum">
-              <a href="mailto:info@uberagent.com" className={styles.phone}>
+              <a
+                href="mailto:info@uberagent.com"
+                className={styles.phone}
+                onClick={() =>
+                  trackOutboundClick("email", {
+                    url: "mailto:info@uberagent.com",
+                    location: "footer",
+                  })
+                }
+              >
                 info@uberagent.com
               </a>
               <address className={styles.address}>

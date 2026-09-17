@@ -89,7 +89,7 @@ import {
 } from "../data/serviceModalContent";
 import { services } from "../data/services";
 import { fadeIn, slidePanel, fadeUp, fadeUpItem, staggerContainer, viewport, DURATION, EASE } from "../motion";
-import { trackCalendlyClick } from "../lib/analytics";
+import { CALENDLY_URL } from "../lib/analytics";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { teamMembers } from "../data/team";
 import { CtaButton } from "./CtaButton";
@@ -128,8 +128,6 @@ import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import { CopilotAgentsContent } from "./CopilotAgentsContent";
 import { SectionTitle, ServiceHeroLayout } from "./ServicePageParts";
 import styles from "./ServiceModal.module.css";
-
-const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 
 function ImpactTable({ rows }: { rows: ImpactRow[] }) {
   return (
@@ -875,7 +873,7 @@ function RevenueEngineContent() {
                     size="sm"
                     surface="on-dark"
                     href={CALENDLY_URL}
-                    onClick={() => trackCalendlyClick("revenue_engine_pilot")}
+                    analyticsLocation="revenue_engine_pilot"
                   >
                     Pilot starten
                   </CtaButton>
@@ -953,7 +951,7 @@ function RevenueEngineContent() {
               size="md"
               surface="on-dark"
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("revenue_engine_final")}
+              analyticsLocation="revenue_engine_final"
             >
               Kostenloses Erstgespräch
             </CtaButton>
@@ -1257,7 +1255,7 @@ function VibeChallengeContent() {
                     size="sm"
                     surface="on-dark"
                     href={CALENDLY_URL}
-                    onClick={() => trackCalendlyClick("vibe_challenge_pilot")}
+                    analyticsLocation="vibe_challenge_pilot"
                   >
                     Challenge starten
                   </CtaButton>
@@ -1316,7 +1314,7 @@ function VibeChallengeContent() {
               size="md"
               surface="on-dark"
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("vibe_challenge_final")}
+              analyticsLocation="vibe_challenge_final"
             >
               Gespräch starten
             </CtaButton>
@@ -1550,6 +1548,7 @@ function McpContent() {
           size="md"
           surface="accent"
           showCalendar
+          analyticsLocation="mcp_inline"
           onClick={() => {
             navigateHome();
             window.setTimeout(() => scrollToContact("mcp_inline"), 0);
@@ -1899,7 +1898,7 @@ function GiftingAgentContent() {
               surface="accent"
               showCalendar
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("gifting_hero")}
+              analyticsLocation="gifting_hero"
             >
               15-Minuten-Demo buchen
             </CtaButton>
@@ -2012,7 +2011,7 @@ function GiftingAgentContent() {
               size="md"
               surface="on-dark"
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("gifting_final")}
+              analyticsLocation="gifting_final"
             >
               15-Minuten-Demo buchen
             </CtaButton>

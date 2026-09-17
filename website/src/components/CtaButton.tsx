@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { trackTerminClick } from "../lib/analytics";
 import { ctaHover, ctaTap } from "../motion";
 import styles from "./CtaButton.module.css";
 
@@ -21,6 +22,8 @@ interface CtaButtonProps {
   sublabel?: boolean;
   showCalendar?: boolean;
   centerSublabel?: boolean;
+  /** Analytics location for Termin / Calendly tracking (GA + Meta Pixel). */
+  analyticsLocation?: string;
 }
 
 const surfaceClass: Record<CtaSurface, string> = {
@@ -40,6 +43,10 @@ function CalendarIcon({ className }: { className: string }) {
   );
 }
 
+function isCalendlyUrl(href?: string) {
+  return Boolean(href?.includes("calendly.com"));
+}
+
 export function CtaButton({
   children,
   onClick,
@@ -51,6 +58,7 @@ export function CtaButton({
   sublabel,
   showCalendar = false,
   centerSublabel = false,
+  analyticsLocation,
 }: CtaButtonProps) {
   const reduce = useReducedMotion();
   const className = [
@@ -71,6 +79,17 @@ export function CtaButton({
 
   const isDarkContext =
     surface === "accent" || surface === "on-dark" || surface === "on-dark-ghost";
+
+  const handleClick = () => {
+    const calendly = isCalendlyUrl(href);
+    if (calendly || showCalendar || analyticsLocation) {
+      trackTerminClick(
+        analyticsLocation ?? (calendly ? "calendly" : "erstgespraech"),
+        calendly && href ? { linkUrl: href } : undefined,
+      );
+    }
+    onClick?.();
+  };
 
   const content = (
     <>
@@ -97,13 +116,13 @@ export function CtaButton({
         className={className}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={onClick}
+        onClick={handleClick}
         {...motionProps}
       >
         {content}
       </motion.a>
     ) : (
-      <motion.button type={type} className={className} onClick={onClick} {...motionProps}>
+      <motion.button type={type} className={className} onClick={handleClick} {...motionProps}>
         {content}
       </motion.button>
     );

@@ -7,15 +7,13 @@ import {
   type MaximIndustryPage,
 } from "../data/maximIndustryContent";
 import { maximTrust } from "../data/maximCalc";
-import { trackCalendlyClick } from "../lib/analytics";
+import { CALENDLY_URL } from "../lib/analytics";
 import { DURATION, EASE } from "../motion";
 import { CtaButton } from "./CtaButton";
 import { ScrollReveal } from "./ScrollReveal";
 import { ServiceHeroLayout } from "./ServicePageParts";
 import sharedStyles from "./ServiceModal.module.css";
 import styles from "./MaximIndustryPages.module.css";
-
-const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 
 function IndustrySectionTitle({
   children,
@@ -180,7 +178,7 @@ export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
               surface="accent"
               href={CALENDLY_URL}
               showCalendar
-              onClick={() => trackCalendlyClick(`maxim_${page.slug}_hero`)}
+              analyticsLocation={`maxim_${page.slug}_hero`}
             >
               {page.finalCta.button}
             </CtaButton>
@@ -400,7 +398,7 @@ export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
           surface="accent"
           href={CALENDLY_URL}
           showCalendar
-          onClick={() => trackCalendlyClick(`maxim_${page.slug}_final`)}
+          analyticsLocation={`maxim_${page.slug}_final`}
         >
           {page.finalCta.button}
         </CtaButton>

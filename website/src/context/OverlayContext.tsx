@@ -4,9 +4,15 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import {
+  trackProfileView,
+  trackProjectView,
+  trackServiceView,
+} from "../lib/analytics";
 import { lockScroll, unlockScroll } from "../hooks/scrollLock";
 import { useCaseRoute } from "../hooks/useCaseRoute";
 import { useServiceRoute } from "../hooks/useServiceRoute";
@@ -106,6 +112,45 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
     [setOpenServiceId, setOpenProjectId],
   );
 
+  const openLaurens = useCallback(() => {
+    setLaurensOpen(true);
+  }, []);
+
+  const lastServiceKey = useRef<string | null>(null);
+  const lastProjectId = useRef<string | null>(null);
+  const trackedLaurens = useRef(false);
+
+  useEffect(() => {
+    if (!openServiceId) {
+      lastServiceKey.current = null;
+      return;
+    }
+    const key = `${openServiceId}:${openServiceSubpath ?? ""}`;
+    if (lastServiceKey.current === key) return;
+    lastServiceKey.current = key;
+    trackServiceView(openServiceId, openServiceSubpath);
+  }, [openServiceId, openServiceSubpath]);
+
+  useEffect(() => {
+    if (!openProjectId) {
+      lastProjectId.current = null;
+      return;
+    }
+    if (lastProjectId.current === openProjectId) return;
+    lastProjectId.current = openProjectId;
+    trackProjectView(openProjectId);
+  }, [openProjectId]);
+
+  useEffect(() => {
+    if (!laurensOpen) {
+      trackedLaurens.current = false;
+      return;
+    }
+    if (trackedLaurens.current) return;
+    trackedLaurens.current = true;
+    trackProfileView("laurens");
+  }, [laurensOpen]);
+
   const activeOverlay: OverlayType = menuOpen ? "menu" : laurensOpen ? "laurens" : "none";
   const isOverlayOpen = activeOverlay !== "none";
   const isDetailPage = Boolean(openServiceId || openProjectId);
@@ -140,7 +185,7 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       closeService: () => setOpenServiceId(null),
       openProject,
       closeProject: () => setOpenProjectId(null),
-      openLaurens: () => setLaurensOpen(true),
+      openLaurens,
       closeLaurens: () => setLaurensOpen(false),
       closeAll,
       navigateHome,
@@ -156,6 +201,7 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       openService,
       openServiceSubpage,
       openProject,
+      openLaurens,
       setOpenServiceId,
       setOpenProjectId,
       closeAll,

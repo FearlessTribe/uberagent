@@ -32,12 +32,10 @@ import {
 } from "../data/copilotAgentsContent";
 import { serviceModalMeta } from "../data/serviceModalContent";
 import { teamMembers } from "../data/team";
-import { trackCalendlyClick } from "../lib/analytics";
+import { CALENDLY_URL } from "../lib/analytics";
 import { DURATION, EASE, slidePanel } from "../motion";
 import copilotStyles from "./CopilotAgentsContent.module.css";
 import styles from "./ServiceModal.module.css";
-
-const CALENDLY_URL = "https://calendly.com/supraflow/30min";
 
 function WorkflowIcon({ icon }: { icon: CopilotWorkflowIcon }) {
   return <CopilotIcon id={icon} />;
@@ -96,7 +94,7 @@ export function CopilotAgentsContent() {
               surface="accent"
               showCalendar
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("copilot_hero")}
+              analyticsLocation="copilot_hero"
             >
               Workflow in 30 Minuten prüfen
             </CtaButton>
@@ -336,7 +334,7 @@ export function CopilotAgentsContent() {
                         size="sm"
                         surface="on-dark"
                         href={CALENDLY_URL}
-                        onClick={() => trackCalendlyClick("copilot_sprint")}
+                        analyticsLocation="copilot_sprint"
                       >
                         Sprint besprechen
                       </CtaButton>
@@ -351,7 +349,7 @@ export function CopilotAgentsContent() {
                         size="sm"
                         surface="on-dark"
                         href={CALENDLY_URL}
-                        onClick={() => trackCalendlyClick("copilot_blueprint")}
+                        analyticsLocation="copilot_blueprint"
                       >
                         Blueprint anfragen
                       </CtaButton>
@@ -460,7 +458,7 @@ export function CopilotAgentsContent() {
               size="md"
               surface="on-dark"
               href={CALENDLY_URL}
-              onClick={() => trackCalendlyClick("copilot_final")}
+              analyticsLocation="copilot_final"
             >
               Erstgespräch sichern
             </CtaButton>
