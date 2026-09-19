@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Lottie } from "lottie-react";
 import { SectionShell } from "./SectionShell";
 import {
   productizedAgentIds,
@@ -17,11 +18,8 @@ import { ServiceIcon } from "./ServiceIcon";
 import { AgentLottie } from "./AgentLottie";
 import { BrandMark } from "./BrandMark";
 import { HeroTermRain } from "./HeroTermRain";
+import { StackedCards } from "./StackedCards";
 import {
-  fadeIn,
-  slidePanel,
-  fadeUpItem,
-  staggerContainer,
   DURATION,
   EASE,
 } from "../motion";
@@ -37,8 +35,69 @@ const AGENT_ACCENTS: Record<string, string> = {
   "kalkulations-agent": "green",
 };
 
+const CATEGORY_ICONS: Record<ServiceCategoryId, string> = {
+  engineering: "agents",
+  strategy: "strategy",
+};
+
+/** Accent (Caslon italic) spans inside service card titles – same treatment as hero “operative”. */
+const SERVICE_TITLE_EMPHASIS: Record<string, string> = {
+  "gtm-engineering": "GTM Engineering",
+  mcp: "MCP",
+  "workflow-agents": "Workflow Agents",
+  "copilot-agents": "Copilot",
+  "vibe-coding-challenge": "Vibe Coding",
+  "ai-strategy": "AI",
+  trainings: "Workshops",
+  "business-models": "Geschäftsmodellen",
+};
+
+function ServiceTitle({
+  serviceId,
+  title,
+}: {
+  serviceId: string;
+  title: string;
+}) {
+  const emphasis = SERVICE_TITLE_EMPHASIS[serviceId];
+  if (!emphasis) return <>{title}</>;
+
+  const index = title.indexOf(emphasis);
+  if (index === -1) return <>{title}</>;
+
+  return (
+    <>
+      {title.slice(0, index)}
+      <span className={`em mark ${styles.titleAccent}`}>{emphasis}</span>
+      {title.slice(index + emphasis.length)}
+    </>
+  );
+}
+
 function wrapIndex(index: number, length: number) {
   return ((index % length) + length) % length;
+}
+
+function ServiceCardLottie({
+  src,
+  className,
+}: {
+  src: string;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) {
+    return <div className={className} />;
+  }
+  return (
+    <Lottie
+      src={src}
+      loop
+      autoplay
+      className={className}
+      aria-hidden
+    />
+  );
 }
 
 function ServiceCard({
@@ -50,8 +109,6 @@ function ServiceCard({
   onOpen: (id: string) => void;
   onMouseMove: (event: React.MouseEvent<HTMLElement>) => void;
 }) {
-  const primaryStat = service.stats[0];
-
   return (
     <MotionPressable
       className={`card card-dark ${styles.serviceCard} ${service.featured ? styles.featuredCard : ""}`}
@@ -60,31 +117,24 @@ function ServiceCard({
       aria-haspopup="dialog"
     >
       <div className={styles.cardMain}>
-        <div className={styles.tags}>
-          {service.featured && <span className={styles.newBadge}>Neu</span>}
-          {service.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>
-              {tag}
-            </span>
-          ))}
-        </div>
-        <div className={styles.titleRow}>
-          <ServiceIcon type={service.icon} className={styles.icon} />
-          <h3 className={styles.serviceTitle}>{service.title}</h3>
-        </div>
-        <p className={styles.cardDescription}>{service.shortDescription}</p>
-      </div>
-
-      <div className={styles.cardAside}>
-        {primaryStat && (
-          <div className={styles.statPill}>
-            <span className={styles.statValue}>{primaryStat.value}</span>
-            <span className={styles.statLabel}>{primaryStat.label}</span>
+        <div className={styles.cardCopy}>
+          <span className={styles.cardEyebrow}>{service.eyebrow}</span>
+          <div className={styles.tags}>
+            {service.tags.map((tag) => (
+              <span key={tag} className={styles.tag}>
+                {tag}
+              </span>
+            ))}
           </div>
-        )}
+          <h3 className={styles.serviceTitle}>
+            <ServiceTitle serviceId={service.id} title={service.title} />
+          </h3>
+          <p className={styles.cardDescription}>{service.shortDescription}</p>
+        </div>
+
         <span className={styles.readMore}>
           {service.ctaLabel}
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M3 8h10M9 4l4 4-4 4"
               stroke="currentColor"
@@ -95,6 +145,19 @@ function ServiceCard({
           </svg>
         </span>
       </div>
+
+      {service.lottieSrc && (
+        <div className={styles.cardVisual} aria-hidden="true">
+          <div className={styles.visualFrame}>
+            <ServiceCardLottie
+              src={service.lottieSrc}
+              className={`${styles.visualLottie}${
+                service.id === "copilot-agents" ? ` ${styles.visualLottieSpacious}` : ""
+              }`}
+            />
+          </div>
+        </div>
+      )}
     </MotionPressable>
   );
 }
@@ -353,7 +416,6 @@ function AgentCarousel({
 
 export function Services({ onOpenService }: ServicesProps) {
   const { handleMouseMove } = useCardGlow();
-  const reduceMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<ServiceCategoryId>("engineering");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -391,11 +453,13 @@ export function Services({ onOpenService }: ServicesProps) {
     [],
   );
 
-  const panelVariants = reduceMotion ? fadeIn : slidePanel;
-  const gridVariants = reduceMotion ? undefined : staggerContainer;
-
   return (
-    <SectionShell id="services" background="static" ariaLabelledBy="services-heading">
+    <SectionShell
+      id="services"
+      background="static"
+      ariaLabelledBy="services-heading"
+      allowSticky
+    >
       <HeroTermRain variant="section" />
       <div className="container">
         <ScrollReveal className={styles.agentsHeader}>
@@ -442,46 +506,35 @@ export function Services({ onOpenService }: ServicesProps) {
                   onClick={() => setActiveCategory(category.id)}
                   onKeyDown={(event) => handleTabKeyDown(event, index)}
                 >
+                  <ServiceIcon
+                    type={CATEGORY_ICONS[category.id]}
+                    className={styles.tabIcon}
+                  />
                   {category.label}
                 </button>
               );
             })}
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory}
-              id={`services-panel-${activeCategory}`}
-              role="tabpanel"
-              aria-labelledby={`services-tab-${activeCategory}`}
-              className={styles.panel}
-              variants={panelVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <motion.div
-                className={styles.grid}
-                variants={gridVariants}
-                initial={reduceMotion ? false : "hidden"}
-                animate={reduceMotion ? undefined : "visible"}
-              >
-                {filteredServices.map((service) => (
-                  <motion.div
-                    key={service.id}
-                    className={styles.gridItem}
-                    variants={reduceMotion ? undefined : fadeUpItem}
-                  >
-                    <ServiceCard
-                      service={service}
-                      onOpen={onOpenService}
-                      onMouseMove={handleMouseMove}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </AnimatePresence>
+          {/* No motion/transform wrapper — that breaks position:sticky */}
+          <div
+            key={activeCategory}
+            id={`services-panel-${activeCategory}`}
+            role="tabpanel"
+            aria-labelledby={`services-tab-${activeCategory}`}
+            className={styles.panel}
+          >
+            <StackedCards className={styles.stack} offsetTop={120} stackGap={16}>
+              {filteredServices.map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  onOpen={onOpenService}
+                  onMouseMove={handleMouseMove}
+                />
+              ))}
+            </StackedCards>
+          </div>
         </div>
       </div>
     </SectionShell>

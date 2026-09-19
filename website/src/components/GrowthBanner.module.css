@@ -3,6 +3,7 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  margin-top: 0;
   padding: clamp(28px, 4vw, 36px) 0;
 }
 
@@ -12,10 +13,8 @@
   overflow: hidden;
   clip-path: inset(0);
   contain: paint;
-  background:
-    linear-gradient(90deg, rgba(25, 28, 33, 0.55) 0%, rgba(25, 28, 33, 0.25) 50%, rgba(25, 28, 33, 0.45) 100%),
-    radial-gradient(ellipse 70% 80% at 30% 50%, rgba(204, 128, 102, 0.12) 0%, transparent 60%),
-    var(--color-surface);
+  background: var(--color-background);
+  border-top: 1px solid var(--color-border);
 }
 
 .container {
@@ -60,7 +59,7 @@
 
 .brand {
   flex-shrink: 0;
-  opacity: 0.92;
+  opacity: 1;
 }
 
 .line {
@@ -83,7 +82,7 @@
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: -0.02em;
-  color: var(--color-secondary);
+  color: var(--color-text-primary);
   max-width: 38ch;
   margin: 0;
 }

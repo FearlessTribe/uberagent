@@ -3,10 +3,9 @@ export interface ServiceStat {
   label: string;
 }
 
-export type ServiceCategoryId = "neu" | "engineering" | "strategy";
+export type ServiceCategoryId = "engineering" | "strategy";
 
 export const serviceCategories = [
-  { id: "neu" as const, label: "Neu" },
   { id: "engineering" as const, label: "Engineering" },
   { id: "strategy" as const, label: "Beratung" },
 ];
@@ -26,6 +25,8 @@ export interface Service {
   ctaLabel: string;
   category: ServiceCategoryId;
   featured?: boolean;
+  /** Brand-tinted Lottie for stacked service cards on the homepage. */
+  lottieSrc?: string;
   seoTitle?: string;
   seoDescription?: string;
 }
@@ -51,7 +52,7 @@ export const services: Service[] = [
       { value: "Sortiment", label: "von Ihnen" },
     ],
     ctaLabel: "15-Minuten-Demo buchen",
-    category: "neu",
+    category: "engineering",
     featured: true,
     seoTitle: "Werbegeschenke zum Anlass | Für Werbeartikelhersteller",
     seoDescription:
@@ -76,7 +77,7 @@ export const services: Service[] = [
       { value: "200 Kunden", label: "Analysiert im Pilot" },
     ],
     ctaLabel: "Pilot-Termin buchen",
-    category: "neu",
+    category: "engineering",
     featured: true,
   },
   {
@@ -98,7 +99,7 @@ export const services: Service[] = [
       { value: "3 Stufen", label: "Team · Web · Telefon" },
     ],
     ctaLabel: "Lieber persönlich sprechen",
-    category: "neu",
+    category: "engineering",
     featured: true,
     seoTitle: "KI-Kalkulationsagent | Angebote in Sekunden",
     seoDescription:
@@ -123,7 +124,8 @@ export const services: Service[] = [
       { value: "bis 25", label: "Mitarbeitende" },
     ],
     ctaLabel: "Gespräch starten",
-    category: "neu",
+    category: "strategy",
+    lottieSrc: "/lottie/services/vibe-coding-challenge.json",
     featured: true,
   },
   {
@@ -146,6 +148,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "GTM-System besprechen",
     category: "engineering",
+    lottieSrc: "/lottie/services/gtm-engineering.json",
   },
   {
     id: "mcp",
@@ -167,6 +170,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "MCP-Potenzial prüfen",
     category: "engineering",
+    lottieSrc: "/lottie/services/mcp.json",
   },
   {
     id: "workflow-agents",
@@ -188,6 +192,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "Workflow-Agent konzipieren",
     category: "engineering",
+    lottieSrc: "/lottie/services/workflow-agents.json",
   },
   {
     id: "copilot-agents",
@@ -209,6 +214,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "Workflow in 30 Minuten prüfen",
     category: "engineering",
+    lottieSrc: "/lottie/services/copilot-agents.json",
     seoTitle: "Copilot-Agenten für Microsoft 365 | uberagent",
     seoDescription:
       "Wir bauen Copilot-Studio-Agenten, die einen Workflow in Ihrem Microsoft 365 übernehmen – mit Freigabe, Rechten und Protokoll. Festpreis-Sprint, Übergabe, Betrieb. Zürich.",
@@ -233,6 +239,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "Geschäftsmodell validieren",
     category: "strategy",
+    lottieSrc: "/lottie/services/business-models.json",
   },
   {
     id: "ai-strategy",
@@ -254,6 +261,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "AI-Strategie besprechen",
     category: "strategy",
+    lottieSrc: "/lottie/services/ai-strategy.json",
   },
   {
     id: "trainings",
@@ -275,6 +283,7 @@ export const services: Service[] = [
     ],
     ctaLabel: "Enablement planen",
     category: "strategy",
+    lottieSrc: "/lottie/services/trainings.json",
   },
 ];
 

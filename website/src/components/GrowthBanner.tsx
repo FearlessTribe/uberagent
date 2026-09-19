@@ -23,7 +23,7 @@ export function GrowthBanner({
       <div className={styles.container}>
         <ScrollReveal className={styles.inner}>
           <div className={styles.textRow}>
-            <BrandMark tone="on-dark" size="sm" decorative className={styles.brand} />
+            <BrandMark tone="on-light" size="sm" decorative className={styles.brand} />
             <div className={styles.textBlock}>
               <p className={styles.headline}>
                 {headline ?? (

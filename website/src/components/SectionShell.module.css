@@ -4,6 +4,11 @@
   clip-path: inset(0);
 }
 
+.shellSticky {
+  overflow: visible;
+  clip-path: none;
+}
+
 .shellDark {
   background: var(--color-surface);
   color: var(--color-secondary);

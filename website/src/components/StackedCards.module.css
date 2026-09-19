@@ -1,0 +1,72 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 0;
+}
+
+.item {
+  position: sticky;
+  top: var(--stack-top, 120px);
+  padding-bottom: clamp(40px, 7vh, 80px);
+}
+
+.itemLast {
+  padding-bottom: 0;
+}
+
+.itemStatic {
+  position: relative;
+  top: auto;
+  padding-bottom: 0;
+}
+
+.itemStatic + .itemStatic {
+  margin-top: clamp(32px, 5vw, 48px);
+}
+
+.card {
+  position: relative;
+  transform-origin: center top;
+  will-change: width;
+  border-radius: var(--radius-card);
+}
+
+.dim {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 12, 0.55) 0%,
+    rgba(6, 8, 12, 0.78) 100%
+  );
+  pointer-events: none;
+  z-index: 6;
+}
+
+@media (max-width: 720px) {
+  .item {
+    padding-bottom: clamp(32px, 6vh, 56px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    position: relative;
+    top: auto;
+    padding-bottom: 0;
+  }
+
+  .item + .item {
+    margin-top: clamp(32px, 5vw, 48px);
+  }
+
+  .stack {
+    padding-bottom: 0;
+  }
+
+  .card {
+    will-change: auto;
+  }
+}

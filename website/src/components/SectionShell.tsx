@@ -10,6 +10,8 @@ interface SectionShellProps {
   background?: SectionBackgroundVariant;
   hero?: boolean;
   bottomFade?: boolean;
+  /** Allow sticky children (disables overflow/clip clipping). */
+  allowSticky?: boolean;
   className?: string;
   contentClassName?: string;
   ariaLabelledBy?: string;
@@ -23,6 +25,7 @@ export function SectionShell({
   background = "static",
   hero = false,
   bottomFade = false,
+  allowSticky = false,
   className = "",
   contentClassName = "",
   ariaLabelledBy,
@@ -33,6 +36,7 @@ export function SectionShell({
     styles.shell,
     variant === "dark" ? styles.shellDark : styles.shellLight,
     hero ? styles.shellHero : "",
+    allowSticky ? styles.shellSticky : "",
     className,
   ]
     .filter(Boolean)
