@@ -152,7 +152,13 @@ function ServiceCard({
             <ServiceCardLottie
               src={service.lottieSrc}
               className={`${styles.visualLottie}${
-                service.id === "copilot-agents" ? ` ${styles.visualLottieSpacious}` : ""
+                service.id === "copilot-agents" ||
+                service.id === "vibe-coding-challenge" ||
+                service.id === "business-models" ||
+                service.id === "ai-strategy" ||
+                service.id === "trainings"
+                  ? ` ${styles.visualLottieSpacious}`
+                  : ""
               }`}
             />
           </div>
@@ -478,15 +484,15 @@ export function Services({ onOpenService }: ServicesProps) {
 
         <AgentCarousel onOpenService={onOpenService} onMouseMove={handleMouseMove} />
 
-        <ScrollReveal className={styles.header}>
-          <span className="eyebrow">Leistungen</span>
-          <h2 className="display-md">Weitere Services</h2>
-          <p className={styles.subline}>
-            Engineering und Beratung rund um die Agenten – vom Workflow bis zur AI-Strategie.
-          </p>
-        </ScrollReveal>
+        <div className={styles.servicesIntro}>
+          <ScrollReveal className={styles.header}>
+            <span className="eyebrow">Leistungen</span>
+            <h2 className="display-md">Weitere Services</h2>
+            <p className={styles.subline}>
+              Engineering und Beratung rund um die Agenten – vom Workflow bis zur AI-Strategie.
+            </p>
+          </ScrollReveal>
 
-        <div className={styles.tabsWrap}>
           <div className={styles.tabs} role="tablist" aria-label="Service-Kategorien">
             {serviceCategories.map((category, index) => {
               const isActive = activeCategory === category.id;
@@ -515,7 +521,9 @@ export function Services({ onOpenService }: ServicesProps) {
               );
             })}
           </div>
+        </div>
 
+        <div className={styles.tabsWrap}>
           {/* No motion/transform wrapper — that breaks position:sticky */}
           <div
             key={activeCategory}
