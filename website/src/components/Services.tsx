@@ -470,7 +470,7 @@ export function Services({ onOpenService }: ServicesProps) {
       <div className="container">
         <ScrollReveal className={styles.agentsHeader}>
           <div className={styles.sectionBrand}>
-            <BrandMark tone="on-light" size="sm" decorative />
+            <BrandMark tone="on-dark" size="sm" decorative />
             <span className="eyebrow">Unsere suprahumanistischen Agents</span>
           </div>
           <h2 id="services-heading" className="display-md">
