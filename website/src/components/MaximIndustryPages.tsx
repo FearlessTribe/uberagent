@@ -10,6 +10,7 @@ import { maximTrust } from "../data/maximCalc";
 import { CALENDLY_URL } from "../lib/analytics";
 import { DURATION, EASE } from "../motion";
 import { CtaButton } from "./CtaButton";
+import { MaximHeroBenefits } from "./MaximHeroBenefits";
 import { ScrollReveal } from "./ScrollReveal";
 import { ServiceHeroLayout } from "./ServicePageParts";
 import sharedStyles from "./ServiceModal.module.css";
@@ -57,6 +58,14 @@ function IndustryGlyph({
       </svg>
     );
   }
+  if (type === "workshop") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+        <path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10 10h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    );
+  }
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
       <path d="M3 8h12v9H3zM15 11h3l3 3v3h-6zM6 20a2 2 0 100-4 2 2 0 000 4ZM18 20a2 2 0 100-4 2 2 0 000 4ZM6 8V5h6v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,8 +109,8 @@ export function MaximIndustryLinks({
           <>
             <span>Für Ihre Branche</span>
             <p>
-              Maxim rechnet für Werkstatt und Handwerk. Für Umzug und Transport
-              finden Sie hier die passenden Branchenlösungen.
+              Maxim für KFZ-Werkstätten, Umzug, Transport und verwandte Betriebe –
+              jeweils zugeschnitten auf die typische Anfrage- und Kalkulationslogik.
             </p>
           </>
         )}
@@ -150,6 +159,8 @@ function IndustryNav({ active }: { active: string }) {
   );
 }
 
+export { IndustryNav as MaximIndustryNav };
+
 export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
   const [openFaq, setOpenFaq] = useState(0);
   const reduce = useReducedMotion();
@@ -170,7 +181,7 @@ export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
         }
         title={<>{page.hero.title}</>}
         lead={page.hero.lead}
-        stats={page.hero.stats}
+        mark={<MaximHeroBenefits />}
         ctas={
           <>
             <CtaButton

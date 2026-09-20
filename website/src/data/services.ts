@@ -304,17 +304,17 @@ export interface ProductizedAgent {
 /** Productized agents shown as personas (not as category mascots). */
 export const productizedAgents: ProductizedAgent[] = [
   {
-    serviceId: "ai-revenue-engine",
-    name: "Leopold",
-    role: "Revenue Agent",
-    tagline: "Analytisches Schwergewicht für Ihren Bestand.",
+    serviceId: "kalkulations-agent",
+    name: "Maxim",
+    role: "Kalkulations-Agent",
+    tagline: "Rechnet wie Sie. Nur in 20 Sekunden.",
     personality:
-      "Ruhig, präzise, unbestechlich. Leopold denkt in Daten, nicht in Bauchgefühl – und bleibt höflich, wenn der Vertrieb das nicht tut.",
-    bio: "Leopold analysiert Ihren Kundenstamm, entdeckt Pain Points und Kaufsignale und leitet daraus konkrete Sales-Opportunities ab – inklusive Anlass und Outreach, zurück ins CRM.",
-    audience: "Für Agenturen",
-    traits: ["Analytisch", "Opportunity Scout", "CRM-native"],
-    lottieSrc: "/lottie/leopold-agent.json",
-    posterSrc: "/lottie/leopold-agent.png",
+      "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise. Er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
+    bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein. Teile, Arbeitszeit, Marge und Endpreis stehen.",
+    audience: "Für KMU",
+    traits: ["Präzise", "Preislogik-treu", "Team-ready"],
+    lottieSrc: "/lottie/maxim-agent.json",
+    posterSrc: "/lottie/maxim-agent.png",
   },
   {
     serviceId: "corporate-gifting",
@@ -330,17 +330,17 @@ export const productizedAgents: ProductizedAgent[] = [
     posterSrc: "/lottie/gifting-agent.png",
   },
   {
-    serviceId: "kalkulations-agent",
-    name: "Maxim",
-    role: "Kalkulations-Agent",
-    tagline: "Rechnet wie Sie. Nur in 20 Sekunden.",
+    serviceId: "ai-revenue-engine",
+    name: "Leopold",
+    role: "Revenue Agent",
+    tagline: "Analytisches Schwergewicht für Ihren Bestand.",
     personality:
-      "Klar, zuverlässig, kein Show-off. Maxim erfindet keine Preise. Er rechnet mit Ihren Regeln und sagt ehrlich, wenn etwas fehlt.",
-    bio: "Maxim kalkuliert Angebote nach Ihren Stundensätzen, Aufschlägen und Lieferantenpreisen. Ihr Team tippt das Anliegen ein. Teile, Arbeitszeit, Marge und Endpreis stehen.",
-    audience: "Für KMU",
-    traits: ["Präzise", "Preislogik-treu", "Team-ready"],
-    lottieSrc: "/lottie/maxim-agent.json",
-    posterSrc: "/lottie/maxim-agent.png",
+      "Ruhig, präzise, unbestechlich. Leopold denkt in Daten, nicht in Bauchgefühl – und bleibt höflich, wenn der Vertrieb das nicht tut.",
+    bio: "Leopold analysiert Ihren Kundenstamm, entdeckt Pain Points und Kaufsignale und leitet daraus konkrete Sales-Opportunities ab – inklusive Anlass und Outreach, zurück ins CRM.",
+    audience: "Für Agenturen",
+    traits: ["Analytisch", "Opportunity Scout", "CRM-native"],
+    lottieSrc: "/lottie/leopold-agent.json",
+    posterSrc: "/lottie/leopold-agent.png",
   },
 ];
 
@@ -433,12 +433,12 @@ export const navServiceGroups: NavServiceGroup[] = [
     description: "Fertige Agenten mit klarem Job",
     items: [
       navItemFromService(
-        "ai-revenue-engine",
-        "Analysiert Bestand und findet Sales-Opportunities",
+        "kalkulations-agent",
+        "Angebote in Sekunden nach Ihrer Preislogik",
         {
-          title: "Leopold",
-          subtitle: "Revenue Agent",
-          avatarSrc: "/lottie/leopold-agent.png",
+          title: "Maxim",
+          subtitle: "Kalkulations-Agent",
+          avatarSrc: "/lottie/maxim-agent.png",
         },
       ),
       navItemFromService(
@@ -451,12 +451,12 @@ export const navServiceGroups: NavServiceGroup[] = [
         },
       ),
       navItemFromService(
-        "kalkulations-agent",
-        "Angebote in Sekunden nach Ihrer Preislogik",
+        "ai-revenue-engine",
+        "Analysiert Bestand und findet Sales-Opportunities",
         {
-          title: "Maxim",
-          subtitle: "Kalkulations-Agent",
-          avatarSrc: "/lottie/maxim-agent.png",
+          title: "Leopold",
+          subtitle: "Revenue Agent",
+          avatarSrc: "/lottie/leopold-agent.png",
         },
       ),
     ],

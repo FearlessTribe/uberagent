@@ -4,6 +4,22 @@ export const maximTimeProof = {
   text: "Stunden im Jahr summieren sich auf.",
 } as const;
 
+/** Hero-Nutzenboxen – Maxim allgemein und Branchenseiten. */
+export const maximHeroBenefits = [
+  {
+    icon: "orders" as const,
+    text: "Mehr Aufträge durch schnellere Reaktion",
+  },
+  {
+    icon: "time" as const,
+    text: "Tausende Stunden im Jahr sparen, Angebote zu schreiben",
+  },
+  {
+    icon: "service" as const,
+    text: "Besserer Kundenservice",
+  },
+] as const;
+
 /** Drei Kernfolgen – Probleme einmal klar benennen. */
 export const maximProblemCosts = [
   {

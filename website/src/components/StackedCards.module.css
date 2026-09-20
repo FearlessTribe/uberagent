@@ -28,7 +28,7 @@
 .card {
   position: relative;
   transform-origin: center top;
-  will-change: width;
+  will-change: transform;
   border-radius: var(--radius-card);
 }
 

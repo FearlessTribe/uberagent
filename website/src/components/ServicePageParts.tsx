@@ -66,9 +66,15 @@ export function ServiceHeroLayout({
           {tag}
           {title ? (
             rawTitle ? (
-              <h3 className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}>
-                {title}
-              </h3>
+              titleAsH1 ? (
+                <h1 className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}>
+                  {title}
+                </h1>
+              ) : (
+                <h3 className={`${styles.heroHeadline} ${titleClassName ?? ""}`.trim()}>
+                  {title}
+                </h3>
+              )
             ) : (
               <TypedHeadline
                 as={titleAsH1 ? "h1" : "h3"}

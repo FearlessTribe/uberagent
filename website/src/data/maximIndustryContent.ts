@@ -2,7 +2,8 @@ export type MaximIndustryIcon =
   | "moving"
   | "forwarding"
   | "office"
-  | "furniture";
+  | "furniture"
+  | "workshop";
 
 export type MaximIndustryPage = {
   variant: "agent" | "assistant" | "module";
@@ -134,6 +135,164 @@ const movingTimeline = {
 } as const;
 
 export const maximIndustryPages: MaximIndustryPage[] = [
+  {
+    variant: "agent",
+    slug: "kfz",
+    icon: "workshop",
+    navTitle: "KFZ-Werkstätten",
+    tileLead: "Von der Kundenanfrage zum Kalkulationsvorschlag.",
+    title: "Kalkulations-Agent für KFZ-Werkstätten",
+    eyebrow: "Für KFZ-Werkstätten",
+    seoTitle: "Kalkulations-Agent für KFZ-Werkstätten | Maxim | uberagent",
+    seoDescription:
+      "Maxim nimmt Werkstattanfragen strukturiert auf, bereitet Kalkulationen nach Ihren Regeln vor und liefert prüfbare Angebotsvorschläge für Ihre KFZ-Werkstatt.",
+    hero: {
+      title: "Werkstattanfragen in Minuten statt zwischen zwei Hebebühnen kalkulieren.",
+      lead: "Kunden geben Fahrzeug und gewünschte Arbeiten an. Maxim sammelt die relevanten Informationen, bereitet die Kalkulation vor und erstellt einen Angebotsvorschlag. Ihre Mitarbeiter prüfen und geben frei.",
+      stats: [
+        { value: "Ihre Regeln", label: "Ihre Preise & Aufschläge" },
+        { value: "Mit Prüfung", label: "Freigabe durch die Werkstatt" },
+        { value: "Strukturiert", label: "Anfrageaufnahme & Vorbereitung" },
+      ],
+    },
+    scenario: {
+      title: "Eine typische Anfrage.",
+      request: "„Meine Bremsen vorne müssen gemacht werden. Was kostet das?“",
+      missing: [
+        "Vollständige Fahrzeugdaten",
+        "Teile- und Materialbedarf",
+        "Arbeitszeit bzw. hinterlegte AW",
+      ],
+      conclusion:
+        "Maxim fragt fehlende Angaben strukturiert ab und bereitet den Kalkulationsvorschlag für Ihre Freigabe vor.",
+    },
+    pains: [
+      {
+        title: "Unvollständige Anfragen",
+        text: "Telefon, E-Mail oder Formular liefern oft nicht genug Angaben für eine belastbare Kalkulation.",
+      },
+      {
+        title: "Kalkulation zwischen dem Alltag",
+        text: "Angebote entstehen zwischen Telefonaten und laufendem Werkstattbetrieb – statt am ruhigen Schreibtisch.",
+      },
+      {
+        title: "Wiederkehrende Routine",
+        text: "Bei einfachen oder wiederkehrenden Leistungen entsteht immer wieder ähnliche Kalkulationsarbeit.",
+      },
+    ],
+    solutionTitle: "Vorbereitung automatisieren. Freigabe behalten.",
+    solutionLead:
+      "Maxim übernimmt Anfrageaufnahme und Kalkulationsvorbereitung nach Ihren Regeln. Die Werkstatt prüft den Vorschlag und entscheidet.",
+    workflow: [
+      {
+        title: "Anfrage",
+        text: "Der Kunde beschreibt Fahrzeug und gewünschte Reparatur bzw. Leistung.",
+      },
+      {
+        title: "Informationen",
+        text: "Maxim fragt die für die Kalkulation notwendigen Informationen ab.",
+      },
+      {
+        title: "Kalkulation",
+        text: "Maxim verarbeitet die Daten anhand Ihrer Regeln und verfügbaren Daten.",
+      },
+      {
+        title: "Freigabe",
+        text: "Die Werkstatt prüft den Vorschlag und sendet das Angebot an den Kunden.",
+      },
+    ],
+    checks: [
+      {
+        title: "Stundenverrechnungssätze",
+        text: "Ihre eigenen Sätze fließen in die Vorbereitung ein.",
+      },
+      {
+        title: "Arbeitswerte",
+        text: "Hinterlegte Zeiten bzw. AW können berücksichtigt werden.",
+      },
+      {
+        title: "Teile und Material",
+        text: "Vorhandene Preise, Aufschläge und Mindestpreise werden einbezogen.",
+      },
+      {
+        title: "Freigabe durch Menschen",
+        text: "Kein Angebot geht ohne Prüfung durch die Werkstatt raus.",
+      },
+    ],
+    example: {
+      request: "Bremsen vorne · Kostenanfrage",
+      open: [
+        "Fahrzeug / Modell",
+        "Baujahr oder HSN-TSN",
+        "Teile, Arbeitszeit, Aufschläge",
+      ],
+      result:
+        "Strukturierter Kalkulationsvorschlag mit Positionen wie Beläge, Scheiben, Arbeitszeit, Kleinmaterial und MwSt. – zur Prüfung durch die Werkstatt.",
+      note: "Illustrative Positionen ohne konkrete Beispielpreise. Welche Systeme angebunden werden, prüfen wir gemeinsam.",
+      labels: ["Kundenanfrage", "Maxim verarbeitet", "Angebotsvorschlag"],
+      visual: "draft",
+    },
+    integrations: [
+      {
+        title: "Ihre Kalkulationsregeln",
+        text: "Maxim bildet Ihre bestehende Logik ab – kein Standard-Preisrechner mit festen Preisen.",
+      },
+      {
+        title: "Vorhandene Daten",
+        text: "Preislisten, Arbeitszeiten und Aufschläge, soweit sie verfügbar sind.",
+      },
+      {
+        title: "Systeme",
+        text: "Welche Datenquellen und Systeme angebunden werden können, wird gemeinsam geprüft.",
+      },
+    ],
+    boundaries: [
+      "Die finale Entscheidung und Freigabe bleiben bei der Werkstatt.",
+      "Maxim ersetzt weder Serviceberater noch KFZ-Meister.",
+      "Keine erfundenen Preise – nur nach Ihren Regeln und verfügbaren Daten.",
+    ],
+    stages: [...commonStages],
+    featuredStage: 0,
+    sectionCopy: {
+      problemTitle: "Anfragen kommen rein. Die Kalkulation muss dazwischenpassen.",
+      checksTitle: "Was Maxim berücksichtigen kann",
+      checksLead:
+        "Je nach vorhandenen Daten und Systemen. Anbindungen prüfen wir ehrlich.",
+      exampleTitle: "Von der Bremsenanfrage zum prüfbaren Vorschlag",
+      integrationsTitle: "Passt sich Ihrer Werkstatt an",
+      stagesEyebrow: "Ausbaustufen",
+      stagesTitle: "Start im Innenteam. Später Website und Telefon.",
+      trustTitle: "Ihre Regeln. Ihre Freigabe.",
+    },
+    finalCta: {
+      eyebrow: "Nächster Schritt",
+      title: "Kostenlose Anfrage stellen",
+      text: "Wir schauen uns gemeinsam an, wie Ihre Werkstatt heute kalkuliert und ob sich der Prozess sinnvoll automatisieren lässt.",
+      button: "Kostenlose Anfrage stellen",
+    },
+    faq: [
+      {
+        q: "Ersetzt Maxim meinen Serviceberater oder KFZ-Meister?",
+        a: "Zunächst nicht. Maxim übernimmt am Anfang die strukturierbare Arbeit rund um Auftragannahme, Kalkulation, Recherche und Rückfragen. Am Anfang übergibt Maxim das an den Berater. Nach einer Testphase werden die meisten Fragen allerdings direkt von Maxim übernommen, aber der Berater wird kontaktiert bei speziellen Fällen.",
+      },
+      {
+        q: "Woher kennt Maxim unsere Preise?",
+        a: "Maxim wird anhand der verfügbaren Daten, Preislisten und Kalkulationsregeln der jeweiligen Werkstatt eingerichtet.",
+      },
+      {
+        q: "Kann Maxim mit unserer Werkstattsoftware verbunden werden?",
+        a: "Das hängt vom eingesetzten System und den verfügbaren Schnittstellen ab. Das wird vor der Umsetzung geprüft.",
+      },
+      {
+        q: "Müssen wir unsere Kalkulation ändern?",
+        a: "Ziel ist möglichst das Gegenteil: Maxim soll die bestehende Kalkulationslogik digital abbilden und vereinfachen.",
+      },
+      {
+        q: "Ist die erste Anfrage kostenlos?",
+        a: "Ja. Die Analyse des Anwendungsfalls bzw. das Erstgespräch ist unverbindlich und kostenlos.",
+      },
+    ],
+  },
   {
     variant: "agent",
     slug: "umzugsunternehmen",

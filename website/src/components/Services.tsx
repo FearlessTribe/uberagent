@@ -467,7 +467,7 @@ export function Services({ onOpenService }: ServicesProps) {
       allowSticky
     >
       <HeroTermRain variant="section" />
-      <div className="container">
+      <div className={`container ${styles.servicesContent}`}>
         <ScrollReveal className={styles.agentsHeader}>
           <div className={styles.sectionBrand}>
             <BrandMark tone="on-dark" size="sm" decorative />

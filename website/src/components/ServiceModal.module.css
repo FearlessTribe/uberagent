@@ -411,6 +411,12 @@
 .heroMark {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
+}
+
+.heroMark:has([data-hero-benefits]) {
+  display: block;
+  width: 100%;
 }
 
 .heroMarkLogo {

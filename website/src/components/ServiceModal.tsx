@@ -123,6 +123,8 @@ import {
   MaximIndustryContent,
   MaximIndustryLinks,
 } from "./MaximIndustryPages";
+import { MaximKfzContent } from "./MaximKfzContent";
+import { MaximHeroBenefits } from "./MaximHeroBenefits";
 import { getMaximIndustryBySlug } from "../data/maximIndustryContent";
 import { StrategyGuideDownload } from "./StrategyGuideDownload";
 import { CopilotAgentsContent } from "./CopilotAgentsContent";
@@ -2220,7 +2222,7 @@ function MaximCalcContent() {
           </>
         }
         lead={meta.lead}
-        stats={meta.stats}
+        mark={<MaximHeroBenefits />}
         ctas={
           <>
             <CtaButton
@@ -2535,7 +2537,11 @@ export function ServicePage({
       }
     >
       {industryPage ? (
-        <MaximIndustryContent page={industryPage} />
+        industryPage.slug === "kfz" ? (
+          <MaximKfzContent />
+        ) : (
+          <MaximIndustryContent page={industryPage} />
+        )
       ) : Content ? (
         <Content />
       ) : null}

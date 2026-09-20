@@ -90,9 +90,8 @@ function StackedCard({
     };
   }, [canRecede, reduceMotion, scrollY, stickyTop, stackGap, coverage]);
 
-  /* 30px inset each side + progressive darkening */
-  const sideInset = useTransform(coverage, [0, 1], [0, 30]);
-  const width = useTransform(sideInset, (px) => `calc(100% - ${px * 2}px)`);
+  /* Smooth proportional shrink (15%) as the next card covers this one */
+  const scale = useTransform(coverage, [0, 1], [1, 0.85]);
   const dimOpacity = useTransform(coverage, [0, 0.35, 1], [0, 0.32, 0.62]);
 
   const style = {
@@ -123,7 +122,7 @@ function StackedCard({
         className={styles.card}
         style={
           canRecede
-            ? { width, marginLeft: "auto", marginRight: "auto" }
+            ? { scale, transformOrigin: "center top" }
             : undefined
         }
       >

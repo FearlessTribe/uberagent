@@ -1,0 +1,698 @@
+.page {
+  --industry-dark: var(--color-surface);
+  --industry-accent: #cc8066;
+  --industry-accent-dark: var(--color-surface);
+  --industry-soft: #eceef1;
+  --industry-sand: #f3eee5;
+}
+
+.heroGlyph {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  border-radius: 8px;
+  color: var(--industry-accent);
+  background: rgba(204, 128, 102, 0.16);
+}
+
+.heroGlyph svg {
+  width: 16px;
+  height: 16px;
+}
+
+.titleAccent {
+  font-size: 1.04em;
+  letter-spacing: -0.02em;
+  padding: 0.06em 0.14em 0.1em 0.06em;
+  margin: -0.06em -0.06em -0.1em -0.02em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.sectionTitle {
+  max-width: 820px;
+  margin: 0;
+  color: var(--industry-dark);
+  font-size: clamp(1.55rem, 2.8vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  overflow: visible;
+  padding-right: 0.08em;
+}
+
+.sectionTitle :global(.em.mark) {
+  font-size: 1.04em;
+  letter-spacing: -0.02em;
+  padding: 0.06em 0.14em 0.1em 0.06em;
+  margin: -0.06em -0.06em -0.1em -0.02em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.statementTitle {
+  max-width: 920px;
+  font-size: clamp(1.85rem, 3.4vw, 2.65rem);
+  line-height: 1.18;
+  letter-spacing: -0.032em;
+}
+
+.stackSection {
+  width: min(100% - 32px, 1180px);
+  margin: 8px auto 96px;
+}
+
+.stack {
+  width: 100%;
+}
+
+/* Non-interactive reuse of Services serviceCard look */
+.stackCard {
+  cursor: default;
+  pointer-events: auto;
+}
+
+.stackCard:hover {
+  /* keep serviceCard hover chrome, but no click affordance */
+  cursor: default;
+}
+
+.stackTitle {
+  font-style: normal;
+  font-weight: 500;
+  color: #fff;
+}
+
+.stackTitleRest {
+  color: rgba(255, 255, 255, 0.92);
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stackDescription {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+  max-width: 46ch;
+}
+
+.stackIconFallback {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48%;
+  aspect-ratio: 1;
+  margin: auto;
+  border-radius: 20px;
+  color: #e8a892;
+  background: rgba(204, 128, 102, 0.14);
+}
+
+.stackIconFallback svg {
+  width: 48%;
+  height: 48%;
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--industry-accent);
+  background: rgba(204, 128, 102, 0.14);
+}
+
+.cardIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stepNum {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--industry-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.roiWrap {
+  margin-top: 28px;
+}
+
+.section,
+.rulesBand,
+.fitBand,
+.midCta,
+.finalCta {
+  width: min(100% - 48px, 1120px);
+  margin: 0 auto 104px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: rgba(25, 28, 33, 0.78);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.compareGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+.compareCard {
+  padding: 28px 26px;
+  border: 1px solid rgba(25, 28, 33, 0.1);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.compareCardAccent {
+  border-color: rgba(204, 128, 102, 0.35);
+  background:
+    linear-gradient(180deg, rgba(204, 128, 102, 0.08), transparent 42%),
+    #fff;
+}
+
+.compareCard header span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--industry-accent-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.compareCard header p {
+  margin: 0 0 22px;
+  color: rgba(25, 28, 33, 0.78);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  font-weight: 520;
+}
+
+.compareCard ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  counter-reset: kfz-step;
+}
+
+.compareCard li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: rgba(25, 28, 33, 0.86);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  counter-increment: kfz-step;
+}
+
+.compareCard li::before {
+  content: counter(kfz-step);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: rgba(25, 28, 33, 0.7);
+  background: var(--industry-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.compareCardAccent li::before {
+  color: #fff;
+  background: var(--industry-accent);
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 34px;
+  align-items: stretch;
+}
+
+.flowStageWrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.flowStageWrap:last-child {
+  grid-template-columns: 1fr;
+}
+
+.flowStage {
+  height: 100%;
+  padding: 20px 18px;
+  border: 1px solid rgba(25, 28, 33, 0.1);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.flowHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.flowIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--industry-accent);
+  background: rgba(204, 128, 102, 0.14);
+}
+
+.flowIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.flowIndex {
+  color: var(--industry-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.flowStage h4 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.flowStage ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.flowStage li {
+  position: relative;
+  padding-left: 14px;
+  color: rgba(25, 28, 33, 0.78);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.flowStage li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--industry-accent);
+}
+
+.flowNote {
+  display: block;
+  margin-top: 14px;
+  color: rgba(25, 28, 33, 0.55);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.flowArrow {
+  color: var(--industry-accent);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.rulesBand,
+.fitBand {
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(204, 128, 102, 0.12), transparent 36%),
+    var(--industry-sand);
+}
+
+.rulesList,
+.fitList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rulesList li,
+.fitList li {
+  position: relative;
+  padding: 12px 14px 12px 34px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(25, 28, 33, 0.86);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.rulesList li::before,
+.fitList li::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 1.05em;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--industry-accent);
+}
+
+.rulesNote {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: rgba(25, 28, 33, 0.7);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.gainGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.gainCard {
+  padding: 22px 20px;
+  border: 1px solid rgba(25, 28, 33, 0.08);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.gainCard .cardIcon {
+  margin-bottom: 14px;
+}
+
+.gainCard h4 {
+  margin: 0 0 10px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.gainCard p {
+  margin: 0;
+  color: rgba(25, 28, 33, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.step {
+  display: grid;
+  gap: 14px;
+  min-height: 180px;
+  padding: 22px 18px;
+  border: 1px solid rgba(25, 28, 33, 0.1);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.step h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.step p {
+  margin: 0;
+  color: rgba(25, 28, 33, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.fitCheckTitle {
+  margin: 28px 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.midCta {
+  display: grid;
+  grid-template-columns: 1.4fr auto;
+  gap: 28px;
+  align-items: center;
+  padding: 28px 30px;
+  border: 1px solid rgba(204, 128, 102, 0.28);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(204, 128, 102, 0.1), transparent 55%),
+    #fff;
+}
+
+.midCta h3 {
+  margin: 0 0 10px;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.midCta p {
+  margin: 0;
+  max-width: 620px;
+  color: rgba(25, 28, 33, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.midCtaActions {
+  justify-self: end;
+}
+
+.faq {
+  margin-top: 28px;
+  border-top: 1px solid rgba(25, 28, 33, 0.1);
+}
+
+.faqItem {
+  border-bottom: 1px solid rgba(25, 28, 33, 0.1);
+}
+
+.faqItem button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 0;
+  border: 0;
+  background: transparent;
+  color: var(--industry-dark);
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 560;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faqItem button span {
+  flex: 0 0 auto;
+  color: var(--industry-accent);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.faqPanel {
+  overflow: hidden;
+}
+
+.faqPanel p {
+  margin: 0 0 18px;
+  max-width: 760px;
+  color: rgba(25, 28, 33, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.finalCta {
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 26px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(204, 128, 102, 0.28), transparent 34%),
+    var(--industry-dark);
+}
+
+.finalCta .sectionTitle,
+.finalCta .eyebrow {
+  color: #fff;
+}
+
+.finalCta > div > p {
+  max-width: 640px;
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.6;
+}
+
+.finalInner {
+  display: grid;
+  gap: 28px;
+  margin-top: 32px;
+}
+
+.formCard {
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.formCard h4 {
+  margin: 0 0 18px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+}
+
+.form label span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  color: var(--industry-dark);
+  background: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.formFull {
+  grid-column: 1 / -1;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.formNote {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .compareGrid,
+  .gainGrid,
+  .steps,
+  .rulesList,
+  .fitList,
+  .flow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flowStageWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .flowArrow {
+    display: none;
+  }
+
+  .midCta {
+    grid-template-columns: 1fr;
+  }
+
+  .midCtaActions {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .section,
+  .rulesBand,
+  .fitBand,
+  .midCta,
+  .finalCta,
+  .stackSection {
+    width: min(100% - 28px, 1120px);
+    margin-bottom: 72px;
+  }
+
+  .compareGrid,
+  .gainGrid,
+  .steps,
+  .rulesList,
+  .fitList,
+  .flow,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .step {
+    min-height: 0;
+  }
+}
