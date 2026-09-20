@@ -21,6 +21,14 @@ export type MaximIndustryPage = {
     lead: string;
     stats: { value: string; label: string }[];
   };
+  /** Optional stacked benefit cards (same pattern as KFZ). */
+  stack?: readonly {
+    icon: "orders" | "time" | "service";
+    titleAccent: string;
+    titleRest: string;
+    text: string;
+    lottieSrc: string;
+  }[];
   scenario: {
     title: string;
     request: string;
@@ -313,6 +321,29 @@ export const maximIndustryPages: MaximIndustryPage[] = [
         { value: "6 Wochen", label: "bis zum Go-live" },
       ],
     },
+    stack: [
+      {
+        icon: "orders",
+        titleAccent: "Mehr Aufträge",
+        titleRest: " für Ihren Betrieb",
+        text: "Sie gewinnen den Auftrag, weil Ihr Angebot schneller raus ist als bei der Konkurrenz.",
+        lottieSrc: "/lottie/kfz/mehr-auftraege.json",
+      },
+      {
+        icon: "time",
+        titleAccent: "Tausende Stunden im Jahr sparen",
+        titleRest: ", Angebote zu schreiben",
+        text: "Mehrere Aufträge am Tag summieren sich schnell zu tausend Stunden Angebotserstellung im Jahr zusammen, die Ihnen keiner bezahlt.",
+        lottieSrc: "/lottie/kfz/stunden-sparen.json",
+      },
+      {
+        icon: "service",
+        titleAccent: "Besserer Kundenservice",
+        titleRest: " und bessere Ergebnisse",
+        text: "Der Agent fragt nach bei Unklarheiten und kalkuliert mit Ihren Regeln und Zeitansätzen.",
+        lottieSrc: "/lottie/kfz/kundenservice.json",
+      },
+    ],
     scenario: {
       title: "Sie kennen diese Anfrage.",
       request:

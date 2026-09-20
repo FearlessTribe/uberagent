@@ -19,7 +19,7 @@
 
 .linkSection {
   width: min(100%, 1180px);
-  margin: 56px auto 92px;
+  margin: 0 auto 92px;
   padding: 0 28px;
   position: relative;
   z-index: 3;
@@ -125,14 +125,57 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.industryNavBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: min(100% - 48px, 1120px);
+  margin: 8px auto 68px;
+}
+
+.agentIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(16px, 4vw, 36px);
+  width: 100%;
+}
+
+.agentIntroTitle {
+  margin: 0;
+  color: var(--industry-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.agentIntroTitle :global(.em.mark) {
+  font-style: italic;
+}
+
+.agentIntroVisual {
+  flex: 0 0 auto;
+  width: clamp(112px, 18vw, 168px);
+  aspect-ratio: 640 / 504;
+}
+
+.agentIntroLottie {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .industryNav {
   position: sticky;
   top: 72px;
   z-index: 5;
   display: flex;
   width: fit-content;
-  max-width: calc(100% - 32px);
-  margin: 18px auto 68px;
+  max-width: 100%;
+  margin: 0;
   padding: 5px;
   gap: 3px;
   overflow-x: auto;
@@ -741,10 +784,27 @@
     min-height: 132px;
   }
 
+  .industryNavBlock {
+    width: min(100% - 28px, 1120px);
+    margin-bottom: 48px;
+    gap: 16px;
+  }
+
+  .agentIntro {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 12px;
+  }
+
+  .agentIntroVisual {
+    width: 120px;
+    order: -1;
+  }
+
   .industryNav {
     position: static;
     justify-content: flex-start;
-    margin-bottom: 48px;
+    max-width: 100%;
   }
 
   .scenario,

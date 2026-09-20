@@ -9,7 +9,9 @@ import {
 import { maximTrust } from "../data/maximCalc";
 import { CALENDLY_URL } from "../lib/analytics";
 import { DURATION, EASE } from "../motion";
+import { AgentLottie } from "./AgentLottie";
 import { CtaButton } from "./CtaButton";
+import { MaximBenefitStack } from "./MaximBenefitStack";
 import { MaximHeroBenefits } from "./MaximHeroBenefits";
 import { ScrollReveal } from "./ScrollReveal";
 import { ServiceHeroLayout } from "./ServicePageParts";
@@ -138,24 +140,51 @@ export function MaximIndustryLinks({
   );
 }
 
-function IndustryNav({ active }: { active: string }) {
+export function MaximAgentIntro() {
+  return (
+    <div className={styles.agentIntro}>
+      <h2 className={styles.agentIntroTitle}>
+        KI Agent <span className="em mark">Maxim</span> schreibt automatisiert
+        Angebote
+      </h2>
+      <div className={styles.agentIntroVisual} aria-hidden="true">
+        <AgentLottie
+          src="/lottie/maxim-agent.json"
+          poster="/lottie/maxim-agent.png"
+          alt=""
+          playing
+          className={styles.agentIntroLottie}
+        />
+      </div>
+    </div>
+  );
+}
+
+function IndustryNav({ active }: { active?: string }) {
   const { openService, openServiceSubpage } = useOverlay();
   return (
-    <nav className={styles.industryNav} aria-label="Kalkulations-Agent Branchen">
-      <button type="button" onClick={() => openService("kalkulations-agent")}>
-        Alle Branchen
-      </button>
-      {maximIndustryPages.map((page) => (
+    <div className={styles.industryNavBlock}>
+      <MaximAgentIntro />
+      <nav className={styles.industryNav} aria-label="Kalkulations-Agent Branchen">
         <button
-          key={page.slug}
           type="button"
-          aria-current={page.slug === active ? "page" : undefined}
-          onClick={() => openServiceSubpage("kalkulations-agent", page.slug)}
+          aria-current={!active ? "page" : undefined}
+          onClick={() => openService("kalkulations-agent")}
         >
-          {page.navTitle}
+          Alle Branchen
         </button>
-      ))}
-    </nav>
+        {maximIndustryPages.map((page) => (
+          <button
+            key={page.slug}
+            type="button"
+            aria-current={page.slug === active ? "page" : undefined}
+            onClick={() => openServiceSubpage("kalkulations-agent", page.slug)}
+          >
+            {page.navTitle}
+          </button>
+        ))}
+      </nav>
+    </div>
   );
 }
 
@@ -207,6 +236,8 @@ export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
       />
 
       <IndustryNav active={page.slug} />
+
+      {page.stack ? <MaximBenefitStack cards={page.stack} /> : null}
 
       <ScrollReveal as="section" className={styles.scenario}>
         <span className={styles.eyebrow}>Aus Ihrem Alltag</span>

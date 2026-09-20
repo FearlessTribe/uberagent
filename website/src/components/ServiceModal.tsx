@@ -122,6 +122,7 @@ import { MaximDemoCarousel } from "./MaximDemoCarousel";
 import {
   MaximIndustryContent,
   MaximIndustryLinks,
+  MaximIndustryNav,
 } from "./MaximIndustryPages";
 import { MaximKfzContent } from "./MaximKfzContent";
 import { MaximHeroBenefits } from "./MaximHeroBenefits";
@@ -2236,6 +2237,8 @@ function MaximCalcContent() {
           </>
         }
       />
+
+      <MaximIndustryNav />
 
       <MaximIndustryLinks />
 

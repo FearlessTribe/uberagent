@@ -1,0 +1,62 @@
+.stackSection {
+  width: min(100% - 32px, 1180px);
+  margin: 8px auto 96px;
+}
+
+.stack {
+  width: 100%;
+}
+
+.stackCard {
+  cursor: default;
+  pointer-events: auto;
+}
+
+.stackCard:hover {
+  cursor: default;
+}
+
+.stackTitle {
+  font-style: normal;
+  font-weight: 500;
+  color: #fff;
+}
+
+.stackTitleRest {
+  color: rgba(255, 255, 255, 0.92);
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.stackDescription {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+  max-width: 46ch;
+}
+
+.stackIconFallback {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48%;
+  aspect-ratio: 1;
+  margin: auto;
+  border-radius: 20px;
+  color: #e8a892;
+  background: rgba(204, 128, 102, 0.14);
+}
+
+.stackIconFallback svg {
+  width: 48%;
+  height: 48%;
+}
+
+@media (max-width: 720px) {
+  .stackSection {
+    width: min(100% - 28px, 1120px);
+    margin-bottom: 72px;
+  }
+}
