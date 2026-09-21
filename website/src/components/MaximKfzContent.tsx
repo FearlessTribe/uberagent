@@ -18,6 +18,7 @@ import { DURATION, EASE } from "../motion";
 import { CtaButton } from "./CtaButton";
 import { FlipClockMinutes } from "./FlipClockMinutes";
 import { MaximBenefitStack } from "./MaximBenefitStack";
+import { MaximDemoVideo } from "./MaximDemoVideo";
 import { MaximIndustryLinks, MaximIndustryNav } from "./MaximIndustryPages";
 import { MaximRoiCalc } from "./MaximRoiCalc";
 import { ScrollReveal } from "./ScrollReveal";
@@ -284,32 +285,37 @@ export function MaximKfzContent() {
 
       <MaximBenefitStack cards={maximKfzStack} />
 
-      <ScrollReveal as="section" className={styles.section}>
-        <span className={styles.eyebrow}>{maximKfzCompare.eyebrow}</span>
-        <MarkHeading title={maximKfzCompare.title} mark="Klarere Vorbereitung" />
-        <div className={styles.compareGrid}>
-          <article className={styles.compareCard}>
-            <header>
-              <span>{maximKfzCompare.today.title}</span>
-              <p>{maximKfzCompare.today.lead}</p>
-            </header>
-            <ol>
-              {maximKfzCompare.today.steps.map((step) => (
-                <li key={step}>{step}</li>
-              ))}
-            </ol>
-          </article>
-          <article className={`${styles.compareCard} ${styles.compareCardAccent}`}>
-            <header>
-              <span>{maximKfzCompare.withMaxim.title}</span>
-              <p>{maximKfzCompare.withMaxim.lead}</p>
-            </header>
-            <ol>
-              {maximKfzCompare.withMaxim.steps.map((step) => (
-                <li key={step}>{step}</li>
-              ))}
-            </ol>
-          </article>
+      <ScrollReveal as="section" className={`${styles.section} ${styles.compareSection}`}>
+        <div className={styles.compareSplit}>
+          <div className={styles.compareCopy}>
+            <span className={styles.eyebrow}>{maximKfzCompare.eyebrow}</span>
+            <MarkHeading title={maximKfzCompare.title} mark="Klarere Vorbereitung" />
+            <div className={styles.compareGrid}>
+              <article className={styles.compareCard}>
+                <header>
+                  <span>{maximKfzCompare.today.title}</span>
+                  <p>{maximKfzCompare.today.lead}</p>
+                </header>
+                <ol>
+                  {maximKfzCompare.today.steps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </article>
+              <article className={`${styles.compareCard} ${styles.compareCardAccent}`}>
+                <header>
+                  <span>{maximKfzCompare.withMaxim.title}</span>
+                  <p>{maximKfzCompare.withMaxim.lead}</p>
+                </header>
+                <ol>
+                  {maximKfzCompare.withMaxim.steps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </article>
+            </div>
+          </div>
+          <MaximDemoVideo className={styles.compareVideo} />
         </div>
       </ScrollReveal>
 

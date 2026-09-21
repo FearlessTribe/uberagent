@@ -20,6 +20,31 @@ export const maximHeroBenefits = [
   },
 ] as const;
 
+/** Stacked benefit cards – allgemeine Kalkulationsseite. */
+export const maximBenefitStack = [
+  {
+    icon: "orders" as const,
+    titleAccent: "Mehr Aufträge",
+    titleRest: " für Ihren Betrieb",
+    text: "Sie gewinnen den Auftrag, weil Ihr Angebot schneller raus ist als bei der Konkurrenz.",
+    lottieSrc: "/lottie/kfz/mehr-auftraege.json",
+  },
+  {
+    icon: "time" as const,
+    titleAccent: "Tausende Stunden im Jahr sparen",
+    titleRest: ", Angebote zu schreiben",
+    text: "Mehrere Aufträge am Tag summieren sich schnell zu tausend Stunden Angebotserstellung im Jahr zusammen, die Ihnen keiner bezahlt.",
+    lottieSrc: "/lottie/kfz/stunden-sparen.json",
+  },
+  {
+    icon: "service" as const,
+    titleAccent: "Besserer Kundenservice",
+    titleRest: " und bessere Ergebnisse",
+    text: "Der Agent fragt nach bei Unklarheiten und kalkuliert mit Ihren Regeln und tagesaktuellen Preisen.",
+    lottieSrc: "/lottie/kfz/kundenservice.json",
+  },
+] as const;
+
 /** Drei Kernfolgen – Probleme einmal klar benennen. */
 export const maximProblemCosts = [
   {

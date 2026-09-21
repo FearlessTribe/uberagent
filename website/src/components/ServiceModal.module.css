@@ -4661,6 +4661,29 @@
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset;
 }
 
+.maximProblemSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(20px, 3vw, 36px);
+  margin-bottom: 28px;
+}
+
+.maximProblemVideo {
+  justify-self: end;
+}
+
+@media (max-width: 900px) {
+  .maximProblemSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .maximProblemVideo {
+    order: -1;
+    justify-self: center;
+  }
+}
+
 .maximTimeHitRow {
   display: flex;
   flex-wrap: wrap;

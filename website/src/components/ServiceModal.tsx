@@ -105,6 +105,7 @@ import { TrainingAcademyVisual } from "./TrainingAcademyVisual";
 import { GiftingCrmLogos, GiftingGlyph } from "./GiftingMarks";
 import { GiftingRevenueCalc } from "./GiftingRevenueCalc";
 import {
+  maximBenefitStack,
   maximCapabilitiesSection,
   maximClosingCta,
   maximFaq,
@@ -118,7 +119,9 @@ import {
 } from "../data/maximCalc";
 import { MaximRoiCalc } from "./MaximRoiCalc";
 import { MaximAgentVisual } from "./MaximAgentVisual";
+import { MaximBenefitStack } from "./MaximBenefitStack";
 import { MaximDemoCarousel } from "./MaximDemoCarousel";
+import { MaximDemoVideo } from "./MaximDemoVideo";
 import {
   MaximIndustryContent,
   MaximIndustryLinks,
@@ -2240,31 +2243,36 @@ function MaximCalcContent() {
 
       <MaximIndustryNav />
 
+      <MaximBenefitStack cards={maximBenefitStack} />
+
       <MaximIndustryLinks />
 
       <section className={styles.maximProblemBand}>
-        <MaximReveal>
-          <p className={styles.maximSectionEyebrow}>Das Problem</p>
-          <SectionTitle>
-            Sie verlieren jeden Tag Stunden an Angebote, die Sie nie bezahlt bekommen.
-          </SectionTitle>
-          <p className={styles.bodyText}>
-            Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
-            schicken raus. Zwanzig bis dreißig Mal am Tag.
-          </p>
+        <div className={styles.maximProblemSplit}>
+          <MaximReveal>
+            <p className={styles.maximSectionEyebrow}>Das Problem</p>
+            <SectionTitle>
+              Sie verlieren jeden Tag Stunden an Angebote, die Sie nie bezahlt bekommen.
+            </SectionTitle>
+            <p className={styles.bodyText}>
+              Kunde ruft an. Sie suchen Teile, schlagen auf, schätzen Arbeitszeit, tippen die Vorlage und
+              schicken raus. Zwanzig bis dreißig Mal am Tag.
+            </p>
 
-          <div className={styles.maximTimeHitRow}>
-            <div className={styles.maximTimeHit}>
-              <p className={styles.maximTimeHitLine}>
-                <span className={styles.maximTimeHitEmphasis}>{maximTimeProof.emphasis}</span>{" "}
-                {maximTimeProof.text}
-              </p>
+            <div className={styles.maximTimeHitRow}>
+              <div className={styles.maximTimeHit}>
+                <p className={styles.maximTimeHitLine}>
+                  <span className={styles.maximTimeHitEmphasis}>{maximTimeProof.emphasis}</span>{" "}
+                  {maximTimeProof.text}
+                </p>
+              </div>
+              <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
+                Kalkulationscheck starten
+              </CtaButton>
             </div>
-            <CtaButton size="md" surface="accent" onClick={scrollToCheck}>
-              Kalkulationscheck starten
-            </CtaButton>
-          </div>
-        </MaximReveal>
+          </MaximReveal>
+          <MaximDemoVideo className={styles.maximProblemVideo} />
+        </div>
 
         <MaximStagger className={styles.maximCostGrid}>
           {maximProblemCosts.map((item) => (

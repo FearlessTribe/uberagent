@@ -29,6 +29,8 @@ export type MaximIndustryPage = {
     text: string;
     lottieSrc: string;
   }[];
+  /** Optional continuation after „…schreibt automatisiert Angebote“. */
+  agentIntroRest?: string;
   scenario: {
     title: string;
     request: string;
@@ -163,6 +165,7 @@ export const maximIndustryPages: MaximIndustryPage[] = [
         { value: "Strukturiert", label: "Anfrageaufnahme & Vorbereitung" },
       ],
     },
+    agentIntroRest: " für Ihre Werkstatt",
     scenario: {
       title: "Eine typische Anfrage.",
       request: "„Meine Bremsen vorne müssen gemacht werden. Was kostet das?“",
@@ -344,6 +347,7 @@ export const maximIndustryPages: MaximIndustryPage[] = [
         lottieSrc: "/lottie/kfz/kundenservice.json",
       },
     ],
+    agentIntroRest: " für Umzugsunternehmen",
     scenario: {
       title: "Sie kennen diese Anfrage.",
       request:
@@ -518,6 +522,30 @@ export const maximIndustryPages: MaximIndustryPage[] = [
         { value: "Koexistenz", label: "mit Ihrer Software" },
       ],
     },
+    agentIntroRest: " für Ihre Möbelspedition",
+    stack: [
+      {
+        icon: "orders",
+        titleAccent: "Mehr Aufträge",
+        titleRest: " für Ihre Spedition",
+        text: "Sie gewinnen den Auftrag, weil der Angebotsentwurf schneller und einheitlicher rausgeht als bei der Konkurrenz.",
+        lottieSrc: "/lottie/kfz/mehr-auftraege.json",
+      },
+      {
+        icon: "time",
+        titleAccent: "Tausende Stunden im Jahr sparen",
+        titleRest: " bei Erfassung und Kalkulation",
+        text: "Gutlisten, Besichtigungsnotizen und Rückfragen binden Beraterzeit – über das Jahr oft tausende Stunden, die niemand dem Kunden in Rechnung stellt.",
+        lottieSrc: "/lottie/kfz/stunden-sparen.json",
+      },
+      {
+        icon: "service",
+        titleAccent: "Einheitlicher Kundenservice",
+        titleRest: " über alle Berater",
+        text: "Maxim fragt fehlende Angaben nach und kalkuliert nach Ihrem Regelwerk – unabhängig von Standort und Beraterstil.",
+        lottieSrc: "/lottie/kfz/kundenservice.json",
+      },
+    ],
     scenario: {
       title: "Drei Berater. Drei Kalkulationsstile.",
       request:
@@ -746,6 +774,30 @@ export const maximIndustryPages: MaximIndustryPage[] = [
         { value: "Menschlich", label: "final kalkuliert" },
       ],
     },
+    agentIntroRest: " für Firmenumzüge",
+    stack: [
+      {
+        icon: "orders",
+        titleAccent: "Mehr Aufträge",
+        titleRest: " im Projektgeschäft",
+        text: "Vollständige Positionsentwürfe vor der Frist erhöhen die Chance, dass Ihr Angebot rechtzeitig und belastbar abgegeben wird.",
+        lottieSrc: "/lottie/kfz/mehr-auftraege.json",
+      },
+      {
+        icon: "time",
+        titleAccent: "Tausende Stunden im Jahr sparen",
+        titleRest: " bei LV und Vorbereitung",
+        text: "Leistungsverzeichnisse abgleichen, Standardpositionen suchen und Lücken sammeln frisst Projektleiterzeit – über das Jahr oft tausende Stunden.",
+        lottieSrc: "/lottie/kfz/stunden-sparen.json",
+      },
+      {
+        icon: "service",
+        titleAccent: "Sauberere Abgaben",
+        titleRest: " und weniger Nachträge",
+        text: "Der Assistent markiert fehlende Positionen und Auflagen früh – bevor sie in der Begehung oder auf der Baustelle teuer werden.",
+        lottieSrc: "/lottie/kfz/kundenservice.json",
+      },
+    ],
     scenario: {
       title: "85 Arbeitsplätze sind nicht 85 gleiche Positionen.",
       request:

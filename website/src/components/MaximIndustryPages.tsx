@@ -12,6 +12,7 @@ import { DURATION, EASE } from "../motion";
 import { AgentLottie } from "./AgentLottie";
 import { CtaButton } from "./CtaButton";
 import { MaximBenefitStack } from "./MaximBenefitStack";
+import { MaximDemoVideo } from "./MaximDemoVideo";
 import { MaximHeroBenefits } from "./MaximHeroBenefits";
 import { ScrollReveal } from "./ScrollReveal";
 import { ServiceHeroLayout } from "./ServicePageParts";
@@ -140,12 +141,12 @@ export function MaximIndustryLinks({
   );
 }
 
-export function MaximAgentIntro() {
+export function MaximAgentIntro({ titleRest }: { titleRest?: string }) {
   return (
     <div className={styles.agentIntro}>
       <h2 className={styles.agentIntroTitle}>
         KI Agent <span className="em mark">Maxim</span> schreibt automatisiert
-        Angebote
+        Angebote{titleRest ? <span className={styles.agentIntroRest}>{titleRest}</span> : null}
       </h2>
       <div className={styles.agentIntroVisual} aria-hidden="true">
         <AgentLottie
@@ -162,9 +163,10 @@ export function MaximAgentIntro() {
 
 function IndustryNav({ active }: { active?: string }) {
   const { openService, openServiceSubpage } = useOverlay();
+  const activePage = maximIndustryPages.find((page) => page.slug === active);
   return (
     <div className={styles.industryNavBlock}>
-      <MaximAgentIntro />
+      <MaximAgentIntro titleRest={activePage?.agentIntroRest} />
       <nav className={styles.industryNav} aria-label="Kalkulations-Agent Branchen">
         <button
           type="button"
@@ -240,15 +242,20 @@ export function MaximIndustryContent({ page }: { page: MaximIndustryPage }) {
       {page.stack ? <MaximBenefitStack cards={page.stack} /> : null}
 
       <ScrollReveal as="section" className={styles.scenario}>
-        <span className={styles.eyebrow}>Aus Ihrem Alltag</span>
-        <IndustrySectionTitle statement>{page.scenario.title}</IndustrySectionTitle>
-        <blockquote>{page.scenario.request}</blockquote>
-        <div className={styles.missingGrid}>
-          {page.scenario.missing.map((item) => (
-            <span key={item}><CheckGlyph alert />{item}</span>
-          ))}
+        <div className={styles.scenarioSplit}>
+          <div className={styles.scenarioCopy}>
+            <span className={styles.eyebrow}>Aus Ihrem Alltag</span>
+            <IndustrySectionTitle statement>{page.scenario.title}</IndustrySectionTitle>
+            <blockquote>{page.scenario.request}</blockquote>
+            <div className={styles.missingGrid}>
+              {page.scenario.missing.map((item) => (
+                <span key={item}><CheckGlyph alert />{item}</span>
+              ))}
+            </div>
+            <p className={styles.scenarioConclusion}>{page.scenario.conclusion}</p>
+          </div>
+          <MaximDemoVideo className={styles.scenarioVideo} />
         </div>
-        <p className={styles.scenarioConclusion}>{page.scenario.conclusion}</p>
       </ScrollReveal>
 
       <ScrollReveal as="section" className={styles.section}>
