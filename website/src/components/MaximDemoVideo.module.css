@@ -1,9 +1,13 @@
 .frame {
   flex: 0 0 auto;
-  width: min(100%, 315px);
+  box-sizing: border-box;
+  width: 220px;
+  max-width: 100%;
+  /* Prevent intrinsic 1080px video width from crushing sibling grid columns */
+  min-width: 0;
   line-height: 0;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 16px;
   border: 1px solid rgba(25, 28, 33, 0.1);
   background: #111;
   box-shadow: 0 16px 48px rgba(25, 28, 33, 0.12);
@@ -12,22 +16,17 @@
 .player {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 9 / 16;
-  object-fit: contain;
+  object-fit: cover;
   background: #111;
   vertical-align: top;
 }
 
 @media (max-width: 900px) {
   .frame {
-    width: min(100%, 280px);
+    width: min(100%, 240px);
     justify-self: center;
-  }
-}
-
-@media (max-width: 720px) {
-  .frame {
-    width: min(100%, 315px);
   }
 }

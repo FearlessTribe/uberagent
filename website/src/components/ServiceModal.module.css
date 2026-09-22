@@ -4663,14 +4663,16 @@
 
 .maximProblemSplit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: start;
   gap: clamp(20px, 3vw, 36px);
   margin-bottom: 28px;
 }
 
 .maximProblemVideo {
   justify-self: end;
+  width: 220px;
+  max-width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -4681,6 +4683,7 @@
   .maximProblemVideo {
     order: -1;
     justify-self: center;
+    width: min(100%, 240px);
   }
 }
 

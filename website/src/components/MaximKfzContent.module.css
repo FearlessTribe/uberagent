@@ -175,7 +175,7 @@
 
 .compareSplit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 220px;
   align-items: start;
   gap: clamp(22px, 3.5vw, 40px);
 }
@@ -186,6 +186,8 @@
 
 .compareVideo {
   margin-top: 8px;
+  width: 220px;
+  max-width: 100%;
 }
 
 .compareGrid {
@@ -667,6 +669,7 @@
   .compareVideo {
     order: -1;
     margin: 0 auto;
+    width: min(100%, 240px);
   }
 
   .compareGrid,
