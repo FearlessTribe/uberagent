@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, type SyntheticEvent } from "react";
 import styles from "./MaximDemoVideo.module.css";
 
 const VIDEO_SRC = "/video/maxim-demo.mp4";
@@ -8,7 +8,7 @@ const START_AT = 1.2;
 
 export function MaximDemoVideo({ className }: { className?: string }) {
   const handleLoadedMetadata = useCallback(
-    (event: React.SyntheticEvent<HTMLVideoElement>) => {
+    (event: SyntheticEvent<HTMLVideoElement>) => {
       const video = event.currentTarget;
       if (video.currentTime < START_AT) {
         video.currentTime = START_AT;
