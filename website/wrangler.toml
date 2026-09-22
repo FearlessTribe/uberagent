@@ -12,3 +12,5 @@ NOTION_KALKULATIONSCHECK_DATABASE_ID = "19cf29fd-2ffb-44f8-a8a2-b32d5d1c2441"
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
+# Serve /video via Worker so HTML5 players get proper 206 byte-range responses.
+run_worker_first = ["/video/*", "/api/*"]
