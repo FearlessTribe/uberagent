@@ -137,6 +137,84 @@ async function serveAssets(request: Request, env: Env): Promise<Response> {
   });
 }
 
+/** HTML5 video needs Accept-Ranges / 206; CF asset cache often ignores Range. */
+async function serveVideo(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    return new Response("Method not allowed", { status: 405 });
+  }
+
+  const url = new URL(request.url);
+  const assetRes = await env.ASSETS.fetch(new Request(url.toString(), { method: "GET" }));
+  if (!assetRes.ok) return assetRes;
+
+  const buffer = await assetRes.arrayBuffer();
+  const size = buffer.byteLength;
+  const contentType = assetRes.headers.get("content-type") || "video/mp4";
+  const rangeHeader = request.headers.get("Range");
+
+  const baseHeaders = new Headers({
+    "Content-Type": contentType,
+    "Accept-Ranges": "bytes",
+    "Cache-Control": "public, max-age=604800, immutable",
+    "Cross-Origin-Resource-Policy": "same-origin",
+  });
+
+  if (request.method === "HEAD" && !rangeHeader) {
+    baseHeaders.set("Content-Length", String(size));
+    return new Response(null, { status: 200, headers: baseHeaders });
+  }
+
+  if (rangeHeader) {
+    const match = /^bytes=(\d*)-(\d*)$/i.exec(rangeHeader.trim());
+    if (!match) {
+      return new Response(null, {
+        status: 416,
+        headers: { "Content-Range": `bytes */${size}` },
+      });
+    }
+
+    let start = match[1] === "" ? 0 : Number.parseInt(match[1], 10);
+    let end = match[2] === "" ? size - 1 : Number.parseInt(match[2], 10);
+
+    if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0) {
+      return new Response(null, {
+        status: 416,
+        headers: { "Content-Range": `bytes */${size}` },
+      });
+    }
+
+    if (match[1] === "" && match[2] !== "") {
+      // bytes=-N → last N bytes
+      const suffix = end;
+      start = Math.max(0, size - suffix);
+      end = size - 1;
+    }
+
+    end = Math.min(end, size - 1);
+    if (start >= size || start > end) {
+      return new Response(null, {
+        status: 416,
+        headers: { "Content-Range": `bytes */${size}` },
+      });
+    }
+
+    const chunk = buffer.slice(start, end + 1);
+    baseHeaders.set("Content-Range", `bytes ${start}-${end}/${size}`);
+    baseHeaders.set("Content-Length", String(chunk.byteLength));
+
+    if (request.method === "HEAD") {
+      return new Response(null, { status: 206, headers: baseHeaders });
+    }
+    return new Response(chunk, { status: 206, headers: baseHeaders });
+  }
+
+  baseHeaders.set("Content-Length", String(size));
+  if (request.method === "HEAD") {
+    return new Response(null, { status: 200, headers: baseHeaders });
+  }
+  return new Response(buffer, { status: 200, headers: baseHeaders });
+}
+
 function corsHeaders(origin: string | null): HeadersInit {
   return {
     "Access-Control-Allow-Origin": origin || "*",
@@ -729,6 +807,10 @@ export default {
         console.error(err);
         return json({ error: "Lead konnte nicht gespeichert werden." }, 502, origin);
       }
+    }
+
+    if (url.pathname.startsWith("/video/")) {
+      return serveVideo(request, env);
     }
 
     return serveAssets(request, env);

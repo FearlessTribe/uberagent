@@ -7,12 +7,12 @@ export function MaximDemoVideo({ className }: { className?: string }) {
     <div className={`${styles.frame} ${className ?? ""}`.trim()}>
       <video
         className={styles.player}
-        src={VIDEO_SRC}
         controls
         playsInline
         preload="metadata"
         title="Maxim in Aktion"
       >
+        <source src={VIDEO_SRC} type="video/mp4" />
         Maxim-Demo-Video
       </video>
     </div>
