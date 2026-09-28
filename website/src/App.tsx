@@ -22,6 +22,11 @@ const FinanznomadeCasePage = lazy(() =>
     default: m.FinanznomadeCasePage,
   })),
 );
+const LstFinanceCasePage = lazy(() =>
+  import("./components/LstFinanceCaseModal").then((m) => ({
+    default: m.LstFinanceCasePage,
+  })),
+);
 const LaurensModal = lazy(() =>
   import("./components/LaurensModal").then((m) => ({ default: m.LaurensModal })),
 );
@@ -78,6 +83,8 @@ function AppContent() {
     );
   } else if (openProjectId === "ai-sales-agent") {
     detailPage = <ProjectPage onClose={closeProject} />;
+  } else if (openProjectId === "lst-finance-kv") {
+    detailPage = <LstFinanceCasePage onClose={closeProject} />;
   } else if (openProjectId === "finanznomade-kv") {
     detailPage = <FinanznomadeCasePage onClose={closeProject} />;
   }

@@ -111,7 +111,7 @@ function ServiceCard({
 }) {
   return (
     <MotionPressable
-      className={`card card-dark ${styles.serviceCard} ${service.featured ? styles.featuredCard : ""}`}
+      className={`card ${styles.serviceCard} ${service.featured ? styles.featuredCard : ""}`}
       onClick={() => onOpen(service.id)}
       onMouseMove={onMouseMove}
       aria-haspopup="dialog"
@@ -181,7 +181,7 @@ function AgentFocus({
 
   return (
     <MotionPressable
-      className={`card card-dark ${styles.personaFocus} ${styles[`accent-${accent}`]}`}
+      className={`card ${styles.personaFocus} ${styles[`accent-${accent}`]}`}
       onClick={() => onOpen(agent.serviceId)}
       onMouseMove={onMouseMove}
       aria-haspopup="dialog"

@@ -85,7 +85,7 @@ export function MaximBenefitStack({
         {cards.map((card, index) => (
           <article
             key={card.titleAccent}
-            className={`card card-dark ${serviceStyles.serviceCard} ${styles.stackCard}`}
+            className={`card ${serviceStyles.serviceCard} ${styles.stackCard}`}
           >
             <div className={serviceStyles.cardMain}>
               <div className={serviceStyles.cardCopy}>

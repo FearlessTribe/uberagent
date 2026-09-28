@@ -5,46 +5,37 @@ import { ModalContactFooter } from "./ModalContactFooter";
 import { CtaButton } from "./CtaButton";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { trackOutboundClick } from "../lib/analytics";
-import {
-  finanznomadeCaseVideo,
-  finanznomadeIphoneVideo,
-} from "../data/marketing";
 import { QuoteStars } from "./QuoteStars";
+import { lstFinanceCaseVideo } from "../data/marketing";
 import styles from "./FinanznomadeCaseModal.module.css";
+import local from "./LstFinanceCaseModal.module.css";
 
-const LIVE_URL = "https://auslandsvergleich.finanznoma.de/";
+const LIVE_URL = "https://krankenkassenvergleich.pages.dev/";
 
 const QUOTE_TEXT =
-  "Laurens hat mit uns aus einem Prototypen einen voll funktionsfähigen Versicherungskonfigurator entwickelt, von Analyse und Konzeption über Datenstruktur und UX/UI bis zur technischen Umsetzung. Besonders stark: Er hat sich intensiv eingearbeitet, komplexe Leistungen strukturiert und daraus eine verständliche Lösung gemacht. Unkompliziert, schnell, lösungsorientiert. Klare Empfehlung.";
+  "Wir hatten schon Agenturen beauftragt. Was fehlte, war ein Konfigurator, der den Weg bis zum beratungsreifen Lead zu Ende denkt – nicht nur eine schöne Oberfläche.";
 
 const meta = [
   {
     label: "Client",
-    value: "Finanznomade / Finance Masters · FINO Media LLC",
+    value: "LST Finance Groupe AG · in die Schweiz · Frank Lopp, CEO",
   },
   {
     label: "Branche",
-    value: "Finanzen · Insurance · Expat / Unternehmer",
+    value: "Insurance · Vorsorge · KMU · Schweiz",
   },
   {
     label: "Leistungen",
     value:
-      "Business Analyse · Datenmodellierung · Produktkonzeption · UX/UI · Frontend · Affiliate-/Tracking-Architektur · Kampagnenaufsetzen",
+      "Business Analyse · Produktkonzeption · Tarif- & Funnel-Logik · UX/UI · Frontend · Lead-Übergabe · Kampagnenaufsetzen",
   },
   {
     label: "Stack",
-    value: "React, TypeScript, Vite, Python, JSON Schema, Cloudflare Pages",
+    value: "React, TypeScript, Vite, Cloudflare Pages",
   },
 ];
 
-const tech = [
-  "React",
-  "TypeScript",
-  "Vite",
-  "Python",
-  "JSON Schema",
-  "Cloudflare Pages",
-];
+const tech = ["React", "TypeScript", "Vite", "Cloudflare Pages"];
 
 function findScrollParent(el: HTMLElement | null): HTMLElement {
   let node = el?.parentElement ?? null;
@@ -130,10 +121,10 @@ function TypedQuote({ active }: { active: boolean }) {
       <div className={styles.quoteLayout}>
         <img
           className={styles.quotePhoto}
-          src="/cases/finanznomade/kim-maurice.jpg"
-          alt="Kim Elsholz und Maurice, CEOs von finanznoma.de"
-          width={280}
-          height={320}
+          src="/cases/lst-finance/frank-lopp.png"
+          alt="Frank Lopp, CEO der LST Finance Groupe AG"
+          width={200}
+          height={200}
         />
         <div className={styles.quoteBody}>
           <p className={styles.quoteText} aria-label={QUOTE_TEXT}>
@@ -149,10 +140,10 @@ function TypedQuote({ active }: { active: boolean }) {
           </p>
           <footer>
             <span className={styles.quotePerson}>
-              <strong>Kim Elsholz &amp; Maurice</strong>
+              <strong>Frank Lopp</strong>
               <QuoteStars />
             </span>
-            <span>CEOs, finanznoma.de</span>
+            <span>CEO, LST Finance Groupe AG · in die Schweiz</span>
           </footer>
         </div>
       </div>
@@ -184,16 +175,36 @@ function DeviceVideo({
   );
 }
 
+function LiveFrame({
+  title,
+  className,
+}: {
+  title: string;
+  className?: string;
+}) {
+  return (
+    <iframe
+      className={`${local.liveFrame} ${className ?? ""}`}
+      src={LIVE_URL}
+      title={title}
+      loading="lazy"
+      referrerPolicy="strict-origin-when-cross-origin"
+      tabIndex={-1}
+    />
+  );
+}
+
 function ProblemBlock() {
   return (
-    <section className={styles.storyBlock} aria-labelledby="fn-story-heading">
+    <section className={styles.storyBlock} aria-labelledby="lst-story-heading">
       <p className={styles.storyEyebrow}>Ausgangslage</p>
-      <h3 id="fn-story-heading" className={styles.storyTitle}>
+      <h3 id="lst-story-heading" className={styles.storyTitle}>
         Qualifizierte Leads waren kaum planbar
       </h3>
       <p className={styles.storyText}>
-        Schwierig, beratungsreife Anfragen zu finden – und noch schwerer, das planbar zu machen.
-        Social Media allein hat kaum qualifizierte Leads gebracht. Der Funnel war nicht skalierbar.
+        Agenturen hatten schon gebaut – aber der Weg bis zum beratungsreifen Lead blieb Stückwerk.
+        Vergleich ohne Abschluss, Interesse ohne Kontext. Für <em>in die Schweiz</em> und die
+        Beratung der LST Finance Groupe AG war das nicht skalierbar.
       </p>
     </section>
   );
@@ -201,9 +212,9 @@ function ProblemBlock() {
 
 function ValueBlock() {
   return (
-    <section className={styles.valueBlock} aria-labelledby="fn-value-heading">
+    <section className={styles.valueBlock} aria-labelledby="lst-value-heading">
       <p className={styles.storyEyebrow}>Mehrwert</p>
-      <h3 id="fn-value-heading" className={styles.valueHeading}>
+      <h3 id="lst-value-heading" className={styles.valueHeading}>
         Was die Leadmaschine freisetzt
       </h3>
       <div className={styles.valueGrid}>
@@ -213,18 +224,18 @@ function ValueBlock() {
           </span>
           <h4 className={styles.valueTitle}>Qualifizierte Leads</h4>
           <p className={styles.valueText}>
-            Vom Interesse bis zur beratungsreifen Anfrage – mit Kontext statt Leerformular.
-            Die Beratung startet mit Substanz.
+            Vom Kanton bis zur Offertanfrage – mit Schweizer Prämienlogik und Kontext statt
+            Leerformular. Die Beratung startet mit Substanz.
           </p>
         </article>
         <article className={`${styles.valueCard} ${styles.valueCardAccent}`}>
           <span className={styles.valueIndex} aria-hidden="true">
             02
           </span>
-          <h4 className={styles.valueTitle}>Exponentielles Wachstum</h4>
+          <h4 className={styles.valueTitle}>Durchgängiger Funnel</h4>
           <p className={styles.valueText}>
-            Affiliate-System, damit Partner zusätzliche Leads reinbringen und beteiligt werden –
-            vom Click bis zur Provision messbar.
+            Vergleich, Offerte und Lead-Übergabe als ein System – planbar statt fragmentierter
+            Agentur-Lieferungen.
           </p>
         </article>
       </div>
@@ -243,24 +254,24 @@ function Produktformel() {
       <div
         className={styles.stackDiagram}
         role="group"
-        aria-label="Produktformel: Datenprodukt plus Konfigurator plus Affiliate-Netzwerk ergibt Ergebnis"
+        aria-label="Produktformel: CH-Logik plus Konfigurator plus Lead-Übergabe ergibt Ergebnis"
       >
         <div className={styles.stackCard}>
           <span className={styles.stackIcon} aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none">
-              <ellipse cx="12" cy="6" rx="7" ry="2.5" stroke="currentColor" strokeWidth="1.5" />
               <path
-                d="M5 6v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6M5 10v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4M5 14v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4"
+                d="M9 4.5 4 6.5v13l5-2 6 2 5-2v-13l-5 2-6-2z"
                 stroke="currentColor"
                 strokeWidth="1.5"
-                strokeLinecap="round"
+                strokeLinejoin="round"
               />
+              <path d="M9 4.5v13M15 6.5v13" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </span>
-          <h4 className={styles.stackTitle}>Datenprodukt</h4>
+          <h4 className={styles.stackTitle}>CH-Logik</h4>
           <p>
-            Alle Versicherungen von fünf Anbietern systematisch und einheitlich strukturiert -
-            vergleichbar und quellenbelegt.
+            Kanton, Franchise, Modell und Unfall – Schweizer Prämienlogik, die Vergleich und
+            Beratung tragen.
           </p>
         </div>
 
@@ -284,8 +295,8 @@ function Produktformel() {
           </span>
           <h4 className={styles.stackTitle}>Konfigurator</h4>
           <p>
-            Guided Experience für Endkunden: intuitiv, klar geführt, in wenigen Schritten zum
-            passenden Schutz statt PDF-Chaos.
+            Guided Experience für den Schweizer Markt: verständlich geführt, vom Wohnort bis zur
+            Offerte.
           </p>
         </div>
 
@@ -307,10 +318,10 @@ function Produktformel() {
               />
             </svg>
           </span>
-          <h4 className={styles.stackTitle}>Affiliate-Netzwerk</h4>
+          <h4 className={styles.stackTitle}>Lead-Übergabe</h4>
           <p>
-            Partnersteuerung mit klarer Performance-Übersicht und Incentivierung nach Ergebnis -
-            vom Click bis zur Provision.
+            Strukturierte Payload an die Beratung der LST Finance – Offertanfrage mit Kontext,
+            nicht als leerer Kontakt.
           </p>
         </div>
 
@@ -339,8 +350,8 @@ function Produktformel() {
           </span>
           <h4 className={styles.stackTitle}>Ergebnis</h4>
           <p>
-            Skalierbarer, hocheffizienter Vertrieb internationaler Krankenversicherungen für
-            Unternehmer, rechtlich sauber, conversion-orientiert, partnerfähig.
+            Eine Leadmaschine für den Schweizer Versicherungsmarkt – Vergleich, Offerte und
+            Beratung als durchgängiges System.
           </p>
         </div>
       </div>
@@ -348,18 +359,18 @@ function Produktformel() {
   );
 }
 
-export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
+export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
   useDocumentSeo({
-    title: "Affiliate System für Internationale Krankenversicherungen | uberagent",
+    title: "Leadmaschine für Schweizer Versicherungen | uberagent",
     description:
-      "Success Story Finanznomade: Affiliate System für internationale Krankenversicherungen – qualifizierte Leads, Affiliate-Wachstum und Kampagnenaufsetzen.",
-    canonical: `${window.location.origin}/case/finanznomade-versicherungsrechner`,
+      "Success Story in die Schweiz / LST Finance: Leadmaschine mit Schweizer Prämienlogik, Offertanfrage und Lead-Übergabe an die Beratung.",
+    canonical: `${window.location.origin}/case/lst-finance-versicherungskonfigurator`,
   });
 
   return (
     <PageShell
-      title="Affiliate System für Internationale Krankenversicherungen"
-      eyebrow="Success Story · Finanznomade"
+      title="Leadmaschine für Schweizer Versicherungen"
+      eyebrow="Success Story · in die Schweiz · Frank Lopp"
       onBack={onClose}
       footer={
         <ModalContactFooter onClose={onClose} label="Ähnliches Projekt besprechen" />
@@ -367,7 +378,7 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
     >
       <div className={styles.content}>
         <section className={styles.heroSection}>
-          <div className={styles.deviceStage} aria-label="Produktvideos">
+          <div className={styles.deviceStage} aria-label="Produktvideo und Live-Produkt">
             <div className={styles.deviceGlow} aria-hidden="true" />
 
             <div className={styles.macbookHero}>
@@ -378,8 +389,8 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
                     <div className={styles.macbookScreen}>
                       <DeviceVideo
                         className={styles.macbookVideo}
-                        src={finanznomadeCaseVideo.src}
-                        poster={finanznomadeCaseVideo.poster}
+                        src={lstFinanceCaseVideo.src}
+                        poster={lstFinanceCaseVideo.poster}
                       />
                     </div>
                   </div>
@@ -399,13 +410,12 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
                   <div className={styles.safariChrome} aria-hidden="true">
                     <div className={styles.safariUrl}>
                       <span className={styles.safariLock} />
-                      <span>auslandsvergleich.finanznoma.de</span>
+                      <span>krankenkassen-angebote24.ch</span>
                     </div>
                   </div>
-                  <DeviceVideo
-                    className={styles.iphoneVideo}
-                    src={finanznomadeIphoneVideo.src}
-                    poster={finanznomadeIphoneVideo.poster}
+                  <LiveFrame
+                    className={local.phoneLiveFrame}
+                    title="Krankenversicherungs-Vergleich Schweiz – Mobile"
                   />
                 </div>
               </div>
@@ -420,7 +430,7 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
               onClick={() =>
                 trackOutboundClick("live_demo", {
                   url: LIVE_URL,
-                  location: "finanznomade_case",
+                  location: "lst_finance_case",
                 })
               }
             >
@@ -458,6 +468,3 @@ export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
     </PageShell>
   );
 }
-
-/** @deprecated Use FinanznomadeCasePage */
-export const FinanznomadeCaseModal = FinanznomadeCasePage;

@@ -4,6 +4,7 @@ import { SectionShell } from "./SectionShell";
 import { ScrollReveal } from "./ScrollReveal";
 import { MotionPressable } from "./MotionPressable";
 import { ProofRow } from "./ProofRow";
+import { QuoteStars } from "./QuoteStars";
 import { caseStudies, type CaseStudyCard } from "../data/marketing";
 import { useCardGlow } from "../hooks/useScrollReveal";
 import { resolveVariants, slidePanel } from "../motion";
@@ -101,49 +102,35 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
 
   const study = caseStudies[active];
   const clickable = Boolean(study.openId);
-  const secondaryMetrics = study.primaryOutcome
-    ? study.metrics.filter(
-        (m) =>
-          m.value !== study.primaryOutcome!.value ||
-          m.label !== study.primaryOutcome!.label,
-      )
-    : study.metrics;
 
   const content = (
     <div className={styles.content}>
-      {study.primaryOutcome && (
-        <div className={styles.outcome}>
-          <span className={styles.outcomeValue}>{study.primaryOutcome.value}</span>
-          <span className={styles.outcomeLabel}>{study.primaryOutcome.label}</span>
-        </div>
-      )}
-
       <span className={styles.industry}>{study.industry}</span>
-      <div className={styles.tags}>
-        {study.tags.map((tag) => (
-          <span key={tag} className={styles.tag}>{tag}</span>
-        ))}
-      </div>
-      <h3 className={`${styles.title} ${!study.primaryOutcome ? styles.titleLarge : ""}`}>
+      <h3 className={`${styles.title} ${styles.titleLarge}`}>
         {study.title}
       </h3>
       <blockquote className={styles.quote}>
         <p>“{study.quote}”</p>
-        <footer>
-          <strong>{study.person}</strong>
-          <span>{study.role}</span>
+        <footer className={styles.quoteFooter}>
+          {study.personPhoto && (
+            <img
+              className={styles.quoteAvatar}
+              src={study.personPhoto}
+              alt=""
+              width={44}
+              height={44}
+              loading="lazy"
+            />
+          )}
+          <span className={styles.quoteMeta}>
+            <span className={styles.quotePerson}>
+              <strong>{study.person}</strong>
+              <QuoteStars />
+            </span>
+            <span>{study.role}</span>
+          </span>
         </footer>
       </blockquote>
-      {secondaryMetrics.length > 0 && (
-        <div className={styles.metrics}>
-          {secondaryMetrics.map((m) => (
-            <div key={m.label} className={styles.metric}>
-              <span className={styles.metricValue}>{m.value}</span>
-              <span className={styles.metricLabel}>{m.label}</span>
-            </div>
-          ))}
-        </div>
-      )}
       {clickable && (
         <span className={styles.readMore}>
           Case Study lesen
@@ -262,11 +249,7 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
                       <span className={styles.tabIndustry}>{item.industry}</span>
                     </span>
                     <span className={styles.tabTitle}>{item.title}</span>
-                    {item.primaryOutcome && (
-                      <span className={styles.tabOutcome}>
-                        {item.primaryOutcome.value} · {item.primaryOutcome.label}
-                      </span>
-                    )}
+                    <span className={styles.tabOutcome}>{item.person}</span>
                   </button>
                 );
               })}

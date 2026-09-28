@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from "motion/react";
-import laurensPhoto from "../assets/laurens.jpg";
 import { ProvenExpertRating } from "./ProvenExpertRating";
 import {
   avatarContainer,
@@ -14,7 +13,7 @@ import styles from "./ProofRow.module.css";
 const PROFILE_URL = "https://www.provenexpert.com/uberagent/";
 
 const avatars = [
-  { src: laurensPhoto, alt: "Laurens Lang" },
+  { src: "/cases/lst-finance/frank-lopp.png", alt: "Frank Lopp" },
   { src: "/cases/finanznomade/kim-maurice.jpg", alt: "Kim Elsholz" },
 ];
 

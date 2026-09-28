@@ -1,12 +1,23 @@
 export const trustClients = [
+  { name: "LST Finance Groupe AG", logo: "/cases/lst-finance/logo.svg" },
   { name: "Finanznomade", logo: "/cases/finanznomade/logo.png" },
   { name: "B2B SaaS", logo: null },
   { name: "Digitalagentur CH", logo: null },
 ] as const;
 
 export const finanznomadeCaseVideo = {
-  src: "/cases/finanznomade/konfigurator.mp4",
+  src: "/cases/finanznomade/walkthrough.mp4",
   poster: "/cases/finanznomade/poster.jpg",
+} as const;
+
+export const finanznomadeIphoneVideo = {
+  src: "/cases/finanznomade/iphone.mp4",
+  poster: "/cases/finanznomade/poster.jpg",
+} as const;
+
+export const lstFinanceCaseVideo = {
+  src: "/cases/lst-finance/walkthrough.mp4",
+  poster: "/cases/lst-finance/poster.jpg",
 } as const;
 
 export const trustTools = [
@@ -75,16 +86,27 @@ export const kickstartOffer = {
   cta: "Kickstart Sprint besprechen",
 };
 
+export type CaseStudyCategory = "konfiguratoren" | "agenten" | "gtm";
+
+export const caseStudyFilters: {
+  id: "all" | CaseStudyCategory;
+  label: string;
+}[] = [
+  { id: "all", label: "Alle" },
+  { id: "konfiguratoren", label: "Konfiguratoren" },
+  { id: "agenten", label: "Agenten" },
+  { id: "gtm", label: "GTM" },
+];
+
 export interface CaseStudyCard {
   id: string;
+  category: CaseStudyCategory;
   industry: string;
   title: string;
   quote: string;
   person: string;
   role: string;
-  primaryOutcome?: { value: string; label: string };
-  metrics: { value: string; label: string }[];
-  tags: string[];
+  personPhoto?: string;
   openId?: string;
   preview?: {
     src: string;
@@ -99,49 +121,50 @@ export interface CaseStudyCard {
 export const caseStudies: CaseStudyCard[] = [
   {
     id: "finanznomade",
-    industry: "Finanzen · Insurance · Expat",
-    title: "Konfigurator für internationale Krankenversicherungen",
+    category: "konfiguratoren",
+    industry: "Finanznomade · Expat",
+    title: "Affiliate System für Internationale Krankenversicherungen",
     quote:
       "Besonders stark fand ich, dass er nicht einfach nur Anforderungen umgesetzt hat, sondern sich intensiv in das Thema eingearbeitet […] Die Zusammenarbeit war unkompliziert, schnell und sehr lösungsorientiert.",
     person: "Kim Elsholz",
-    role: "CEO von finanznoma.de der FINO Media LLC",
-    metrics: [],
-    tags: ["Konfigurator", "Insurance Tech", "Affiliate"],
+    role: "CEO, finanznoma.de",
+    personPhoto: "/cases/finanznomade/kim-maurice.jpg",
     openId: "finanznomade-kv",
     video: finanznomadeCaseVideo,
   },
   {
+    id: "lst-finance",
+    category: "konfiguratoren",
+    industry: "in die Schweiz · LST Finance",
+    title: "Leadmaschine für Schweizer Versicherungen",
+    quote:
+      "Wir hatten schon Agenturen beauftragt. Was fehlte, war ein Konfigurator, der den Weg bis zum beratungsreifen Lead zu Ende denkt – nicht nur eine schöne Oberfläche.",
+    person: "Frank Lopp",
+    role: "CEO, LST Finance Groupe AG",
+    personPhoto: "/cases/lst-finance/frank-lopp.png",
+    openId: "lst-finance-kv",
+    video: lstFinanceCaseVideo,
+  },
+  {
     id: "digital-agency",
+    category: "agenten",
     industry: "Digitalagentur · Schweiz",
     title: "AI Sales Agent für Bestandskunden-Aktivierung",
     quote:
       "Statt generischer Outreach bekommen wir für jeden Account einen datenbasierten Audit und eine personalisierte Ansprache, in Minuten statt Wochen.",
     person: "Head of Growth",
     role: "Führende Schweizer Digitalagentur",
-    primaryOutcome: { value: "Minuten", label: "statt Wochen" },
-    metrics: [
-      { value: "Minuten", label: "statt Wochen" },
-      { value: "DE/FR/IT", label: "Personalisierung" },
-      { value: "revDSG", label: "konform" },
-    ],
-    tags: ["AI Sales Agent", "Salesforce", "n8n"],
     openId: "ai-sales-agent",
   },
   {
     id: "b2b-saas",
+    category: "gtm",
     industry: "B2B SaaS · RevOps",
     title: "GTM-Pipeline aus CRM-Signalen und ICP-Scoring",
     quote:
       "Priorisierung war vorher Bauchgefühl. Jetzt steuern wir Outreach über Signale, Scoring und klare Ownership, mit messbarer Pipeline pro Kopf.",
     person: "VP Revenue Operations",
     role: "Wachsendes B2B-SaaS-Unternehmen",
-    primaryOutcome: { value: "6-8 Wo.", label: "Time-to-Value" },
-    metrics: [
-      { value: "6-8 Wo.", label: "Time-to-Value" },
-      { value: "ICP+", label: "Signal-Scoring" },
-      { value: "QA", label: "Governance" },
-    ],
-    tags: ["GTM Engineering", "CRM", "Pipeline"],
   },
 ];
 

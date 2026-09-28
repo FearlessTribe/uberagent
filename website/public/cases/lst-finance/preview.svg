@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" fill="none">
+  <rect width="960" height="600" fill="#F3F1EF"/>
+  <rect x="48" y="40" width="864" height="520" rx="20" fill="#fff" stroke="rgba(25,28,33,0.08)"/>
+  <rect x="48" y="40" width="864" height="64" rx="20" fill="#191C21"/>
+  <rect x="48" y="84" width="864" height="20" fill="#191C21"/>
+  <text x="80" y="80" fill="#F4F1ED" font-family="system-ui,sans-serif" font-size="18" font-weight="600">Versicherungskonfigurator Schweiz</text>
+  <text x="720" y="80" fill="#CC8066" font-family="system-ui,sans-serif" font-size="13" font-weight="700" letter-spacing="0.08em">LST FINANCE</text>
+
+  <rect x="80" y="140" width="180" height="10" rx="5" fill="#CC8066"/>
+  <rect x="270" y="140" width="180" height="10" rx="5" fill="rgba(25,28,33,0.12)"/>
+  <rect x="460" y="140" width="180" height="10" rx="5" fill="rgba(25,28,33,0.12)"/>
+  <rect x="650" y="140" width="180" height="10" rx="5" fill="rgba(25,28,33,0.12)"/>
+
+  <text x="80" y="200" fill="#191C21" font-family="Georgia,serif" font-size="28" font-weight="500">Wohnkanton &amp; Haushalt</text>
+  <text x="80" y="232" fill="rgba(25,28,33,0.65)" font-family="system-ui,sans-serif" font-size="15">Angaben für den Schweizer Prämienvergleich</text>
+
+  <rect x="80" y="270" width="240" height="88" rx="14" fill="#F7F5F2" stroke="rgba(25,28,33,0.08)"/>
+  <text x="100" y="304" fill="rgba(25,28,33,0.55)" font-family="system-ui,sans-serif" font-size="12">Kanton</text>
+  <text x="100" y="332" fill="#191C21" font-family="system-ui,sans-serif" font-size="18" font-weight="600">Zürich</text>
+
+  <rect x="340" y="270" width="240" height="88" rx="14" fill="#F7F5F2" stroke="rgba(25,28,33,0.08)"/>
+  <text x="360" y="304" fill="rgba(25,28,33,0.55)" font-family="system-ui,sans-serif" font-size="12">Alter</text>
+  <text x="360" y="332" fill="#191C21" font-family="system-ui,sans-serif" font-size="18" font-weight="600">34 Jahre</text>
+
+  <rect x="600" y="270" width="240" height="88" rx="14" fill="#F7F5F2" stroke="rgba(25,28,33,0.08)"/>
+  <text x="620" y="304" fill="rgba(25,28,33,0.55)" font-family="system-ui,sans-serif" font-size="12">Franchise</text>
+  <text x="620" y="332" fill="#191C21" font-family="system-ui,sans-serif" font-size="18" font-weight="600">CHF 2'500</text>
+
+  <rect x="80" y="390" width="520" height="120" rx="16" fill="#191C21"/>
+  <text x="108" y="434" fill="rgba(244,241,237,0.6)" font-family="system-ui,sans-serif" font-size="12" letter-spacing="0.08em">EMPFOHLENES MODELL</text>
+  <text x="108" y="468" fill="#F4F1ED" font-family="system-ui,sans-serif" font-size="22" font-weight="600">Hausarztmodell · Zürich</text>
+  <text x="108" y="494" fill="#CC8066" font-family="system-ui,sans-serif" font-size="16" font-weight="600">ab CHF 289.40 / Monat</text>
+
+  <rect x="620" y="390" width="220" height="120" rx="16" fill="#CC8066"/>
+  <text x="650" y="456" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700">Offerte anfragen</text>
+  <text x="650" y="484" fill="rgba(255,255,255,0.8)" font-family="system-ui,sans-serif" font-size="13">Lead an Beratung</text>
+</svg>

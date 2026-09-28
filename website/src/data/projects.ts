@@ -8,11 +8,19 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "lst-finance-kv",
+    slug: "lst-finance-versicherungskonfigurator",
+    title: "Leadmaschine für Schweizer Versicherungen",
+    shortDescription:
+      "Für in die Schweiz und LST Finance: Konfigurator mit Schweizer Prämienlogik, Offertanfrage und strukturierter Übergabe an die Beratung.",
+    tags: ["Konfigurator", "Insurance Tech", "Lead Funnel", "Schweiz"],
+  },
+  {
     id: "finanznomade-kv",
     slug: "finanznomade-versicherungsrechner",
-    title: "Internationaler Krankenversicherungs-Konfigurator für Finanznomade",
+    title: "Affiliate System für Internationale Krankenversicherungen",
     shortDescription:
-      "Internationalen KV-Vergleich von der PDF-Welt in einen 5-Schritt-Konfigurator überführt, plus Architektur für Affiliate-Tracking, Provision und Funnel-Performance.",
+      "Internationalen KV-Vergleich von der PDF-Welt in eine Leadmaschine überführt – vergleichbar, quellenbelegt, abschlussfähig.",
     tags: ["Konfigurator", "Insurance Tech", "Affiliate System", "Datenprodukte"],
   },
   {
@@ -26,15 +34,35 @@ export const projects: Project[] = [
 ];
 
 export const projectDetails = {
+  "lst-finance-kv": {
+    situation:
+      "Frank Lopp, CEO der LST Finance Groupe AG und treibende Kraft hinter in die Schweiz, brauchte qualifizierte Leads für die Versicherungsberatung. Frühere Agentur-Konfiguratoren blieben Stückwerk: Oberfläche ohne Lead-Logik, Vergleich ohne Abschluss.",
+    solution:
+      "Ein durchgängiger Konfigurator für den Schweizer Markt: Prämienlogik, geführter Vergleich und Offertanfrage – mit strukturierter Übergabe an die Beratung der LST Finance Groupe AG.",
+    principle:
+      "Vergleich, Offerte und Lead-Übergabe als ein System – nicht als drei getrennte Liefergegenstände.",
+    impact:
+      "in die Schweiz und LST Finance erhalten Anfragen mit Kontext. Die Beratung startet mit Daten statt mit Rückfragen.",
+    phases: [
+      "Analyse",
+      "Produktkonzeption",
+      "Tarif- & Funnel-Logik",
+      "UX/UI",
+      "Frontend",
+      "Lead-Übergabe",
+    ],
+    tech: ["React", "TypeScript", "Vite", "Cloudflare"],
+    client: "LST Finance Groupe AG · in die Schweiz · Frank Lopp, CEO",
+  },
   "finanznomade-kv": {
     situation:
       "Finanznomade berät Unternehmer und Perpetual Traveler bei der Wahl internationaler Krankenversicherungen, der Markt liefert PDFs und inkompatible Tarifwerke statt fairen Vergleich.",
     solution:
-      "Ein 5-Schritt-Konfigurator auf schema-validierter Multi-Anbieter-Datenbasis: Ampel-Vergleich, Detailmatrix mit Quellenpflicht und Broker-/Affiliate-Deep-Links, Fundament für Sales Tracking und Partnernetzwerk.",
+      "Ein geführter Konfigurator auf schema-validierter Multi-Anbieter-Datenbasis: Ampel-Vergleich, Detailmatrix mit Quellenpflicht und Broker-/Affiliate-Deep-Links.",
     principle:
-      "Providertreu und vergleichbar: Originalwortlaut bleibt, Vergleichbarkeit entsteht über Katalog-Mapping. Fehlende Information ist nie „nicht versichert“.",
+      "Providertreu und vergleichbar: Originalwortlaut bleibt, Vergleichbarkeit entsteht über Katalog-Mapping.",
     impact:
-      "Auslandsversicherung wird konfigurierbar, Vergleich vertrauenswürdig, und Affiliate-Wachstum bekommt eine messbare Pipeline von der Quelle bis zum Abschluss.",
+      "Auslandsversicherung wird konfigurierbar und vergleichbar – mit messbarem Weg vom Interesse bis zum Abschluss.",
     phases: [
       "Analyse",
       "Datenmodellierung",
