@@ -29,7 +29,7 @@ const meta = [
   {
     label: "Leistungen",
     value:
-      "Business Analyse · Datenmodellierung · Produktkonzeption · UX/UI · Frontend · Affiliate-/Tracking-Architektur · Kampagnenaufsetzen",
+      "Business Analyse · Datenmodellierung · Produktkonzeption · UX/UI · Frontend · Affiliate-/Tracking-Architektur · Performance Marketing (Instagram) · Kampagnenaufsetzen & laufende Optimierung",
   },
   {
     label: "Stack",
@@ -229,8 +229,9 @@ function ValueBlock() {
         </article>
       </div>
       <p className={styles.campaignNote}>
-        <strong>Auch Teil davon:</strong> Kampagnenaufsetzen – Funnel, Tracking und Ausspielung
-        als ein System mit dem Konfigurator.
+        <strong>Auch Teil davon:</strong> Performance Marketing auf Instagram – Strategie,
+        Kampagnenaufsetzen, Betreuung und kontinuierliche Optimierung als ein System mit dem
+        Konfigurator.
       </p>
     </section>
   );

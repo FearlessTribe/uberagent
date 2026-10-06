@@ -90,9 +90,9 @@ function StackedCard({
     };
   }, [canRecede, reduceMotion, scrollY, stickyTop, stackGap, coverage]);
 
-  /* Smooth proportional shrink (15%) as the next card covers this one */
-  const scale = useTransform(coverage, [0, 1], [1, 0.85]);
-  const dimOpacity = useTransform(coverage, [0, 0.35, 1], [0, 0.32, 0.62]);
+  /* Gentle shrink as the next card covers this one */
+  const scale = useTransform(coverage, [0, 1], [1, 0.94]);
+  const dimOpacity = useTransform(coverage, [0, 0.45, 1], [0, 0.18, 0.4]);
 
   const style = {
     ["--stack-top" as string]: `${stickyTop}px`,

@@ -29,18 +29,16 @@
   position: relative;
   transform-origin: center top;
   will-change: transform;
-  border-radius: var(--radius-card);
+  border-radius: var(--stack-card-radius, var(--radius-card));
+  /* Keep drop shadow inside the sticky layer so it is not clipped at the top */
+  overflow: visible;
 }
 
 .dim {
   position: absolute;
   inset: 0;
-  border-radius: var(--radius-card);
-  background: linear-gradient(
-    180deg,
-    rgba(6, 8, 12, 0.55) 0%,
-    rgba(6, 8, 12, 0.78) 100%
-  );
+  border-radius: var(--stack-card-radius, var(--radius-card));
+  background: rgba(10, 12, 16, 0.45);
   pointer-events: none;
   z-index: 6;
 }

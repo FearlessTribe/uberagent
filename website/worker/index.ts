@@ -1,15 +1,27 @@
 /**
  * Cloudflare Worker: serves the Vite SPA assets and handles lead intake.
- * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID
+ * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID, TURNSTILE_SECRET, ADMIN_PASSWORD, ADMIN_SESSION_SECRET
  */
 import { getServiceBySlug } from "../src/data/services";
 import { getMaximIndustryBySlug } from "../src/data/maximIndustryContent";
+import {
+  handleAdminList,
+  handleAdminLogin,
+  handleAdminLogout,
+  handleAdminPhoto,
+  handleAdminSession,
+  handleCardSubmit,
+} from "./kollegenrundeAdmin";
 
 export interface Env {
   ASSETS: Fetcher;
   NOTION_TOKEN: string;
   NOTION_DATABASE_ID: string;
   NOTION_KALKULATIONSCHECK_DATABASE_ID: string;
+  KOLLEGENRUNDE_SUBMISSIONS: KVNamespace;
+  TURNSTILE_SECRET?: string;
+  ADMIN_PASSWORD?: string;
+  ADMIN_SESSION_SECRET?: string;
 }
 
 const NOTION_VERSION = "2022-06-28";
@@ -488,6 +500,58 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin");
+
+    if (url.pathname === "/api/kollegenrunde-card") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers: corsHeaders(origin) });
+      }
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      const res = await handleCardSubmit(request, env);
+      const headers = new Headers(res.headers);
+      Object.entries(corsHeaders(origin)).forEach(([k, v]) => headers.set(k, v));
+      return new Response(res.body, { status: res.status, headers });
+    }
+
+    if (url.pathname === "/api/admin/login") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers: corsHeaders(origin) });
+      }
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleAdminLogin(request, env);
+    }
+
+    if (url.pathname === "/api/admin/logout") {
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleAdminLogout(request);
+    }
+
+    if (url.pathname === "/api/admin/session") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleAdminSession(request, env);
+    }
+
+    if (url.pathname === "/api/admin/submissions") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleAdminList(request, env);
+    }
+
+    const photoMatch = url.pathname.match(/^\/api\/admin\/photo\/([^/]+)$/);
+    if (photoMatch) {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleAdminPhoto(request, env, photoMatch[1]);
+    }
 
     if (
       url.pathname === "/api/potential-check" ||

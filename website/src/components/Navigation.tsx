@@ -86,9 +86,15 @@ export function Navigation() {
     navigateHome,
     openProjectId,
     openServiceId,
+    kollegenrundeOpen,
     openService,
   } = overlay;
-  const useSolidNav = scrolled || menuOpen || Boolean(openProjectId) || Boolean(openServiceId);
+  const useSolidNav =
+    scrolled ||
+    menuOpen ||
+    Boolean(openProjectId) ||
+    Boolean(openServiceId) ||
+    Boolean(kollegenrundeOpen);
   const onDarkNav = !useSolidNav;
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();

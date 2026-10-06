@@ -16,6 +16,8 @@ import {
 import { lockScroll, unlockScroll } from "../hooks/scrollLock";
 import { useCaseRoute } from "../hooks/useCaseRoute";
 import { useServiceRoute } from "../hooks/useServiceRoute";
+import { useKollegenrundeRoute } from "../hooks/useKollegenrundeRoute";
+import { useAdminRoute } from "../hooks/useAdminRoute";
 
 export type OverlayType = "none" | "menu" | "laurens";
 
@@ -29,12 +31,20 @@ interface OverlayContextValue {
   openServiceId: string | null;
   openServiceSubpath: string | null;
   openProjectId: string | null;
+  kollegenrundeOpen: boolean;
+  kollegenrundeAudience: "kunden" | "anbieter";
+  adminOpen: boolean;
   laurensOpen: boolean;
   openService: (id: string) => void;
   openServiceSubpage: (id: string, subpath: string) => void;
   closeService: () => void;
   openProject: (id: string) => void;
   closeProject: () => void;
+  openKollegenrunde: (audience?: "kunden" | "anbieter") => void;
+  setKollegenrundeAudience: (audience: "kunden" | "anbieter") => void;
+  closeKollegenrunde: () => void;
+  openAdmin: () => void;
+  closeAdmin: () => void;
   openLaurens: () => void;
   closeLaurens: () => void;
   closeAll: () => void;
@@ -65,52 +75,123 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
     openServiceId,
     openServiceSubpath,
     setOpenServiceId,
-    openServiceSubpage,
+    openServiceSubpage: openServiceSubpageRoute,
   } = useServiceRoute();
   const { openProjectId, setOpenProjectId } = useCaseRoute();
+  const {
+    open: kollegenrundeOpen,
+    setOpen: setKollegenrundeOpen,
+    audience: kollegenrundeAudience,
+    setAudience: setKollegenrundeAudience,
+  } = useKollegenrundeRoute();
+  const { open: adminOpen, setOpen: setAdminOpen } = useAdminRoute();
 
   const closeAll = useCallback(() => {
     setMenuOpen(false);
     setLaurensOpen(false);
     setOpenServiceId(null);
     setOpenProjectId(null);
-  }, [setOpenServiceId, setOpenProjectId]);
+    setKollegenrundeOpen(false);
+    setAdminOpen(false);
+  }, [setOpenServiceId, setOpenProjectId, setKollegenrundeOpen, setAdminOpen]);
 
   const navigateHome = useCallback(() => {
     setMenuOpen(false);
     setLaurensOpen(false);
     setOpenServiceId(null, { syncUrl: false });
     setOpenProjectId(null, { syncUrl: false });
+    setKollegenrundeOpen(false, { syncUrl: false });
+    setAdminOpen(false, { syncUrl: false });
     const path = window.location.pathname;
     if (
       path.startsWith("/service/") ||
       path.startsWith("/case/") ||
+      path === "/ulm" ||
+      path === "/ulm/" ||
+      path.startsWith("/ulmer-kollegenrunde") ||
+      path === "/admin" ||
+      path === "/admin/" ||
       path === "/contact" ||
       path === "/contact/"
     ) {
       window.history.pushState(null, "", "/");
     }
-  }, [setOpenServiceId, setOpenProjectId]);
+  }, [setOpenServiceId, setOpenProjectId, setKollegenrundeOpen, setAdminOpen]);
 
   const openService = useCallback(
     (id: string) => {
       setOpenProjectId(null, { syncUrl: false });
+      setKollegenrundeOpen(false, { syncUrl: false });
+      setAdminOpen(false, { syncUrl: false });
       setLaurensOpen(false);
       setMenuOpen(false);
       setOpenServiceId(id);
     },
-    [setOpenProjectId, setOpenServiceId],
+    [setOpenProjectId, setOpenServiceId, setKollegenrundeOpen, setAdminOpen],
+  );
+
+  const openServiceSubpage = useCallback(
+    (id: string, subpath: string) => {
+      setOpenProjectId(null, { syncUrl: false });
+      setKollegenrundeOpen(false, { syncUrl: false });
+      setAdminOpen(false, { syncUrl: false });
+      setLaurensOpen(false);
+      setMenuOpen(false);
+      openServiceSubpageRoute(id, subpath);
+    },
+    [setOpenProjectId, setKollegenrundeOpen, setAdminOpen, openServiceSubpageRoute],
   );
 
   const openProject = useCallback(
     (id: string) => {
       setOpenServiceId(null, { syncUrl: false });
+      setKollegenrundeOpen(false, { syncUrl: false });
+      setAdminOpen(false, { syncUrl: false });
       setLaurensOpen(false);
       setMenuOpen(false);
       setOpenProjectId(id);
     },
-    [setOpenServiceId, setOpenProjectId],
+    [setOpenServiceId, setOpenProjectId, setKollegenrundeOpen, setAdminOpen],
   );
+
+  const openKollegenrunde = useCallback(
+    (audience: "kunden" | "anbieter" = "kunden") => {
+      const next =
+        audience === "anbieter" || audience === "kunden" ? audience : "kunden";
+      setOpenServiceId(null, { syncUrl: false });
+      setOpenProjectId(null, { syncUrl: false });
+      setAdminOpen(false, { syncUrl: false });
+      setLaurensOpen(false);
+      setMenuOpen(false);
+      setKollegenrundeOpen(true, { syncUrl: false });
+      setKollegenrundeAudience(next);
+      const url = `/ulm?fuer=${next}`;
+      if (
+        window.location.pathname !== "/ulm" ||
+        window.location.search !== `?fuer=${next}`
+      ) {
+        window.history.pushState({ kollegenrunde: true }, "", url);
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    },
+    [
+      setOpenServiceId,
+      setOpenProjectId,
+      setKollegenrundeOpen,
+      setKollegenrundeAudience,
+      setAdminOpen,
+    ],
+  );
+
+  const openAdmin = useCallback(() => {
+    setOpenServiceId(null, { syncUrl: false });
+    setOpenProjectId(null, { syncUrl: false });
+    setKollegenrundeOpen(false, { syncUrl: false });
+    setLaurensOpen(false);
+    setMenuOpen(false);
+    setAdminOpen(true);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [setOpenServiceId, setOpenProjectId, setKollegenrundeOpen, setAdminOpen]);
 
   const openLaurens = useCallback(() => {
     setLaurensOpen(true);
@@ -153,7 +234,9 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
 
   const activeOverlay: OverlayType = menuOpen ? "menu" : laurensOpen ? "laurens" : "none";
   const isOverlayOpen = activeOverlay !== "none";
-  const isDetailPage = Boolean(openServiceId || openProjectId);
+  const isDetailPage = Boolean(
+    openServiceId || openProjectId || kollegenrundeOpen || adminOpen,
+  );
 
   useEffect(() => {
     if (isOverlayOpen) {
@@ -179,12 +262,20 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       openServiceId,
       openServiceSubpath,
       openProjectId,
+      kollegenrundeOpen,
+      kollegenrundeAudience,
+      adminOpen,
       laurensOpen,
       openService,
       openServiceSubpage,
       closeService: () => setOpenServiceId(null),
       openProject,
       closeProject: () => setOpenProjectId(null),
+      openKollegenrunde,
+      setKollegenrundeAudience,
+      closeKollegenrunde: () => setKollegenrundeOpen(false),
+      openAdmin,
+      closeAdmin: () => setAdminOpen(false),
       openLaurens,
       closeLaurens: () => setLaurensOpen(false),
       closeAll,
@@ -197,13 +288,21 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       openServiceId,
       openServiceSubpath,
       openProjectId,
+      kollegenrundeOpen,
+      kollegenrundeAudience,
+      adminOpen,
       laurensOpen,
       openService,
       openServiceSubpage,
       openProject,
+      openKollegenrunde,
+      setKollegenrundeAudience,
+      openAdmin,
       openLaurens,
       setOpenServiceId,
       setOpenProjectId,
+      setKollegenrundeOpen,
+      setAdminOpen,
       closeAll,
       navigateHome,
     ],

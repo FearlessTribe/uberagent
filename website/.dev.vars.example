@@ -2,3 +2,11 @@
 NOTION_TOKEN=
 NOTION_DATABASE_ID=39e0da11-e074-805d-8333-f56a136309d2
 NOTION_KALKULATIONSCHECK_DATABASE_ID=19cf29fd-2ffb-44f8-a8a2-b32d5d1c2441
+
+# Cloudflare Turnstile (https://dash.cloudflare.com → Turnstile)
+# Leave empty locally to skip captcha verification.
+TURNSTILE_SECRET=
+
+# Admin panel at /admin
+ADMIN_PASSWORD=change-me
+ADMIN_SESSION_SECRET=change-me-long-random

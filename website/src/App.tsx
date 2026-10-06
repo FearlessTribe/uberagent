@@ -30,6 +30,14 @@ const LstFinanceCasePage = lazy(() =>
 const LaurensModal = lazy(() =>
   import("./components/LaurensModal").then((m) => ({ default: m.LaurensModal })),
 );
+const UlmerKollegenrundePage = lazy(() =>
+  import("./components/UlmerKollegenrundePage").then((m) => ({
+    default: m.UlmerKollegenrundePage,
+  })),
+);
+const AdminPage = lazy(() =>
+  import("./components/AdminPage").then((m) => ({ default: m.AdminPage })),
+);
 
 function HomePage() {
   const overlay = useOverlay();
@@ -56,6 +64,7 @@ function HomePage() {
       <ContactFooter
         onOpenService={overlay.openService}
         onOpenLaurens={overlay.openLaurens}
+        onOpenKollegenrunde={overlay.openKollegenrunde}
       />
     </>
   );
@@ -68,12 +77,28 @@ function AppContent() {
     openServiceId,
     openServiceSubpath,
     openProjectId,
+    kollegenrundeOpen,
+    kollegenrundeAudience,
+    setKollegenrundeAudience,
+    adminOpen,
     closeService,
     closeProject,
+    closeKollegenrunde,
+    closeAdmin,
   } = overlay;
 
   let detailPage: ReactNode = null;
-  if (openServiceId) {
+  if (adminOpen) {
+    detailPage = <AdminPage onClose={closeAdmin} />;
+  } else if (kollegenrundeOpen) {
+    detailPage = (
+      <UlmerKollegenrundePage
+        audience={kollegenrundeAudience}
+        onAudienceChange={setKollegenrundeAudience}
+        onClose={closeKollegenrunde}
+      />
+    );
+  } else if (openServiceId) {
     detailPage = (
       <ServicePage
         serviceId={openServiceId}

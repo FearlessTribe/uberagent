@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .content > section[id] {
@@ -526,6 +529,9 @@
   display: flex;
   flex-direction: column;
   gap: clamp(28px, 4vw, 40px);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .deviceStage {
@@ -536,7 +542,10 @@
   margin: 4px 0 8px;
   padding: clamp(20px, 4vw, 40px) clamp(8px, 2vw, 20px) clamp(36px, 6vw, 56px);
   isolation: isolate;
-  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
+  width: 100%;
+  max-width: 100%;
 }
 
 .deviceGlow {
@@ -687,23 +696,38 @@
   background: #0b0c0e;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 960px) {
   .deviceStage {
-    min-height: 340px;
-    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    min-height: 0;
+    margin: 0;
+    padding: 4px 0 20px;
+    overflow: visible;
   }
 
   .macbookHero {
-    width: 92%;
-    transform: rotate(-1deg);
+    width: 100%;
+    max-width: 100%;
+    transform: none;
+  }
+
+  .macbookHero .macbook {
+    filter: drop-shadow(0 16px 28px rgba(17, 24, 39, 0.16));
   }
 
   .iphoneFloat {
-    width: min(132px, 32vw);
-    right: 2%;
-    top: 6%;
+    position: relative;
+    right: auto;
+    top: auto;
     bottom: auto;
-    transform: rotate(7deg);
+    width: min(168px, 42vw);
+    margin-inline: auto;
+    transform: none;
+    filter: drop-shadow(0 16px 28px rgba(17, 24, 39, 0.2));
   }
 
   .iphoneFrame {
@@ -714,9 +738,18 @@
   .iphoneScreen {
     border-radius: 22px;
   }
+
+  .safariChrome {
+    padding: 34px 8px 6px;
+  }
+
+  .safariUrl {
+    height: 24px;
+    font-size: 8px;
+  }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 961px) {
   .deviceStage {
     min-height: 560px;
     padding-bottom: 64px;

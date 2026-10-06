@@ -83,6 +83,7 @@
   padding-bottom: clamp(32px, 5vw, 48px);
   padding-left: max(var(--space-container), env(safe-area-inset-left, 0px));
   padding-right: max(var(--space-container), env(safe-area-inset-right, 0px));
+  overflow-x: clip;
 }
 
 .bodyInnerFlush {

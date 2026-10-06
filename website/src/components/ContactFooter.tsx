@@ -14,13 +14,18 @@ import styles from "./ContactFooter.module.css";
 interface ContactFooterProps {
   onOpenService: (id: string) => void;
   onOpenLaurens?: () => void;
+  onOpenKollegenrunde?: () => void;
 }
 
 function isContactPath(pathname = window.location.pathname) {
   return pathname === "/contact" || pathname === "/contact/";
 }
 
-export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterProps) {
+export function ContactFooter({
+  onOpenService,
+  onOpenLaurens,
+  onOpenKollegenrunde,
+}: ContactFooterProps) {
   const laurens = teamMembers[0];
 
   useEffect(() => {
@@ -117,6 +122,15 @@ export function ContactFooter({ onOpenService, onOpenLaurens }: ContactFooterPro
                 8048 Zürich<br />
                 Schweiz
               </address>
+              {onOpenKollegenrunde ? (
+                <button
+                  type="button"
+                  className={styles.metaLink}
+                  onClick={() => onOpenKollegenrunde()}
+                >
+                  Ulmer Team Challenge
+                </button>
+              ) : null}
             </div>
           </div>
 

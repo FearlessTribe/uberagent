@@ -109,13 +109,14 @@ export function CtaButton({
     </>
   );
 
+  const isExternal = href != null && /^(https?:)?\/\//.test(href);
+
   const button =
     href != null ? (
       <motion.a
         href={href}
         className={className}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         onClick={handleClick}
         {...motionProps}
       >

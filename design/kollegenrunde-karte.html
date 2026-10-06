@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kollegenrunde · Karten-Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #14181f;
+        --paper: #f3efe6;
+        --paper-deep: #e7e0d2;
+        --coral: #cc8066;
+        --coral-deep: #b56a52;
+        --moss: #3d5a4c;
+        --line: rgba(20, 24, 31, 0.12);
+        --soft: rgba(20, 24, 31, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "DM Sans", system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 80% 50% at 20% 10%, rgba(204, 128, 102, 0.18), transparent 55%),
+          radial-gradient(ellipse 60% 45% at 90% 80%, rgba(61, 90, 76, 0.14), transparent 50%),
+          linear-gradient(160deg, #1a1e26 0%, #0e1116 48%, #171c24 100%);
+        display: grid;
+        place-items: center;
+        padding: 32px 20px 48px;
+      }
+
+      .stage {
+        width: min(100%, 920px);
+        display: grid;
+        gap: 28px;
+        justify-items: center;
+      }
+
+      .controls {
+        width: min(100%, 420px);
+        display: grid;
+        gap: 12px;
+        padding: 16px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(12px);
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .controls h1 {
+        margin: 0;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+
+      .controls p {
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.58);
+      }
+
+      .fields {
+        display: grid;
+        gap: 10px;
+      }
+
+      label {
+        display: grid;
+        gap: 5px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.625rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.28);
+        color: #fff;
+        font: inherit;
+        font-size: 0.92rem;
+        padding: 10px 12px;
+        outline: none;
+      }
+
+      textarea {
+        min-height: 64px;
+        resize: vertical;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: rgba(204, 128, 102, 0.7);
+        box-shadow: 0 0 0 3px rgba(204, 128, 102, 0.18);
+      }
+
+      .hint {
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.42);
+      }
+
+      .scene {
+        perspective: 1600px;
+        width: min(100%, 380px);
+      }
+
+      .card {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 63 / 88;
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        text-align: left;
+        appearance: none;
+        -webkit-appearance: none;
+        transform: rotateY(0deg);
+      }
+
+      .card.is-flipped {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        overflow: hidden;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        box-shadow:
+          0 30px 70px rgba(0, 0, 0, 0.45),
+          0 2px 0 rgba(255, 255, 255, 0.08) inset;
+      }
+
+      .front {
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.55), transparent 40%),
+          linear-gradient(180deg, #f7f3ea 0%, var(--paper) 48%, var(--paper-deep) 100%);
+        color: var(--ink);
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        background:
+          radial-gradient(circle at 85% 12%, rgba(204, 128, 102, 0.28), transparent 35%),
+          linear-gradient(165deg, #1c222c 0%, #12161d 55%, #0d1015 100%);
+        color: #f4f0e7;
+      }
+
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.18;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        mix-blend-mode: multiply;
+      }
+
+      .back .grain {
+        opacity: 0.22;
+        mix-blend-mode: soft-light;
+      }
+
+      .edge {
+        position: absolute;
+        inset: 10px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        pointer-events: none;
+      }
+
+      .back .edge {
+        border-color: rgba(243, 239, 230, 0.14);
+      }
+
+      .stamp {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        width: 64px;
+        height: 64px;
+        border: 1.5px solid rgba(204, 128, 102, 0.55);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        transform: rotate(12deg);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.52rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 1.25;
+        color: var(--coral-deep);
+        background: rgba(255, 255, 255, 0.35);
+      }
+
+      .back .stamp {
+        border-color: rgba(232, 168, 146, 0.45);
+        color: #e8a892;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .inner {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 26px 24px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--coral-deep);
+      }
+
+      .back .brand-mark {
+        color: #e8a892;
+      }
+
+      .meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
+
+      .back .meta {
+        color: rgba(244, 240, 231, 0.5);
+      }
+
+      .place {
+        margin: 8px 0 0;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(2rem, 7vw, 2.55rem);
+        font-weight: 400;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+      }
+
+      .place em {
+        font-style: italic;
+        color: var(--coral-deep);
+      }
+
+      .back .place em {
+        color: #e8a892;
+      }
+
+      .offer-block {
+        margin-top: auto;
+        padding: 16px 16px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(20, 24, 31, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      }
+
+      .offer-label {
+        margin: 0 0 6px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--coral-deep);
+      }
+
+      .offer {
+        margin: 0;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: 1.55rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+
+      .detail {
+        margin: 8px 0 0;
+        font-size: 0.84rem;
+        line-height: 1.4;
+        color: var(--soft);
+      }
+
+      .footer {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      .qr {
+        width: 54px;
+        height: 54px;
+        border-radius: 8px;
+        background:
+          linear-gradient(#14181f 0 0) 0 0 / 22% 22%,
+          linear-gradient(#14181f 0 0) 100% 0 / 22% 22%,
+          linear-gradient(#14181f 0 0) 0 100% / 22% 22%,
+          linear-gradient(#14181f 0 0) 39% 39% / 22% 22%,
+          linear-gradient(#14181f 0 0) 70% 45% / 12% 12%,
+          linear-gradient(#14181f 0 0) 45% 70% / 12% 12%,
+          #f7f3ea;
+        background-repeat: no-repeat;
+        box-shadow: inset 0 0 0 1px rgba(20, 24, 31, 0.12);
+        flex: none;
+      }
+
+      .foot-meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.56rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(20, 24, 31, 0.42);
+        line-height: 1.5;
+      }
+
+      .challenge-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(232, 168, 146, 0.35);
+        background: rgba(204, 128, 102, 0.12);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #e8a892;
+        width: fit-content;
+      }
+
+      .challenge-kicker::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #e8a892;
+        box-shadow: 0 0 12px rgba(232, 168, 146, 0.8);
+      }
+
+      .challenge-title {
+        margin: 4px 0 0;
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(1.85rem, 6vw, 2.25rem);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+
+      .challenge-title em {
+        font-style: italic;
+        color: #e8a892;
+      }
+
+      .steps {
+        margin: auto 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .steps li {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .num {
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #1a1e26;
+        background: linear-gradient(135deg, #e8a892, #cc8066);
+      }
+
+      .steps p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.35;
+        color: rgba(244, 240, 231, 0.82);
+      }
+
+      .steps strong {
+        display: block;
+        margin-bottom: 2px;
+        color: #fff;
+        font-weight: 650;
+        letter-spacing: -0.01em;
+      }
+
+      .back-foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: end;
+        padding-top: 8px;
+        border-top: 1px solid rgba(244, 240, 231, 0.1);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.56rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(244, 240, 231, 0.42);
+      }
+
+      .ribbon {
+        position: absolute;
+        left: -6px;
+        top: 58px;
+        z-index: 2;
+        padding: 7px 14px 7px 18px;
+        background: var(--moss);
+        color: #f4f0e7;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+      }
+
+      .ribbon::after {
+        content: "";
+        position: absolute;
+        right: -8px;
+        top: 0;
+        border-top: 13px solid transparent;
+        border-bottom: 13px solid transparent;
+        border-left: 8px solid var(--moss);
+      }
+
+      @media (max-width: 520px) {
+        .scene {
+          width: min(100%, 320px);
+        }
+
+        .place {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="controls">
+        <h1>Karten-Preview</h1>
+        <p>Vorderseite: Name + Angebot. Rückseite: Team Challenge. Karte antippen zum Umdrehen.</p>
+        <div class="fields">
+          <label>
+            Name / Location
+            <input id="name" type="text" value="Barfüßer Hausbrauerei" />
+          </label>
+          <label>
+            Angebot
+            <input id="offer" type="text" value="Zweite Runde aufs Haus" />
+          </label>
+          <label>
+            Detail
+            <input id="detail" type="text" value="Für 4–10 Personen · Di–Do ab 17 Uhr" />
+          </label>
+          <label>
+            Challenge-Titel
+            <input id="challenge" type="text" value="Die 7-Minuten-Runde" />
+          </label>
+          <label>
+            Challenge-Text
+            <textarea id="challengeBody">Jeder tippt heimlich ein Team-Motto. Dann 7 Minuten: Wer erzählt die wildeste Story dazu – ohne das Motto zu verraten?</textarea>
+          </label>
+        </div>
+        <div class="hint">Klick auf die Karte · oder Leertaste</div>
+      </div>
+
+      <div class="scene">
+        <div class="card" id="card" role="button" tabindex="0" aria-label="Karte umdrehen">
+          <div class="face front">
+            <div class="grain" aria-hidden="true"></div>
+            <div class="edge" aria-hidden="true"></div>
+            <div class="ribbon">Ulm · Karte 07</div>
+            <div class="stamp">Einmal<br />einlösen</div>
+            <div class="inner">
+              <div class="brand">
+                <span class="brand-mark">Kollegenrunde</span>
+                <span class="meta">Essen &amp; Trinken</span>
+              </div>
+              <div style="margin-top: 28px">
+                <p class="meta">Partner</p>
+                <h2 class="place"><span id="outName">Barfüßer Hausbrauerei</span></h2>
+              </div>
+              <div class="offer-block">
+                <p class="offer-label">Euer Vorteil</p>
+                <p class="offer" id="outOffer">Zweite Runde aufs Haus</p>
+                <p class="detail" id="outDetail">Für 4–10 Personen · Di–Do ab 17 Uhr</p>
+              </div>
+              <div class="footer">
+                <div class="foot-meta">
+                  QR vor Ort scannen<br />
+                  Gemeinsam einlösen
+                </div>
+                <div class="qr" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="face back">
+            <div class="grain" aria-hidden="true"></div>
+            <div class="edge" aria-hidden="true"></div>
+            <div class="stamp">Team<br />Challenge</div>
+            <div class="inner">
+              <div class="brand">
+                <span class="brand-mark">Kollegenrunde</span>
+                <span class="meta">Rückseite</span>
+              </div>
+              <div>
+                <span class="challenge-kicker">Für den Tisch</span>
+                <h2 class="challenge-title">
+                  <span id="outChallenge">Die 7-Minuten-Runde</span>
+                </h2>
+              </div>
+              <ol class="steps">
+                <li>
+                  <span class="num">01</span>
+                  <p>
+                    <strong>Setup</strong>
+                    Handys weg. Getränke stehen. Einer liest die Challenge vor.
+                  </p>
+                </li>
+                <li>
+                  <span class="num">02</span>
+                  <p>
+                    <strong>Spielen</strong>
+                    <span id="outChallengeBody"
+                      >Jeder tippt heimlich ein Team-Motto. Dann 7 Minuten: Wer erzählt die wildeste Story dazu – ohne das Motto zu verraten?</span
+                    >
+                  </p>
+                </li>
+                <li>
+                  <span class="num">03</span>
+                  <p>
+                    <strong>Punkt</strong>
+                    Gewinner bekommt die nächste Runde – oder bestimmt den nächsten Ausflug.
+                  </p>
+                </li>
+              </ol>
+              <div class="back-foot">
+                <span>4–10 Personen</span>
+                <span>ca. 10 Min</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const card = document.getElementById("card");
+      const fields = {
+        name: document.getElementById("name"),
+        offer: document.getElementById("offer"),
+        detail: document.getElementById("detail"),
+        challenge: document.getElementById("challenge"),
+        challengeBody: document.getElementById("challengeBody"),
+      };
+      const outs = {
+        name: document.getElementById("outName"),
+        offer: document.getElementById("outOffer"),
+        detail: document.getElementById("outDetail"),
+        challenge: document.getElementById("outChallenge"),
+        challengeBody: document.getElementById("outChallengeBody"),
+      };
+
+      function sync() {
+        outs.name.textContent = fields.name.value.trim() || "Partner";
+        outs.offer.textContent = fields.offer.value.trim() || "Euer Vorteil";
+        outs.detail.textContent = fields.detail.value.trim();
+        outs.challenge.textContent = fields.challenge.value.trim() || "Team Challenge";
+        outs.challengeBody.textContent = fields.challengeBody.value.trim();
+      }
+
+      function flip() {
+        const flipped = card.classList.toggle("is-flipped");
+        card.style.transform = flipped ? "rotateY(180deg)" : "rotateY(0deg)";
+      }
+
+      Object.values(fields).forEach((el) => el.addEventListener("input", sync));
+
+      card.addEventListener("click", flip);
+      card.addEventListener("keydown", (e) => {
+        if (e.code === "Enter" || e.code === "Space") {
+          e.preventDefault();
+          flip();
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.code === "Space" && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") {
+          e.preventDefault();
+          flip();
+        }
+      });
+
+      sync();
+    </script>
+  </body>
+</html>

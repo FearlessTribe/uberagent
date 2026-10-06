@@ -27,7 +27,7 @@ const meta = [
   {
     label: "Leistungen",
     value:
-      "Business Analyse · Produktkonzeption · Tarif- & Funnel-Logik · UX/UI · Frontend · Lead-Übergabe · Kampagnenaufsetzen",
+      "Business Analyse · Produktkonzeption · Tarif- & Funnel-Logik · UX/UI · Frontend · Lead-Übergabe · GEO & SEO · Kampagnenaufsetzen",
   },
   {
     label: "Stack",
@@ -175,22 +175,20 @@ function DeviceVideo({
   );
 }
 
-function LiveFrame({
-  title,
-  className,
-}: {
-  title: string;
-  className?: string;
-}) {
+const PHONE_PREVIEW = "/cases/lst-finance/phone-preview.png";
+
+function PhoneLivePreview({ title }: { title: string }) {
   return (
-    <iframe
-      className={`${local.liveFrame} ${className ?? ""}`}
-      src={LIVE_URL}
-      title={title}
-      loading="lazy"
-      referrerPolicy="strict-origin-when-cross-origin"
-      tabIndex={-1}
-    />
+    <div className={local.phoneViewport}>
+      <img
+        className={local.phoneStill}
+        src={PHONE_PREVIEW}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+      />
+    </div>
   );
 }
 
@@ -240,8 +238,8 @@ function ValueBlock() {
         </article>
       </div>
       <p className={styles.campaignNote}>
-        <strong>Auch Teil davon:</strong> Kampagnenaufsetzen – Funnel, Tracking und Ausspielung
-        als ein System mit dem Konfigurator.
+        <strong>Auch Teil davon:</strong> GEO &amp; SEO sowie Kampagnenaufsetzen – Funnel,
+        Tracking und Ausspielung als ein System mit dem Konfigurator.
       </p>
     </section>
   );
@@ -386,9 +384,9 @@ export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
                 <div className={styles.macbookLid}>
                   <div className={styles.macbookBezel}>
                     <span className={styles.macbookCamera} aria-hidden="true" />
-                    <div className={styles.macbookScreen}>
+                    <div className={`${styles.macbookScreen} ${local.macbookScreenWide}`}>
                       <DeviceVideo
-                        className={styles.macbookVideo}
+                        className={`${styles.macbookVideo} ${local.macbookVideoFit}`}
                         src={lstFinanceCaseVideo.src}
                         poster={lstFinanceCaseVideo.poster}
                       />
@@ -403,20 +401,20 @@ export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
               </div>
             </div>
 
-            <div className={styles.iphoneFloat}>
+            <div className={`${styles.iphoneFloat} ${local.phoneFloat}`}>
               <div className={styles.iphoneFrame}>
                 <span className={styles.iphoneIsland} aria-hidden="true" />
                 <div className={styles.iphoneScreen}>
-                  <div className={styles.safariChrome} aria-hidden="true">
+                  <div
+                    className={`${styles.safariChrome} ${local.safariChromeTight}`}
+                    aria-hidden="true"
+                  >
                     <div className={styles.safariUrl}>
                       <span className={styles.safariLock} />
                       <span>krankenkassen-angebote24.ch</span>
                     </div>
                   </div>
-                  <LiveFrame
-                    className={local.phoneLiveFrame}
-                    title="Krankenversicherungs-Vergleich Schweiz – Mobile"
-                  />
+                  <PhoneLivePreview title="Krankenversicherungs-Vergleich Schweiz – Mobile" />
                 </div>
               </div>
             </div>
