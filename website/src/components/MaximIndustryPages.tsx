@@ -40,24 +40,10 @@ function IndustryGlyph({
   type: MaximIndustryIcon;
   className?: string;
 }) {
-  if (type === "office") {
+  if (type === "hvac") {
     return (
       <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-        <path d="M5 21V5h10v16M15 10h4v11M8 9h4M8 13h4M8 17h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    );
-  }
-  if (type === "furniture") {
-    return (
-      <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-        <path d="M5 12V8a3 3 0 013-3h8a3 3 0 013 3v4M4 11a2 2 0 012 2v4h12v-4a2 2 0 114 0v7H2v-7a2 2 0 012-2ZM5 20v2M19 20v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    );
-  }
-  if (type === "forwarding") {
-    return (
-      <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-        <path d="M3 6h11v11H3zM14 10h4l3 3v4h-7zM6 20a2 2 0 100-4 2 2 0 000 4ZM18 20a2 2 0 100-4 2 2 0 000 4ZM7 10h4M9 8v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 19V8h7v11M11 12h5.5a2.5 2.5 0 010 5H11M7 11v5M14 9V6.5a2.5 2.5 0 015 0V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
@@ -112,7 +98,7 @@ export function MaximIndustryLinks({
           <>
             <span>Für Ihre Branche</span>
             <p>
-              Maxim für KFZ-Werkstätten, Umzug, Transport und verwandte Betriebe –
+              Maxim für KFZ-Werkstätten, Umzugsunternehmen und SHK-Betriebe –
               jeweils zugeschnitten auf die typische Anfrage- und Kalkulationslogik.
             </p>
           </>
@@ -161,6 +147,19 @@ export function MaximAgentIntro({ titleRest }: { titleRest?: string }) {
   );
 }
 
+function AllIndustriesGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <path
+        d="M4 4h7v7H4V4ZM13 4h7v7h-7V4ZM4 13h7v7H4v-7ZM13 13h7v7h-7v-7Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function IndustryNav({ active }: { active?: string }) {
   const { openService, openServiceSubpage } = useOverlay();
   const activePage = maximIndustryPages.find((page) => page.slug === active);
@@ -170,19 +169,33 @@ function IndustryNav({ active }: { active?: string }) {
       <nav className={styles.industryNav} aria-label="Kalkulations-Agent Branchen">
         <button
           type="button"
+          className={styles.industryNavTile}
           aria-current={!active ? "page" : undefined}
           onClick={() => openService("kalkulations-agent")}
         >
-          Alle Branchen
+          <span className={styles.industryNavIcon}>
+            <AllIndustriesGlyph />
+          </span>
+          <span className={styles.industryNavCopy}>
+            <strong>Alle Branchen</strong>
+            <small>Überblick & Kalkulations-Check</small>
+          </span>
         </button>
         {maximIndustryPages.map((page) => (
           <button
             key={page.slug}
             type="button"
+            className={styles.industryNavTile}
             aria-current={page.slug === active ? "page" : undefined}
             onClick={() => openServiceSubpage("kalkulations-agent", page.slug)}
           >
-            {page.navTitle}
+            <span className={styles.industryNavIcon}>
+              <IndustryGlyph type={page.icon} />
+            </span>
+            <span className={styles.industryNavCopy}>
+              <strong>{page.navTitle}</strong>
+              <small>{page.tileLead}</small>
+            </span>
           </button>
         ))}
       </nav>

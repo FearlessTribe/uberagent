@@ -3,7 +3,10 @@
  * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID, TURNSTILE_SECRET, ADMIN_PASSWORD, ADMIN_SESSION_SECRET
  */
 import { getServiceBySlug } from "../src/data/services";
-import { getMaximIndustryBySlug } from "../src/data/maximIndustryContent";
+import {
+  getMaximIndustryBySlug,
+  maximIndustryAliases,
+} from "../src/data/maximIndustryContent";
 import {
   handleAdminList,
   handleAdminLogin,
@@ -120,6 +123,14 @@ function applyHtmlSeo(
 async function serveAssets(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   const match = url.pathname.match(/^\/service\/([^/]+)(?:\/([^/]+))?\/?$/);
+  const aliasTarget =
+    match?.[1] === "kalkulations-agent" && match[2]
+      ? maximIndustryAliases[match[2]]
+      : undefined;
+  if (aliasTarget) {
+    url.pathname = `/service/kalkulations-agent/${aliasTarget}`;
+    return Response.redirect(url.toString(), 301);
+  }
   const service = match ? getServiceBySlug(match[1]) : undefined;
   const industryPage =
     match?.[1] === "kalkulations-agent"

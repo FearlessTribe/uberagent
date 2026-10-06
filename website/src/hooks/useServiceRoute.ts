@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { maximIndustryAliases } from "../data/maximIndustryContent";
 import { services } from "../data/services";
 
 const slugToServiceId = Object.fromEntries(
@@ -17,9 +18,18 @@ function readServiceFromPath(): ServiceRoute {
     /^\/service\/([^/]+)(?:\/([^/]+))?\/?$/,
   );
   if (!match) return { serviceId: null, subpath: null };
+  let subpath = match[2] ?? null;
+  const serviceSlug = match[1];
+  if (serviceSlug === "kalkulations-agent" && subpath && maximIndustryAliases[subpath]) {
+    subpath = maximIndustryAliases[subpath];
+    const canonical = `/service/kalkulations-agent/${subpath}`;
+    if (window.location.pathname !== canonical) {
+      window.history.replaceState(window.history.state, "", canonical);
+    }
+  }
   return {
-    serviceId: slugToServiceId[match[1]] ?? null,
-    subpath: match[2] ?? null,
+    serviceId: slugToServiceId[serviceSlug] ?? null,
+    subpath,
   };
 }
 
