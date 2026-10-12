@@ -83,11 +83,11 @@
 .stackTitle {
   font-style: normal;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .stackTitleRest {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-primary);
   font-family: inherit;
   font-style: normal;
   font-weight: 500;
