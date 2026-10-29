@@ -182,12 +182,12 @@ const RANKING_ROWS: {
   points: number;
   tabs: RankingTab[];
 }[] = [
-  { team: "Die Escape-Profis", company: "softgarden Ulm", points: 1280, tabs: ["Alle", "Tech"] },
-  { team: "Schlemmerbande", company: "Ratiopharm", points: 1195, tabs: ["Alle", "Gastronomie"] },
-  { team: "Weststadt Wölfe", company: "Handwerk Ulm Nord", points: 1142, tabs: ["Alle", "Handwerk", "Weststadt"] },
-  { team: "Bowl Brothers", company: "Zollern Digital", points: 1088, tabs: ["Alle", "Tech"] },
-  { team: "Karaoke Kings", company: "Sparkasse Neu-Ulm", points: 1010, tabs: ["Alle", "Weststadt"] },
-  { team: "Pilzplausch", company: "Culinaria GmbH", points: 976, tabs: ["Alle", "Gastronomie"] },
+  { team: "Die Escape-Profis", company: "Nordlicht Softworks", points: 1280, tabs: ["Alle", "Tech"] },
+  { team: "Schlemmerbande", company: "Blaues Tischlein GmbH", points: 1195, tabs: ["Alle", "Gastronomie"] },
+  { team: "Weststadt Wölfe", company: "Donauwerkstatt", points: 1142, tabs: ["Alle", "Handwerk", "Weststadt"] },
+  { team: "Bowl Brothers", company: "Pixelbrücke AG", points: 1088, tabs: ["Alle", "Tech"] },
+  { team: "Karaoke Kings", company: "Münsterblick Media", points: 1010, tabs: ["Alle", "Weststadt"] },
+  { team: "Pilzplausch", company: "Kesselbach Catering", points: 976, tabs: ["Alle", "Gastronomie"] },
 ];
 
 function shuffleVideos(list: readonly string[]): string[] {
