@@ -28,7 +28,7 @@ type BackSuggestion = {
   teamBody: string;
 };
 
-/** Example challenge packs – always: duel has a defined winner; team has a measurable score. */
+/** Example challenge packs: duel has a defined winner; team has a measurable score. */
 const BACK_SUGGESTIONS: BackSuggestion[] = [
   {
     id: "exit",
@@ -58,7 +58,7 @@ const BACK_SUGGESTIONS: BackSuggestion[] = [
     duelBody:
       "Jury aus 3 Personen bewertet mutigste Performance. Gewinner: höchste Jury-Punktzahl.",
     teamTitle: "Teamgesang",
-    teamBody: "Ein Song zusammen. Messwert: Jury-Score 1–10 für den gemeinsamen Auftritt.",
+    teamBody: "Ein Song zusammen. Messwert: Jury-Score 1 bis 10 für den gemeinsamen Auftritt.",
   },
   {
     id: "mush",
@@ -86,7 +86,7 @@ const BACK_SUGGESTIONS: BackSuggestion[] = [
     backTitle: "Ruhemodus",
     duelTitle: "Zen-Meister",
     duelBody:
-      "Wer hält am längsten still – ohne zu lachen? Gewinner: längste Zeit in Sekunden.",
+      "Wer hält am längsten still, ohne zu lachen? Gewinner: längste Zeit in Sekunden.",
     teamTitle: "Atem-Sync",
     teamBody: "2 Minuten gemeinsam atmen. Messwert: Sekunden bis die erste Person aus dem Takt fällt.",
   },
@@ -122,7 +122,6 @@ export function KollegenrundeCardDesigner() {
   const fileInputId = useId();
   const turnstileHostRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const photoObjectUrl = useRef<string | null>(null);
 
   const [side, setSide] = useState<"front" | "back">("front");
   const [name, setName] = useState("");
@@ -157,12 +156,6 @@ export function KollegenrundeCardDesigner() {
     teamTitle,
     teamBody,
   };
-
-  useEffect(() => {
-    return () => {
-      if (photoObjectUrl.current) URL.revokeObjectURL(photoObjectUrl.current);
-    };
-  }, []);
 
   useEffect(() => {
     if (!siteKey || side !== "back" || !turnstileHostRef.current) return;
@@ -206,10 +199,6 @@ export function KollegenrundeCardDesigner() {
   };
 
   const onPhotoChange = (file: File | null) => {
-    if (photoObjectUrl.current) {
-      URL.revokeObjectURL(photoObjectUrl.current);
-      photoObjectUrl.current = null;
-    }
     if (!file) {
       setPhotoFile(null);
       setPhotoUrl(null);
@@ -224,10 +213,18 @@ export function KollegenrundeCardDesigner() {
       return;
     }
     setError("");
-    const url = URL.createObjectURL(file);
-    photoObjectUrl.current = url;
     setPhotoFile(file);
-    setPhotoUrl(url);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : null;
+      setPhotoUrl(result);
+    };
+    reader.onerror = () => {
+      setError("Foto konnte nicht geladen werden. Bitte erneut wählen.");
+      setPhotoFile(null);
+      setPhotoUrl(null);
+    };
+    reader.readAsDataURL(file);
   };
 
   const goBack = () => {
@@ -267,7 +264,7 @@ export function KollegenrundeCardDesigner() {
       return;
     }
     if (!backTitle.trim() || !duelTitle.trim() || !duelBody.trim() || !teamTitle.trim() || !teamBody.trim()) {
-      setError("Bitte die Rückseite vollständig ausfüllen – oder ein Beispiel wählen.");
+      setError("Bitte die Rückseite vollständig ausfüllen oder ein Beispiel wählen.");
       return;
     }
     if (!isValidEmail(email.trim()) || !phone.trim()) {
@@ -309,7 +306,7 @@ export function KollegenrundeCardDesigner() {
       if (!res.ok) {
         const offlineHint =
           res.status === 404 || res.status === 405 || res.status === 0
-            ? " API noch nicht live – nach Deploy funktioniert der Upload."
+            ? " API noch nicht live. Nach Deploy funktioniert der Upload."
             : "";
         throw new Error((data.error || "Upload fehlgeschlagen.") + offlineHint);
       }
@@ -339,7 +336,7 @@ export function KollegenrundeCardDesigner() {
     return (
       <div className={styles.success}>
         <p className={styles.successEyebrow}>Eingegangen</p>
-        <h3>Danke – eure Kartenidee ist da</h3>
+        <h3>Danke, eure Kartenidee ist da</h3>
         <p>Wir prüfen Vorder- und Rückseite sowie Foto und melden uns zum Partnergespräch.</p>
       </div>
     );
@@ -369,8 +366,8 @@ export function KollegenrundeCardDesigner() {
         </div>
         <p className={styles.topHint}>
           {side === "front"
-            ? "Vorteil, Foto und Kontakt – so sieht die Karte von vorne aus."
-            : "Duell & Challenge – so sieht die Karte von hinten aus."}
+            ? "Vorteil, Foto und Kontakt: so sieht die Karte von vorne aus."
+            : "Duell & Challenge: so sieht die Karte von hinten aus."}
         </p>
       </div>
 
@@ -446,7 +443,7 @@ export function KollegenrundeCardDesigner() {
                   onChange={(e) => setDetail(e.target.value)}
                   required
                   maxLength={90}
-                  placeholder="z. B. Für 4+ Personen · Di–Do"
+                  placeholder="z. B. Für 4+ Personen · Di bis Do"
                 />
               </label>
 
@@ -502,7 +499,7 @@ export function KollegenrundeCardDesigner() {
             <div className={styles.panel} key="back">
               <p className={styles.sectionLabel}>Challenge auf der Rückseite</p>
               <p className={styles.ruleNote}>
-                <strong>Kollegen Duell:</strong> Es muss klar ein Gewinner feststehen – und wie er
+                <strong>Kollegen Duell:</strong> Es muss klar ein Gewinner feststehen, und wie er
                 ermittelt wird.
                 <br />
                 <strong>Team Challenge:</strong> Es braucht einen messbaren Wert, damit Teams
@@ -547,7 +544,7 @@ export function KollegenrundeCardDesigner() {
               <label>
                 Kollegen Duell · Text
                 <span className={styles.fieldHint}>
-                  Wer gewinnt – und wie wird der Gewinner bestimmt?
+                  Wer gewinnt, und wie wird der Gewinner bestimmt?
                 </span>
                 <textarea
                   value={duelBody}
@@ -588,7 +585,7 @@ export function KollegenrundeCardDesigner() {
                 <div className={styles.captcha} ref={turnstileHostRef} />
               ) : (
                 <p className={styles.devNote}>
-                  Captcha greift online mit Turnstile-Sitekey – lokal optional.
+                  Captcha greift online mit Turnstile-Sitekey. Lokal optional.
                 </p>
               )}
 

@@ -11,10 +11,14 @@ import {
   KOLLEGENRUNDE_PATH,
   type KollegenrundeAudience,
 } from "../hooks/useKollegenrundeRoute";
+import { useOverlay } from "../context/OverlayContext";
 import { CtaButton } from "./CtaButton";
+import { ContactFooter } from "./ContactFooter";
 import { KollegenrundeCardDesigner } from "./KollegenrundeCardDesigner";
 import { StackedCards } from "./StackedCards";
 import {
+  DURATION,
+  EASE,
   fadeUpItem,
   resolveVariants,
   slidePanel,
@@ -50,7 +54,7 @@ const EXAMPLE_CARDS: ExampleCard[] = [
     name: "Escape Studio Neu-Ulm",
     front: "/kollegenrunde/cards/escape-front.jpg",
     back: "/kollegenrunde/cards/escape-back.png",
-    frontAlt: "Escape Studio Neu-Ulm – Vorderseite mit Vorteil",
+    frontAlt: "Escape Studio Neu-Ulm, Vorderseite mit Vorteil",
     backAlt: "Team Challenge: Exit-Strategie",
   },
   {
@@ -58,7 +62,7 @@ const EXAMPLE_CARDS: ExampleCard[] = [
     name: "Pilz Workshop",
     front: "/kollegenrunde/cards/pilz-front.jpg",
     back: "/kollegenrunde/cards/pilz-back.png",
-    frontAlt: "Pilz Workshop – Vorderseite mit Vorteil",
+    frontAlt: "Pilz Workshop, Vorderseite mit Vorteil",
     backAlt: "Team Challenge: Mush love",
   },
   {
@@ -66,7 +70,7 @@ const EXAMPLE_CARDS: ExampleCard[] = [
     name: "Vogelsang Hausbrauerei",
     front: "/kollegenrunde/cards/vogelsang-front.jpg",
     back: "/kollegenrunde/cards/vogelsang-back.png",
-    frontAlt: "Vogelsang Hausbrauerei – Vorderseite mit Vorteil",
+    frontAlt: "Vogelsang Hausbrauerei, Vorderseite mit Vorteil",
     backAlt: "Team Challenge: Hochstapler-Pitch",
   },
   {
@@ -74,7 +78,7 @@ const EXAMPLE_CARDS: ExampleCard[] = [
     name: "Karaoke Bar Ulm",
     front: "/kollegenrunde/cards/karaoke-front.jpg",
     back: "/kollegenrunde/cards/karaoke-back.png",
-    frontAlt: "Karaoke Bar Ulm – Vorderseite mit Vorteil",
+    frontAlt: "Karaoke Bar Ulm, Vorderseite mit Vorteil",
     backAlt: "Team Challenge: Office Star",
   },
   {
@@ -82,7 +86,7 @@ const EXAMPLE_CARDS: ExampleCard[] = [
     name: "Bowl24",
     front: "/kollegenrunde/cards/bowl-front.jpg",
     back: "/kollegenrunde/cards/bowl-back.png",
-    frontAlt: "Bowl24 – Vorderseite mit Vorteil",
+    frontAlt: "Bowl24, Vorderseite mit Vorteil",
     backAlt: "Team Challenge: Bowl Together Now",
   },
 ];
@@ -90,18 +94,17 @@ const EXAMPLE_CARDS: ExampleCard[] = [
 const HERO = {
   kunden: {
     image: TEAM_HERO_POSTER,
-    alt: "Team unterwegs – gemeinsames Erlebnis",
+    alt: "Team unterwegs, gemeinsames Erlebnis",
     kicker: "Team Challenge · Ulm & Neu-Ulm",
     title: (
       <>
-        Euer nächstes Kurz-Event steckt in dieser{" "}
+        Kurz-Events für euer Team. Fertig in der{" "}
         <span className="em">Box</span>
       </>
     ),
     lead:
-      "Team Building und bessere Mitarbeiterzufriedenheit – unkompliziert und günstig. Mehrere kurze Events statt eines teuren Groß-Events.",
-    chips: ["Team Building", "Bessere Mitarbeiterzufriedenheit", "Unkompliziert und günstig"],
-    stats: "Erste Ausgabe · max. 200 Karten · 4–10 Personen · Ulm & Neu-Ulm",
+      "Mittagstische, Restaurants und kleine Team-Events mit exklusiven Vorteilen. Mehrere kurze Termine statt eines teuren Groß-Events.",
+    stats: "Erste Ausgabe · limitiert · 4 bis 10 Personen · Ulm & Neu-Ulm",
     cta: "Jetzt bestellen",
     ctaHref: STRIPE_ORDER_URL,
   },
@@ -116,13 +119,76 @@ const HERO = {
       </>
     ),
     lead:
-      "Unternehmen kaufen die Box. Teams wählen eine Karte und kommen gemeinsam zu dir – und dein Betrieb bleibt bei lokalen Firmen-Teams sichtbar.",
-    chips: ["Gruppenanlass für deinen Tisch", "Sichtbarkeit bei Ulmer Teams", "Keine Aufnahmegebühr"],
-    stats: "Erste Ausgabe · max. 200 Karten · Schriftliche Konditionen · QR vor Ort",
+      "Unternehmen kaufen die Box. Teams wählen eine Karte und kommen gemeinsam zu dir. Kostenlose Sichtbarkeit bei lokalen Firmen-Teams.",
+    stats: "Erste Ausgabe · limitiert · Schriftliche Konditionen · QR vor Ort",
     cta: "Partnerangebot besprechen",
     ctaHref: "#partner",
   },
 } as const;
+
+const kundenBenefits = [
+  {
+    title: "30 exklusive Vorteile",
+    text: "Mittagstische, Restaurants und kleine Team-Events: lokal, klar und sofort einlösbar.",
+    icon: "tag" as const,
+  },
+  {
+    title: "Kurz statt groß",
+    text: "Mehrere kleine Termine statt eines teuren Offsites. Rituale, die im Alltag bleiben.",
+    icon: "calendar" as const,
+  },
+  {
+    title: "Einfach organisiert",
+    text: "Karte wählen, Termin finden, Vorteil nutzen. Kein App-Zwang, kein Planungsmarathon.",
+    icon: "check" as const,
+  },
+  {
+    title: "Team, das zusammenhält",
+    text: "Regelmäßige gemeinsame Events stärken Kollegialität nachhaltiger als seltene Groß-Events.",
+    icon: "people" as const,
+  },
+];
+
+const anbieterBenefits = [
+  {
+    title: "Gruppenbuchungen von Firmen",
+    text: "Teams kommen gemeinsam: planbare Gruppenbesuche statt Einzelgäste.",
+    icon: "people" as const,
+  },
+  {
+    title: "Kostenlose Werbung",
+    text: "Deine Karte landet in Boxen bei Ulmer Firmen. Keine Aufnahmegebühr, kein Risiko.",
+    icon: "spark" as const,
+  },
+  {
+    title: "Je besser der Vorteil, desto mehr Buchungen",
+    text: "Stärkere Angebote werden öfter gewählt. Du steuerst Nachfrage über den Rabatt.",
+    icon: "tag" as const,
+  },
+  {
+    title: "Zeiten, die du festlegst",
+    text: "Kapazität und Ausschlusstage schriftlich vorab. Du bleibst Herr über deinen Tisch.",
+    icon: "calendar" as const,
+  },
+];
+
+type RankingTab = "Alle" | "Tech" | "Gastronomie" | "Handwerk" | "Weststadt";
+
+const RANKING_TABS: RankingTab[] = ["Alle", "Tech", "Gastronomie", "Handwerk", "Weststadt"];
+
+const RANKING_ROWS: {
+  team: string;
+  company: string;
+  points: number;
+  tabs: RankingTab[];
+}[] = [
+  { team: "Die Escape-Profis", company: "softgarden Ulm", points: 1280, tabs: ["Alle", "Tech"] },
+  { team: "Schlemmerbande", company: "Ratiopharm", points: 1195, tabs: ["Alle", "Gastronomie"] },
+  { team: "Weststadt Wölfe", company: "Handwerk Ulm Nord", points: 1142, tabs: ["Alle", "Handwerk", "Weststadt"] },
+  { team: "Bowl Brothers", company: "Zollern Digital", points: 1088, tabs: ["Alle", "Tech"] },
+  { team: "Karaoke Kings", company: "Sparkasse Neu-Ulm", points: 1010, tabs: ["Alle", "Weststadt"] },
+  { team: "Pilzplausch", company: "Culinaria GmbH", points: 976, tabs: ["Alle", "Gastronomie"] },
+];
 
 function shuffleVideos(list: readonly string[]): string[] {
   const next = [...list];
@@ -226,11 +292,11 @@ const anbieterSteps = [
 const kundenFaqs = [
   {
     q: "Ist das Erlebnis schon in der Box enthalten?",
-    a: "Nein. Die Box enthält die Vorteile auf den Karten. Eintritt, Speisen und Kurse zahlt ihr zusätzlich – außer die Karte sagt etwas anderes.",
+    a: "Nein. Die Box enthält die Vorteile auf den Karten. Eintritt, Speisen und Kurse zahlt ihr zusätzlich, außer die Karte sagt etwas anderes.",
   },
   {
     q: "Was sind die zwei Challenges pro Kurz-Event?",
-    a: "Intern: Kollegen Duell – ein Gewinner im Team, mit Leaderboard innerhalb eurer Runde. Extern: Team Challenge – euer messbarer Score tritt gegen alle anderen Ulmer Teams an.",
+    a: "Intern: Kollegen Duell: ein Gewinner im Team, mit Leaderboard innerhalb eurer Runde. Extern: Team Challenge: euer messbarer Score tritt gegen alle anderen Ulmer Teams an.",
   },
   {
     q: "Müssen immer alle mitkommen?",
@@ -246,18 +312,18 @@ const kundenFaqs = [
   },
   {
     q: "Wann können wir bestellen?",
-    a: "Sofort über den Bestell-Button. Die erste Ausgabe ist auf 200 Karten limitiert.",
+    a: "Sofort über den Bestell-Button. Die erste Ausgabe ist limitiert.",
   },
   {
     q: "Warum nicht einfach ein großes Event?",
-    a: "Weil Vertrauen im Alltag entsteht. Mehrere kurze, gemeinsame Events schaffen Rituale – Studien zu regelmäßigen, einfachen Teamaktivitäten zeigen stärkere Kollegialität als seltene Groß-Events.",
+    a: "Weil Vertrauen im Alltag entsteht. Mehrere kurze, gemeinsame Events schaffen Rituale. Regelmäßige, einfache Teamaktivitäten stärken Kollegialität nachhaltiger als seltene Groß-Events.",
   },
 ];
 
 const anbieterFaqs = [
   {
     q: "Muss ich hohe Rabatte geben?",
-    a: "Nein. Ein klares Extra oder eine Zusatzleistung reicht oft besser als ein großer Rabatt. Je klarer und wertiger der Vorteil, desto höher der Anreiz für Teams – und desto größer die Chance, mit aufs erste Deck zu kommen.",
+    a: "Nein. Ein klares Extra oder eine Zusatzleistung reicht oft besser als ein großer Rabatt. Je klarer und wertiger der Vorteil, desto höher der Anreiz für Teams, und desto größer die Chance, mit aufs erste Deck zu kommen.",
   },
   {
     q: "Kann ich Einlösungen spontan ablehnen?",
@@ -265,11 +331,11 @@ const anbieterFaqs = [
   },
   {
     q: "Sind Gästezahlen garantiert?",
-    a: "Nein, keine feste Abnahmegarantie. Wir verkaufen die Box an Ulmer Firmen. Wie oft Teams bei dir einlösen, hängt davon ab, wie viele Boxen verkauft werden und welche Karten die Teams wählen. Du siehst echte Nachfrage statt leerer Versprechen – Kapazität und Zeiten legst du vorher fest.",
+    a: "Nein, keine feste Abnahmegarantie. Wir verkaufen die Box an Ulmer Firmen. Wie oft Teams bei dir einlösen, hängt davon ab, wie viele Boxen verkauft werden und welche Karten die Teams wählen. Du siehst echte Nachfrage statt leerer Versprechen. Kapazität und Zeiten legst du vorher fest.",
   },
   {
     q: "Was muss mein Team vor Ort tun?",
-    a: "Set prüfen, QR-Code scannen, Vorteil gewähren. Kurze Anleitung inklusive.",
+    a: "Set prüfen, QR-Code scannen, Vorteil gewähren. Der Scan entwertet das Set digital, Kopien greifen nicht. Kurze Anleitung inklusive.",
   },
 ];
 
@@ -277,7 +343,20 @@ function Icon({
   name,
   className,
 }: {
-  name: "cards" | "vote" | "calendar" | "check" | "sliders" | "spark" | "box" | "people" | "store" | "qr";
+  name:
+    | "cards"
+    | "vote"
+    | "calendar"
+    | "check"
+    | "sliders"
+    | "spark"
+    | "box"
+    | "people"
+    | "store"
+    | "qr"
+    | "tag"
+    | "trophy"
+    | "bot";
   className?: string;
 }) {
   const common = {
@@ -363,6 +442,39 @@ function Icon({
           <path d="M14 14h2.5v2.5H14V14Zm3.5 0H20v6h-6v-2.5h3.5V14Z" fill="currentColor" />
         </svg>
       );
+    case "tag":
+      return (
+        <svg {...common}>
+          <path
+            d="M4.5 12.5 12 5h5.5A1.5 1.5 0 0 1 19 6.5V12l-7.5 7.5a1.5 1.5 0 0 1-2.1 0L4.5 14.6a1.5 1.5 0 0 1 0-2.1Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <circle cx="15.2" cy="8.8" r="1.2" fill="currentColor" />
+        </svg>
+      );
+    case "trophy":
+      return (
+        <svg {...common}>
+          <path
+            d="M8 5h8v2.5a4 4 0 0 1-8 0V5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <path d="M8 6.5H5.5A2 2 0 0 0 5.8 10M16 6.5h2.5A2 2 0 0 1 18.2 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M10 14.5h4M12 14.5V17M9 19h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    case "bot":
+      return (
+        <svg {...common}>
+          <rect x="5" y="8" width="14" height="11" rx="3" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M12 5v3M9.5 13h.01M14.5 13h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M9 16.5h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
   }
 }
 
@@ -417,7 +529,13 @@ function SectionHead({
   );
 }
 
-function FlipExampleCard({ card }: { card: ExampleCard }) {
+function FlipExampleCard({
+  card,
+  index,
+}: {
+  card: ExampleCard;
+  index: number;
+}) {
   const reduce = useReducedMotion();
   const [pinned, setPinned] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -425,8 +543,16 @@ function FlipExampleCard({ card }: { card: ExampleCard }) {
   const flipped = pinned || hovering;
 
   return (
-    <div
-      className={styles.flipScene}
+    <motion.div
+      className={`${styles.flipScene} ${flipped ? styles.flipSceneOpen : ""}`}
+      initial={reduce ? false : { opacity: 0, y: 32, rotateZ: -3.5 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0, rotateZ: 0 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{
+        duration: DURATION.slow,
+        ease: EASE.outExpo,
+        delay: Math.min(index, 4) * 0.07,
+      }}
       onMouseEnter={() => {
         if (!reduce) setHovering(true);
       }}
@@ -434,7 +560,7 @@ function FlipExampleCard({ card }: { card: ExampleCard }) {
     >
       <button
         type="button"
-        className={styles.flipCard}
+        className={`${styles.flipCard} ${flipped ? styles.flipCardOpen : ""}`}
         onClick={() => setPinned((prev) => !prev)}
         aria-pressed={flipped}
         aria-label={`${card.name}: Karte wenden`}
@@ -444,7 +570,11 @@ function FlipExampleCard({ card }: { card: ExampleCard }) {
           style={
             reduce
               ? undefined
-              : { transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }
+              : {
+                  transform: flipped
+                    ? "rotateY(180deg) translateY(-6px)"
+                    : "rotateY(0deg)",
+                }
           }
         >
           <div
@@ -452,6 +582,10 @@ function FlipExampleCard({ card }: { card: ExampleCard }) {
             style={reduce && flipped ? { display: "none" } : undefined}
           >
             <img src={card.front} alt={card.frontAlt} draggable={false} />
+            <span className={styles.flipShine} aria-hidden="true" />
+            <span className={styles.flipPeek} aria-hidden="true">
+              Challenge
+            </span>
           </div>
           <div
             className={`${styles.flipFace} ${styles.flipFaceBack}`}
@@ -461,17 +595,22 @@ function FlipExampleCard({ card }: { card: ExampleCard }) {
           </div>
         </div>
       </button>
-    </div>
+    </motion.div>
   );
 }
 
 function ExampleCardStack() {
   return (
-    <StackedCards className={styles.stack} offsetTop={112} stackGap={20}>
-      {EXAMPLE_CARDS.map((card) => (
-        <FlipExampleCard key={card.id} card={card} />
-      ))}
-    </StackedCards>
+    <div className={styles.stackWrap}>
+      <StackedCards className={styles.stack} offsetTop={112} stackGap={20}>
+        {EXAMPLE_CARDS.map((card, index) => (
+          <FlipExampleCard key={card.id} card={card} index={index} />
+        ))}
+      </StackedCards>
+      <p className={styles.stackHint}>
+        Hover oder tippen · Vorderseite Vorteil, Rückseite Challenge
+      </p>
+    </div>
   );
 }
 
@@ -522,6 +661,56 @@ function FaqAccordion({
   );
 }
 
+function RankingPreview() {
+  const [tab, setTab] = useState<RankingTab>("Alle");
+  const rows = RANKING_ROWS.filter((row) => row.tabs.includes(tab)).slice(0, 5);
+
+  return (
+    <div className={styles.rankingBoard}>
+      <div className={styles.rankingTabs} role="tablist" aria-label="Ranking-Filter">
+        {RANKING_TABS.map((item) => (
+          <button
+            key={item}
+            type="button"
+            role="tab"
+            aria-selected={tab === item}
+            className={`${styles.rankingTab} ${tab === item ? styles.rankingTabActive : ""}`}
+            onClick={() => setTab(item)}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      <table className={styles.rankingTable}>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Team</th>
+            <th scope="col">Punkte</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, index) => (
+            <tr key={row.team} className={index === 0 ? styles.rankingRowTop : undefined}>
+              <td>{index + 1}</td>
+              <td>
+                <div className={styles.rankingTeam}>
+                  <strong>{row.team}</strong>
+                  <span>{row.company}</span>
+                </div>
+              </td>
+              <td>{row.points.toLocaleString("de-DE")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className={styles.rankingNote}>
+        Beispiel-Ranking · Stadtweit, nach Branche und Stadtteil. Echte Scores nach dem Start.
+      </p>
+    </div>
+  );
+}
+
 function KundenContent() {
   const reduce = useReducedMotion();
   const item = resolveVariants(reduce, fadeUpItem);
@@ -529,20 +718,89 @@ function KundenContent() {
 
   return (
     <>
+      <section className={styles.section}>
+        <SectionHead
+          eyebrow="Vorteile"
+          title={
+            <>
+              Was euer Team davon{" "}
+              <span className="em">hat</span>
+            </>
+          }
+          text="Eine Box, viele kurze Anlässe: Vorteile vor Ort, einfache Organisation, nachhaltiger Team-Effekt."
+        />
+        <motion.div
+          className={styles.benefitGrid}
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
+          {kundenBenefits.map((benefit) => (
+            <motion.article key={benefit.title} className={styles.benefitCard} variants={item}>
+              <span className={styles.benefitIconWrap}>
+                <Icon name={benefit.icon} className={styles.benefitIcon} />
+              </span>
+              <h3>{benefit.title}</h3>
+              <p>{benefit.text}</p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </section>
+
+      <section className={styles.section}>
+        <SectionHead
+          eyebrow="Challenges"
+          title={
+            <>
+              Pro Kurz-Event zwei Challenges:{" "}
+              <span className="em">intern</span> und{" "}
+              <span className="em">extern</span>
+            </>
+          }
+          text="Auf jeder Karte stehen zwei Aufgaben. Intern wetteifert ihr unter euch. Extern messt ihr euch mit ganz Ulm."
+        />
+        <div className={styles.challengeGrid}>
+          <article className={styles.challengeCard}>
+            <p className={styles.challengeEyebrow}>Intern · Kollegen Duell</p>
+            <h3>Wer ist der Krasseste im Team?</h3>
+            <p>
+              Eine Person setzt sich durch und landet im Leaderboard eurer Runde. Fördert gesunden
+              Wettbewerb, hält die Rivalität spielerisch und macht jedes Event persönlich.
+            </p>
+          </article>
+          <article className={styles.challengeCard}>
+            <p className={styles.challengeEyebrow}>Extern · Team Challenge</p>
+            <h3>Wer ist das krasseste Team in Ulm?</h3>
+            <p>
+              Messbarer Score, vergleichbar mit anderen Firmen-Teams: stadtweit, nach Branche und
+              Stadtteil. So wird aus eurem Kurz-Event ein Stadtwettbewerb.
+            </p>
+            <p className={styles.challengePrize}>
+              <Icon name="bot" className={styles.benefitIcon} />
+              <span>
+                Gewinn: Ruhm, Ehre und ein kostenloser AI-Mitarbeiter, der euer Team entlastet.
+              </span>
+            </p>
+          </article>
+        </div>
+        <RankingPreview />
+      </section>
+
       <section className={styles.stackSection}>
         <div className={styles.stackCopy}>
           <SectionHead
             eyebrow="Beispielkarten"
             title={
               <>
-                So könnten eure Teamkarten{" "}
-                <span className="em">aussehen</span>
+                30 exklusive Rabatte für euer{" "}
+                <span className="em">Team</span>
               </>
             }
           />
           <p className={styles.planNote}>
-            Erste Ausgabe auf 200 Karten limitiert. Weniger als ein großes Offsite – mehr kurze
-            Events. Partnerliste vor dem Verkaufsstart.
+            Erste Ausgabe limitiert. Weniger als ein großes Offsite, mehr kurze Events. Partnerliste
+            vor dem Verkaufsstart.
           </p>
           <CtaButton href={STRIPE_ORDER_URL} size="md" surface="on-light">
             Jetzt bestellen
@@ -583,73 +841,13 @@ function KundenContent() {
         </motion.ol>
       </section>
 
-      <section className={styles.section}>
-        <SectionHead
-          eyebrow="Challenges"
-          title={
-            <>
-              Pro Kurz-Event zwei Challenges –{" "}
-              <span className="em">intern</span> und{" "}
-              <span className="em">extern</span>
-            </>
-          }
-          text="Auf jeder Karte stehen zwei Aufgaben: eine für den Wettbewerb im Team, eine für den Vergleich mit ganz Ulm."
-        />
-        <div className={styles.challengeGrid}>
-          <article className={styles.challengeCard}>
-            <p className={styles.challengeEyebrow}>Intern · Kollegen Duell</p>
-            <h3>Gewinner im Team</h3>
-            <p>
-              Eine Person setzt sich durch – und landet im Leaderboard eurer Runde. Rivalität bleibt
-              unter euch, das Event wird persönlich.
-            </p>
-          </article>
-          <article className={styles.challengeCard}>
-            <p className={styles.challengeEyebrow}>Extern · Team Challenge</p>
-            <h3>Gegen alle Ulmer Teams</h3>
-            <p>
-              Messbarer Score, vergleichbar mit anderen Firmen-Teams in Ulm. So wird aus eurem
-              Kurz-Event ein Stadtwettbewerb.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <SectionHead
-          eyebrow="Warum es wirkt"
-          title={
-            <>
-              Warum mehrere kleine Termine mehr{" "}
-              <span className="em">bringen</span>
-            </>
-          }
-          text="Teamleitungen, Office Manager, HR – eine Box pro Team. Budget für die Ausflüge legt die Firma fest."
-        />
-        <div className={styles.valuePoints}>
-          <p>
-            Ein Deck, viele Anlässe: statt eines teuren Offsites mehrere kurze Events – die ersten
-            Ulmer Boxen sind auf 200 Karten limitiert.
-          </p>
-          <p>
-            Kleine, wiederkehrende Rituale bauen Vertrauen im Team auf. Studien zu regelmäßigen,
-            einfachen sozialen Aktivitäten zeigen stärkere Kollegialität und bessere
-            Teamleistung als seltene Groß-Events; der Effekt eines einzelnen Offsites klingt oft
-            nach wenigen Monaten ab.
-          </p>
-        </div>
-        <CtaButton href={STRIPE_ORDER_URL} size="md" surface="on-light">
-          Jetzt bestellen
-        </CtaButton>
-      </section>
-
       <FaqAccordion items={kundenFaqs} headingId="kunden-faq" />
 
       <section className={styles.ctaSection} id="bestellen">
         <div className={styles.ctaCopy}>
           <p className={styles.sectionEyebrow}>Bestellen</p>
           <h2>Die erste Ulmer Team Challenge beginnt mit euch</h2>
-          <p>Erste Ausgabe auf 200 Karten limitiert – sicher dir euer Set jetzt.</p>
+          <p>Erste Ausgabe limitiert. Sichert euch euer Set jetzt.</p>
         </div>
         <CtaButton href={STRIPE_ORDER_URL} size="md" surface="accent">
           Jetzt bestellen
@@ -663,23 +861,54 @@ function AnbieterContent() {
   const reduce = useReducedMotion();
   const item = resolveVariants(reduce, fadeUpItem);
   const container = resolveVariants(reduce, staggerContainer);
+  const { openService, openKollegenrunde, openLaurens } = useOverlay();
 
   return (
     <>
+      <section className={styles.section}>
+        <SectionHead
+          eyebrow="Vorteile"
+          title={
+            <>
+              Warum sich die Partnerschaft für dich{" "}
+              <span className="em">lohnt</span>
+            </>
+          }
+          text="Kein Risiko, keine Gebühr: kostenlose Werbung bei Ulmer Firmen-Teams. Je besser dein Vorteil, desto öfter wirst du gewählt."
+        />
+        <motion.div
+          className={styles.benefitGrid}
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
+          {anbieterBenefits.map((benefit) => (
+            <motion.article key={benefit.title} className={styles.benefitCard} variants={item}>
+              <span className={styles.benefitIconWrap}>
+                <Icon name={benefit.icon} className={styles.benefitIcon} />
+              </span>
+              <h3>{benefit.title}</h3>
+              <p>{benefit.text}</p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </section>
+
       <section className={styles.stackSection}>
         <div className={styles.stackCopy}>
           <SectionHead
             eyebrow="Beispielvorteile"
             title={
               <>
-                So könnte dein Teamvorteil{" "}
-                <span className="em">aussehen</span>
+                30 exklusive Rabatte für Ulmer{" "}
+                <span className="em">Teams</span>
               </>
             }
           />
           <p className={styles.planNote}>
-            Erste Ausgabe auf 200 Karten limitiert. Vorteil schriftlich vor dem Druck vereinbaren –
-            jedes Set mit Verifizierungs-QR.
+            Erste Ausgabe limitiert. Vorteil schriftlich vor dem Druck vereinbaren. Jedes Set mit
+            Verifizierungs-QR.
           </p>
           <CtaButton href="#partner" size="md" surface="on-light">
             Partnergespräch anfragen
@@ -721,16 +950,58 @@ function AnbieterContent() {
       </section>
 
       <section className={styles.section}>
-        <SectionHead eyebrow="Konditionen" title="Erste Ausgabe – klar und schlank" />
+        <SectionHead
+          eyebrow="Sicherheit"
+          title={
+            <>
+              Jede Karte ist{" "}
+              <span className="em">geschützt</span>
+            </>
+          }
+          text="Fotos oder Screenshots reichen nicht. Jedes Set hat einen eigenen Verifizierungs-QR. Einmal eingelöst, digital entwertet."
+        />
+        <div className={styles.securityGrid}>
+          <article className={styles.securityCard}>
+            <span className={styles.securityIconWrap}>
+              <Icon name="qr" className={styles.securityIcon} />
+            </span>
+            <h3>Einmaliger QR pro Set</h3>
+            <p>
+              Jedes Kartenset trägt einen eigenen Code. Ohne gültigen Scan keine Einlösung.
+            </p>
+          </article>
+          <article className={styles.securityCard}>
+            <span className={styles.securityIconWrap}>
+              <Icon name="check" className={styles.securityIcon} />
+            </span>
+            <h3>Digital entwertet</h3>
+            <p>
+              Nach dem Scan gilt der Vorteil für dieses Set als eingelöst. Kopien und Mehrfachnutzung fallen sofort auf.
+            </p>
+          </article>
+          <article className={styles.securityCard}>
+            <span className={styles.securityIconWrap}>
+              <Icon name="spark" className={styles.securityIcon} />
+            </span>
+            <h3>Prüfung in Sekunden</h3>
+            <p>
+              Team kommt, du scannst, Vorteil gewähren. Kein Papierchaos, kein Rätselraten am Tresen.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <SectionHead eyebrow="Konditionen" title="Erste Ausgabe: klar und schlank" />
         <div className={styles.termsCard}>
           <ul>
             <li>
               <Icon name="spark" className={styles.termsIcon} />
-              <span>Erste Ausgabe auf 200 Karten limitiert</span>
+              <span>Erste Ausgabe limitiert</span>
             </li>
             <li>
               <Icon name="check" className={styles.termsIcon} />
-              <span>Keine Aufnahmegebühr</span>
+              <span>Keine Aufnahmegebühr, kein Risiko</span>
             </li>
             <li>
               <Icon name="check" className={styles.termsIcon} />
@@ -738,11 +1009,11 @@ function AnbieterContent() {
             </li>
             <li>
               <Icon name="qr" className={styles.termsIcon} />
-              <span>Jedes Set hat einen Verifizierungs-QR – einmal prüfen, Vorteil gewähren</span>
+              <span>Jedes Set hat einen Verifizierungs-QR: einmal prüfen, Vorteil gewähren</span>
             </li>
             <li>
               <Icon name="spark" className={styles.termsIcon} />
-              <span>Du gewinnst Aufmerksamkeit bei lokalen Firmen-Teams.</span>
+              <span>Kostenlose Sichtbarkeit bei lokalen Firmen-Teams</span>
             </li>
           </ul>
         </div>
@@ -758,12 +1029,20 @@ function AnbieterContent() {
           <p className={styles.sectionEyebrow}>Karten-Designer</p>
           <h2>Gestalte eure Teamkarte</h2>
           <p>
-            Name, Vorteil und Foto – live wie die Beispielkarten. Einreichen mit Captcha, wir melden
+            Name, Vorteil und Foto, live wie die Beispielkarten. Einreichen mit Captcha, wir melden
             uns zum Partnergespräch.
           </p>
         </div>
         <KollegenrundeCardDesigner />
       </section>
+
+      <div className={styles.pageFooter}>
+        <ContactFooter
+          onOpenService={openService}
+          onOpenLaurens={openLaurens}
+          onOpenKollegenrunde={openKollegenrunde}
+        />
+      </div>
     </>
   );
 }
@@ -786,12 +1065,12 @@ export function UlmerKollegenrundePage({
   useDocumentSeo({
     title:
       audience === "anbieter"
-        ? "Ulmer Team Challenge für Erlebnisanbieter | uberagent"
-        : "Ulmer Team Challenge für Teams | uberagent",
+        ? "Ulmer Team Challenge für Erlebnisanbieter | supragent"
+        : "Ulmer Team Challenge für Teams | supragent",
     description:
       audience === "anbieter"
         ? "Partnerseite für Gastronomie und Erlebnisanbieter in Ulm und Neu-Ulm: Team Challenge, klare Konditionen und gemeinsame Ausflüge."
-        : "Die Ulmer Team Challenge für Teams: Team Building, bessere Mitarbeiterzufriedenheit – unkompliziert und günstig.",
+        : "Die Ulmer Team Challenge für Teams: Kurz-Events aus der Box, exklusive Vorteile und Challenges in Ulm und Neu-Ulm.",
     canonical: `${window.location.origin}${KOLLEGENRUNDE_PATH}?fuer=${audience}`,
   });
 
@@ -803,7 +1082,7 @@ export function UlmerKollegenrundePage({
     <div className={styles.page}>
       <nav className={styles.topNav} aria-label="Brotkrumen">
         <button type="button" className={styles.back} onClick={onClose}>
-          uberagent Home
+          supragent Home
         </button>
         <span aria-hidden="true">/</span>
         <span>Ulmer Team Challenge</span>
@@ -853,11 +1132,6 @@ export function UlmerKollegenrundePage({
               <p className={styles.heroKicker}>{hero.kicker}</p>
               <h1 className={styles.heroTitle}>{hero.title}</h1>
               <p className={styles.heroLead}>{hero.lead}</p>
-              <ul className={styles.heroChips} aria-label="Kurzversprechen">
-                {hero.chips.map((chip) => (
-                  <li key={chip}>{chip}</li>
-                ))}
-              </ul>
               <p className={styles.heroStats}>{hero.stats}</p>
               <CtaButton href={hero.ctaHref} size="md" surface="accent">
                 {hero.cta}
