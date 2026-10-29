@@ -35,6 +35,11 @@ const UlmerKollegenrundePage = lazy(() =>
     default: m.UlmerKollegenrundePage,
   })),
 );
+const LeadmaschinePage = lazy(() =>
+  import("./components/LeadmaschinePage").then((m) => ({
+    default: m.LeadmaschinePage,
+  })),
+);
 const AdminPage = lazy(() =>
   import("./components/AdminPage").then((m) => ({ default: m.AdminPage })),
 );
@@ -80,6 +85,9 @@ function AppContent() {
     kollegenrundeOpen,
     kollegenrundeAudience,
     setKollegenrundeAudience,
+    leadmaschineOpen,
+    leadmaschineRegion,
+    setLeadmaschineRegion,
     adminOpen,
     closeService,
     closeProject,
@@ -90,6 +98,13 @@ function AppContent() {
   let detailPage: ReactNode = null;
   if (adminOpen) {
     detailPage = <AdminPage onClose={closeAdmin} />;
+  } else if (leadmaschineOpen) {
+    detailPage = (
+      <LeadmaschinePage
+        region={leadmaschineRegion}
+        onRegionChange={setLeadmaschineRegion}
+      />
+    );
   } else if (kollegenrundeOpen) {
     detailPage = (
       <UlmerKollegenrundePage

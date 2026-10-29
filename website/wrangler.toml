@@ -1,4 +1,4 @@
-name = "uberagent"
+name = "supragent"
 main = "worker/index.ts"
 compatibility_date = "2024-11-01"
 workers_dev = true
@@ -18,4 +18,4 @@ directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
 # Serve /video via Worker so HTML5 players get proper 206 byte-range responses.
-run_worker_first = ["/video/*", "/api/*"]
+run_worker_first = ["/video/*", "/api/*", "/leadmaschine", "/leadmaschine/"]

@@ -87,6 +87,7 @@ export function Navigation() {
     openProjectId,
     openServiceId,
     kollegenrundeOpen,
+    leadmaschineOpen,
     openService,
   } = overlay;
   const useSolidNav =
@@ -94,7 +95,8 @@ export function Navigation() {
     menuOpen ||
     Boolean(openProjectId) ||
     Boolean(openServiceId) ||
-    Boolean(kollegenrundeOpen);
+    Boolean(kollegenrundeOpen) ||
+    Boolean(leadmaschineOpen);
   const onDarkNav = !useSolidNav;
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -204,7 +206,7 @@ export function Navigation() {
               e.preventDefault();
               handleSectionNav("home");
             }}
-            aria-label="uberagent | Startseite"
+            aria-label="supragent | Startseite"
           >
             <motion.span
               className={styles.logoBrand}
@@ -229,7 +231,7 @@ export function Navigation() {
                 </span>
               </span>
               <span className={styles.logoText} aria-hidden="true">
-                uberagent
+                supragent
               </span>
             </motion.span>
           </a>
@@ -415,7 +417,7 @@ export function Navigation() {
                     width={32}
                     height={32}
                   />
-                  <span className={styles.logoTextDark}>uberagent</span>
+                  <span className={styles.logoTextDark}>supragent</span>
                 </div>
 
                 <motion.ul

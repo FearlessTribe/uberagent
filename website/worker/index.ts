@@ -138,8 +138,14 @@ async function serveAssets(request: Request, env: Env): Promise<Response> {
       : undefined;
   const res = await env.ASSETS.fetch(request);
 
-  const seoTitle = industryPage?.seoTitle ?? service?.seoTitle;
-  const seoDescription = industryPage?.seoDescription ?? service?.seoDescription;
+  const isLeadmaschine =
+    url.pathname === "/leadmaschine" || url.pathname === "/leadmaschine/";
+  const seoTitle = isLeadmaschine
+    ? "Leadmaschine für Versicherungsberatung | supragent"
+    : (industryPage?.seoTitle ?? service?.seoTitle);
+  const seoDescription = isLeadmaschine
+    ? "Anfragen mit Kontext statt Leerformulare. Die Leadmaschine von supragent: Konfigurator, Datenprodukt und Lead-Übergabe für Broker und Spezialmakler."
+    : (industryPage?.seoDescription ?? service?.seoDescription);
   if (!seoTitle || !seoDescription) return res;
 
   const contentType = res.headers.get("content-type") || "";
@@ -149,9 +155,11 @@ async function serveAssets(request: Request, env: Env): Promise<Response> {
     await res.text(),
     seoTitle,
     seoDescription,
-    industryPage
-      ? `${url.origin}/service/kalkulations-agent/${industryPage.slug}`
-      : `${url.origin}/service/${service?.slug}`,
+    isLeadmaschine
+      ? `${url.origin}/leadmaschine`
+      : industryPage
+        ? `${url.origin}/service/kalkulations-agent/${industryPage.slug}`
+        : `${url.origin}/service/${service?.slug}`,
   );
 
   return new Response(html, {
@@ -274,7 +282,7 @@ function notionSaveError(err: unknown, fallback: string): string {
     message.includes("object_not_found") ||
     message.includes("restricted_resource")
   ) {
-    return "Notion-Datenbank ist nicht mit der Integration „uberagent website“ verbunden.";
+    return "Notion-Datenbank ist nicht mit der Integration „supragent website“ verbunden.";
   }
   return fallback;
 }

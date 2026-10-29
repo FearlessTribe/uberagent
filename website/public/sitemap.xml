@@ -1,98 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://beragent.com/</loc>
+    <loc>https://supragent.net/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/anlassgeschenke</loc>
+    <loc>https://supragent.net/service/anlassgeschenke</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/ai-revenue-engine</loc>
+    <loc>https://supragent.net/service/ai-revenue-engine</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/vibe-coding-challenge</loc>
+    <loc>https://supragent.net/service/vibe-coding-challenge</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/gtm-engineering</loc>
+    <loc>https://supragent.net/service/gtm-engineering</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/mcp</loc>
+    <loc>https://supragent.net/service/mcp</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/workflow-agents</loc>
+    <loc>https://supragent.net/service/workflow-agents</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/copilot-agenten</loc>
+    <loc>https://supragent.net/service/copilot-agenten</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/kalkulations-agent</loc>
+    <loc>https://supragent.net/service/kalkulations-agent</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/kalkulations-agent/kfz</loc>
+    <loc>https://supragent.net/service/kalkulations-agent/kfz</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/kalkulations-agent/umzugsunternehmen</loc>
+    <loc>https://supragent.net/service/kalkulations-agent/umzugsunternehmen</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/kalkulations-agent/sanitaer-heizung</loc>
+    <loc>https://supragent.net/service/kalkulations-agent/sanitaer-heizung</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/business-models</loc>
+    <loc>https://supragent.net/service/business-models</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/ai-strategy</loc>
+    <loc>https://supragent.net/service/ai-strategy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/service/trainings</loc>
+    <loc>https://supragent.net/service/trainings</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://beragent.com/case/finanznomade-versicherungsrechner</loc>
+    <loc>https://supragent.net/case/finanznomade-versicherungsrechner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://beragent.com/case/sales-ai-agent</loc>
+    <loc>https://supragent.net/case/sales-ai-agent</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://beragent.com/contact</loc>
+    <loc>https://supragent.net/contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://beragent.com/ulm</loc>
+    <loc>https://supragent.net/ulm</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://supragent.net/leadmaschine</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
