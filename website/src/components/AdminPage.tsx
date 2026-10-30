@@ -3,7 +3,9 @@ import { getApiBase } from "../lib/api";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import styles from "./AdminPage.module.css";
 
-type Submission = {
+type TabId = "karten" | "kalkulation";
+
+type CardSubmission = {
   id: string;
   createdAt: string;
   name: string;
@@ -26,16 +28,55 @@ type Submission = {
   photoBytes: number;
 };
 
+type KalkSubmission = {
+  id: string;
+  createdAt: string;
+  updatedAt?: string;
+  status: "contact" | "complete";
+  name: string;
+  email: string;
+  phone: string;
+  website: string;
+  consent: boolean;
+  requestsPerDay: number;
+  minutesPerQuote: number;
+  hoursDay: number;
+  workDays?: number;
+  hourlyRate?: number;
+  extraOrdersWeek?: number;
+  marginPerOrder?: number;
+  hoursYear?: number;
+  timeValue?: number;
+  extraContribution?: number;
+  total?: number;
+};
+
+function formatEuro(value: number | undefined) {
+  if (value == null || !Number.isFinite(value)) return "–";
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function formatNum(value: number | undefined, digits = 1) {
+  if (value == null || !Number.isFinite(value)) return "–";
+  return new Intl.NumberFormat("de-DE", { maximumFractionDigits: digits }).format(value);
+}
+
 export function AdminPage({ onClose }: { onClose: () => void }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
-  const [items, setItems] = useState<Submission[]>([]);
+  const [tab, setTab] = useState<TabId>("karten");
+  const [cards, setCards] = useState<CardSubmission[]>([]);
+  const [kalkItems, setKalkItems] = useState<KalkSubmission[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useDocumentSeo({
-    title: "Admin | uberagent",
-    description: "Internes Admin für Ulmer Team Challenge-Kartenideen.",
+    title: "Admin | supragent",
+    description: "Internes Admin für Team Challenge und Kalkulations-Check.",
     canonical: `${window.location.origin}/admin`,
   });
 
@@ -55,19 +96,38 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
     };
   }, []);
 
-  const loadSubmissions = async () => {
+  const loadCards = async () => {
     const res = await fetch(`${getApiBase()}/api/admin/submissions`, {
       credentials: "include",
     });
     if (res.status === 401) {
       setAuthed(false);
-      setItems([]);
+      setCards([]);
       return;
     }
-    const data = (await res.json()) as { items?: Submission[]; error?: string };
+    const data = (await res.json()) as { items?: CardSubmission[]; error?: string };
     if (!res.ok) throw new Error(data.error || "Laden fehlgeschlagen.");
-    setItems(data.items || []);
+    setCards(data.items || []);
     setAuthed(true);
+  };
+
+  const loadKalk = async () => {
+    const res = await fetch(`${getApiBase()}/api/admin/kalkulations`, {
+      credentials: "include",
+    });
+    if (res.status === 401) {
+      setAuthed(false);
+      setKalkItems([]);
+      return;
+    }
+    const data = (await res.json()) as { items?: KalkSubmission[]; error?: string };
+    if (!res.ok) throw new Error(data.error || "Laden fehlgeschlagen.");
+    setKalkItems(data.items || []);
+    setAuthed(true);
+  };
+
+  const loadAll = async () => {
+    await Promise.all([loadCards(), loadKalk()]);
   };
 
   useEffect(() => {
@@ -81,7 +141,7 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
         if (cancelled) return;
         if (data.ok) {
           setAuthed(true);
-          await loadSubmissions();
+          await loadAll();
         } else {
           setAuthed(false);
         }
@@ -108,7 +168,7 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
       const data = (await res.json()) as { error?: string };
       if (!res.ok) throw new Error(data.error || "Login fehlgeschlagen.");
       setPassword("");
-      await loadSubmissions();
+      await loadAll();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login fehlgeschlagen.");
       setAuthed(false);
@@ -123,15 +183,21 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
       credentials: "include",
     });
     setAuthed(false);
-    setItems([]);
+    setCards([]);
+    setKalkItems([]);
+  };
+
+  const refresh = () => {
+    if (tab === "karten") void loadCards();
+    else void loadKalk();
   };
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>uberagent</p>
-          <h1>Admin · Ulmer Team Challenge</h1>
+          <p className={styles.eyebrow}>supragent</p>
+          <h1>Admin</h1>
         </div>
         <div className={styles.headerActions}>
           {authed ? (
@@ -168,51 +234,112 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
 
       {authed ? (
         <section className={styles.listSection}>
+          <div className={styles.tabs} role="tablist" aria-label="Admin-Bereiche">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "karten"}
+              className={`${styles.tab} ${tab === "karten" ? styles.tabActive : ""}`}
+              onClick={() => setTab("karten")}
+            >
+              Ulmer Team Challenge
+              <span className={styles.tabCount}>{cards.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "kalkulation"}
+              className={`${styles.tab} ${tab === "kalkulation" ? styles.tabActive : ""}`}
+              onClick={() => setTab("kalkulation")}
+            >
+              Kalkulations-Check
+              <span className={styles.tabCount}>{kalkItems.length}</span>
+            </button>
+          </div>
+
           <div className={styles.listHead}>
-            <h2>Kartenideen</h2>
-            <button type="button" className={styles.ghost} onClick={() => void loadSubmissions()}>
+            <h2>{tab === "karten" ? "Kartenideen" : "Kalkulations-Check Leads"}</h2>
+            <button type="button" className={styles.ghost} onClick={refresh}>
               Aktualisieren
             </button>
           </div>
-          {items.length === 0 ? (
-            <p className={styles.muted}>Noch keine Einreichungen.</p>
+
+          {tab === "karten" ? (
+            cards.length === 0 ? (
+              <p className={styles.muted}>Noch keine Einreichungen.</p>
+            ) : (
+              <ul className={styles.list}>
+                {cards.map((item) => (
+                  <li key={item.id} className={styles.card}>
+                    <a
+                      className={styles.thumb}
+                      href={`${getApiBase()}/api/admin/photo/${item.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={`${getApiBase()}/api/admin/photo/${item.id}`}
+                        alt=""
+                        loading="lazy"
+                      />
+                    </a>
+                    <div className={styles.meta}>
+                      <p className={styles.category}>{item.category}</p>
+                      <h3>{item.name}</h3>
+                      <p className={styles.offer}>{item.offer}</p>
+                      <p className={styles.detail}>{item.detail}</p>
+                      {item.backTitle ? (
+                        <p className={styles.detail}>
+                          Rückseite: <strong>{item.backTitle}</strong>
+                          {item.duelTitle ? ` · Duell: ${item.duelTitle}` : ""}
+                          {item.teamTitle ? ` · Team: ${item.teamTitle}` : ""}
+                        </p>
+                      ) : null}
+                      <dl>
+                        <div>
+                          <dt>Kontakt</dt>
+                          <dd>
+                            {item.contactName}
+                            {item.email || item.phone
+                              ? ` · ${[item.email, item.phone].filter(Boolean).join(" · ")}`
+                              : ` · ${item.contact}`}
+                          </dd>
+                        </div>
+                        {item.website ? (
+                          <div>
+                            <dt>Website</dt>
+                            <dd>{item.website}</dd>
+                          </div>
+                        ) : null}
+                        <div>
+                          <dt>Eingang</dt>
+                          <dd>{new Date(item.createdAt).toLocaleString("de-DE")}</dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )
+          ) : kalkItems.length === 0 ? (
+            <p className={styles.muted}>Noch keine Kalkulations-Check Leads.</p>
           ) : (
             <ul className={styles.list}>
-              {items.map((item) => (
-                <li key={item.id} className={styles.card}>
-                  <a
-                    className={styles.thumb}
-                    href={`${getApiBase()}/api/admin/photo/${item.id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <img
-                      src={`${getApiBase()}/api/admin/photo/${item.id}`}
-                      alt=""
-                      loading="lazy"
-                    />
-                  </a>
+              {kalkItems.map((item) => (
+                <li key={item.id} className={styles.kalkCard}>
                   <div className={styles.meta}>
-                    <p className={styles.category}>{item.category}</p>
+                    <p className={styles.category}>
+                      {item.status === "complete" ? "Vollständig" : "Kontakt erfasst"}
+                    </p>
                     <h3>{item.name}</h3>
-                    <p className={styles.offer}>{item.offer}</p>
-                    <p className={styles.detail}>{item.detail}</p>
-                    {item.backTitle ? (
-                      <p className={styles.detail}>
-                        Rückseite: <strong>{item.backTitle}</strong>
-                        {item.duelTitle ? ` · Duell: ${item.duelTitle}` : ""}
-                        {item.teamTitle ? ` · Team: ${item.teamTitle}` : ""}
-                      </p>
-                    ) : null}
-                    <dl>
+                    <dl className={styles.kalkGrid}>
                       <div>
-                        <dt>Kontakt</dt>
-                        <dd>
-                          {item.contactName}
-                          {item.email || item.phone
-                            ? ` · ${[item.email, item.phone].filter(Boolean).join(" · ")}`
-                            : ` · ${item.contact}`}
-                        </dd>
+                        <dt>E-Mail</dt>
+                        <dd>{item.email}</dd>
+                      </div>
+                      <div>
+                        <dt>Telefon</dt>
+                        <dd>{item.phone}</dd>
                       </div>
                       {item.website ? (
                         <div>
@@ -221,9 +348,69 @@ export function AdminPage({ onClose }: { onClose: () => void }) {
                         </div>
                       ) : null}
                       <div>
+                        <dt>Kontakt erlaubt</dt>
+                        <dd>{item.consent ? "Ja" : "Nein"}</dd>
+                      </div>
+                      <div>
+                        <dt>Anfragen / Tag</dt>
+                        <dd>{formatNum(item.requestsPerDay, 0)}</dd>
+                      </div>
+                      <div>
+                        <dt>Minuten / Angebot</dt>
+                        <dd>{formatNum(item.minutesPerQuote, 0)}</dd>
+                      </div>
+                      <div>
+                        <dt>Std. / Tag Angebote</dt>
+                        <dd>{formatNum(item.hoursDay)}</dd>
+                      </div>
+                      {item.status === "complete" ? (
+                        <>
+                          <div>
+                            <dt>Arbeitstage / Jahr</dt>
+                            <dd>{formatNum(item.workDays, 0)}</dd>
+                          </div>
+                          <div>
+                            <dt>Stundenwert</dt>
+                            <dd>{formatEuro(item.hourlyRate)}</dd>
+                          </div>
+                          <div>
+                            <dt>Extra Aufträge / Woche</dt>
+                            <dd>{formatNum(item.extraOrdersWeek, 0)}</dd>
+                          </div>
+                          <div>
+                            <dt>Deckungsbeitrag / Auftrag</dt>
+                            <dd>{formatEuro(item.marginPerOrder)}</dd>
+                          </div>
+                          <div>
+                            <dt>Std. / Jahr</dt>
+                            <dd>{formatNum(item.hoursYear)}</dd>
+                          </div>
+                          <div>
+                            <dt>Zeitwert / Jahr</dt>
+                            <dd>{formatEuro(item.timeValue)}</dd>
+                          </div>
+                          <div>
+                            <dt>Extra Deckungsbeitrag</dt>
+                            <dd>{formatEuro(item.extraContribution)}</dd>
+                          </div>
+                          <div>
+                            <dt>Nutzen gesamt</dt>
+                            <dd>
+                              <strong>{formatEuro(item.total)}</strong>
+                            </dd>
+                          </div>
+                        </>
+                      ) : null}
+                      <div>
                         <dt>Eingang</dt>
                         <dd>{new Date(item.createdAt).toLocaleString("de-DE")}</dd>
                       </div>
+                      {item.updatedAt ? (
+                        <div>
+                          <dt>Aktualisiert</dt>
+                          <dd>{new Date(item.updatedAt).toLocaleString("de-DE")}</dd>
+                        </div>
+                      ) : null}
                     </dl>
                   </div>
                 </li>

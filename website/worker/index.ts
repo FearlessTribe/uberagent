@@ -15,6 +15,11 @@ import {
   handleAdminSession,
   handleCardSubmit,
 } from "./kollegenrundeAdmin";
+import {
+  completeKalkulationsSubmission,
+  handleKalkAdminList,
+  saveKalkulationsContact,
+} from "./kalkulationsAdmin";
 
 export interface Env {
   ASSETS: Fetcher;
@@ -564,6 +569,13 @@ export default {
       return handleAdminList(request, env);
     }
 
+    if (url.pathname === "/api/admin/kalkulations") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleKalkAdminList(request, env);
+    }
+
     const photoMatch = url.pathname.match(/^\/api\/admin\/photo\/([^/]+)$/);
     if (photoMatch) {
       if (request.method !== "GET") {
@@ -572,10 +584,182 @@ export default {
       return handleAdminPhoto(request, env, photoMatch[1]);
     }
 
+    if (url.pathname === "/api/kalkulations-check") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers: corsHeaders(origin) });
+      }
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      if (!env.KOLLEGENRUNDE_SUBMISSIONS) {
+        return json({ error: "Speicher nicht konfiguriert." }, 503, origin);
+      }
+
+      let body: KalkulationsCheckBody;
+      try {
+        body = (await request.json()) as KalkulationsCheckBody;
+      } catch {
+        return json({ error: "Invalid JSON" }, 400, origin);
+      }
+
+      const stage = body.stage || "contact";
+
+      if (stage === "contact") {
+        const name = (body.name || "").trim();
+        const email = (body.email || "").trim();
+        const phone = (body.phone || "").trim();
+        const website = normalizeWebsite(body.website || "");
+        const consent = body.consent === true;
+        const requestsPerDay = Number(body.requestsPerDay);
+        const minutesPerQuote = Number(body.minutesPerQuote);
+        const hoursDay = Number(body.hoursDay);
+
+        if (!name || !email || !phone) {
+          return json(
+            { error: "Name, E-Mail und Telefon sind erforderlich." },
+            400,
+            origin,
+          );
+        }
+        if (!consent) {
+          return json(
+            { error: "Bitte bestätigen Sie, dass wir Sie kontaktieren dürfen." },
+            400,
+            origin,
+          );
+        }
+        if (!isValidEmail(email)) {
+          return json({ error: "Bitte eine gültige E-Mail angeben." }, 400, origin);
+        }
+        if (!Number.isFinite(requestsPerDay) || !Number.isFinite(minutesPerQuote)) {
+          return json({ error: "Bitte Anfragen und Zeit pro Angebot angeben." }, 400, origin);
+        }
+        if (!Number.isFinite(hoursDay)) {
+          return json({ error: "Bitte die Stunden pro Tag angeben." }, 400, origin);
+        }
+        if (website) {
+          try {
+            new URL(website);
+          } catch {
+            return json({ error: "Bitte eine gültige Website-URL angeben." }, 400, origin);
+          }
+        }
+
+        let notionPageId: string | undefined;
+        if (env.NOTION_TOKEN && env.NOTION_KALKULATIONSCHECK_DATABASE_ID) {
+          try {
+            const page = await createKalkulationsCheckLead(env, {
+              name,
+              email,
+              phone,
+              consent,
+              requestsPerDay,
+              minutesPerQuote,
+              hoursDay,
+              ...(website ? { website } : {}),
+            });
+            notionPageId = page.id;
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        try {
+          const saved = await saveKalkulationsContact(env, {
+            name,
+            email,
+            phone,
+            consent,
+            requestsPerDay,
+            minutesPerQuote,
+            hoursDay,
+            ...(website ? { website } : {}),
+            ...(notionPageId ? { notionPageId } : {}),
+          });
+          return json({ ok: true, pageId: saved.id }, 200, origin);
+        } catch (err) {
+          console.error(err);
+          return json(
+            { error: "Lead konnte nicht gespeichert werden." },
+            502,
+            origin,
+          );
+        }
+      }
+
+      const pageId = (body.pageId || "").trim();
+      const workDays = Number(body.workDays);
+      const hourlyRate = Number(body.hourlyRate);
+      const extraOrdersWeek = Number(body.extraOrdersWeek);
+      const marginPerOrder = Number(body.marginPerOrder);
+      const hoursYear = Number(body.hoursYear);
+      const timeValue = Number(body.timeValue);
+      const extraContribution = Number(body.extraContribution);
+      const total = Number(body.total);
+
+      if (!pageId) {
+        return json({ error: "Lead-Referenz fehlt." }, 400, origin);
+      }
+
+      if (
+        !Number.isFinite(workDays) ||
+        !Number.isFinite(hourlyRate) ||
+        !Number.isFinite(extraOrdersWeek) ||
+        !Number.isFinite(marginPerOrder) ||
+        !Number.isFinite(hoursYear) ||
+        !Number.isFinite(timeValue) ||
+        !Number.isFinite(extraContribution) ||
+        !Number.isFinite(total)
+      ) {
+        return json({ error: "Bitte alle Metriken ausfüllen." }, 400, origin);
+      }
+
+      try {
+        const updated = await completeKalkulationsSubmission(env, pageId, {
+          workDays,
+          hourlyRate,
+          extraOrdersWeek,
+          marginPerOrder,
+          hoursYear,
+          timeValue,
+          extraContribution,
+          total,
+        });
+        if (!updated) {
+          return json({ error: "Lead-Referenz ungültig." }, 404, origin);
+        }
+
+        if (env.NOTION_TOKEN && updated.notionPageId) {
+          try {
+            await completeKalkulationsCheckLead(env, updated.notionPageId, {
+              workDays,
+              hourlyRate,
+              extraOrdersWeek,
+              marginPerOrder,
+              hoursYear,
+              timeValue,
+              extraContribution,
+              total,
+            });
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        return json({ ok: true }, 200, origin);
+      } catch (err) {
+        console.error(err);
+        return json(
+          { error: "Auswertung konnte nicht gespeichert werden." },
+          502,
+          origin,
+        );
+      }
+    }
+
     if (
       url.pathname === "/api/potential-check" ||
       url.pathname === "/api/strategy-guide" ||
-      url.pathname === "/api/kalkulations-check" ||
       url.pathname === "/api/helena-check"
     ) {
       if (request.method === "OPTIONS") {
@@ -707,150 +891,6 @@ export default {
           console.error(err);
           return json(
             { error: notionSaveError(err, "Lead konnte nicht gespeichert werden.") },
-            502,
-            origin,
-          );
-        }
-      }
-
-      if (url.pathname === "/api/kalkulations-check") {
-        if (!env.NOTION_TOKEN || !env.NOTION_KALKULATIONSCHECK_DATABASE_ID) {
-          const missing = [
-            !env.NOTION_TOKEN ? "NOTION_TOKEN" : null,
-            !env.NOTION_KALKULATIONSCHECK_DATABASE_ID
-              ? "NOTION_KALKULATIONSCHECK_DATABASE_ID"
-              : null,
-          ].filter(Boolean);
-          return json(
-            {
-              error: "Kalkulationscheck ist nicht konfiguriert",
-              missing,
-            },
-            503,
-            origin,
-          );
-        }
-
-        let body: KalkulationsCheckBody;
-        try {
-          body = (await request.json()) as KalkulationsCheckBody;
-        } catch {
-          return json({ error: "Invalid JSON" }, 400, origin);
-        }
-
-        const stage = body.stage || "contact";
-
-        if (stage === "contact") {
-          const name = (body.name || "").trim();
-          const email = (body.email || "").trim();
-          const phone = (body.phone || "").trim();
-          const website = normalizeWebsite(body.website || "");
-          const consent = body.consent === true;
-          const requestsPerDay = Number(body.requestsPerDay);
-          const minutesPerQuote = Number(body.minutesPerQuote);
-          const hoursDay = Number(body.hoursDay);
-
-          if (!name || !email || !phone) {
-            return json(
-              { error: "Name, E-Mail und Telefon sind erforderlich." },
-              400,
-              origin,
-            );
-          }
-
-          if (!consent) {
-            return json(
-              { error: "Bitte bestätigen Sie, dass wir Sie kontaktieren dürfen." },
-              400,
-              origin,
-            );
-          }
-
-          if (!isValidEmail(email)) {
-            return json({ error: "Bitte eine gültige E-Mail angeben." }, 400, origin);
-          }
-
-          if (!Number.isFinite(requestsPerDay) || !Number.isFinite(minutesPerQuote)) {
-            return json({ error: "Bitte Anfragen und Zeit pro Angebot angeben." }, 400, origin);
-          }
-
-          if (!Number.isFinite(hoursDay)) {
-            return json({ error: "Bitte die Stunden pro Tag angeben." }, 400, origin);
-          }
-
-          if (website) {
-            try {
-              new URL(website);
-            } catch {
-              return json({ error: "Bitte eine gültige Website-URL angeben." }, 400, origin);
-            }
-          }
-
-          try {
-            const page = await createKalkulationsCheckLead(env, {
-              name,
-              email,
-              phone,
-              consent,
-              requestsPerDay,
-              minutesPerQuote,
-              hoursDay,
-              ...(website ? { website } : {}),
-            });
-            return json({ ok: true, pageId: page.id }, 200, origin);
-          } catch (err) {
-            console.error(err);
-            return json(
-              { error: notionSaveError(err, "Lead konnte nicht gespeichert werden.") },
-              502,
-              origin,
-            );
-          }
-        }
-
-        const pageId = (body.pageId || "").trim();
-        const workDays = Number(body.workDays);
-        const hourlyRate = Number(body.hourlyRate);
-        const extraOrdersWeek = Number(body.extraOrdersWeek);
-        const marginPerOrder = Number(body.marginPerOrder);
-        const hoursYear = Number(body.hoursYear);
-        const timeValue = Number(body.timeValue);
-        const extraContribution = Number(body.extraContribution);
-        const total = Number(body.total);
-
-        if (!pageId) {
-          return json({ error: "Lead-Referenz fehlt." }, 400, origin);
-        }
-
-        if (
-          !Number.isFinite(workDays) ||
-          !Number.isFinite(hourlyRate) ||
-          !Number.isFinite(extraOrdersWeek) ||
-          !Number.isFinite(marginPerOrder) ||
-          !Number.isFinite(hoursYear) ||
-          !Number.isFinite(timeValue) ||
-          !Number.isFinite(extraContribution) ||
-          !Number.isFinite(total)
-        ) {
-          return json({ error: "Bitte alle Metriken ausfüllen." }, 400, origin);
-        }
-
-        try {
-          await completeKalkulationsCheckLead(env, pageId, {
-            workDays,
-            hourlyRate,
-            extraOrdersWeek,
-            marginPerOrder,
-            hoursYear,
-            timeValue,
-            extraContribution,
-            total,
-          });
-          return json({ ok: true }, 200, origin);
-        } catch (err) {
-          console.error(err);
-          return json(
-            { error: notionSaveError(err, "Auswertung konnte nicht gespeichert werden.") },
             502,
             origin,
           );
