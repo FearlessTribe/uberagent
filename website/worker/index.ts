@@ -1,6 +1,7 @@
 /**
- * Cloudflare Worker: serves the Vite SPA assets and handles lead intake.
- * Secrets: NOTION_TOKEN, NOTION_DATABASE_ID, TURNSTILE_SECRET, ADMIN_PASSWORD, ADMIN_SESSION_SECRET
+ * Cloudflare Worker: serves the Vite SPA assets and handles lead intake (KV/admin).
+ * Secrets: ADMIN_PASSWORD, ADMIN_SESSION_SECRET, TURNSTILE_SECRET
+ * Optional for one-time Notion import: NOTION_TOKEN
  */
 import { getServiceBySlug } from "../src/data/services";
 import {
@@ -20,19 +21,26 @@ import {
   handleKalkAdminList,
   saveKalkulationsContact,
 } from "./kalkulationsAdmin";
+import {
+  handleHelenaAdminList,
+  handleNotionImport,
+  handlePotentialAdminList,
+  handleStrategyAdminList,
+  saveHelenaLead,
+  savePotentialLead,
+  saveStrategyLead,
+} from "./formLeadsAdmin";
 
 export interface Env {
   ASSETS: Fetcher;
-  NOTION_TOKEN: string;
-  NOTION_DATABASE_ID: string;
-  NOTION_KALKULATIONSCHECK_DATABASE_ID: string;
+  NOTION_TOKEN?: string;
+  NOTION_DATABASE_ID?: string;
+  NOTION_KALKULATIONSCHECK_DATABASE_ID?: string;
   KOLLEGENRUNDE_SUBMISSIONS: KVNamespace;
   TURNSTILE_SECRET?: string;
   ADMIN_PASSWORD?: string;
   ADMIN_SESSION_SECRET?: string;
 }
-
-const NOTION_VERSION = "2022-06-28";
 
 type PotentialCheckBody = {
   website?: string;
@@ -280,246 +288,6 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function notionSaveError(err: unknown, fallback: string): string {
-  const message = err instanceof Error ? err.message : String(err);
-  if (
-    message.includes("404") ||
-    message.includes("object_not_found") ||
-    message.includes("restricted_resource")
-  ) {
-    return "Notion-Datenbank ist nicht mit der Integration „supragent website“ verbunden.";
-  }
-  return fallback;
-}
-
-async function createNotionPage(
-  env: Env,
-  databaseId: string,
-  properties: Record<string, unknown>,
-  children?: unknown[],
-) {
-  const res = await fetch("https://api.notion.com/v1/pages", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.NOTION_TOKEN}`,
-      "Notion-Version": NOTION_VERSION,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      parent: { database_id: databaseId },
-      properties,
-      ...(children?.length ? { children } : {}),
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Notion error ${res.status}: ${err}`);
-  }
-
-  return res.json() as Promise<{ id: string }>;
-}
-
-async function updateNotionPage(
-  env: Env,
-  pageId: string,
-  properties: Record<string, unknown>,
-) {
-  const res = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${env.NOTION_TOKEN}`,
-      "Notion-Version": NOTION_VERSION,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ properties }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Notion error ${res.status}: ${err}`);
-  }
-
-  return res.json();
-}
-
-async function createPotentialCheckLead(
-  env: Env,
-  payload: Required<PotentialCheckBody>,
-) {
-  return createNotionPage(env, env.NOTION_DATABASE_ID, {
-    Name: {
-      title: [{ text: { content: payload.name } }],
-    },
-    "E-Mail": { email: payload.email },
-    Website: { url: payload.website },
-    Status: { select: { name: "Neu" } },
-    ...(payload.phone ? { Telefon: { phone_number: payload.phone } } : {}),
-  });
-}
-
-async function createStrategyGuideLead(
-  env: Env,
-  payload: Required<StrategyGuideBody>,
-) {
-  const detail = [
-    `Quelle: AI Strategy Guide Download`,
-    `Titel: ${payload.title}`,
-    `Firma: ${payload.company}`,
-  ].join("\n");
-
-  return createNotionPage(
-    env,
-    env.NOTION_DATABASE_ID,
-    {
-      Name: {
-        title: [
-          {
-            text: {
-              content: `${payload.name} · ${payload.title} · ${payload.company}`.slice(
-                0,
-                2000,
-              ),
-            },
-          },
-        ],
-      },
-      "E-Mail": { email: payload.email },
-      Status: { select: { name: "Neu" } },
-      Telefon: { phone_number: payload.phone },
-    },
-    [
-      {
-        object: "block",
-        type: "paragraph",
-        paragraph: {
-          rich_text: [{ type: "text", text: { content: detail } }],
-        },
-      },
-    ],
-  );
-}
-
-async function createHelenaCheckLead(
-  env: Env,
-  payload: {
-    name: string;
-    email: string;
-    phone: string;
-    customers: number;
-    contactsPerCustomer: number;
-    occasions: number;
-    avgValue: number;
-    recipients: number;
-    giftsYear: number;
-    volumeYear: number;
-  },
-) {
-  const detail = [
-    `Quelle: Helena kostenloser Check`,
-    `Kunden: ${payload.customers}`,
-    `Ø Kunden ihrer Kunden: ${payload.contactsPerCustomer}`,
-    `Anlässe/Jahr: ${payload.occasions}`,
-    `Durchschnittswert: ${payload.avgValue} €`,
-    `Empfänger: ${payload.recipients}`,
-    `Geschenke/Jahr: ${payload.giftsYear}`,
-    `Warenwert/Jahr: ${Math.round(payload.volumeYear)} €`,
-  ].join("\n");
-
-  return createNotionPage(
-    env,
-    env.NOTION_DATABASE_ID,
-    {
-      Name: {
-        title: [{ text: { content: payload.name } }],
-      },
-      "E-Mail": { email: payload.email },
-      Status: { select: { name: "Neu" } },
-      Telefon: { phone_number: payload.phone },
-    },
-    [
-      {
-        object: "block",
-        type: "paragraph",
-        paragraph: {
-          rich_text: [{ type: "text", text: { content: detail } }],
-        },
-      },
-    ],
-  );
-}
-
-async function createKalkulationsCheckLead(
-  env: Env,
-  payload: Required<
-    Pick<
-      KalkulationsCheckBody,
-      "name" | "email" | "phone" | "consent" | "requestsPerDay" | "minutesPerQuote" | "hoursDay"
-    > & {
-      website?: string;
-    }
-  >,
-) {
-  const detail = [
-    `Anfragen/Tag: ${payload.requestsPerDay}`,
-    `Minuten/Angebot: ${payload.minutesPerQuote}`,
-    `Std./Tag (berechnet): ${Number(payload.hoursDay.toFixed(1))}`,
-  ].join("\n");
-
-  return createNotionPage(
-    env,
-    env.NOTION_KALKULATIONSCHECK_DATABASE_ID,
-    {
-      Name: {
-        title: [{ text: { content: payload.name } }],
-      },
-      "E-Mail": { email: payload.email },
-      Telefon: { phone_number: payload.phone },
-      ...(payload.website ? { Website: { url: payload.website } } : {}),
-      "Kontakt erlaubt": { checkbox: payload.consent },
-      Status: { select: { name: "Neu" } },
-      "Std./Tag Angebote": { number: payload.hoursDay },
-    },
-    [
-      {
-        object: "block",
-        type: "paragraph",
-        paragraph: {
-          rich_text: [{ type: "text", text: { content: detail } }],
-        },
-      },
-    ],
-  );
-}
-
-async function completeKalkulationsCheckLead(
-  env: Env,
-  pageId: string,
-  payload: Required<
-    Pick<
-      KalkulationsCheckBody,
-      | "workDays"
-      | "hourlyRate"
-      | "extraOrdersWeek"
-      | "marginPerOrder"
-      | "hoursYear"
-      | "timeValue"
-      | "extraContribution"
-      | "total"
-    >
-  >,
-) {
-  return updateNotionPage(env, pageId, {
-    Arbeitstage: { number: payload.workDays },
-    Stundenwert: { number: payload.hourlyRate },
-    "Extra Aufträge/Woche": { number: payload.extraOrdersWeek },
-    Deckungsbeitrag: { number: payload.marginPerOrder },
-    "Zeitwert/Jahr": { number: payload.timeValue },
-    "Nutzen gesamt": { number: payload.total },
-    Status: { select: { name: "Metriken erfasst" } },
-  });
-}
-
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -574,6 +342,37 @@ export default {
         return json({ error: "Method not allowed" }, 405, origin);
       }
       return handleKalkAdminList(request, env);
+    }
+
+    if (url.pathname === "/api/admin/potential") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handlePotentialAdminList(request, env);
+    }
+
+    if (url.pathname === "/api/admin/strategy") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleStrategyAdminList(request, env);
+    }
+
+    if (url.pathname === "/api/admin/helena") {
+      if (request.method !== "GET") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleHelenaAdminList(request, env);
+    }
+
+    if (url.pathname === "/api/admin/import-notion") {
+      if (request.method === "OPTIONS") {
+        return new Response(null, { status: 204, headers: corsHeaders(origin) });
+      }
+      if (request.method !== "POST") {
+        return json({ error: "Method not allowed" }, 405, origin);
+      }
+      return handleNotionImport(request, env);
     }
 
     const photoMatch = url.pathname.match(/^\/api\/admin\/photo\/([^/]+)$/);
@@ -645,25 +444,6 @@ export default {
           }
         }
 
-        let notionPageId: string | undefined;
-        if (env.NOTION_TOKEN && env.NOTION_KALKULATIONSCHECK_DATABASE_ID) {
-          try {
-            const page = await createKalkulationsCheckLead(env, {
-              name,
-              email,
-              phone,
-              consent,
-              requestsPerDay,
-              minutesPerQuote,
-              hoursDay,
-              ...(website ? { website } : {}),
-            });
-            notionPageId = page.id;
-          } catch (err) {
-            console.error(err);
-          }
-        }
-
         try {
           const saved = await saveKalkulationsContact(env, {
             name,
@@ -674,7 +454,6 @@ export default {
             minutesPerQuote,
             hoursDay,
             ...(website ? { website } : {}),
-            ...(notionPageId ? { notionPageId } : {}),
           });
           return json({ ok: true, pageId: saved.id }, 200, origin);
         } catch (err) {
@@ -728,24 +507,6 @@ export default {
         if (!updated) {
           return json({ error: "Lead-Referenz ungültig." }, 404, origin);
         }
-
-        if (env.NOTION_TOKEN && updated.notionPageId) {
-          try {
-            await completeKalkulationsCheckLead(env, updated.notionPageId, {
-              workDays,
-              hourlyRate,
-              extraOrdersWeek,
-              marginPerOrder,
-              hoursYear,
-              timeValue,
-              extraContribution,
-              total,
-            });
-          } catch (err) {
-            console.error(err);
-          }
-        }
-
         return json({ ok: true }, 200, origin);
       } catch (err) {
         console.error(err);
@@ -770,19 +531,8 @@ export default {
         return json({ error: "Method not allowed" }, 405, origin);
       }
 
-      if (!env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) {
-        const missing = [
-          !env.NOTION_TOKEN ? "NOTION_TOKEN" : null,
-          !env.NOTION_DATABASE_ID ? "NOTION_DATABASE_ID" : null,
-        ].filter(Boolean);
-        return json(
-          {
-            error: "Lead intake is not configured",
-            missing,
-          },
-          503,
-          origin,
-        );
+      if (!env.KOLLEGENRUNDE_SUBMISSIONS) {
+        return json({ error: "Speicher nicht konfiguriert." }, 503, origin);
       }
 
       if (url.pathname === "/api/strategy-guide") {
@@ -812,7 +562,7 @@ export default {
         }
 
         try {
-          await createStrategyGuideLead(env, { name, title, company, email, phone });
+          await saveStrategyLead(env, { name, title, company, email, phone });
           return json({ ok: true }, 200, origin);
         } catch (err) {
           console.error(err);
@@ -870,10 +620,11 @@ export default {
         }
 
         try {
-          await createHelenaCheckLead(env, {
+          await saveHelenaLead(env, {
             name,
             email,
             phone,
+            consent,
             customers,
             contactsPerCustomer,
             occasions,
@@ -889,11 +640,7 @@ export default {
           return json({ ok: true }, 200, origin);
         } catch (err) {
           console.error(err);
-          return json(
-            { error: notionSaveError(err, "Lead konnte nicht gespeichert werden.") },
-            502,
-            origin,
-          );
+          return json({ error: "Lead konnte nicht gespeichert werden." }, 502, origin);
         }
       }
 
@@ -924,7 +671,7 @@ export default {
       }
 
       try {
-        await createPotentialCheckLead(env, { website, name, email, phone });
+        await savePotentialLead(env, { website, name, email, phone });
         return json({ ok: true }, 200, origin);
       } catch (err) {
         console.error(err);

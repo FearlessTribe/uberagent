@@ -4,6 +4,7 @@ export type KalkulationsSubmission = {
   id: string;
   createdAt: string;
   updatedAt?: string;
+  source?: "live" | "notion-import";
   status: "contact" | "complete";
   name: string;
   email: string;
@@ -57,6 +58,10 @@ async function writeIndex(kv: KVNamespace, ids: string[]) {
 export async function saveKalkulationsContact(
   env: CardBindings,
   payload: {
+    id?: string;
+    createdAt?: string;
+    source?: KalkulationsSubmission["source"];
+    status?: KalkulationsSubmission["status"];
     name: string;
     email: string;
     phone: string;
@@ -65,6 +70,14 @@ export async function saveKalkulationsContact(
     requestsPerDay: number;
     minutesPerQuote: number;
     hoursDay: number;
+    workDays?: number;
+    hourlyRate?: number;
+    extraOrdersWeek?: number;
+    marginPerOrder?: number;
+    hoursYear?: number;
+    timeValue?: number;
+    extraContribution?: number;
+    total?: number;
     notionPageId?: string;
   },
 ): Promise<KalkulationsSubmission> {
@@ -72,12 +85,13 @@ export async function saveKalkulationsContact(
     throw new Error("Speicher nicht konfiguriert.");
   }
 
-  const id = crypto.randomUUID();
-  const createdAt = new Date().toISOString();
+  const id = payload.id || crypto.randomUUID();
+  const createdAt = payload.createdAt || new Date().toISOString();
   const meta: KalkulationsSubmission = {
     id,
     createdAt,
-    status: "contact",
+    source: payload.source || "live",
+    status: payload.status || "contact",
     name: payload.name.slice(0, 120),
     email: payload.email.slice(0, 160),
     phone: payload.phone.slice(0, 60),
@@ -86,13 +100,25 @@ export async function saveKalkulationsContact(
     requestsPerDay: payload.requestsPerDay,
     minutesPerQuote: payload.minutesPerQuote,
     hoursDay: payload.hoursDay,
+    ...(payload.workDays != null ? { workDays: payload.workDays } : {}),
+    ...(payload.hourlyRate != null ? { hourlyRate: payload.hourlyRate } : {}),
+    ...(payload.extraOrdersWeek != null ? { extraOrdersWeek: payload.extraOrdersWeek } : {}),
+    ...(payload.marginPerOrder != null ? { marginPerOrder: payload.marginPerOrder } : {}),
+    ...(payload.hoursYear != null ? { hoursYear: payload.hoursYear } : {}),
+    ...(payload.timeValue != null ? { timeValue: payload.timeValue } : {}),
+    ...(payload.extraContribution != null
+      ? { extraContribution: payload.extraContribution }
+      : {}),
+    ...(payload.total != null ? { total: payload.total } : {}),
     ...(payload.notionPageId ? { notionPageId: payload.notionPageId } : {}),
   };
 
   await env.KOLLEGENRUNDE_SUBMISSIONS.put(metaKey(id), JSON.stringify(meta));
   const index = await readIndex(env.KOLLEGENRUNDE_SUBMISSIONS);
-  index.unshift(id);
-  await writeIndex(env.KOLLEGENRUNDE_SUBMISSIONS, index);
+  if (!index.includes(id)) {
+    index.unshift(id);
+    await writeIndex(env.KOLLEGENRUNDE_SUBMISSIONS, index);
+  }
 
   return meta;
 }
