@@ -1,24 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
 import { PageShell } from "./PageShell";
 import { ModalContactFooter } from "./ModalContactFooter";
 import { CtaButton } from "./CtaButton";
 import { useDocumentSeo } from "../hooks/useDocumentSeo";
 import { trackOutboundClick } from "../lib/analytics";
-import { QuoteStars } from "./QuoteStars";
 import { lstFinanceCaseVideo } from "../data/marketing";
 import styles from "./FinanznomadeCaseModal.module.css";
 import local from "./LstFinanceCaseModal.module.css";
 
-const LIVE_URL = "https://krankenkassenvergleich.pages.dev/";
-
-const QUOTE_TEXT =
-  "Wir hatten schon Agenturen beauftragt. Was fehlte, war ein Konfigurator, der den Weg bis zum beratungsreifen Lead zu Ende denkt – nicht nur eine schöne Oberfläche.";
+const LIVE_URL = "https://helvetiq.supragent.net";
 
 const meta = [
   {
-    label: "Client",
-    value: "LST Finance Groupe AG · in die Schweiz · Frank Lopp, CEO",
+    label: "Produkt",
+    value: "Helvetiq · Schweizer Versicherungsberatung",
   },
   {
     label: "Branche",
@@ -36,120 +30,6 @@ const meta = [
 ];
 
 const tech = ["React", "TypeScript", "Vite", "Cloudflare Pages"];
-
-function findScrollParent(el: HTMLElement | null): HTMLElement {
-  let node = el?.parentElement ?? null;
-  while (node) {
-    const { overflowY } = getComputedStyle(node);
-    if (overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") {
-      return node;
-    }
-    node = node.parentElement;
-  }
-  return document.documentElement;
-}
-
-function TypedQuote({ active }: { active: boolean }) {
-  const reduce = useReducedMotion();
-  const quoteRef = useRef<HTMLQuoteElement>(null);
-  const startedRef = useRef(false);
-  const [chars, setChars] = useState(reduce ? QUOTE_TEXT.length : 0);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    if (!active) {
-      startedRef.current = false;
-      setInView(false);
-      setChars(reduce ? QUOTE_TEXT.length : 0);
-      return;
-    }
-
-    if (reduce) {
-      setChars(QUOTE_TEXT.length);
-      return;
-    }
-
-    const quote = quoteRef.current;
-    if (!quote) return;
-
-    const scroller = findScrollParent(quote);
-    const root =
-      scroller === document.documentElement || scroller === document.body
-        ? null
-        : scroller;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setInView(true);
-      },
-      {
-        root,
-        threshold: [0.25, 0.4],
-        rootMargin: "0px 0px -18% 0px",
-      },
-    );
-
-    observer.observe(quote);
-    return () => observer.disconnect();
-  }, [active, reduce]);
-
-  useEffect(() => {
-    if (!active || reduce || !inView || startedRef.current) return;
-    startedRef.current = true;
-
-    setChars(0);
-    let i = 0;
-    let timeout = 0;
-
-    const tick = () => {
-      i += 1;
-      setChars(i);
-      if (i >= QUOTE_TEXT.length) return;
-      const next = QUOTE_TEXT[i - 1] === " " ? 6 : 11;
-      timeout = window.setTimeout(tick, next);
-    };
-
-    timeout = window.setTimeout(tick, 160);
-    return () => window.clearTimeout(timeout);
-  }, [active, reduce, inView]);
-
-  const shown = QUOTE_TEXT.slice(0, chars);
-  const done = chars >= QUOTE_TEXT.length;
-
-  return (
-    <blockquote className={styles.clientQuote} ref={quoteRef}>
-      <div className={styles.quoteLayout}>
-        <img
-          className={styles.quotePhoto}
-          src="/cases/lst-finance/frank-lopp.png"
-          alt="Frank Lopp, CEO der LST Finance Groupe AG"
-          width={200}
-          height={200}
-        />
-        <div className={styles.quoteBody}>
-          <p className={styles.quoteText} aria-label={QUOTE_TEXT}>
-            <span className={styles.quoteTextMeasure} aria-hidden="true">
-              “{QUOTE_TEXT}”
-            </span>
-            <span className={styles.quoteTextLive} aria-hidden="true">
-              <span className={styles.quoteMark}>“</span>
-              {shown}
-              {!done && <span className={styles.quoteCaret} />}
-              {done && <span className={styles.quoteMarkEnd}>”</span>}
-            </span>
-          </p>
-          <footer>
-            <span className={styles.quotePerson}>
-              <strong>Frank Lopp</strong>
-              <QuoteStars />
-            </span>
-            <span>CEO, LST Finance Groupe AG · in die Schweiz</span>
-          </footer>
-        </div>
-      </div>
-    </blockquote>
-  );
-}
 
 function DeviceVideo({
   src,
@@ -201,8 +81,8 @@ function ProblemBlock() {
       </h3>
       <p className={styles.storyText}>
         Agenturen hatten schon gebaut – aber der Weg bis zum beratungsreifen Lead blieb Stückwerk.
-        Vergleich ohne Abschluss, Interesse ohne Kontext. Für <em>in die Schweiz</em> und die
-        Beratung der LST Finance Groupe AG war das nicht skalierbar.
+        Vergleich ohne Abschluss, Interesse ohne Kontext. Für die Schweizer Versicherungsberatung
+        war das nicht skalierbar.
       </p>
     </section>
   );
@@ -318,8 +198,8 @@ function Produktformel() {
           </span>
           <h4 className={styles.stackTitle}>Lead-Übergabe</h4>
           <p>
-            Strukturierte Payload an die Beratung der LST Finance – Offertanfrage mit Kontext,
-            nicht als leerer Kontakt.
+            Strukturierte Payload an die Beratung – Offertanfrage mit Kontext, nicht als leerer
+            Kontakt.
           </p>
         </div>
 
@@ -348,8 +228,8 @@ function Produktformel() {
           </span>
           <h4 className={styles.stackTitle}>Ergebnis</h4>
           <p>
-            Eine Leadmaschine für den Schweizer Versicherungsmarkt – Vergleich, Offerte und
-            Beratung als durchgängiges System.
+            Helvetiq – eine Leadmaschine für den Schweizer Versicherungsmarkt: Vergleich, Offerte
+            und Beratung als durchgängiges System.
           </p>
         </div>
       </div>
@@ -361,14 +241,14 @@ export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
   useDocumentSeo({
     title: "Leadmaschine für Schweizer Versicherungen | supragent",
     description:
-      "Success Story in die Schweiz / LST Finance: Leadmaschine mit Schweizer Prämienlogik, Offertanfrage und Lead-Übergabe an die Beratung.",
+      "Success Story Helvetiq: Leadmaschine mit Schweizer Prämienlogik, Offertanfrage und Lead-Übergabe an die Beratung.",
     canonical: `${window.location.origin}/case/lst-finance-versicherungskonfigurator`,
   });
 
   return (
     <PageShell
       title="Leadmaschine für Schweizer Versicherungen"
-      eyebrow="Success Story · in die Schweiz · Frank Lopp"
+      eyebrow="Success Story · Helvetiq"
       onBack={onClose}
       footer={
         <ModalContactFooter onClose={onClose} label="Ähnliches Projekt besprechen" />
@@ -411,7 +291,7 @@ export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
                   >
                     <div className={styles.safariUrl}>
                       <span className={styles.safariLock} />
-                      <span>krankenkassen-angebote24.ch</span>
+                      <span>helvetiq.supragent.net</span>
                     </div>
                   </div>
                   <PhoneLivePreview title="Krankenversicherungs-Vergleich Schweiz – Mobile" />
@@ -435,8 +315,6 @@ export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
               Live ansehen
             </CtaButton>
           </div>
-
-          <TypedQuote active />
 
           <ProblemBlock />
 

@@ -4,7 +4,7 @@ export const LEADMASCHINE_CALENDLY =
   "https://calendly.com/supraflow/30min";
 
 export const LIVE_FINANZNOMADE = "https://auslandsvergleich.finanznoma.de";
-export const LIVE_LST = "https://krankenkassen-angebote24.ch";
+export const LIVE_LST = "https://helvetiq.supragent.net";
 export const CASE_FINANZNOMADE =
   "/case/finanznomade-versicherungsrechner";
 export const CASE_LST =
@@ -203,7 +203,7 @@ const sharedBase = {
       {
         name: "Schweizer Krankenkassenrechner",
         href: LIVE_LST,
-        src: "/cases/lst-finance/krankenkassen-angebote24.png",
+        src: "/cases/lst-finance/helvetiq-preview.png",
         caption: "Schweizer Krankenversicherungsvergleich",
       },
     ],

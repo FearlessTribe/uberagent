@@ -109,28 +109,30 @@ export function CaseStudies({ onOpenProject }: CaseStudiesProps) {
       <h3 className={`${styles.title} ${styles.titleLarge}`}>
         {study.title}
       </h3>
-      <blockquote className={styles.quote}>
-        <p>“{study.quote}”</p>
-        <footer className={styles.quoteFooter}>
-          {study.personPhoto && (
-            <img
-              className={styles.quoteAvatar}
-              src={study.personPhoto}
-              alt=""
-              width={44}
-              height={44}
-              loading="lazy"
-            />
-          )}
-          <span className={styles.quoteMeta}>
-            <span className={styles.quotePerson}>
-              <strong>{study.person}</strong>
-              <QuoteStars />
+      {study.quote && (
+        <blockquote className={styles.quote}>
+          <p>“{study.quote}”</p>
+          <footer className={styles.quoteFooter}>
+            {study.personPhoto && (
+              <img
+                className={styles.quoteAvatar}
+                src={study.personPhoto}
+                alt=""
+                width={44}
+                height={44}
+                loading="lazy"
+              />
+            )}
+            <span className={styles.quoteMeta}>
+              <span className={styles.quotePerson}>
+                <strong>{study.person}</strong>
+                <QuoteStars />
+              </span>
+              <span>{study.role}</span>
             </span>
-            <span>{study.role}</span>
-          </span>
-        </footer>
-      </blockquote>
+          </footer>
+        </blockquote>
+      )}
       {clickable && (
         <span className={styles.readMore}>
           Case Study lesen

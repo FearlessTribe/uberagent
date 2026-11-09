@@ -12,7 +12,7 @@ export const projects: Project[] = [
     slug: "lst-finance-versicherungskonfigurator",
     title: "Leadmaschine für Schweizer Versicherungen",
     shortDescription:
-      "Für in die Schweiz und LST Finance: Konfigurator mit Schweizer Prämienlogik, Offertanfrage und strukturierter Übergabe an die Beratung.",
+      "Helvetiq: Konfigurator mit Schweizer Prämienlogik, Offertanfrage und strukturierter Übergabe an die Beratung.",
     tags: ["Konfigurator", "Insurance Tech", "Lead Funnel", "Schweiz"],
   },
   {
@@ -36,13 +36,13 @@ export const projects: Project[] = [
 export const projectDetails = {
   "lst-finance-kv": {
     situation:
-      "Frank Lopp, CEO der LST Finance Groupe AG und treibende Kraft hinter in die Schweiz, brauchte qualifizierte Leads für die Versicherungsberatung. Frühere Agentur-Konfiguratoren blieben Stückwerk: Oberfläche ohne Lead-Logik, Vergleich ohne Abschluss.",
+      "Für die Schweizer Versicherungsberatung brauchte es qualifizierte Leads. Frühere Agentur-Konfiguratoren blieben Stückwerk: Oberfläche ohne Lead-Logik, Vergleich ohne Abschluss.",
     solution:
-      "Ein durchgängiger Konfigurator für den Schweizer Markt: Prämienlogik, geführter Vergleich und Offertanfrage – mit strukturierter Übergabe an die Beratung der LST Finance Groupe AG.",
+      "Helvetiq – ein durchgängiger Konfigurator für den Schweizer Markt: Prämienlogik, geführter Vergleich und Offertanfrage mit strukturierter Übergabe an die Beratung.",
     principle:
       "Vergleich, Offerte und Lead-Übergabe als ein System – nicht als drei getrennte Liefergegenstände.",
     impact:
-      "in die Schweiz und LST Finance erhalten Anfragen mit Kontext. Die Beratung startet mit Daten statt mit Rückfragen.",
+      "Die Beratung erhält Anfragen mit Kontext und startet mit Daten statt mit Rückfragen.",
     phases: [
       "Analyse",
       "Produktkonzeption",
@@ -52,7 +52,7 @@ export const projectDetails = {
       "Lead-Übergabe",
     ],
     tech: ["React", "TypeScript", "Vite", "Cloudflare"],
-    client: "LST Finance Groupe AG · in die Schweiz · Frank Lopp, CEO",
+    client: "Helvetiq · Schweizer Versicherungsberatung",
   },
   "finanznomade-kv": {
     situation:

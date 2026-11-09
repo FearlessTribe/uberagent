@@ -1,5 +1,5 @@
 export const trustClients = [
-  { name: "LST Finance Groupe AG", logo: "/cases/lst-finance/logo.svg" },
+  { name: "Helvetiq", logo: "/cases/lst-finance/logo.svg" },
   { name: "Finanznomade", logo: "/cases/finanznomade/logo.png" },
   { name: "B2B SaaS", logo: null },
   { name: "Digitalagentur CH", logo: null },
@@ -103,9 +103,9 @@ export interface CaseStudyCard {
   category: CaseStudyCategory;
   industry: string;
   title: string;
-  quote: string;
-  person: string;
-  role: string;
+  quote?: string;
+  person?: string;
+  role?: string;
   personPhoto?: string;
   openId?: string;
   preview?: {
@@ -135,13 +135,8 @@ export const caseStudies: CaseStudyCard[] = [
   {
     id: "lst-finance",
     category: "konfiguratoren",
-    industry: "in die Schweiz · LST Finance",
+    industry: "Helvetiq · Schweiz",
     title: "Leadmaschine für Schweizer Versicherungen",
-    quote:
-      "Wir hatten schon Agenturen beauftragt. Was fehlte, war ein Konfigurator, der den Weg bis zum beratungsreifen Lead zu Ende denkt – nicht nur eine schöne Oberfläche.",
-    person: "Frank Lopp",
-    role: "CEO, LST Finance Groupe AG",
-    personPhoto: "/cases/lst-finance/frank-lopp.png",
     openId: "lst-finance-kv",
     video: lstFinanceCaseVideo,
   },
