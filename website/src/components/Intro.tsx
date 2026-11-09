@@ -58,7 +58,7 @@ export function Intro() {
       <div className={styles.gradientBg} aria-hidden="true" />
       <div className="container">
         <ScrollReveal className="sectionStart">
-          <span className="eyebrow">About uberagent</span>
+          <span className="eyebrow">About supragent</span>
         </ScrollReveal>
 
         <ScrollReveal className={styles.content}>

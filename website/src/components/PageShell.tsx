@@ -44,7 +44,7 @@ export function PageBreadcrumb({
       aria-label="Brotkrumen"
     >
       <button type="button" className={styles.crumbBtn} onClick={chrome.onBack}>
-        uberagent Home
+        supragent Home
       </button>
       <span className={styles.breadcrumbSep} aria-hidden="true">
         /

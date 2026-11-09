@@ -6,7 +6,7 @@
  *   NOTION_TOKEN=ntn_... node scripts/create-kalkulationscheck-notion-db.mjs [page_id_or_url]
  *
  * If page_id is omitted, the database is created at workspace level.
- * Connect the "uberagent website" integration to the database after creation.
+ * Connect the "supragent website" integration to the database after creation.
  */
 const token = process.env.NOTION_TOKEN;
 const rawParent = process.argv[2];
@@ -79,6 +79,6 @@ console.log("Database created:");
 console.log("  id: ", data.id);
 console.log("  url:", data.url);
 console.log("\nNext:");
-console.log("  1. Share the database with the uberagent website integration");
+console.log("  1. Share the database with the supragent website integration");
 console.log(`  2. printf '%s' '${data.id}' | npx wrangler secret put NOTION_KALKULATIONSCHECK_DATABASE_ID`);
 console.log("     — or add to wrangler.toml [vars]");

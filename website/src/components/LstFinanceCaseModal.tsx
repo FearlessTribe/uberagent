@@ -359,7 +359,7 @@ function Produktformel() {
 
 export function LstFinanceCasePage({ onClose }: { onClose: () => void }) {
   useDocumentSeo({
-    title: "Leadmaschine für Schweizer Versicherungen | uberagent",
+    title: "Leadmaschine für Schweizer Versicherungen | supragent",
     description:
       "Success Story in die Schweiz / LST Finance: Leadmaschine mit Schweizer Prämienlogik, Offertanfrage und Lead-Übergabe an die Beratung.",
     canonical: `${window.location.origin}/case/lst-finance-versicherungskonfigurator`,

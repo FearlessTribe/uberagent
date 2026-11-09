@@ -3,7 +3,7 @@ import { GA_MEASUREMENT_ID } from "./analytics";
 export type ConsentStatus = "accepted" | "declined" | null;
 
 export const META_PIXEL_ID = "2587627811749360";
-export const CONSENT_STORAGE_KEY = "uberagent_cookie_consent_v1";
+export const CONSENT_STORAGE_KEY = "supragent_cookie_consent_v1";
 
 type FbqCommand = (...args: unknown[]) => void;
 

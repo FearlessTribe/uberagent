@@ -290,7 +290,7 @@ export function CopilotAgentsContent() {
           <SectionTitle>Angebot und Lieferumfang</SectionTitle>
           <p className={copilotStyles.offerIntro}>
             <strong>
-              Das ist das dreistufige Angebot von uberagent für einen individuellen
+              Das ist das dreistufige Angebot von supragent für einen individuellen
               Microsoft-Copilot-Agenten.
             </strong>{" "}
             {copilotOfferIntro}
@@ -384,7 +384,7 @@ export function CopilotAgentsContent() {
       </ScrollReveal>
 
       <ScrollReveal as="section" className={copilotStyles.section}>
-        <SectionTitle>Warum uberagent</SectionTitle>
+        <SectionTitle>Warum supragent</SectionTitle>
         <div className={copilotStyles.proofLayout}>
           <div className={copilotStyles.proofLeadCard}>
             <span className={copilotStyles.proofLeadLabel}>{copilotWhyLead.title}</span>
@@ -477,7 +477,7 @@ export function CopilotAgentsContent() {
               height={330}
             />
             <p className={styles.engineFinalName}>Laurens Lang, M.Sc. MBA</p>
-            <p className={styles.engineFinalRole}>Founder · uberagent · Zürich</p>
+            <p className={styles.engineFinalRole}>Founder · supragent · Zürich</p>
           </div>
         </div>
       </ScrollReveal>

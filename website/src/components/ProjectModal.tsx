@@ -147,7 +147,7 @@ export function ProjectPage({ onClose }: ProjectPageProps) {
   const [activeTab, setActiveTab] = useState<AgentTab>("segment");
 
   useDocumentSeo({
-    title: "KI-Sales-Agent | Success Story | uberagent",
+    title: "KI-Sales-Agent | Success Story | supragent",
     description:
       "Wie aus CRM- und Standortdaten personalisierte Verkaufschancen für zehntausende KMU entstanden.",
     canonical: `${window.location.origin}/case/sales-ai-agent`,

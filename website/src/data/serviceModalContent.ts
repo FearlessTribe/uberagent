@@ -55,7 +55,7 @@ export const revenueToday = [
   "Abwanderung fällt erst bei der Kündigung auf",
 ];
 
-export const revenueWithUeberagent = [
+export const revenueWithSupragent = [
   "Priorisierte Opportunity-Liste statt Bauchgefühl",
   "Jede Opportunity mit belegtem Kaufsignal",
   "Mail und Call-Briefing fertig im CRM",
@@ -372,7 +372,7 @@ export const vibeToday = [
   "KI-Schulungen erzeugen Wissen, aber kein Ergebnis",
 ];
 
-export const vibeWithUeberagent = [
+export const vibeWithSupragent = [
   "Ideen kommen von denen, die den Prozess täglich machen",
   "Aus jeder Idee entsteht ein lauffähiger Prototyp",
   "Jeder Case bekommt eine Zahl: geschätzte Ersparnis pro Jahr",
@@ -1237,7 +1237,7 @@ export const giftingToday = [
   "Ihr Team sucht Anlässe und bestellt von Hand",
 ];
 
-export const giftingWithUeberagent = [
+export const giftingWithSupragent = [
   "Jeden Monat planbare Aufträge",
   "Budget vom Kunden, zu Ostern und Weihnachten höher",
   "Vorschläge aus Ihrem Sortiment",

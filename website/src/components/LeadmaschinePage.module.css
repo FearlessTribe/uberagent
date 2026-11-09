@@ -413,30 +413,41 @@
 
 .resultCenter {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
   margin: 40px 0 24px;
   padding: 28px 16px;
-  text-align: center;
-}
-
-.resultEquals {
-  font-size: clamp(2rem, 3vw + 0.8rem, 2.75rem);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--lm-accent);
 }
 
 .resultBanner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
   margin: 0;
-  font-size: clamp(1.35rem, 1.8vw + 0.6rem, 1.85rem);
+  padding: 18px 28px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lm-accent) 8%, #fff);
+  border: 1px solid color-mix(in srgb, var(--lm-accent) 22%, transparent);
+  font-size: clamp(1.2rem, 1.5vw + 0.55rem, 1.55rem);
   font-weight: 500;
   letter-spacing: -0.025em;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--color-text-primary);
-  max-width: 22ch;
+  text-wrap: balance;
+  text-align: left;
+}
+
+.resultEquals {
+  font-size: 1.65em;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--lm-accent);
+  flex-shrink: 0;
+}
+
+.resultGem {
+  color: var(--lm-accent);
+  flex-shrink: 0;
 }
 
 .processHead {

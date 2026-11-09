@@ -1,4 +1,4 @@
-# uberagent Website
+# supragent Website
 
 Vite + React. Alles in diesem Ordner.
 
@@ -8,8 +8,8 @@ Leads landen in der Notion-Datenbank **AI Potenzial-Check Leads**.
 
 ### Einmaliges Setup
 
-1. In Notion eine Seite anlegen (z. B. `uberagent Leads`).
-2. Oben rechts **Teilen / Connections** → Integration **uberagent website** hinzufügen.
+1. In Notion eine Seite anlegen (z. B. `supragent Leads`).
+2. Oben rechts **Teilen / Connections** → Integration **supragent website** hinzufügen.
 3. Page-URL kopieren und DB anlegen:
 
 ```bash
@@ -36,7 +36,7 @@ Falls neu anlegen:
 NOTION_TOKEN='…' node scripts/create-kalkulationscheck-notion-db.mjs
 ```
 
-Danach die Datenbank mit der Integration **uberagent website** verbinden (Teilen → Connections).
+Danach die Datenbank mit der Integration **supragent website** verbinden (Teilen → Connections).
 
 API-Route: `POST /api/kalkulations-check` (`stage: contact` | `complete`)
 
@@ -51,7 +51,7 @@ npm run dev
 
 **Lokalen Worker testen** (z. B. Worker-Code ändern):
 
-1. `cp .dev.vars.example .dev.vars` und `NOTION_TOKEN` eintragen (von [notion.so/my-integrations](https://www.notion.so/my-integrations) → Integration **uberagent website**).
+1. `cp .dev.vars.example .dev.vars` und `NOTION_TOKEN` eintragen (von [notion.so/my-integrations](https://www.notion.so/my-integrations) → Integration **supragent website**).
 2. Terminal 1: `npm run dev:worker`
 3. Terminal 2: `npm run dev:local-api`
 
@@ -59,7 +59,7 @@ npm run dev
 
 | Feld | Wert |
 |------|------|
-| Project name | `uberagent` |
+| Project name | `supragent` |
 | **Root directory** | `website` |
 | **Build command** | `npm run build` |
 | **Deploy command** | `npx wrangler deploy` |

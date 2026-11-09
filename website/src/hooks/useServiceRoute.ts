@@ -6,7 +6,7 @@ const slugToServiceId = Object.fromEntries(
   services.map((s) => [s.slug, s.id]),
 );
 
-type ServiceHistoryState = { uberagent?: boolean; serviceId?: string };
+type ServiceHistoryState = { supragent?: boolean; serviceId?: string };
 
 type ServiceRoute = {
   serviceId: string | null;
@@ -36,7 +36,7 @@ function readServiceFromPath(): ServiceRoute {
 function leaveServiceRoute() {
   if (!window.location.pathname.startsWith("/service/")) return;
   const state = window.history.state as ServiceHistoryState | null;
-  if (state?.uberagent) {
+  if (state?.supragent) {
     window.history.back();
     return;
   }
@@ -70,7 +70,7 @@ export function useServiceRoute() {
         const onDetail =
           window.location.pathname.startsWith("/service/") ||
           window.location.pathname.startsWith("/case/");
-        const state = { uberagent: true, serviceId: id };
+        const state = { supragent: true, serviceId: id };
         if (onDetail) {
           window.history.replaceState(state, "", url);
         } else {
@@ -89,7 +89,7 @@ export function useServiceRoute() {
     if (!service || !/^[a-z0-9-]+$/.test(subpath)) return;
     const url = `/service/${service.slug}/${subpath}`;
     setRoute({ serviceId, subpath });
-    const state = { uberagent: true, serviceId };
+    const state = { supragent: true, serviceId };
     if (window.location.pathname.startsWith("/service/")) {
       window.history.replaceState(state, "", url);
     } else {

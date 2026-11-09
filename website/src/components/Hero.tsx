@@ -67,7 +67,7 @@ export function Hero() {
   const contentScale = useTransform(scrollY, [0, 700], [1, 0.985]);
   const brandOpacity = useTransform(scrollY, [0, 80, 160], [1, 0.35, 0]);
   const brandY = useTransform(scrollY, [0, 160], [0, -20]);
-  const [wordmark, setWordmark] = useState("uberagent");
+  const wordmark = "supragent";
 
   useEffect(() => {
     document.body.classList.add("hero-active");
@@ -86,37 +86,6 @@ export function Hero() {
       document.body.classList.remove("hero-active");
     };
   }, []);
-
-  // Brief u ↔ ü flicker on first hero view (desktop brand only)
-  useEffect(() => {
-    if (reduce || !desktopBrand) {
-      setWordmark("uberagent");
-      return;
-    }
-
-    const sequence = [
-      { text: "überagent", delay: 420 },
-      { text: "uberagent", delay: 90 },
-      { text: "überagent", delay: 70 },
-      { text: "uberagent", delay: 110 },
-      { text: "überagent", delay: 60 },
-      { text: "uberagent", delay: 140 },
-    ] as const;
-
-    const timers: number[] = [];
-    let wait = 0;
-
-    sequence.forEach((step) => {
-      wait += step.delay;
-      timers.push(
-        window.setTimeout(() => {
-          setWordmark(step.text);
-        }, wait),
-      );
-    });
-
-    return () => timers.forEach((id) => window.clearTimeout(id));
-  }, [reduce, desktopBrand]);
 
   const itemVariants = resolveVariants(reduce, heroItem);
   const containerVariants = resolveVariants(reduce, heroContainer);

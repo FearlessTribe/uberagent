@@ -5,8 +5,8 @@
  * Usage:
  *   NOTION_TOKEN=ntn_... node scripts/create-notion-db.mjs <page_id_or_url>
  *
- * Connect the "uberagent website" integration to the page first
- * (Share → Connections → uberagent website).
+ * Connect the "supragent website" integration to the page first
+ * (Share → Connections → supragent website).
  */
 const token = process.env.NOTION_TOKEN;
 const rawParent = process.argv[2];

@@ -215,7 +215,7 @@ export const services: Service[] = [
     ctaLabel: "Workflow in 30 Minuten prüfen",
     category: "engineering",
     lottieSrc: "/lottie/services/copilot-agents.json",
-    seoTitle: "Copilot-Agenten für Microsoft 365 | uberagent",
+    seoTitle: "Copilot-Agenten für Microsoft 365 | supragent",
     seoDescription:
       "Wir bauen Copilot-Studio-Agenten, die einen Workflow in Ihrem Microsoft 365 übernehmen – mit Freigabe, Rechten und Protokoll. Festpreis-Sprint, Übergabe, Betrieb. Zürich.",
   },

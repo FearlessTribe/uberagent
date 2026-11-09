@@ -80,10 +80,16 @@
   transition: border-color var(--duration-fast);
 }
 
-.profileName {
-  font-size: 1.0625rem;
-  font-weight: 500;
-  margin-bottom: 4px;
+.profileNameImage {
+  display: block;
+  width: min(100%, 220px);
+  height: auto;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background: #f7f5f1;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .profileRole {
@@ -134,13 +140,6 @@
   letter-spacing: 0.06em;
   color: var(--color-primary-light);
   margin-bottom: 12px;
-}
-
-.address {
-  font-style: normal;
-  font-size: 0.8125rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.48);
 }
 
 .metaLink {

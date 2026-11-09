@@ -5,7 +5,7 @@ const slugToProjectId = Object.fromEntries(
   projects.map((p) => [p.slug, p.id]),
 );
 
-type CaseHistoryState = { uberagent?: boolean; caseId?: string };
+type CaseHistoryState = { supragent?: boolean; caseId?: string };
 
 function readCaseFromPath(): string | null {
   const match = window.location.pathname.match(/^\/case\/([^/]+)\/?$/);
@@ -16,7 +16,7 @@ function readCaseFromPath(): string | null {
 function leaveCaseRoute() {
   if (!window.location.pathname.startsWith("/case/")) return;
   const state = window.history.state as CaseHistoryState | null;
-  if (state?.uberagent) {
+  if (state?.supragent) {
     window.history.back();
     return;
   }
@@ -48,7 +48,7 @@ export function useCaseRoute() {
         const onDetail =
           window.location.pathname.startsWith("/service/") ||
           window.location.pathname.startsWith("/case/");
-        const state = { uberagent: true, caseId: id };
+        const state = { supragent: true, caseId: id };
         if (onDetail) {
           window.history.replaceState(state, "", url);
         } else {

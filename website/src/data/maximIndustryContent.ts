@@ -148,7 +148,7 @@ export const maximIndustryPages: MaximIndustryPage[] = [
     tileLead: "Von der Kundenanfrage zum Kalkulationsvorschlag.",
     title: "Kalkulations-Agent für KFZ-Werkstätten",
     eyebrow: "Für KFZ-Werkstätten",
-    seoTitle: "Kalkulations-Agent für KFZ-Werkstätten | Maxim | uberagent",
+    seoTitle: "Kalkulations-Agent für KFZ-Werkstätten | Maxim | supragent",
     seoDescription:
       "Maxim nimmt Werkstattanfragen strukturiert auf, bereitet Kalkulationen nach Ihren Regeln vor und liefert prüfbare Angebotsvorschläge für Ihre KFZ-Werkstatt.",
     hero: {
@@ -307,7 +307,7 @@ export const maximIndustryPages: MaximIndustryPage[] = [
     tileLead: "Prüfbarer Angebotsentwurf in Minuten statt Tagen.",
     title: "Kalkulations-Agent für Umzugsunternehmen",
     eyebrow: "Für Umzug, Möbelspedition, Firmenumzug und Möbeltransport",
-    seoTitle: "KI-Kalkulationsagent für Umzugsunternehmen | uberagent",
+    seoTitle: "KI-Kalkulationsagent für Umzugsunternehmen | supragent",
     seoDescription:
       "Aus unvollständigen Umzugsanfragen werden prüfbare Angebotsentwürfe – für Privatumzug, Möbelspedition, Firmenumzug und Möbeltransport, nach Ihren Zeitansätzen und Zuschlägen.",
     hero: {
@@ -509,7 +509,7 @@ export const maximIndustryPages: MaximIndustryPage[] = [
     tileLead: "Prüfbarer Angebotsentwurf in Minuten statt zwischen zwei Baustellen.",
     title: "Kalkulations-Agent für Sanitär, Heizung, Lüftung und Klima",
     eyebrow: "Für SHK, Sanitär, Heizung, Lüftung und Klima",
-    seoTitle: "KI-Kalkulationsagent für Sanitär, Heizung, Lüftung und Klima | uberagent",
+    seoTitle: "KI-Kalkulationsagent für Sanitär, Heizung, Lüftung und Klima | supragent",
     seoDescription:
       "Aus unvollständigen SHK-Anfragen werden prüfbare Angebotsentwürfe – nach Ihren Stundensätzen, Materialregeln, Anfahrten und Zuschlägen.",
     hero: {

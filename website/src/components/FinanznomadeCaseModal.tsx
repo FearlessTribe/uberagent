@@ -351,7 +351,7 @@ function Produktformel() {
 
 export function FinanznomadeCasePage({ onClose }: { onClose: () => void }) {
   useDocumentSeo({
-    title: "Affiliate System für Internationale Krankenversicherungen | uberagent",
+    title: "Affiliate System für Internationale Krankenversicherungen | supragent",
     description:
       "Success Story Finanznomade: Affiliate System für internationale Krankenversicherungen – qualifizierte Leads, Affiliate-Wachstum und Kampagnenaufsetzen.",
     canonical: `${window.location.origin}/case/finanznomade-versicherungsrechner`,

@@ -32,11 +32,11 @@ export function BrandMark({
     <span
       className={`${styles.mark} ${styles[size]} ${withWordmark ? styles.withWordmark : ""} ${className}`}
       aria-hidden={decorative || undefined}
-      aria-label={decorative ? undefined : "uberagent"}
+      aria-label={decorative ? undefined : "supragent"}
       role={decorative ? undefined : "img"}
     >
       <img src={src} alt="" width={px} height={px} className={styles.icon} decoding="async" />
-      {withWordmark && <span className={`${styles.wordmark} ${styles[`tone-${tone}`]}`}>uberagent</span>}
+      {withWordmark && <span className={`${styles.wordmark} ${styles[`tone-${tone}`]}`}>supragent</span>}
     </span>
   );
 }

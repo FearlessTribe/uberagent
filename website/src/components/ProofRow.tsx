@@ -10,7 +10,7 @@ import {
 } from "../motion";
 import styles from "./ProofRow.module.css";
 
-const PROFILE_URL = "https://www.provenexpert.com/uberagent/";
+const PROFILE_URL = "https://www.provenexpert.com/supragent/";
 
 const avatars = [
   { src: "/cases/lst-finance/frank-lopp.png", alt: "Frank Lopp" },

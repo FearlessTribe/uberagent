@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SectionShell } from "./SectionShell";
 import { teamMembers } from "../data/team";
 import { navServiceGroups } from "../data/services";
@@ -9,6 +9,7 @@ import { CtaButton } from "./CtaButton";
 import { BrandMark } from "./BrandMark";
 import { MotionPressable } from "./MotionPressable";
 import { ServiceIcon } from "./ServiceIcon";
+import { ImpressumModal } from "./ImpressumModal";
 import styles from "./ContactFooter.module.css";
 
 interface ContactFooterProps {
@@ -27,19 +28,40 @@ export function ContactFooter({
   onOpenKollegenrunde,
 }: ContactFooterProps) {
   const laurens = teamMembers[0];
+  const [impressumOpen, setImpressumOpen] = useState(false);
 
   useEffect(() => {
-    const scrollIfContact = () => {
+    const syncFromLocation = () => {
+      if (window.location.hash === "#impressum") {
+        setImpressumOpen(true);
+        return;
+      }
       if (!isContactPath()) return;
-      const target =
-        window.location.hash === "#impressum" ? "impressum" : "contact";
-      requestAnimationFrame(() => scrollToSection(target, "smooth"));
+      requestAnimationFrame(() => scrollToSection("contact", "smooth"));
     };
 
-    scrollIfContact();
-    window.addEventListener("popstate", scrollIfContact);
-    return () => window.removeEventListener("popstate", scrollIfContact);
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    window.addEventListener("hashchange", syncFromLocation);
+    return () => {
+      window.removeEventListener("popstate", syncFromLocation);
+      window.removeEventListener("hashchange", syncFromLocation);
+    };
   }, []);
+
+  const openImpressum = () => {
+    setImpressumOpen(true);
+    if (window.location.hash !== "#impressum") {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#impressum`);
+    }
+  };
+
+  const closeImpressum = () => {
+    setImpressumOpen(false);
+    if (window.location.hash === "#impressum") {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  };
 
   return (
     <SectionShell
@@ -73,11 +95,11 @@ export function ContactFooter({
             className={styles.profileColumn}
             onClick={onOpenLaurens}
             aria-haspopup="dialog"
-            aria-label="Profil von Laurens Lang öffnen"
+            aria-label="Gründerprofil öffnen"
           >
             <img
               src={laurens.image}
-              alt={laurens.name}
+              alt=""
               className={styles.profileImage}
               loading="eager"
               decoding="async"
@@ -85,15 +107,23 @@ export function ContactFooter({
               height={330}
             />
             <div className={styles.profileInfo}>
-              <p className={styles.profileName}>Laurens Lang, M.Sc. MBA</p>
-              <p className={styles.profileRole}>Founder · uberagent</p>
+              <img
+                className={styles.profileNameImage}
+                src="/images/impressum-name.jpg"
+                alt=""
+                width={280}
+                height={56}
+                decoding="async"
+                draggable={false}
+              />
+              <p className={styles.profileRole}>Founder · supragent UG i.G.</p>
             </div>
           </MotionPressable>
         </ScrollReveal>
 
         <ScrollReveal className={styles.details}>
           <div className={styles.contactDetails}>
-            <h3 className={styles.detailLabel}>Impressum</h3>
+            <h3 className={styles.detailLabel}>Kontakt</h3>
             <BrandMark
               tone="on-dark"
               size="sm"
@@ -102,26 +132,27 @@ export function ContactFooter({
               className={styles.contactBrand}
             />
 
-            <div className={styles.contactCopy} id="impressum">
+            <div className={styles.contactCopy}>
               <a
-                href="mailto:info@uberagent.com"
+                href="mailto:info@supragent.net"
                 className={styles.phone}
                 onClick={() =>
                   trackOutboundClick("email", {
-                    url: "mailto:info@uberagent.com",
+                    url: "mailto:info@supragent.net",
                     location: "footer",
                   })
                 }
               >
-                info@uberagent.com
+                info@supragent.net
               </a>
-              <address className={styles.address}>
-                uberagent<br />
-                Laurens Lang<br />
-                Eugen-Huber-Strasse 127<br />
-                8048 Zürich<br />
-                Schweiz
-              </address>
+              <button
+                type="button"
+                className={styles.metaLink}
+                onClick={openImpressum}
+                aria-haspopup="dialog"
+              >
+                Impressum
+              </button>
               {onOpenKollegenrunde ? (
                 <button
                   type="button"
@@ -173,6 +204,8 @@ export function ContactFooter({
           </div>
         </ScrollReveal>
       </div>
+
+      <ImpressumModal isOpen={impressumOpen} onClose={closeImpressum} />
     </SectionShell>
   );
 }

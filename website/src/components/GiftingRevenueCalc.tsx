@@ -251,7 +251,7 @@ export function GiftingRevenueCalc() {
                 required
               />
               <span>
-                Ich bin einverstanden, dass überagent mich per E-Mail oder Telefon zum
+                Ich bin einverstanden, dass supragent mich per E-Mail oder Telefon zum
                 kostenlosen Check kontaktiert und meine Angaben dafür speichert. *
               </span>
             </label>

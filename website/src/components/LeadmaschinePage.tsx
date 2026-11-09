@@ -4,6 +4,7 @@ import {
   ClipboardList,
   Database,
   FileWarning,
+  Gem,
   Handshake,
   Layers,
   Link2Off,
@@ -395,7 +396,7 @@ export function LeadmaschinePage({
           <div className={styles.inner}>
             <SplitHead
               eyebrow="Das Problem"
-              title="Reichweite bringt Interesse. Interesse ist noch keine Anfrage."
+              title="Reichweite erzeugt Interesse. Nicht die Anfragen, die Sie brauchen."
               text={
                 <p className={styles.lead}>
                   Ihre Zielgruppe findet Sie über Instagram, Google, Empfehlungen und Website. Dann scheitert es an einem von drei Punkten.
@@ -514,10 +515,18 @@ export function LeadmaschinePage({
               })}
             </div>
             <div className={styles.resultCenter}>
-              <span className={styles.resultEquals} aria-hidden>
-                =
-              </span>
-              <p className={styles.resultBanner}>{copy.solution.result}</p>
+              <p className={styles.resultBanner}>
+                <span className={styles.resultEquals} aria-hidden>
+                  =
+                </span>
+                <Gem
+                  className={styles.resultGem}
+                  size={28}
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+                <span>{copy.solution.result}</span>
+              </p>
             </div>
             <p className={styles.trafficLine}>{copy.solution.traffic}</p>
             <div className={styles.heroCtas}>
@@ -565,16 +574,10 @@ export function LeadmaschinePage({
 
         <section className={styles.light} id="referenzen">
           <div className={styles.inner}>
-            <SplitHead
-              eyebrow="Referenzen"
-              title="Zwei Live-Systeme. Messbare Anfragen."
-              text={
-                <p className={styles.lead}>
-                  Keine Mockups, sondern produktive Konfiguratoren für internationale
-                  Krankenversicherung und Schweizer Krankenkassen.
-                </p>
-              }
-            />
+            <div className={styles.processHead}>
+              <p className="eyebrow">Referenzen</p>
+              <h2>Success Stories</h2>
+            </div>
             {copy.caseOrder.map((which, i) => (
               <CaseBlock key={which} which={which} flipped={i % 2 === 1} />
             ))}

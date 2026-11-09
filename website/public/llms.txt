@@ -1,11 +1,11 @@
-# uberagent
+# supragent
 
 > AI Engineering für operative Exzellenz. Wir bauen AI-Agenten, Workflow-Automations, MCP-Integrationen und GTM-Systeme für B2B-SaaS-Teams.
 
 ## Links
 
-- [Startseite](https://beragent.com/)
-- [Services](https://beragent.com/#services)
-- [Projekte](https://beragent.com/#projects)
-- [Team](https://beragent.com/#team)
-- [Kontakt](https://beragent.com/#contact)
+- [Startseite](https://supragent.net/)
+- [Services](https://supragent.net/#services)
+- [Projekte](https://supragent.net/#projects)
+- [Team](https://supragent.net/#team)
+- [Kontakt](https://supragent.net/#contact)

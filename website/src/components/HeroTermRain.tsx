@@ -4,7 +4,7 @@ import { DURATION, EASE } from "../motion";
 import styles from "./HeroTermRain.module.css";
 
 const TERMS = [
-  "uberagent",
+  "supragent",
   "MCP",
   "RAG",
   "LLM",

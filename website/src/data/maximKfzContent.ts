@@ -1,7 +1,7 @@
 /** Copy & Struktur für Maxim / KFZ-Werkstätten – ohne erfundene ROI-Zahlen. */
 
 export const maximKfzSeo = {
-  title: "Kalkulations-Agent für KFZ-Werkstätten | Maxim | uberagent",
+  title: "Kalkulations-Agent für KFZ-Werkstätten | Maxim | supragent",
   description:
     "Maxim nimmt Werkstattanfragen strukturiert auf, bereitet Kalkulationen nach Ihren Regeln vor und liefert prüfbare Angebotsvorschläge für Ihre KFZ-Werkstatt.",
 } as const;

@@ -274,7 +274,7 @@ const sharedBase = {
         text: "Jede Anfrage kommt als strukturierter Datensatz in Ihr CRM, Ihre Inbox oder Ihr Tool: Lebenssituation, Bedarf, Budget, Wunschtermin. Ihre Beratung startet mit Substanz.",
       },
     ],
-    result: "Beratungsreife Anfragen, exklusiv für Sie.",
+    result: "Hochqualitative Leads, die konvertieren.",
     traffic:
       "Dazu gehört: Traffic als Teil des Systems. Instagram- und Google-Kampagnen, SEO und GEO werden für die Strecke aufgesetzt und laufend optimiert.",
     partner:

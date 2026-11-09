@@ -3,7 +3,7 @@ import { useEffect } from "react";
 const AWAY_TITLES = [
   "Komm zurück — Agents warten",
   "Hey, hier wird gebaut",
-  "Noch da? · uberagent",
+  "Noch da? · supragent",
   "Wir sind noch da",
   "Exzellenz wartet nicht",
 ] as const;

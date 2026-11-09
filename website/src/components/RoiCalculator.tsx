@@ -110,7 +110,7 @@ export function RoiCalculator({ onCta }: { onCta?: () => void } = {}) {
               </span>
             </div>
             <div className={`${styles.resultCard} ${styles.resultAccent}`}>
-              <span className={styles.resultLabel}>Sparen mit uberagent.com</span>
+              <span className={styles.resultLabel}>Sparen mit supragent.net</span>
               <span className={styles.resultValue}>
                 {formatMoney(results.savedCost, currency, currencyMeta.locale)}
               </span>

@@ -69,8 +69,8 @@ export function useDocumentSeo(seo: DocumentSeo | null) {
       description: seo.description,
       provider: {
         "@type": "ProfessionalService",
-        name: "uberagent",
-        url: "https://ueberagent.com",
+        name: "supragent",
+        url: "https://supragent.net",
       },
       ...(seo.canonical ? { url: seo.canonical } : {}),
     });
