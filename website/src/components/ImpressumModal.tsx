@@ -9,30 +9,6 @@ interface ImpressumModalProps {
 
 type TabId = "pflicht" | "hinweise";
 
-function ProtectedText({
-  src,
-  className,
-  width,
-  height,
-}: {
-  src: string;
-  className?: string;
-  width: number;
-  height: number;
-}) {
-  return (
-    <img
-      className={className}
-      src={src}
-      alt=""
-      width={width}
-      height={height}
-      decoding="async"
-      draggable={false}
-    />
-  );
-}
-
 export function ImpressumModal({ isOpen, onClose }: ImpressumModalProps) {
   const [tab, setTab] = useState<TabId>("pflicht");
 
@@ -66,43 +42,63 @@ export function ImpressumModal({ isOpen, onClose }: ImpressumModalProps) {
 
             <section className={styles.section}>
               <h3 className={styles.sectionTitle}>Betreiber und Kontakt</h3>
-              <ProtectedText
-                src="/images/impressum-adresse.jpg"
-                className={styles.addressImage}
-                width={1152}
-                height={864}
-              />
+              <address className={styles.address}>
+                supragent UG (haftungsbeschränkt)
+                <br />
+                Wiblinger Steig 6
+                <br />
+                89231 Neu-Ulm
+              </address>
               <a className={styles.mail} href="mailto:info@supragent.net">
                 info@supragent.net
               </a>
             </section>
 
             <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>Vertretung</h3>
-              <p className={styles.text}>
-                Die Gesellschaft in Gründung wird vertreten durch:
-              </p>
-              <ProtectedText
-                src="/images/impressum-name.jpg"
-                className={styles.nameImage}
-                width={1280}
-                height={720}
-              />
-              <p className={styles.note}>
-                Registereintragung und Umsatzsteuer-ID folgen mit Abschluss der Gründung.
-              </p>
+              <h3 className={styles.sectionTitle}>Gesellschaft</h3>
+              <dl className={styles.metaList}>
+                <div className={styles.metaRow}>
+                  <dt>Firma</dt>
+                  <dd>supragent UG (haftungsbeschränkt)</dd>
+                </div>
+                <div className={styles.metaRow}>
+                  <dt>Sitz</dt>
+                  <dd>Neu-Ulm</dd>
+                </div>
+                <div className={styles.metaRow}>
+                  <dt>Geschäftsführer</dt>
+                  <dd>Laurens Lang</dd>
+                </div>
+                <div className={styles.metaRow}>
+                  <dt>Registergericht</dt>
+                  <dd>Amtsgericht Memmingen</dd>
+                </div>
+                <div className={styles.metaRow}>
+                  <dt>Handelsregister</dt>
+                  <dd>HRB 22626</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Bankverbindung</h3>
+              <dl className={styles.metaList}>
+                <div className={styles.metaRow}>
+                  <dt>IBAN</dt>
+                  <dd className={styles.mono}>DE79 1001 0123 3497 1581 64</dd>
+                </div>
+                <div className={styles.metaRow}>
+                  <dt>BIC/SWIFT</dt>
+                  <dd className={styles.mono}>QNTODEB2XXX</dd>
+                </div>
+              </dl>
             </section>
 
             <section className={styles.section}>
               <h3 className={styles.sectionTitle}>
                 Verantwortlicher für journalistisch-redaktionelle Inhalte gem. § 18 Abs. 2 MStV
               </h3>
-              <ProtectedText
-                src="/images/impressum-name.jpg"
-                className={styles.nameImage}
-                width={1280}
-                height={720}
-              />
+              <p className={styles.text}>Laurens Lang</p>
             </section>
 
             <section className={styles.section}>

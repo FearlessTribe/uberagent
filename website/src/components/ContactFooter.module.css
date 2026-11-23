@@ -80,19 +80,16 @@
   transition: border-color var(--duration-fast);
 }
 
-.profileNameImage {
-  display: block;
-  width: min(100%, 220px);
-  height: auto;
-  margin-bottom: 6px;
-  border-radius: 6px;
-  background: #f7f5f1;
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;
+.profileName {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--color-secondary);
 }
 
 .profileRole {
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--text-label);
   color: rgba(255, 255, 255, 0.5);

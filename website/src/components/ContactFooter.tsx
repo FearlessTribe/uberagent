@@ -95,11 +95,11 @@ export function ContactFooter({
             className={styles.profileColumn}
             onClick={onOpenLaurens}
             aria-haspopup="dialog"
-            aria-label="Gründerprofil öffnen"
+            aria-label="Profil von Laurens Lang öffnen"
           >
             <img
               src={laurens.image}
-              alt=""
+              alt={laurens.name}
               className={styles.profileImage}
               loading="eager"
               decoding="async"
@@ -107,16 +107,8 @@ export function ContactFooter({
               height={330}
             />
             <div className={styles.profileInfo}>
-              <img
-                className={styles.profileNameImage}
-                src="/images/impressum-name.jpg"
-                alt=""
-                width={280}
-                height={56}
-                decoding="async"
-                draggable={false}
-              />
-              <p className={styles.profileRole}>Founder · supragent UG i.G.</p>
+              <p className={styles.profileName}>Laurens Lang</p>
+              <p className={styles.profileRole}>Founder · supragent UG</p>
             </div>
           </MotionPressable>
         </ScrollReveal>
